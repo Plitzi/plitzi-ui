@@ -1,4 +1,5 @@
 // Components
+export { default as Card } from './components/Card';
 export { default as FormControl } from './components/FormControl';
 export { default as Input } from './components/Input';
 export { default as Icons } from './components/Icons';
