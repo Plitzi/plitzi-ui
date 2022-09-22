@@ -12,7 +12,7 @@ const TextArea = forwardRef((props, ref) => {
         {...inputProps}
         ref={ref}
         className={classNames(
-          'w-full bg-white rounded font-rubik outline-none border border-gray-200 placeholder:text-gray-400 hover:border-primary-300 focus:border-primary-300 focus:ring-0',
+          'w-full bg-white font-rubik outline-none border border-gray-300 placeholder:text-gray-400 hover:border-primary-300 focus:border-primary-300 focus:ring-0',
           className,
           {
             'border-red-500': hasError,
