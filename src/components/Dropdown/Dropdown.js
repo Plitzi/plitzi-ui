@@ -2,6 +2,7 @@
 import React, { Children, isValidElement, useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
+import classNames from 'classnames';
 
 // Relatives
 import DropdownContainer from './DropdownContainer';
@@ -23,8 +24,7 @@ const Dropdown = props => {
   const refParent = useRef(null);
   const refContent = useRef(null);
   const [containerVisible, setContainerVisible] = useState(false);
-  const [parameters, setParameters] = useState({});
-
+  const [parameters, setParameters] = useState(undefined);
   const { container, content } = useMemo(() => {
     const components = {};
     Children.forEach(children, child => {
@@ -74,6 +74,13 @@ const Dropdown = props => {
       return;
     }
 
+    if (!containerVisible && refParent.current && refContent.current && container) {
+      const rectParent = refParent.current.getBoundingClientRect();
+      const rectContent = refContent.current.getBoundingClientRect();
+      const parameters = calculatePosition(rectParent, rectContent, width, height);
+      setParameters(parameters);
+    }
+
     setContainerVisible(!containerVisible);
     onContainerVisible(!containerVisible);
   };
@@ -100,15 +107,6 @@ const Dropdown = props => {
     };
   }, [containerVisible, handleClickClose]);
 
-  useEffect(() => {
-    if (containerVisible && refParent.current && refContent.current && container) {
-      const rectParent = refParent.current.getBoundingClientRect();
-      const rectContent = refContent.current.getBoundingClientRect();
-      const parameters = calculatePosition(rectParent, rectContent, width, height);
-      setParameters(parameters);
-    }
-  }, [containerVisible, container]);
-
   return (
     <div ref={refParent} onClick={handleClick} className={className}>
       <div className="flex items-center cursor-pointer w-full h-full">
@@ -120,19 +118,22 @@ const Dropdown = props => {
           </div>
         )}
       </div>
-      {containerVisible && (
-        <>
-          {backgroundDisabled && (
-            <div
-              className="top-0 bottom-0 left-0 right-0 bg-black opacity-40 fixed z-10 fixed"
-              onClick={handleClickClose}
-            />
-          )}
-          <div ref={refContent} className="dropdown-container__root fixed flex z-50" style={parameters}>
-            {container}
-          </div>
-        </>
+      {containerVisible && backgroundDisabled && (
+        <div
+          className="top-0 bottom-0 left-0 right-0 bg-black opacity-40 fixed z-10 fixed"
+          onClick={handleClickClose}
+        />
       )}
+      <div
+        ref={refContent}
+        className={classNames('dropdown-container__root fixed z-50', {
+          hidden: !containerVisible,
+          flex: containerVisible && parameters
+        })}
+        style={parameters}
+      >
+        {container}
+      </div>
     </div>
   );
 };
