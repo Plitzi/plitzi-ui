@@ -62,7 +62,7 @@ const build = (env, args) => {
       hot: true,
       liveReload: false,
       historyApiFallback: true,
-      allowedHosts: ['localhost', 'plitzi.local'],
+      allowedHosts: ['localhost'],
       static: {
         directory: path.join(__dirname, 'dist')
       },
