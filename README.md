@@ -39,3 +39,7 @@ in your eslint.rc
     }
   },
 ```
+
+in your package.json
+
+also include eslint-import-resolver-alias otherwise will fail your eslint
