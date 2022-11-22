@@ -12,7 +12,11 @@ content: [
     join(__dirname, 'node_modules/@plitzi/plitzi-ui/dist/**/!(*.stories|*.spec).{js,html}')
     ...
   ],
-
+  ...
+  plugins: [
+    require('@tailwindcss/forms'),
+    ....
+  ]
 ```
 
 in your styles include
