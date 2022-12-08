@@ -212,7 +212,6 @@ const build = (env, args) => {
       modules.plugins.push(new ReactRefreshWebpackPlugin());
     }
   } else {
-    modules.externals = { ...modules.externals, 'redux-logger': 'redux-logger' };
     modules.plugins.push(new CleanWebpackPlugin());
     modules.optimization = {
       usedExports: true,
