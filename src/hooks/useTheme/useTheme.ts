@@ -74,6 +74,8 @@ const useTheme = <TSlots extends { [key: string]: object }, TVariantKeys extends
           set(classNameObj, compKey, value);
         }
       });
+
+      return classNameObj;
     }
 
     return '';

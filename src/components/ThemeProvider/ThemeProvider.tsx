@@ -21,17 +21,17 @@ export type ThemeProviderProps = {
   };
 };
 
-const defaultThemeModules = import.meta.glob<{ default: any; STYLE_COMPONENT_NAME?: string }>('../../**/*.styles.ts', {
+const defaultThemeModules = import.meta.glob<{ default: any; STYLES_COMPONENT_NAME?: string }>('../../**/*.styles.ts', {
   eager: true
 });
 
 const defaultTheme = Object.keys(defaultThemeModules).reduce((acum: object, fileKey: string) => {
   const themeModule = defaultThemeModules?.[fileKey] ?? {};
-  if (!themeModule?.STYLE_COMPONENT_NAME) {
+  if (!themeModule?.STYLES_COMPONENT_NAME) {
     return acum;
   }
 
-  return { ...acum, [themeModule.STYLE_COMPONENT_NAME]: themeModule.default };
+  return { ...acum, [themeModule.STYLES_COMPONENT_NAME]: themeModule.default };
 }, {});
 
 const ThemeProvider = ({

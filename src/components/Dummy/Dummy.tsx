@@ -14,6 +14,7 @@ const Dummy = ({ className, content, intent, size }: DummyProps) => {
     componentKey: 'Dummy.root',
     variant: { intent, size }
   });
+
   return <div>Dummy Component {content}</div>;
 };
 
