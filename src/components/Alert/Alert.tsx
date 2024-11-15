@@ -34,8 +34,6 @@ const Alert = ({
     variant: { intent }
   });
 
-  console.log(classNameTheme, intent);
-
   return (
     <div className={classNameTheme.root}>
       <div className={classNames('flex m-4 grow justify-center', containerClassName)}>

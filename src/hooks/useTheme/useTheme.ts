@@ -13,8 +13,8 @@ import type { cvaFunction } from '@/types/cva';
 
 export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunction<T>;
 
-export type useThemeResponse<Tslots extends { [key: string]: object }, TisString = true> = TisString extends false
-  ? { [key in keyof Tslots]: string }
+export type useThemeResponse<TSlots extends { [key: string]: object }, TisString = true> = TisString extends false
+  ? { [key in keyof TSlots]: string }
   : string;
 
 export type useThemeProps<T extends readonly string[]> = {
@@ -38,7 +38,7 @@ const useTheme = <TSlots extends { [key: string]: object }, TVariantKeys extends
   className,
   variant = emptyObject,
   defaultStyle = emptyObject
-}: useThemeProps<TVariantKeys>): useThemeResponse<TSlots, TisString> => {
+}: useThemeProps<TVariantKeys>) => {
   const { theme } = use(ThemeContext);
   const { base = '', variants = emptyObject, defaultVariants = emptyObject, compoundVariants } = defaultStyle;
   const defaultStyleCVA = useMemo(
