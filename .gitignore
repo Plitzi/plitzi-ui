@@ -4,3 +4,9 @@ build
 .env
 yarn-error.log
 coverage
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

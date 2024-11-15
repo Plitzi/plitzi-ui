@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "module": "umd",
-    "paths": {
-      "@components/*": ["./src/components/*"]
-    }
-  }
-}

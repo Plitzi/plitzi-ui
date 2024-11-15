@@ -14,3 +14,5 @@ README.md
 webpack.config.*
 #src
 dist/assets
+.yarnrc.yml
+.yarn
