@@ -18,7 +18,7 @@ export type ButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-} & useThemeSharedProps<typeof variantKeys>;
+} & useThemeSharedProps<typeof ButtonStyles, typeof variantKeys>;
 
 const Button = ({
   ref,
@@ -33,9 +33,9 @@ const Button = ({
   intent = 'primary',
   ...buttonProps
 }: ButtonProps) => {
-  const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys, false>({
+  const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys, false>('Button', {
     className,
-    componentKey: ['Button.root', 'Button.icon'],
+    componentKey: ['root', 'icon'],
     variant: { intent, size }
   });
 

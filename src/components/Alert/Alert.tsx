@@ -19,7 +19,7 @@ export type AlertProps = {
   containerClassName?: string;
   iconClassName?: string;
   intent?: 'success' | 'error' | 'warning' | 'info';
-} & useThemeSharedProps<typeof variantKeys>;
+} & useThemeSharedProps<typeof AlertStyles, typeof variantKeys>;
 
 const Alert = ({
   children,
@@ -28,9 +28,9 @@ const Alert = ({
   intent = ALERT_INTENT_SUCCESS,
   size = 'base'
 }: AlertProps) => {
-  const classNameTheme = useTheme<typeof AlertStyles, typeof variantKeys, false>({
+  const classNameTheme = useTheme<typeof AlertStyles, typeof variantKeys, false>('Alert', {
     className,
-    componentKey: ['Alert.root', 'Alert.iconContainer', 'Alert.content'],
+    componentKey: ['root', 'iconContainer', 'content'],
     variant: { intent, size }
   });
 

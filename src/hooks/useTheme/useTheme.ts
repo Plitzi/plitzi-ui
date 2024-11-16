@@ -24,7 +24,7 @@ export type useThemeResponse<TSlots extends ThemeSlot, TisString = true> = TisSt
 
 export type useThemeProps<TSlots extends ThemeSlot, T extends VariantKeys> = {
   className?: ThemeClassName<TSlots>;
-  componentKey: string | string[];
+  componentKey: string | [keyof TSlots][number][];
   variant?: ThemeVariantKey<T>;
   defaultStyle?: {
     base?: string | string[];
@@ -38,12 +38,15 @@ export type useThemeSharedProps<TSlots extends ThemeSlot, TVariantKeys extends V
   className?: ThemeClassName<TSlots>;
 } & ThemeVariantKey<TVariantKeys>;
 
-const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, TisString = true>({
-  componentKey = '',
-  className,
-  variant = emptyObject,
-  defaultStyle = emptyObject
-}: useThemeProps<TSlots, TVariantKeys>) => {
+const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, TisString = true>(
+  componentName: string,
+  {
+    componentKey = '',
+    className,
+    variant = emptyObject,
+    defaultStyle = emptyObject
+  }: useThemeProps<TSlots, TVariantKeys>
+) => {
   const { theme } = use(ThemeContext);
   const { base = '', variants = emptyObject, defaultVariants = emptyObject, compoundVariants } = defaultStyle;
   const defaultStyleCVA = useMemo(
@@ -65,7 +68,8 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
     if (Array.isArray(componentKey)) {
       const classNameObj = {};
       componentKey.forEach((compKey, i) => {
-        const callback = get(theme, `components.${compKey}`, defaultStyleCVA);
+        compKey = compKey as string;
+        const callback = get(theme, `components.${componentName}.${String(compKey)}`, defaultStyleCVA);
         let value;
         if (callback && typeof callback === 'function' && i === 0) {
           value = callback({ ...variant, className });
@@ -85,7 +89,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
 
     return '';
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme, componentKey, componentKey.length, className, variant, defaultStyleCVA]) as useThemeResponse<
+  }, [theme, componentName, componentKey?.length, className, variant, defaultStyleCVA]) as useThemeResponse<
     TSlots,
     TisString
   >;
