@@ -38,3 +38,23 @@ export const Primary: Story = {
     </div>
   )
 };
+
+export const Builder: Story = {
+  args: {
+    icon: '',
+    hasError: false,
+    prefix: '',
+    units: [
+      { value: 'rem', label: 'Rem' },
+      { value: 'px', label: 'Px' },
+      { value: '%', label: '%' }
+    ]
+  },
+  render: args => (
+    <div className="flex flex-col gap-4 items-center justify-center">
+      <Input {...args} size="base" className={{ input: 'w-[50px]' }} />
+      <Input {...args} size="sm" className={{ input: 'w-[50px]' }} />
+      <Input {...args} size="xs" className={{ input: 'w-[50px]' }} />
+    </div>
+  )
+};

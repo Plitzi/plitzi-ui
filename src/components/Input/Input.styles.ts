@@ -37,8 +37,8 @@ export default {
       },
       size: {
         base: 'py-2.5 px-4 px-3 gap-2',
-        sm: 'py-1.5 px-3 gap-1.5',
-        xs: 'py-1.5 px-2 gap-1'
+        sm: 'py-1.5 px-2 gap-1.5',
+        xs: 'py-1 px-1 gap-1'
       }
     },
     compoundVariants: [],
@@ -60,14 +60,30 @@ export default {
         xs: 'text-xs'
       }
     },
-    compoundVariants: [],
+    compoundVariants: [
+      {
+        intent: 'error',
+        size: 'base',
+        className: 'pr-6'
+      },
+      {
+        intent: 'error',
+        size: 'sm',
+        className: 'pr-5'
+      },
+      {
+        intent: 'error',
+        size: 'xs',
+        className: 'pr-4'
+      }
+    ],
     defaultVariants: {
       intent: 'default',
       size: 'base'
     }
   }),
   units: cva(
-    'border-l-1 border-gray-400 py-0 pr-0 pl-2 border-y-0 border-r-0 focus:outline-0 focus:ring-0 focus:border-gray-400 focus:shadow-none bg-none',
+    'border-l-1 border-gray-400 py-0 pr-0 border-y-0 border-r-0 focus:outline-0 focus:ring-0 focus:border-gray-400 focus:shadow-none bg-none',
     {
       variants: {
         intent: {
@@ -76,9 +92,9 @@ export default {
           disabled: 'cursor-not-allowed'
         },
         size: {
-          base: 'text-base',
-          sm: 'text-sm',
-          xs: 'text-xs'
+          base: 'pl-2 text-base',
+          sm: 'pl-1.5 text-sm',
+          xs: 'pl-1 text-xs'
         }
       },
       compoundVariants: [],
@@ -114,8 +130,8 @@ export default {
       },
       size: {
         base: 'right-16',
-        sm: 'right-14',
-        xs: 'right-12'
+        sm: 'right-12',
+        xs: 'right-10'
       }
     },
     compoundVariants: [],
