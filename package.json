@@ -46,7 +46,7 @@
     "react-dom": "19.0.0-rc-66855b96-20241106"
   },
   "devDependencies": {
-    "@eslint/js": "^9.14.0",
+    "@eslint/js": "^9.15.0",
     "@storybook/addon-actions": "^8.4.4",
     "@storybook/addon-controls": "^8.4.4",
     "@storybook/addon-essentials": "^8.4.4",
@@ -64,7 +64,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",
-    "eslint": "^9.14.0",
+    "eslint": "9.14.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
