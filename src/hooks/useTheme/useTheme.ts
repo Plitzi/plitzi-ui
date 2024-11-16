@@ -14,7 +14,7 @@ import type { cvaFunction } from '@/types/cva';
 export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunction<T>;
 
 type ThemeSlot = { [key: string]: object };
-type ThemeClassName<T> = { [K in keyof T]: string } | string;
+type ThemeClassName<T> = { [K in keyof T]?: string } | string;
 type VariantKeys = { [key: string]: readonly string[] };
 type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
 
@@ -65,10 +65,9 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
       componentKey.forEach(compKey => {
         compKey = compKey as string;
         const callback = get(theme, `components.${componentName}.${String(compKey)}`, defaultStyleCVA);
-        className = get(className, compKey, ''); // eslint-disable-line react-hooks/exhaustive-deps
         let value;
         if (callback && typeof callback === 'function') {
-          value = callback({ ...variant, className });
+          value = callback({ ...variant, className: get(className, compKey, '') });
         }
 
         if (compKey.split('.').length > 1) {
@@ -82,6 +81,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
     }
 
     return '';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme, componentName, componentKey?.length, className, variant, defaultStyleCVA]) as useThemeResponse<
     TSlots,
     TisString
