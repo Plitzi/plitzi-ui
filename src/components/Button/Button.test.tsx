@@ -3,13 +3,13 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 // Relatives
-import Dummy from './Dummy';
+import Button from './Button';
 
-describe('Dummy Tests', () => {
+describe('Button Tests', () => {
   it('Render Component', () => {
-    render(<Dummy />);
+    render(<Button />);
 
-    const description = screen.getByText('Dummy Component');
+    const description = screen.getByText('Button');
     expect(description).toBeDefined();
   });
 });

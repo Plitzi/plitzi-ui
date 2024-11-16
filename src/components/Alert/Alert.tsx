@@ -24,29 +24,25 @@ export type AlertProps = {
 const Alert = ({
   children,
   className = '',
-  containerClassName = '',
-  iconClassName = 'fa-2x',
-  intent = ALERT_INTENT_SUCCESS
+  iconClassName = '',
+  intent = ALERT_INTENT_SUCCESS,
+  size = 'base'
 }: AlertProps) => {
   const classNameTheme = useTheme<typeof AlertStyles, typeof variantKeys, false>({
     className,
-    componentKey: ['Alert.root'],
-    variant: { intent }
+    componentKey: ['Alert.root', 'Alert.iconContainer', 'Alert.content'],
+    variant: { intent, size }
   });
 
   return (
     <div className={classNameTheme.root}>
-      <div className={classNames('flex m-4 grow justify-center', containerClassName)}>
-        <div className="flex mr-4">
-          {intent === ALERT_INTENT_SUCCESS && <i className={classNames('fas fa-check', iconClassName)} />}
-          {intent === ALERT_INTENT_ERROR && <i className={classNames('fas fa-fire', iconClassName)} />}
-          {intent === ALERT_INTENT_WARNING && (
-            <i className={classNames('fas fa-exclamation-triangle', iconClassName)} />
-          )}
-          {intent === ALERT_INTENT_INFO && <i className={classNames('fas fa-info-circle', iconClassName)} />}
-        </div>
-        <div className="grow basis-0 min-w-0">{children}</div>
+      <div className={classNameTheme.iconContainer}>
+        {intent === ALERT_INTENT_SUCCESS && <i className={classNames('fas fa-check', iconClassName)} />}
+        {intent === ALERT_INTENT_ERROR && <i className={classNames('fas fa-fire', iconClassName)} />}
+        {intent === ALERT_INTENT_WARNING && <i className={classNames('fas fa-exclamation-triangle', iconClassName)} />}
+        {intent === ALERT_INTENT_INFO && <i className={classNames('fas fa-info-circle', iconClassName)} />}
       </div>
+      <div className={classNameTheme.content}>{children}</div>
     </div>
   );
 };
