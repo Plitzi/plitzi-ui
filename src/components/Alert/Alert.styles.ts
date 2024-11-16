@@ -30,6 +30,7 @@ export default {
       size: 'base'
     }
   }),
+  iconContainer: cva('flex items-center mr-4'),
   icon: cva('', {
     variants: {
       intent: {
@@ -51,6 +52,5 @@ export default {
       size: 'base'
     }
   }),
-  iconContainer: cva('flex mr-4'),
   content: cva('grow basis-0 min-w-0')
 };

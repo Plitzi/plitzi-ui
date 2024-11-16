@@ -2,7 +2,7 @@
 import { cva } from 'class-variance-authority';
 
 export const variantKeys = {
-  intent: ['default', 'primary', 'secondary'],
+  intent: ['primary', 'secondary', 'disabled'],
   size: ['xs', 'sm', 'base']
 } as const;
 
@@ -14,23 +14,23 @@ export default {
     {
       variants: {
         intent: {
-          default: '',
-          primary: ['border-transparent bg-primary-500 text-white', 'hover:bg-primary-200', 'focus:bg-primary-200'],
-          secondary: []
+          primary: [
+            'border-transparent bg-primary-500 text-white',
+            'hover:bg-primary-200 hover:text-black',
+            'focus:bg-primary-200 focus:text-black'
+          ],
+          secondary: ['hover:bg-primary-200 hover:text-black', 'focus:bg-primary-200 focus:text-black'],
+          disabled: ['bg-gray-300 text-gray-400 cursor-not-allowed']
         },
         size: {
-          xs: '',
-          sm: '',
-          base: 'py-2.5 px-4'
-        },
-        state: {
-          default: '',
-          disabled: ''
+          base: 'py-2.5 px-4 text-base',
+          sm: 'py-1.5 px-3 text-sm',
+          xs: 'py-1.5 px-2 text-xs'
         }
       },
       compoundVariants: [],
       defaultVariants: {
-        intent: 'default',
+        intent: 'primary',
         size: 'base'
       }
     }

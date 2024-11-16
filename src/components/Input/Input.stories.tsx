@@ -1,19 +1,19 @@
 // Relatives
-import Button from './Button';
+import Input from './Input';
 
 // Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: 'Button',
-  component: Button,
+  title: 'Input',
+  component: Input,
   // parameters: {
   //   layout: 'centered'
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: { iconPlacement: 'both' }
-} satisfies Meta<typeof Button>;
+  args: {}
+} satisfies Meta<typeof Input>;
 
 export default meta;
 
@@ -23,14 +23,9 @@ export const Primary: Story = {
   args: {},
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
-      <Button {...args} size="base" />
-      <Button {...args} size="sm" />
-      <Button {...args} size="xs" />
+      <Input {...args} size="base" />
+      <Input {...args} size="sm" />
+      <Input {...args} size="xs" />
     </div>
   )
-};
-
-export const Secondary: Story = {
-  args: { intent: 'secondary' },
-  render: args => <Button {...args} />
 };
