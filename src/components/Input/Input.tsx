@@ -13,17 +13,25 @@ import type { Ref } from 'react';
 export type InputProps = {
   ref?: Ref<HTMLInputElement>;
   icon?: string;
+  placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
+  hasError?: boolean;
+  prefix?: string;
+  units?: { value: string; label: string }[];
   type?: 'text';
 } & useThemeSharedProps<typeof InputStyles, typeof variantKeys>;
 
 const Input = ({
   ref,
   className = '',
-  icon = 'fa-solid fa-check',
+  icon = '',
+  placeholder = 'Text',
   loading = false,
   disabled = false,
+  hasError = false,
+  prefix = '',
+  units = [],
   type = 'text',
   size = 'base',
   intent = 'default',
@@ -31,26 +39,35 @@ const Input = ({
 }: InputProps) => {
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys, false>('Input', {
     className,
-    componentKey: ['root'],
-    variant: { intent: disabled ? 'disabled' : intent, size }
+    componentKey: ['root', 'input', 'inputContainer', 'icon', 'iconError', 'units'],
+    variant: { intent: disabled ? 'disabled' : hasError ? 'error' : intent, size }
   });
 
   return (
-    <input
-      ref={ref}
-      type={type}
-      className={classNames(classNameTheme.root)}
-      disabled={disabled}
-      {...(inputProps as React.JSX.IntrinsicElements['input'])}
-    >
-      {/* {(iconPlacement === 'before' || iconPlacement === 'both') && (
+    <div className={classNameTheme.root}>
+      <div className={classNameTheme.inputContainer}>
         <i className={classNames(icon, classNameTheme.icon)} />
-      )}
-      {loading ? <i className="fa-solid fa-sync fa-spin text-base" /> : children}
-      {(iconPlacement === 'after' || iconPlacement === 'both') && (
-        <i className={classNames(icon, classNameTheme.icon)} />
-      )} */}
-    </input>
+        {prefix && <div>{prefix}</div>}
+        <input
+          ref={ref}
+          type={type}
+          placeholder={placeholder}
+          className={classNames(classNameTheme.input)}
+          disabled={disabled}
+          {...(inputProps as React.JSX.IntrinsicElements['input'])}
+        />
+        {hasError && <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
+        {units.length > 0 && (
+          <select className={classNameTheme.units}>
+            {units.map((unit, i) => (
+              <option key={i} value={unit.value}>
+                {unit.label}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+    </div>
   );
 };
 

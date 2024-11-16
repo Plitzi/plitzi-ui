@@ -20,7 +20,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-  args: {},
+  args: {
+    icon: 'fa-solid fa-check',
+    hasError: true,
+    prefix: '$',
+    units: [
+      { value: 'rem', label: 'Rem' },
+      { value: 'px', label: 'Px' },
+      { value: '%', label: '%' }
+    ]
+  },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
       <Input {...args} size="base" />
