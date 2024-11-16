@@ -100,6 +100,7 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
+    "lint-ts": "tsc",
     "lint-style": "stylelint \"**/*.scss\" --custom-syntax postcss-scss",
     "lint-style:fix": "stylelint \"**/*.scss\" --custom-syntax postcss-scss --fix",
     "build-storybook": "build-storybook"

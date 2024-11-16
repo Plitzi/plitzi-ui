@@ -13,14 +13,18 @@ import type { cvaFunction } from '@/types/cva';
 
 export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunction<T>;
 
-export type useThemeResponse<TSlots extends { [key: string]: object }, TisString = true> = TisString extends false
+type ThemeSlot = { [key: string]: object };
+type ThemeClassName<T> = { [key in keyof T]: string } | string;
+type ThemeVariantKey<T extends readonly string[]> = { [K in T[number]]?: string | number };
+
+export type useThemeResponse<TSlots extends ThemeSlot, TisString = true> = TisString extends false
   ? { [key in keyof TSlots]: string }
   : string;
 
-export type useThemeProps<T extends readonly string[]> = {
-  className?: string;
+export type useThemeProps<TSlots extends ThemeSlot, T extends readonly string[]> = {
+  className?: ThemeClassName<TSlots>;
   componentKey: string | string[];
-  variant?: { [key in T[number]]?: string | number };
+  variant?: ThemeVariantKey<T>;
   defaultStyle?: {
     base?: string | string[];
     variants?: any;
@@ -29,16 +33,16 @@ export type useThemeProps<T extends readonly string[]> = {
   };
 };
 
-export type useThemeSharedProps<S extends readonly string[] = []> = { className?: string } & {
-  [K in S[number]]?: string | number;
-};
+export type useThemeSharedProps<TSlots extends ThemeSlot, TVariantKeys extends readonly string[] = []> = {
+  className?: ThemeClassName<TSlots>;
+} & ThemeVariantKey<TVariantKeys>;
 
-const useTheme = <TSlots extends { [key: string]: object }, TVariantKeys extends readonly string[], TisString = true>({
+const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends readonly string[], TisString = true>({
   componentKey = '',
   className,
   variant = emptyObject,
   defaultStyle = emptyObject
-}: useThemeProps<TVariantKeys>) => {
+}: useThemeProps<TSlots, TVariantKeys>) => {
   const { theme } = use(ThemeContext);
   const { base = '', variants = emptyObject, defaultVariants = emptyObject, compoundVariants } = defaultStyle;
   const defaultStyleCVA = useMemo(
