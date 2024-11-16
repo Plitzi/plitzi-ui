@@ -40,12 +40,7 @@ export type useThemeSharedProps<TSlot extends ThemeSlot, TVariantKeys extends Va
 
 const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, TisString = true>(
   componentName: string,
-  {
-    componentKey = '',
-    className,
-    variant = emptyObject,
-    defaultStyle = emptyObject
-  }: useThemeProps<TSlots, TVariantKeys>
+  { componentKey, className, variant = emptyObject, defaultStyle = emptyObject }: useThemeProps<TSlots, TVariantKeys>
 ) => {
   const { theme } = use(ThemeContext);
   const { base = '', variants = emptyObject, defaultVariants = emptyObject, compoundVariants } = defaultStyle;
@@ -70,6 +65,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
       componentKey.forEach((compKey, i) => {
         compKey = compKey as string;
         const callback = get(theme, `components.${componentName}.${String(compKey)}`, defaultStyleCVA);
+        className = get(className, compKey, className); // eslint-disable-line react-hooks/exhaustive-deps
         let value;
         if (callback && typeof callback === 'function' && i === 0) {
           value = callback({ ...variant, className });
@@ -88,7 +84,6 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
     }
 
     return '';
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme, componentName, componentKey?.length, className, variant, defaultStyleCVA]) as useThemeResponse<
     TSlots,
     TisString
