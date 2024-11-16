@@ -18,13 +18,13 @@ type ThemeClassName<T> = { [K in keyof T]: string } | string;
 type VariantKeys = { [key: string]: readonly string[] };
 type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
 
-export type useThemeResponse<TSlots extends ThemeSlot, TisString = true> = TisString extends false
-  ? { [key in keyof TSlots]: string }
+export type useThemeResponse<TSlot extends ThemeSlot, TisString = true> = TisString extends false
+  ? { [key in keyof TSlot]: string }
   : string;
 
-export type useThemeProps<TSlots extends ThemeSlot, T extends VariantKeys> = {
-  className?: ThemeClassName<TSlots>;
-  componentKey: string | [keyof TSlots][number][];
+export type useThemeProps<TSlot extends ThemeSlot, T extends VariantKeys> = {
+  className?: ThemeClassName<TSlot>;
+  componentKey: string | [keyof TSlot][number][];
   variant?: ThemeVariantKey<T>;
   defaultStyle?: {
     base?: string | string[];
@@ -34,8 +34,8 @@ export type useThemeProps<TSlots extends ThemeSlot, T extends VariantKeys> = {
   };
 };
 
-export type useThemeSharedProps<TSlots extends ThemeSlot, TVariantKeys extends VariantKeys> = {
-  className?: ThemeClassName<TSlots>;
+export type useThemeSharedProps<TSlot extends ThemeSlot, TVariantKeys extends VariantKeys> = {
+  className?: ThemeClassName<TSlot>;
 } & ThemeVariantKey<TVariantKeys>;
 
 const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, TisString = true>(
