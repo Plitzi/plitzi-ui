@@ -1,7 +1,10 @@
 // Packages
 import { cva } from 'class-variance-authority';
 
-export const variantKeys = ['intent', 'size'] as const;
+export const variantKeys = {
+  intent: ['default', 'danger'],
+  size: ['base', 'sm', 'xl']
+} as const;
 
 export const STYLES_COMPONENT_NAME = 'Dummy';
 
@@ -9,19 +12,19 @@ export default {
   root: cva('', {
     variants: {
       intent: {
-        default: [],
+        default: '',
         danger: 'text-red-400'
       },
       size: {
-        default: '',
-        small: 'text-xs',
-        big: 'text-xl'
+        xs: 'text-xs',
+        base: '',
+        xl: 'text-xl'
       }
     },
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'default'
+      size: 'base'
     }
   })
 };

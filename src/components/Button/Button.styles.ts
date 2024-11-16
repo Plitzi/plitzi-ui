@@ -1,7 +1,10 @@
 // Packages
 import { cva } from 'class-variance-authority';
 
-export const variantKeys = ['intent', 'size'] as const;
+export const variantKeys = {
+  intent: ['default', 'primary', 'secondary'],
+  size: ['xs', 'sm', 'base']
+} as const;
 
 export const STYLES_COMPONENT_NAME = 'Button';
 

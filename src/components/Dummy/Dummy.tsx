@@ -8,7 +8,7 @@ import type { variantKeys } from './Dummy.styles';
 
 export type DummyProps = { content?: string } & useThemeSharedProps<typeof DummyStyles, typeof variantKeys>;
 
-const Dummy = ({ className, content, intent = 'default', size = 'default' }: DummyProps) => {
+const Dummy = ({ className, content, intent = 'default', size = 'base' }: DummyProps) => {
   className = useTheme<typeof DummyStyles, typeof variantKeys>({
     className,
     componentKey: 'Dummy.root',

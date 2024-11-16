@@ -14,14 +14,15 @@ import type { cvaFunction } from '@/types/cva';
 export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunction<T>;
 
 type ThemeSlot = { [key: string]: object };
-type ThemeClassName<T> = { [key in keyof T]: string } | string;
-type ThemeVariantKey<T extends readonly string[]> = { [K in T[number]]?: string | number };
+type ThemeClassName<T> = { [K in keyof T]: string } | string;
+type VariantKeys = { [key: string]: readonly string[] };
+type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
 
 export type useThemeResponse<TSlots extends ThemeSlot, TisString = true> = TisString extends false
   ? { [key in keyof TSlots]: string }
   : string;
 
-export type useThemeProps<TSlots extends ThemeSlot, T extends readonly string[]> = {
+export type useThemeProps<TSlots extends ThemeSlot, T extends VariantKeys> = {
   className?: ThemeClassName<TSlots>;
   componentKey: string | string[];
   variant?: ThemeVariantKey<T>;
@@ -33,11 +34,11 @@ export type useThemeProps<TSlots extends ThemeSlot, T extends readonly string[]>
   };
 };
 
-export type useThemeSharedProps<TSlots extends ThemeSlot, TVariantKeys extends readonly string[] = []> = {
+export type useThemeSharedProps<TSlots extends ThemeSlot, TVariantKeys extends VariantKeys> = {
   className?: ThemeClassName<TSlots>;
 } & ThemeVariantKey<TVariantKeys>;
 
-const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends readonly string[], TisString = true>({
+const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, TisString = true>({
   componentKey = '',
   className,
   variant = emptyObject,
