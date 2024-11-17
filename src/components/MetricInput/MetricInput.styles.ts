@@ -6,7 +6,7 @@ export const variantKeys = {
   size: ['xs', 'sm', 'base']
 } as const;
 
-export const STYLES_COMPONENT_NAME = 'Input';
+export const STYLES_COMPONENT_NAME = 'MetricInput';
 
 export default {
   root: cva('', {
@@ -83,7 +83,10 @@ export default {
     }
   }),
   units: cva(
-    'border-l-1 border-gray-400 py-0 pr-0 border-y-0 border-r-0 focus:outline-0 focus:ring-0 focus:border-gray-400 focus:shadow-none bg-none',
+    [
+      'border-l-1 border-gray-400 py-0 pr-0 border-y-0 border-r-0 bg-none text-center',
+      'focus:outline-0 focus:ring-0 focus:border-gray-400 focus:shadow-none'
+    ],
     {
       variants: {
         intent: {
@@ -92,9 +95,9 @@ export default {
           disabled: 'cursor-not-allowed'
         },
         size: {
-          base: 'pl-2 text-base',
-          sm: 'pl-1.5 text-sm',
-          xs: 'pl-1 text-xs'
+          base: 'pl-2 text-base min-w-6',
+          sm: 'pl-1.5 text-sm min-w-5',
+          xs: 'pl-1 text-xs min-w-4'
         }
       },
       compoundVariants: [],
@@ -104,6 +107,23 @@ export default {
       }
     }
   ),
+  iconFloatingContainer: cva('flex absolute top-1/2 -translate-y-1/2', {
+    variants: {
+      intent: {
+        default: ''
+      },
+      size: {
+        base: 'right-16 gap-2',
+        sm: 'right-12 gap-1.5',
+        xs: 'right-10 gap-1'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'default',
+      size: 'base'
+    }
+  }),
   icon: cva('', {
     variants: {
       intent: {
@@ -122,16 +142,33 @@ export default {
       size: 'base'
     }
   }),
-  iconError: cva('absolute top-1/2 -translate-y-1/2', {
+  iconError: cva('', {
     variants: {
       intent: {
         default: '',
         error: 'text-red-600'
       },
       size: {
-        base: 'right-16',
-        sm: 'right-12',
-        xs: 'right-10'
+        base: '',
+        sm: '',
+        xs: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'default',
+      size: 'base'
+    }
+  }),
+  iconLoading: cva('', {
+    variants: {
+      intent: {
+        default: ''
+      },
+      size: {
+        base: '',
+        sm: '',
+        xs: ''
       }
     },
     compoundVariants: [],

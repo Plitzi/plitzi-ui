@@ -3,11 +3,11 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 // Relatives
-import Input from './Input';
+import MetricInput from './MetricInput';
 
-describe('Input Tests', () => {
+describe('MetricInput Tests', () => {
   it('Render Component', () => {
-    render(<Input placeholder="Text" />);
+    render(<MetricInput placeholder="Text" />);
 
     const description = screen.getByPlaceholderText('Text');
     expect(description).toBeDefined();
