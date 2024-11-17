@@ -1,5 +1,7 @@
 // Packages
+import { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
+import noop from 'lodash/noop';
 
 // Alias
 import useTheme from '@hooks/useTheme';
@@ -8,7 +10,7 @@ import useTheme from '@hooks/useTheme';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
-import type { Ref } from 'react';
+import type { ChangeEvent, Ref } from 'react';
 
 export type InputProps = {
   ref?: Ref<HTMLInputElement>;
@@ -20,6 +22,8 @@ export type InputProps = {
   prefix?: string;
   units?: { value: string; label: string }[];
   type?: 'text';
+  value?: string;
+  onChange?: (value: string) => void;
 } & useThemeSharedProps<typeof InputStyles, typeof variantKeys>;
 
 const Input = ({
@@ -35,6 +39,8 @@ const Input = ({
   type = 'text',
   size = 'base',
   intent = 'default',
+  value = '',
+  onChange = noop,
   ...inputProps
 }: InputProps) => {
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys, false>('Input', {
@@ -42,6 +48,28 @@ const Input = ({
     componentKey: ['root', 'input', 'inputContainer', 'icon', 'iconError', 'units'],
     variant: { intent: disabled ? 'disabled' : hasError ? 'error' : intent, size }
   });
+
+  const [val, unit] = useMemo(() => {
+    if (units.length === 0) {
+      return [value, ''];
+    }
+
+    return [];
+  }, [value, units]);
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onChange(`${e.target.value}${unit}`);
+    },
+    [unit, onChange]
+  );
+
+  const handleChangeUnit = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      onChange(`${val}${e.target.value}`);
+    },
+    [val, onChange]
+  );
 
   return (
     <div className={classNameTheme.root}>
@@ -52,13 +80,15 @@ const Input = ({
           ref={ref}
           type={type}
           placeholder={placeholder}
-          className={classNames(classNameTheme.input)}
+          className={classNameTheme.input}
           disabled={disabled}
+          value={val}
+          onChange={handleChange}
           {...(inputProps as React.JSX.IntrinsicElements['input'])}
         />
         {hasError && <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
         {units.length > 0 && (
-          <select className={classNameTheme.units}>
+          <select className={classNameTheme.units} value={unit} onChange={handleChangeUnit}>
             {units.map((unit, i) => (
               <option key={i} value={unit.value}>
                 {unit.label}
