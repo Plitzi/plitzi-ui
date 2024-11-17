@@ -84,7 +84,7 @@ export default {
   }),
   units: cva(
     [
-      'border-l-1 border-gray-400 py-0 pr-0 border-y-0 border-r-0 bg-none text-center',
+      'border-l-1 border-gray-400 py-0 pr-0 border-y-0 border-r-0 bg-none text-center select-none cursor-pointer',
       'focus:outline-0 focus:ring-0 focus:border-gray-400 focus:shadow-none'
     ],
     {
@@ -95,9 +95,9 @@ export default {
           disabled: 'cursor-not-allowed'
         },
         size: {
-          base: 'pl-2 text-base min-w-6',
-          sm: 'pl-1.5 text-sm min-w-5',
-          xs: 'pl-1 text-xs min-w-4'
+          base: 'pl-2 text-base min-w-10',
+          sm: 'pl-1.5 text-sm min-w-8',
+          xs: 'pl-1 text-xs min-w-7'
         }
       },
       compoundVariants: [],
