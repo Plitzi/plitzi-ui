@@ -1,15 +1,15 @@
 // Packages
 import { use, useMemo } from 'react';
-import { cva } from 'class-variance-authority';
 import get from 'lodash/get';
 import set from 'lodash/set';
 
 // Alias
+import cva from '@/helpers/cvaWrapper';
 import ThemeContext from '@components/ThemeProvider/ThemeContext';
 import { emptyObject } from '@/helpers/utils';
 
 // Types
-import type { cvaFunction } from '@/types/cva';
+import type { cvaFunction } from '@/helpers/cvaWrapper';
 
 export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunction<T>;
 
