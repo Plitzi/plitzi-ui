@@ -62,12 +62,16 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
 
     if (Array.isArray(componentKey)) {
       const classNameObj = {};
-      componentKey.forEach(compKey => {
+      componentKey.forEach((compKey, i) => {
         compKey = compKey as string;
         const callback = get(theme, `components.${componentName}.${String(compKey)}`, defaultStyleCVA);
         let value;
-        if (callback && typeof callback === 'function') {
+        if (callback && typeof callback === 'function' && typeof className === 'object') {
           value = callback({ ...variant, className: get(className, compKey, '') });
+        } else if (callback && typeof callback === 'function' && typeof className === 'string' && i === 0) {
+          value = callback({ ...variant, className });
+        } else if (callback && typeof callback === 'function' && typeof className === 'string') {
+          value = callback(variant);
         }
 
         if (compKey.split('.').length > 1) {
