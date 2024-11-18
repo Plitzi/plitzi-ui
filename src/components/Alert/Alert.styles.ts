@@ -1,5 +1,5 @@
-// Packages
-import { cva } from 'class-variance-authority';
+// Alias
+import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['default', 'success', 'error', 'warning', 'info'],

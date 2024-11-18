@@ -15,7 +15,7 @@ export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunc
 
 type ThemeSlot = { [key: string]: object };
 type ThemeClassName<T> = { [K in keyof T]?: string } | string;
-type VariantKeys = { [key: string]: readonly string[] };
+type VariantKeys = { [key: string]: readonly (string | number)[] };
 type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
 
 export type useThemeResponse<TSlot extends ThemeSlot, TisString = true> = TisString extends false
@@ -54,7 +54,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
       let callback = defaultStyleCVA;
       callback = get(theme, `components.${componentKey}`, defaultStyleCVA);
       if (!callback || typeof callback !== 'function') {
-        return '';
+        return className ?? '';
       }
 
       return callback({ ...variant, className });
@@ -70,7 +70,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
           value = callback({ ...variant, className: get(className, compKey, '') });
         } else if (callback && typeof callback === 'function' && typeof className === 'string' && i === 0) {
           value = callback({ ...variant, className });
-        } else if (callback && typeof callback === 'function' && typeof className === 'string') {
+        } else if (callback && typeof callback === 'function') {
           value = callback(variant);
         }
 
