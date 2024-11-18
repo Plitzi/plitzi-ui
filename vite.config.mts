@@ -44,18 +44,9 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      // external: [
-      //   'react',
-      //   'react-dom',
-      //   'react/jsx-runtime' // , "tailwindcss"
-      // ],
-      external: (source: string, importer: string | undefined, isResolved: boolean) => {
-        console.log(source, importer, isResolved);
-
-        // return source.includes('node_modules');
-        return externalsRegex.test(source);
-      },
+      external: (source: string) => externalsRegex.test(source),
       output: {
+        dir: 'dist/src',
         preserveModules: true, // Keep module structure for tree-shaking
         // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
         entryFileNames: '[name].js',
