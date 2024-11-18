@@ -7,6 +7,10 @@ import path, { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 
+import pkg from './package.json';
+
+const externalsRegex = new RegExp(`(node_modules|${Object.keys(pkg.dependencies || {}).join('|')})`, 'im');
+
 export default defineConfig({
   plugins: [
     react(),
@@ -16,7 +20,7 @@ export default defineConfig({
         '**/*.test.tsx',
         '**/*.stories.ts',
         '**/*.stories.tsx',
-        'vite.config.mts', 
+        'vite.config.mts'
         // 'setupTests.ts',
         // 'node_modules'
       ],
@@ -36,17 +40,24 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, './src/index.ts'),
-      name: 'droneshield-ui-library',
+      name: 'plitzi-ui',
       formats: ['es']
     },
     rollupOptions: {
-      external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime' // , "tailwindcss"
-      ],
+      // external: [
+      //   'react',
+      //   'react-dom',
+      //   'react/jsx-runtime' // , "tailwindcss"
+      // ],
+      external: (source: string, importer: string | undefined, isResolved: boolean) => {
+        console.log(source, importer, isResolved);
+
+        // return source.includes('node_modules');
+        return externalsRegex.test(source);
+      },
       output: {
-        preserveModules: true, // Keep module structure for tree-shaking // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
+        preserveModules: true, // Keep module structure for tree-shaking
+        // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
         entryFileNames: '[name].js',
         chunkFileNames: '[name].js',
         assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
