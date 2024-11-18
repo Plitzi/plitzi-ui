@@ -52,7 +52,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
   return useMemo(() => {
     if (typeof componentKey === 'string') {
       let callback = defaultStyleCVA;
-      callback = get(theme, `components.${componentKey}`, defaultStyleCVA);
+      callback = get(theme, `components.${componentName}.${componentKey}`, defaultStyleCVA);
       if (!callback || typeof callback !== 'function') {
         return className ?? '';
       }

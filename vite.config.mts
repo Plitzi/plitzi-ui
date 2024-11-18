@@ -16,9 +16,9 @@ export default defineConfig({
         '**/*.test.tsx',
         '**/*.stories.ts',
         '**/*.stories.tsx',
-        'vite.config.mts',
-        'setupTests.ts',
-        'node_modules'
+        'vite.config.mts', 
+        // 'setupTests.ts',
+        // 'node_modules'
       ],
       tsconfigPath: './tsconfig.app.json'
     })
