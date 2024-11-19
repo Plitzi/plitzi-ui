@@ -7,6 +7,7 @@
     "dist",
     "src"
   ],
+  "type": "module",
   "repository": {
     "type": "https",
     "url": "https://github.com/plitzi/plitzi-ui.git"
@@ -14,20 +15,27 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/plitzi"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./style.css": "./dist/plitzi-ui.css",
+    "./hooks": {
+      "types": "./dist/src/hooks/*/index.d.ts",
+      "import": "./dist/src/hooks/index.mjs"
+    },
     "./hooks/*": {
       "types": "./dist/src/hooks/*/index.d.ts",
       "import": "./dist/src/hooks/*",
       "require": "./dist/src/hooks/*"
     },
+    "./components/": {
+      "types": "./dist/src/components/*/index.d.ts",
+      "import": "./dist/src/components/index.mjs"
+    },
     "./components/*": {
       "types": "./dist/src/components/*/index.d.ts",
-      "import": "./dist/src/components/*",
-      "require": "./dist/src/components/*"
+      "import": "./dist/src/components/*"
     },
     "./*": {
       "types": "./dist/src/components/*/index.d.ts",

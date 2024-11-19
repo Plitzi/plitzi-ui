@@ -7,10 +7,6 @@ import path, { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 
-import pkg from './package.json';
-
-const externalsRegex = new RegExp(`(node_modules|${Object.keys(pkg.dependencies || {}).join('|')})`, 'im');
-
 export default defineConfig({
   plugins: [
     react(),
@@ -44,13 +40,17 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: (source: string) => externalsRegex.test(source),
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime'
+      ],
       output: {
-        dir: 'dist/src',
+        exports: 'named',
         preserveModules: true, // Keep module structure for tree-shaking
         // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
-        entryFileNames: '[name].js',
-        chunkFileNames: '[name].js',
+        entryFileNames: '[name].mjs',
+        chunkFileNames: '[name].mjs',
         assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
         globals: {
           react: 'React',
