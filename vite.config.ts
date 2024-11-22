@@ -40,13 +40,8 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime'
-      ],
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
-        exports: 'named',
         preserveModules: true, // Keep module structure for tree-shaking
         // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
         entryFileNames: '[name].mjs',
