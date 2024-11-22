@@ -6,7 +6,7 @@ export const variantKeys = {
   size: ['xs', 'sm', 'base']
 } as const;
 
-export const STYLES_COMPONENT_NAME = 'Input';
+export const STYLES_COMPONENT_NAME = 'TextArea';
 
 export default {
   root: cva('', {
@@ -28,7 +28,7 @@ export default {
       size: 'base'
     }
   }),
-  inputContainer: cva('flex items-center border rounded-lg relative', {
+  inputContainer: cva('flex flex-col items-center border rounded-lg relative', {
     variants: {
       intent: {
         default: 'border-gray-200',
@@ -36,7 +36,7 @@ export default {
         disabled: 'cursor-not-allowed'
       },
       size: {
-        base: 'py-2.5 px-4 gap-2',
+        base: 'py-3.5 px-3 gap-2',
         sm: 'py-1.5 px-2 gap-1.5',
         xs: 'py-1 px-1 gap-1'
       }
@@ -64,17 +64,17 @@ export default {
       {
         intent: 'error',
         size: 'base',
-        className: 'pr-6'
+        className: 'pr-3'
       },
       {
         intent: 'error',
         size: 'sm',
-        className: 'pr-5'
+        className: 'pr-2.5'
       },
       {
         intent: 'error',
         size: 'xs',
-        className: 'pr-4'
+        className: 'pr-2'
       }
     ],
     defaultVariants: {
@@ -82,33 +82,15 @@ export default {
       size: 'base'
     }
   }),
-  iconFloatingContainer: cva('flex absolute top-1/2 -translate-y-1/2', {
+  iconFloatingContainer: cva('flex flex-col absolute', {
     variants: {
       intent: {
         default: ''
       },
       size: {
-        base: 'right-4 gap-2',
-        sm: 'right-3 gap-1.5',
-        xs: 'right-2 gap-1'
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'default',
-      size: 'base'
-    }
-  }),
-  icon: cva('', {
-    variants: {
-      intent: {
-        default: '',
-        error: 'text-red-600'
-      },
-      size: {
-        base: '',
-        sm: '',
-        xs: ''
+        base: 'right-2.5 top-2.5 gap-2',
+        sm: 'right-2 top-2 gap-1.5',
+        xs: 'right-1.5 top-1.5 gap-1'
       }
     },
     compoundVariants: [],
