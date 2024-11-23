@@ -107,10 +107,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Yarn Build
-        run: yarn build-assets:prod
-
-      - name: Yarn Build
-        run: yarn build-assets:prod-babel
+        run: yarn build:prod
 
       - name: Yarn Publish
         run: yarn publish
