@@ -15,7 +15,7 @@ const meta = {
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: {}
+  args: { error: '' }
 } satisfies Meta<typeof TextArea>;
 
 export default meta;
@@ -24,12 +24,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    icon: 'fa-solid fa-check',
-    hasError: true,
-    prefix: '$'
+    hasError: true
   },
   render: args => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState('');
 
     const handleChange = (value: string) => {
@@ -40,8 +37,8 @@ export const Primary: Story = {
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
         <TextArea {...args} size="base" value={value} onChange={handleChange} />
-        <TextArea {...args} size="sm" />
-        <TextArea {...args} size="xs" />
+        <TextArea {...args} size="sm" value={value} />
+        <TextArea {...args} size="xs" value={value} />
       </div>
     );
   }
@@ -49,9 +46,7 @@ export const Primary: Story = {
 
 export const Builder: Story = {
   args: {
-    icon: '',
-    hasError: false,
-    prefix: ''
+    hasError: false
   },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">

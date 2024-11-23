@@ -5,12 +5,16 @@ import noop from 'lodash/noop';
 
 // Alias
 import useTheme from '@hooks/useTheme';
+import Label from '@components/Label';
+import ErrorMessage from '@components/ErrorMessage';
 
 // Types
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
-import type { ChangeEvent, Ref } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
+import type { LabelProps } from '@components/Label';
+import type { ErrorMessageProps } from '@components/ErrorMessage';
 
 export type InputProps = {
   ref?: Ref<HTMLInputElement>;
@@ -22,13 +26,17 @@ export type InputProps = {
   prefix?: string;
   type?: 'text';
   value?: string;
+  error?: ErrorMessageProps['message'];
   onChange?: (value: string) => void;
-} & useThemeSharedProps<typeof InputStyles, typeof variantKeys>;
+} & Pick<LabelProps, 'label'> &
+  Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
+  useThemeSharedProps<typeof InputStyles, typeof variantKeys>;
 
 const Input = ({
   ref,
   className = '',
   icon = '',
+  label = 'Input',
   placeholder = 'Text',
   loading = false,
   disabled = false,
@@ -38,6 +46,7 @@ const Input = ({
   size = 'base',
   intent = 'default',
   value = '',
+  error = '',
   onChange = noop,
   ...inputProps
 }: InputProps) => {
@@ -56,6 +65,7 @@ const Input = ({
 
   return (
     <div className={classNameTheme.root}>
+      <Label label={label} hasError={hasError} disabled={disabled} intent={intent} size={size} />
       <div className={classNameTheme.inputContainer}>
         <i className={classNames(icon, classNameTheme.icon)} />
         {prefix && <div>{prefix}</div>}
@@ -76,6 +86,7 @@ const Input = ({
           </div>
         )}
       </div>
+      {hasError && error && <ErrorMessage message={error} intent={intent} size={size} />}
     </div>
   );
 };

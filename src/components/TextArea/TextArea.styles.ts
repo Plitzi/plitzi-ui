@@ -9,7 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'TextArea';
 
 export default {
-  root: cva('', {
+  root: cva('flex flex-col', {
     variants: {
       intent: {
         default: 'border-gray-200',
@@ -17,9 +17,9 @@ export default {
         disabled: 'text-gray-400'
       },
       size: {
-        base: 'text-base',
-        sm: 'text-sm',
-        xs: 'text-xs'
+        base: 'gap-2 text-base',
+        sm: 'gap-1.5 text-sm',
+        xs: 'gap-1 text-xs'
       }
     },
     compoundVariants: [],
@@ -36,7 +36,7 @@ export default {
         disabled: 'cursor-not-allowed'
       },
       size: {
-        base: 'py-3.5 px-3 gap-2',
+        base: 'py-2.5 px-3 gap-2',
         sm: 'py-1.5 px-2 gap-1.5',
         xs: 'py-1 px-1 gap-1'
       }
@@ -69,12 +69,12 @@ export default {
       {
         intent: 'error',
         size: 'sm',
-        className: 'pr-2.5'
+        className: 'pr-3'
       },
       {
         intent: 'error',
         size: 'xs',
-        className: 'pr-2'
+        className: 'pr-2.5'
       }
     ],
     defaultVariants: {
@@ -88,9 +88,9 @@ export default {
         default: ''
       },
       size: {
-        base: 'right-2.5 top-2.5 gap-2',
-        sm: 'right-2 top-2 gap-1.5',
-        xs: 'right-1.5 top-1.5 gap-1'
+        base: 'right-2.5 top-3.5 gap-2',
+        sm: 'right-2 top-2.5 gap-1.5',
+        xs: 'right-1.5 top-2 gap-1'
       }
     },
     compoundVariants: [],

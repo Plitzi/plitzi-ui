@@ -9,7 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Input';
 
 export default {
-  root: cva('', {
+  root: cva('flex flex-col', {
     variants: {
       intent: {
         default: 'border-gray-200',
@@ -17,9 +17,9 @@ export default {
         disabled: 'text-gray-400'
       },
       size: {
-        base: 'text-base',
-        sm: 'text-sm',
-        xs: 'text-xs'
+        base: 'gap-2 text-base',
+        sm: 'gap-1.5 text-sm',
+        xs: 'gap-1 text-xs'
       }
     },
     compoundVariants: [],

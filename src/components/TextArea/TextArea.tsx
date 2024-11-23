@@ -4,12 +4,16 @@ import classNames from 'classnames';
 
 // Alias
 import useTheme from '@hooks/useTheme';
+import ErrorMessage from '@components/ErrorMessage';
+import Label from '@components/Label';
 
 // Types
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type TextAreaStyles from './TextArea.styles';
 import type { variantKeys } from './TextArea.styles';
-import type { ChangeEvent, Ref } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
+import type { LabelProps } from '@components/Label';
+import type { ErrorMessageProps } from '@components/ErrorMessage';
 
 export type TextAreaProps = {
   ref?: Ref<HTMLTextAreaElement>;
@@ -18,12 +22,16 @@ export type TextAreaProps = {
   disabled?: boolean;
   hasError?: boolean;
   value?: string;
+  error?: ErrorMessageProps['message'];
   onChange?: (value: string) => void;
-} & useThemeSharedProps<typeof TextAreaStyles, typeof variantKeys>;
+} & Pick<LabelProps, 'label'> &
+  Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
+  useThemeSharedProps<typeof TextAreaStyles, typeof variantKeys>;
 
 const TextArea = ({
   ref,
   className = '',
+  label = 'Text Area',
   placeholder = 'Text',
   loading = false,
   disabled = false,
@@ -31,6 +39,7 @@ const TextArea = ({
   size = 'base',
   intent = 'default',
   value = '',
+  error = '',
   onChange,
   ...textareaProps
 }: TextAreaProps) => {
@@ -49,6 +58,7 @@ const TextArea = ({
 
   return (
     <div className={classNameTheme.root}>
+      <Label label={label} hasError={hasError} disabled={disabled} intent={intent} size={size} />
       <div className={classNameTheme.inputContainer}>
         <textarea
           ref={ref}
@@ -61,11 +71,16 @@ const TextArea = ({
         />
         {(hasError || loading) && (
           <div className={classNameTheme.iconFloatingContainer}>
-            {hasError && <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
-            {loading && <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />}
+            {!disabled && hasError && (
+              <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />
+            )}
+            {!disabled && loading && (
+              <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />
+            )}
           </div>
         )}
       </div>
+      {hasError && error && <ErrorMessage message={error} intent={intent} size={size} />}
     </div>
   );
 };
