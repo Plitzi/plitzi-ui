@@ -27,6 +27,7 @@ export const Primary: Story = {
     hasError: true
   },
   render: args => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState('');
 
     const handleChange = (value: string) => {
