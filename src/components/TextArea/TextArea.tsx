@@ -71,7 +71,7 @@ const TextArea = ({
         />
         {(hasError || loading) && (
           <div className={classNameTheme.iconFloatingContainer}>
-            {!disabled && hasError && (
+            {!disabled && hasError && !loading && (
               <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />
             )}
             {!disabled && loading && (

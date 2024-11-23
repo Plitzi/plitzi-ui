@@ -81,8 +81,12 @@ const Input = ({
         />
         {(hasError || loading) && (
           <div className={classNameTheme.iconFloatingContainer}>
-            {hasError && <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
-            {loading && <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />}
+            {!disabled && hasError && !loading && (
+              <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />
+            )}
+            {!disabled && loading && (
+              <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />
+            )}
           </div>
         )}
       </div>
