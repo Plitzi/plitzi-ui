@@ -1,7 +1,6 @@
 // Packages
 import { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-import noop from 'lodash/noop';
 import get from 'lodash/get';
 
 // Alias
@@ -41,7 +40,7 @@ const MetricInput = ({
   size = 'base',
   intent = 'default',
   value = '',
-  onChange = noop,
+  onChange,
   ...inputProps
 }: MetricInputProps) => {
   const classNameTheme = useTheme<typeof MetricInputStyles, typeof variantKeys, false>('MetricInput', {
@@ -93,7 +92,7 @@ const MetricInput = ({
         return;
       }
 
-      onChange(newValue);
+      onChange?.(newValue);
     },
     [unit, unitsRegex, onChange]
   );
@@ -101,9 +100,9 @@ const MetricInput = ({
   const handleChangeUnit = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       if (val) {
-        onChange(`${val}${e.target.value}`);
+        onChange?.(`${val}${e.target.value}`);
       } else {
-        onChange('');
+        onChange?.('');
       }
     },
     [val, onChange]

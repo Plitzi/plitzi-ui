@@ -1,7 +1,6 @@
 // Packages
 import { useCallback } from 'react';
 import classNames from 'classnames';
-import noop from 'lodash/noop';
 
 // Alias
 import useTheme from '@hooks/useTheme';
@@ -47,7 +46,7 @@ const Input = ({
   intent = 'default',
   value = '',
   error = '',
-  onChange = noop,
+  onChange,
   ...inputProps
 }: InputProps) => {
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys, false>('Input', {
@@ -58,7 +57,7 @@ const Input = ({
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
+      onChange?.(e.target.value);
     },
     [onChange]
   );
