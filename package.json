@@ -1,10 +1,12 @@
 {
   "name": "@plitzi/plitzi-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "./",
   "license": "MIT",
   "files": [
     "dist",
+    "dist/",
+    "dist/node_modules",
     "tailwind.config.js"
   ],
   "type": "module",
@@ -15,15 +17,26 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/plitzi"
   },
-  "main": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/src/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
     "./tailwind.config": "./tailwind.config.js",
     "./style.css": "./dist/plitzi-ui.css",
+    "./tailwind/*": {
+      "types": "./dist/src/tailwind/*/index.d.ts",
+      "import": "./dist/src/tailwind/*",
+      "require": "./dist/src/tailwind/*"
+    },
     "./hooks": {
       "types": "./dist/src/hooks/*/index.d.ts",
-      "import": "./dist/src/hooks/index.mjs"
+      "import": "./dist/src/hooks/index.mjs",
+      "require": "./dist/src/hooks/index.cjs"
     },
     "./hooks/*": {
       "types": "./dist/src/hooks/*/index.d.ts",
@@ -32,7 +45,8 @@
     },
     "./components": {
       "types": "./dist/src/components/*/index.d.ts",
-      "import": "./dist/src/components/index.mjs"
+      "import": "./dist/src/components/index.mjs",
+      "require": "./dist/src/components/index.cjs"
     },
     "./components/*": {
       "types": "./dist/src/components/*/index.d.ts",

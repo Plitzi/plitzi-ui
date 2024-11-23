@@ -37,15 +37,16 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, './src/index.ts'),
       name: 'plitzi-ui',
-      formats: ['es']
+      formats: ['es', 'cjs']
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime', 'lodash/get', 'lodash/set', 'classnames'],
       output: {
+        exports: 'named',
         preserveModules: true, // Keep module structure for tree-shaking
         // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
-        entryFileNames: '[name].mjs',
-        chunkFileNames: '[name].mjs',
+        entryFileNames: '[name].[format]',
+        chunkFileNames: '[name].[format]',
         assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
         globals: {
           react: 'React',
