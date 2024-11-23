@@ -150,3 +150,5 @@ const paletteColors = {
 const tokenColors = {};
 
 export { paletteColors, tokenColors };
+
+export default { ...paletteColors, ...tokenColors };

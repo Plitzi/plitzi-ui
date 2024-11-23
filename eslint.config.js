@@ -49,7 +49,6 @@ export default tsEslint.config(
       quotes: ['error', 'single'],
       'prefer-const': ['error', { destructuring: 'any', ignoreReadBeforeAssign: false }],
       // semi: ['warn', 'never'],
-      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { args: 'none', argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       '@typescript-eslint/no-explicit-any': 'off',

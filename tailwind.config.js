@@ -1,10 +1,13 @@
-const colors = require('tailwindcss/colors');
-const defaultTheme = require('tailwindcss/defaultTheme');
-const plugin = require('tailwindcss/plugin');
-const { join } = require('path');
-const { paletteColors, tokenColors } = require('./src/tailwind/colors');
+// Packages
+import colors from 'tailwindcss/colors';
+import defaultTheme from 'tailwindcss/defaultTheme';
+import plugin from 'tailwindcss/plugin';
+import { join } from 'path';
 
-module.exports = {
+// Relatives
+import colorsUI from './src/tailwind/colors';
+
+export default {
   darkMode: 'class',
   content: [
     // join(__dirname, "src/**/!(*.stories|*.spec).{js,html}")
@@ -12,11 +15,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: { ...paletteColors, ...tokenColors }
-    },
-    fontFamily: {
-      ...defaultTheme.fontFamily,
-      rubik: ['Rubik', 'sans-serif']
+      colors: colorsUI
     }
   },
   plugins: [
