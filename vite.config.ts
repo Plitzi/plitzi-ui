@@ -6,6 +6,7 @@ import { defineConfig } from 'vite';
 import path, { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
+import { rename } from 'fs/promises';
 
 export default defineConfig({
   plugins: [
@@ -21,7 +22,28 @@ export default defineConfig({
         // 'node_modules'
       ],
       tsconfigPath: './tsconfig.app.json'
-    })
+    }),
+    {
+      name: 'rename-node-modules',
+      closeBundle: async () => {
+        try {
+          await rename('./dist/node_modules', './dist/vendor');
+          console.log('Renamed "node_modules" folder to "vendor".');
+        } catch (error) {
+          console.error('Failed renaming "node_modules" folder to "vendor":', error);
+        }
+      }
+    },
+    {
+      name: 'rewrite-node-modules-imports',
+      generateBundle(_, bundle) {
+        for (const file of Object.values(bundle)) {
+          if (file.type === 'chunk') {
+            file.code = file.code.replace(/node_modules\//g, 'vendor/');
+          }
+        }
+      }
+    }
   ],
   resolve: {
     alias: {
