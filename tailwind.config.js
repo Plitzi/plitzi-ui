@@ -20,7 +20,6 @@ module.exports = {
     }
   },
   plugins: [
-    // eslint-disable-next-line global-require
     require('@tailwindcss/forms'),
     plugin(function ({ addVariant, e }) {
       addVariant('not-first', ({ modifySelectors, separator }) => {

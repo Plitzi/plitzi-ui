@@ -5,7 +5,7 @@
   "license": "MIT",
   "files": [
     "dist",
-    "src"
+    "tailwind.config.js"
   ],
   "type": "module",
   "repository": {
@@ -19,6 +19,7 @@
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
+    "./tailwind.config": "./tailwind.config.js",
     "./style.css": "./dist/plitzi-ui.css",
     "./hooks": {
       "types": "./dist/src/hooks/*/index.d.ts",
@@ -29,7 +30,7 @@
       "import": "./dist/src/hooks/*",
       "require": "./dist/src/hooks/*"
     },
-    "./components/": {
+    "./components": {
       "types": "./dist/src/components/*/index.d.ts",
       "import": "./dist/src/components/index.mjs"
     },
