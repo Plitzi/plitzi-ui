@@ -40,7 +40,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'lodash/get', 'lodash/set', 'classnames'],
       output: {
         preserveModules: true, // Keep module structure for tree-shaking
         // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)

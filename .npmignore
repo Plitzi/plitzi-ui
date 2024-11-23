@@ -13,6 +13,5 @@ README.md
 .stylelintrc
 webpack.config.*
 #src
-dist/assets
 .yarnrc.yml
 .yarn
