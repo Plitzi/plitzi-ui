@@ -8,6 +8,8 @@ import Label from './Label';
 import MetricInput from './MetricInput';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
+import Icon from './Icon';
+import Flex from './Flex';
 
 export * from './Dummy';
 export * from './ErrorMessage';
@@ -18,5 +20,7 @@ export * from './MetricInput';
 export * from './ThemeProvider';
 export * from './TextArea';
 export * from './Label';
+export * from './Icon';
+export * from './Flex';
 
-export { Dummy, Alert, Button, Input, MetricInput, ThemeProvider, TextArea, Label, ErrorMessage };
+export { Dummy, Alert, Button, Input, MetricInput, ThemeProvider, TextArea, Label, ErrorMessage, Icon, Flex };
