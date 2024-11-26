@@ -11,7 +11,7 @@ export type DummyProps = { content?: string } & useThemeSharedProps<typeof Dummy
 const Dummy = ({ className, content, intent = 'default', size = 'base' }: DummyProps) => {
   className = useTheme<typeof DummyStyles, typeof variantKeys>('Dummy', {
     className,
-    componentKey: 'Dummy.root',
+    componentKey: 'root',
     variant: { intent, size }
   });
 

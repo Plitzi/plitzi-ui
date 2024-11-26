@@ -29,14 +29,15 @@ const Button = ({
   loading = false,
   disabled = false,
   type = 'button',
-  size = 'base',
-  intent = 'primary',
+  size,
+  intent,
+  border,
   ...buttonProps
 }: ButtonProps) => {
   const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys, false>('Button', {
     className,
     componentKey: ['root', 'icon'],
-    variant: { intent: disabled ? 'disabled' : intent, size }
+    variant: { intent: disabled ? 'disabled' : intent, size, border }
   });
 
   return (

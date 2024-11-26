@@ -1,0 +1,15 @@
+// Packages
+import { createElement } from 'react';
+
+// Types
+import type { ReactNode, JSX } from 'react';
+
+export type DynamicComponentProps = {
+  children?: ReactNode;
+  tag: keyof JSX.IntrinsicElements;
+  [key: string]: any;
+};
+
+const DynamicComponent = ({ tag, children, ...props }: DynamicComponentProps) => createElement(tag, props, children);
+
+export default DynamicComponent;

@@ -24,7 +24,7 @@ export type useThemeResponse<TSlot extends ThemeSlot, TisString = true> = TisStr
 
 export type useThemeProps<TSlot extends ThemeSlot, T extends VariantKeys> = {
   className?: ThemeClassName<TSlot>;
-  componentKey: string | [keyof TSlot][number][];
+  componentKey: [keyof TSlot][number] | [keyof TSlot][number][];
   variant?: ThemeVariantKey<T>;
   defaultStyle?: {
     base?: string | string[];
@@ -48,6 +48,8 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
     () => cva(base, { variants, compoundVariants, defaultVariants }),
     [base, variants, defaultVariants, compoundVariants]
   );
+
+  componentKey = componentKey as string | string[];
 
   return useMemo(() => {
     if (typeof componentKey === 'string') {
