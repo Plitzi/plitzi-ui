@@ -2,7 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'danger'],
+  intent: ['default'],
   size: ['xs', 'base', 'sm', 'xl']
 } as const;
 
@@ -12,8 +12,7 @@ export default {
   root: cva('', {
     variants: {
       intent: {
-        default: '',
-        danger: ''
+        default: ''
       },
       size: {
         xs: 'text-xs',

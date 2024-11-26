@@ -23,7 +23,9 @@ export const Primary: Story = {
   args: {},
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
-      <Button {...args} size="base" />
+      <Button {...args} size="base">
+        <Button.Icon icon="fa-solid fa-check" />
+      </Button>
       <Button {...args} size="sm" />
       <Button {...args} size="xs" />
     </div>
