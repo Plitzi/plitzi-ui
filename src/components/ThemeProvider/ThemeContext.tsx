@@ -4,7 +4,7 @@ import { createContext } from 'react';
 export type ThemeContextValue = {
   theme: {
     components: {
-      [componentName: string]: any;
+      [componentName: string]: unknown;
     };
     colors: {
       [key: string]: string;

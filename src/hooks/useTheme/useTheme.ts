@@ -28,7 +28,7 @@ export type useThemeProps<TSlot extends ThemeSlot, T extends VariantKeys> = {
   variant?: ThemeVariantKey<T>;
   defaultStyle?: {
     base?: string | string[];
-    variants?: any;
+    variants?: Record<string, unknown>;
     defaultVariants?: object;
     compoundVariants?: object[];
   };

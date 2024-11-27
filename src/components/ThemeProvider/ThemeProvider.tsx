@@ -8,10 +8,13 @@ import { paletteColors, tokenColors } from '@/tailwind/colors';
 // Relatives
 import ThemeContext from './ThemeContext';
 
+// Types
+import type { ReactNode } from 'react';
+
 export type ThemeProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   components?: {
-    [componentName: string]: any;
+    [componentName: string]: unknown;
   };
   colors?: {
     [color: string]: string;
@@ -21,9 +24,10 @@ export type ThemeProviderProps = {
   };
 };
 
-const defaultThemeModules = import.meta.glob<{ default: any; STYLES_COMPONENT_NAME?: string }>('../../**/*.styles.ts', {
-  eager: true
-});
+const defaultThemeModules = import.meta.glob<{ default: unknown; STYLES_COMPONENT_NAME?: string }>(
+  '../../**/*.styles.ts',
+  { eager: true }
+);
 
 const defaultTheme = Object.keys(defaultThemeModules).reduce((acum: object, fileKey: string) => {
   const themeModule = defaultThemeModules?.[fileKey] ?? {};

@@ -12,7 +12,7 @@ import storybook from 'eslint-plugin-storybook';
 export default tsEslint.config(
   { ignores: ['dist', 'node_modules'] },
   {
-    extends: [js.configs.recommended, ...tsEslint.configs.recommended],
+    extends: [js.configs.recommended, ...tsEslint.configs.recommendedTypeChecked],
     files: ['**/*.{ts,tsx}'],
     ignores: [
       'node_modules',
@@ -30,7 +30,11 @@ export default tsEslint.config(
     ],
     languageOptions: {
       ecmaVersion: 2023,
-      globals: globals.browser
+      globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname
+      }
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -49,11 +53,8 @@ export default tsEslint.config(
       quotes: ['error', 'single'],
       'prefer-const': ['error', { destructuring: 'any', ignoreReadBeforeAssign: false }],
       // semi: ['warn', 'never'],
-      '@typescript-eslint/no-unused-vars': ['warn', { args: 'none', argsIgnorePattern: '^_' }],
-      '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
-      '@typescript-eslint/no-explicit-any': 'off',
       'react/jsx-key': ['warn', { checkFragmentShorthand: true }],
-      'prettier/prettier': ['warn', { trillingComma: 'none' }]
+      'prettier/prettier': ['warn', { trillingComma: 'es5' }]
     }
   }
 );

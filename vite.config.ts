@@ -21,7 +21,12 @@ export default defineConfig({
         // 'setupTests.ts',
         // 'node_modules'
       ],
-      tsconfigPath: './tsconfig.app.json'
+      tsconfigPath: './tsconfig.app.json',
+      afterDiagnostic: diagnostics => {
+        if (diagnostics.length) {
+          throw new Error('Failed to generate typescript definitions');
+        }
+      }
     }),
     {
       name: 'rename-node-modules',

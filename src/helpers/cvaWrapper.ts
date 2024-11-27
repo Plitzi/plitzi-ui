@@ -12,7 +12,7 @@ export type ConfigVariants<T extends ConfigSchema> = {
 
 export type Props<T> = T extends ConfigSchema ? ConfigVariants<T> & ClassProp : ClassProp;
 
-export type cvaFunction<T> = (props?: Props<T> | undefined) => string;
+export type cvaFunction<T> = (props?: Props<T>) => string;
 
 const { cva } = cvaModule;
 
