@@ -9,14 +9,12 @@ import useTheme from '@hooks/useTheme';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type IconStyles from './Icon.styles';
 import type { variantKeys } from './Icon.styles';
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
-export type IconProps = { children?: ReactNode; icon?: string } & useThemeSharedProps<
-  typeof IconStyles,
-  typeof variantKeys
->;
+export type IconProps = { children?: ReactNode; icon?: string } & HTMLAttributes<HTMLElement> &
+  useThemeSharedProps<typeof IconStyles, typeof variantKeys>;
 
-const Icon = ({ className, children, icon, intent, size }: IconProps) => {
+const Icon = ({ className, children, icon, intent, size, ...props }: IconProps) => {
   className = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
     className,
     componentKey: 'root',
@@ -43,7 +41,7 @@ const Icon = ({ className, children, icon, intent, size }: IconProps) => {
     return iconChildren;
   }
 
-  return <i className={classNames(icon, className)} />;
+  return <i {...props} className={classNames(icon, className)} />;
 };
 
 export default Icon;
