@@ -3,7 +3,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['primary', 'active', 'disabled', 'custom'],
-  size: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl'],
+  size: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl', 'custom'],
   direction: ['column', 'row', 'row-reverse', 'col-reverse']
 } as const;
 
@@ -31,7 +31,8 @@ export default {
         '6xl': 'px-2 py-1',
         '7xl': 'px-2 py-1',
         '8xl': 'px-2 py-1',
-        '9xl': 'px-2 py-1'
+        '9xl': 'px-2 py-1',
+        custom: ''
       }
     },
     compoundVariants: [],

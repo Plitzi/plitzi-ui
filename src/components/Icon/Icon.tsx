@@ -1,5 +1,5 @@
 // Packages
-import { Children, cloneElement, isValidElement, useMemo } from 'react';
+import { Children, cloneElement, isValidElement, lazy, Suspense, useMemo } from 'react';
 import classNames from 'classnames';
 
 // Alias
@@ -11,12 +11,31 @@ import type IconStyles from './Icon.styles';
 import type { variantKeys } from './Icon.styles';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
-export type IconProps = { children?: ReactNode; icon?: string; active?: boolean } & HTMLAttributes<HTMLElement> &
+export type IconProps = {
+  children?: ReactNode;
+  icon?: string;
+  active?: boolean;
+  width?: number;
+  height?: number;
+} & HTMLAttributes<HTMLElement> &
   useThemeSharedProps<typeof IconStyles, typeof variantKeys>;
 
 type childProps = { className?: string; [key: string]: unknown };
 
-const Icon = ({ className, children, icon, active = false, intent, size, cursor, ...props }: IconProps) => {
+const svgMap = ['DesktopWithMobile'] as string[];
+
+const Icon = ({
+  className,
+  children,
+  icon,
+  active = false,
+  width,
+  height,
+  intent,
+  size,
+  cursor,
+  ...props
+}: IconProps) => {
   className = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
     className,
     componentKey: 'root',
@@ -42,11 +61,27 @@ const Icon = ({ className, children, icon, active = false, intent, size, cursor,
     return components;
   }, [children, className, props]);
 
+  const IconSVG = useMemo(() => {
+    if (!icon || !svgMap.includes(icon)) {
+      return;
+    }
+
+    return lazy(() => import(`./svg/${icon}`).catch(() => ({ default: () => <div>Not found</div> })));
+  }, [icon]);
+
   if (iconChildren) {
     return iconChildren;
   }
 
-  return <i {...props} className={classNames(icon, className)} />;
+  if (!IconSVG) {
+    return <i {...props} className={classNames(icon, className)} />;
+  }
+
+  return (
+    <Suspense>
+      <IconSVG {...props} className={className} width={width} height={height} />
+    </Suspense>
+  );
 };
 
 export default Icon;

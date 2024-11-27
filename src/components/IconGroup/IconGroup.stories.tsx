@@ -33,9 +33,7 @@ export const Primary: Story = {
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon>
-          <a href={origin}>
-            <img src="https://cdn.plitzi.com/resources/img/favicon.svg" className="w-6 h-6" alt="Plitzi" />
-          </a>
+          <img src="https://cdn.plitzi.com/resources/img/favicon.svg" className="w-6 h-6" alt="Plitzi" />
         </IconGroup.Icon>
       </IconGroup>
     </Flex>

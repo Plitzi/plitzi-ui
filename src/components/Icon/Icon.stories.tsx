@@ -40,5 +40,14 @@ export const Primary: Story = {
 
 export const AsChildren: Story = {
   args: {},
-  render: args => <Icon {...args} />
+  render: args => (
+    <Icon {...args}>
+      <img src="https://cdn.plitzi.com/resources/img/favicon.svg" className="w-6 h-6" alt="Plitzi" />
+    </Icon>
+  )
+};
+
+export const SvgIcon: Story = {
+  args: {},
+  render: args => <Icon {...args} icon="DesktopWithMobile" />
 };
