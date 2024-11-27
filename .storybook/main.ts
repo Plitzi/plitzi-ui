@@ -1,4 +1,7 @@
-module.exports = {
+// Types
+import { StorybookConfig } from '@storybook/react-vite';
+
+const config: StorybookConfig = {
   stories: [
     {
       directory: '../src/components/**',
@@ -15,5 +18,10 @@ module.exports = {
   framework: {
     name: '@storybook/react-vite',
     options: {}
+  },
+  core: {
+    disableTelemetry: true
   }
 };
+
+export default config;

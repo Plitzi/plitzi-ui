@@ -1,10 +1,8 @@
 // Packages
 import { createElement } from 'react';
 
-// Alias
-import ThemeProvider from '../src/components/ThemeProvider'
-
 // Relatives
+import ThemeProvider from '../src/components/ThemeProvider';
 
 // Types
 import type { Preview } from '@storybook/react';

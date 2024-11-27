@@ -3,7 +3,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['default'],
-  size: ['xs', 'base', 'sm', 'xl']
+  size: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Icon';

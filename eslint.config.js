@@ -32,7 +32,9 @@ export default tsEslint.config(
       ecmaVersion: 2023,
       globals: globals.browser,
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ['.storybook/*.ts', '.storybook/*.tsx']
+        },
         tsconfigRootDir: import.meta.dirname
       }
     },
