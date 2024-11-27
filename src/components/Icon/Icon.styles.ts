@@ -2,8 +2,9 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default'],
-  size: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl']
+  intent: ['primary', 'secondary', 'active', 'custom'],
+  cursor: ['pointer', 'disabled', 'custom'],
+  size: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Icon';
@@ -12,7 +13,15 @@ export default {
   root: cva('flex items-center justify-center', {
     variants: {
       intent: {
-        default: ''
+        primary: 'hover:text-primary-200',
+        secondary: 'hover:text-primary-200',
+        active: 'text-primary-500',
+        custom: ''
+      },
+      cursor: {
+        pointer: 'cursor-pointer',
+        disabled: 'cursor-not-allowed',
+        custom: ''
       },
       size: {
         xs: 'text-xs w-3 h-3',
@@ -27,12 +36,13 @@ export default {
         '6xl': 'text-6xl w-16 h-16',
         '7xl': 'text-7xl w-[72px] h-[72px]',
         '8xl': 'text-8xl w-[96px] h-[96px]',
-        '9xl': 'text-9xl w-[128px] h-[128px]'
+        '9xl': 'text-9xl w-[128px] h-[128px]',
+        custom: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
+      intent: 'primary',
       size: 'base'
     }
   })

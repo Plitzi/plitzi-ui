@@ -2,7 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default'],
+  intent: ['primary', 'active', 'disabled', 'custom'],
   size: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl'],
   direction: ['column', 'row', 'row-reverse', 'col-reverse']
 } as const;
@@ -13,7 +13,10 @@ export default {
   root: cva('rounded-lg bg-grayviolet-200', {
     variants: {
       intent: {
-        default: ''
+        primary: '',
+        active: '',
+        disabled: '',
+        custom: ''
       },
       size: {
         xs: 'px-1 py-0.5',
@@ -33,7 +36,7 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
+      intent: 'primary',
       size: 'base'
     }
   }),

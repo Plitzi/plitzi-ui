@@ -10,7 +10,7 @@ import Icon from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type ButtonStyles from './Button.styles';
 import type { variantKeys } from './Button.styles';
-import type { ReactNode, Ref } from 'react';
+import type { ReactElement, ReactNode, Ref } from 'react';
 import type { IconProps } from '@components/Icon';
 
 export type ButtonProps = {
@@ -29,7 +29,7 @@ const Button = ({
   children,
   content = 'Button',
   className = '',
-  icon = 'fa-solid fa-check',
+  icon = '',
   iconPlacement = 'none',
   loading = false,
   disabled = false,
@@ -42,7 +42,7 @@ const Button = ({
   const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys, false>('Button', {
     className,
     componentKey: ['root', 'icon'],
-    variant: { intent: disabled ? 'disabled' : intent, size, border }
+    variant: { intent, size, border }
   });
 
   const { iconChildren } = useMemo(() => {
@@ -56,17 +56,21 @@ const Button = ({
       }
 
       if (child.type === Icon) {
-        components.iconChildren = cloneElement(child, {
+        components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
           icon,
-          className: classNameTheme.icon,
+          className: classNames(
+            classNameTheme.icon,
+            (child.props as IconProps)?.className,
+            (child.props as IconProps)?.icon
+          ),
           size,
-          intent
-        } as Partial<IconProps>);
+          intent: 'custom'
+        });
       }
     });
 
     return components;
-  }, [children, icon, classNameTheme.icon, size, intent]);
+  }, [children, icon, classNameTheme.icon, size]);
 
   return (
     <button
@@ -76,9 +80,15 @@ const Button = ({
       disabled={disabled}
       {...(buttonProps as React.JSX.IntrinsicElements['button'])}
     >
-      {(iconPlacement === 'before' || iconPlacement === 'both') && iconChildren}
-      {loading ? <i className="fa-solid fa-sync fa-spin text-base" /> : content}
-      {(iconPlacement === 'after' || iconPlacement === 'both') && iconChildren}
+      {!loading && content && (
+        <>
+          {(iconPlacement === 'before' || iconPlacement === 'both') && content && iconChildren}
+          {content}
+          {(iconPlacement === 'after' || iconPlacement === 'both') && content && iconChildren}
+        </>
+      )}
+      {!loading && !content && iconChildren}
+      {loading && <i className="fa-solid fa-sync fa-spin text-base" />}
     </button>
   );
 };

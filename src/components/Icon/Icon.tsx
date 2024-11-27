@@ -9,16 +9,18 @@ import useTheme from '@hooks/useTheme';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type IconStyles from './Icon.styles';
 import type { variantKeys } from './Icon.styles';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
-export type IconProps = { children?: ReactNode; icon?: string } & HTMLAttributes<HTMLElement> &
+export type IconProps = { children?: ReactNode; icon?: string; active?: boolean } & HTMLAttributes<HTMLElement> &
   useThemeSharedProps<typeof IconStyles, typeof variantKeys>;
 
-const Icon = ({ className, children, icon, intent, size, ...props }: IconProps) => {
+type childProps = { className?: string; [key: string]: unknown };
+
+const Icon = ({ className, children, icon, active = false, intent, size, cursor, ...props }: IconProps) => {
   className = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
     className,
     componentKey: 'root',
-    variant: { intent, size }
+    variant: { intent: active ? 'active' : intent, size, cursor }
   });
 
   const { iconChildren } = useMemo(() => {
@@ -31,11 +33,14 @@ const Icon = ({ className, children, icon, intent, size, ...props }: IconProps) 
         return;
       }
 
-      components.iconChildren = cloneElement(child, { className } as Partial<typeof child.props>);
+      components.iconChildren = cloneElement<childProps>(child as ReactElement<childProps>, {
+        className: classNames(className, (child.props as childProps)?.className),
+        ...props
+      });
     });
 
     return components;
-  }, [children, className]);
+  }, [children, className, props]);
 
   if (iconChildren) {
     return iconChildren;

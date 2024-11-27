@@ -9,6 +9,9 @@ export const variantKeys = {
 
 export const STYLES_COMPONENT_NAME = 'Button';
 
+const disabledIntent =
+  'disabled:bg-gray-300 disabled:text-gray-400 disabled:hover:bg-gray-300 disabled:cursor-not-allowed';
+
 export default {
   root: cva('flex gap-2 justify-center items-center outline-none transition-colors transition-150 select-none border', {
     variants: {
@@ -16,10 +19,10 @@ export default {
         primary: [
           'border-transparent bg-primary-500 text-white',
           'hover:bg-primary-200 hover:text-black',
-          'focus:bg-primary-200 focus:text-black'
+          'focus:bg-primary-200 focus:text-black',
+          disabledIntent
         ],
-        secondary: ['hover:bg-primary-200 hover:text-black', 'focus:bg-primary-200 focus:text-black'],
-        disabled: ['bg-gray-300 text-gray-400 cursor-not-allowed']
+        secondary: ['hover:bg-primary-200 hover:text-black', 'focus:bg-primary-200 focus:text-black', disabledIntent]
       },
       size: {
         base: 'py-2.5 px-4 text-base rounded-lg',
