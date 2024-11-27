@@ -24,6 +24,7 @@ export const Primary: Story = {
       <Icon {...args} size="xs" />
       <Icon {...args} size="sm" />
       <Icon {...args} size="base" />
+      <Icon {...args} size="lg" />
       <Icon {...args} size="xl" />
       <Icon {...args} size="2xl" />
       <Icon {...args} size="3xl" />
