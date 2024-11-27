@@ -1,6 +1,6 @@
 {
   "name": "@plitzi/plitzi-ui",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "homepage": "./",
   "license": "MIT",
   "files": [
@@ -27,7 +27,7 @@
       "require": "./dist/index.cjs"
     },
     "./tailwind.config": "./tailwind.config.js",
-    "./style.css": "./dist/style.css",
+    "./style.css": "./dist/plitzi-ui.css",
     "./tailwind/*": {
       "types": "./dist/src/tailwind/*/index.d.ts",
       "import": "./dist/src/tailwind/*",
