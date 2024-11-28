@@ -65,10 +65,6 @@ const MetricInput = ({
   }, [unitsFinal]);
 
   const [val, unit] = useMemo(() => {
-    if (!unitsRegex) {
-      return [value, ''];
-    }
-
     const match = unitsRegex.exec(value);
     const unit = get(match, 'groups.unit', get(unitsFinal, '0.value', ''));
     const amount = get(match, 'groups.amount', '');
@@ -88,7 +84,7 @@ const MetricInput = ({
         newValue = e.target.value;
       }
 
-      if (newValue && unitsRegex && !unitsRegex.exec(newValue)) {
+      if (newValue && !unitsRegex.exec(newValue)) {
         return;
       }
 
