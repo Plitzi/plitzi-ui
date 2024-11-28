@@ -5,6 +5,9 @@ import classNames from 'classnames';
 // Alias
 import useTheme from '@hooks/useTheme';
 
+// Relatives
+import { loadComponent } from './utils';
+
 // Types
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type IconStyles from './Icon.styles';
@@ -66,7 +69,12 @@ const Icon = ({
       return;
     }
 
-    return lazy(() => import(`./svg/${icon}`).catch(() => ({ default: () => <div>Not found</div> })));
+    return lazy(async () =>
+      loadComponent(`./svg/${icon}`).catch((err: unknown) => {
+        console.error(err);
+        return { default: () => <div>Error al cargar el icono</div> };
+      })
+    );
   }, [icon]);
 
   if (iconChildren) {
