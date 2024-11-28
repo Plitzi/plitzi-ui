@@ -1,7 +1,9 @@
-// Relatives
+// Alias
 import Flex from '@components/Flex';
+import DesktopWithMobile from '@icons/DesktopWithMobile';
+
+// Relatives
 import Icon from './Icon';
-import DesktopWithMobile from './svg/DesktopWithMobile';
 
 // Types
 import type { Meta, StoryObj } from '@storybook/react';

@@ -2,7 +2,7 @@
 import * as components from './components';
 import * as hooks from './hooks';
 import * as tailwind from './tailwind';
-import * as icons from './components/Icon/svg';
+import * as icons from './icons';
 
 // Styles
 import './assets/index.css';

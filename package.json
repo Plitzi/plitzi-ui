@@ -33,6 +33,16 @@
       "import": "./dist/src/tailwind/*",
       "require": "./dist/src/tailwind/*"
     },
+    "./icons": {
+      "types": "./dist/src/icons/*/index.d.ts",
+      "import": "./dist/src/icons/index.mjs",
+      "require": "./dist/src/icons/index.cjs"
+    },
+    "./icons/*": {
+      "types": "./dist/src/icons/*/index.d.ts",
+      "import": "./dist/src/icons/*",
+      "require": "./dist/src/icons/*"
+    },
     "./hooks": {
       "types": "./dist/src/hooks/*/index.d.ts",
       "import": "./dist/src/hooks/index.mjs",
