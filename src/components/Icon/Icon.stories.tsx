@@ -50,11 +50,6 @@ export const AsChildren: Story = {
 
 export const SvgIcon: Story = {
   args: {},
-  render: args => <Icon {...args} icon="DesktopWithMobile" />
-};
-
-export const SvgIcon2: Story = {
-  args: {},
   render: args => (
     <Icon {...args}>
       <DesktopWithMobile />
