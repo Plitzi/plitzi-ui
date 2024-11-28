@@ -9,54 +9,41 @@ import storybook from 'eslint-plugin-storybook';
 
 // const path = require('path');
 
-export default tsEslint.config(
-  { ignores: ['dist', 'node_modules'] },
-  {
-    extends: [js.configs.recommended, ...tsEslint.configs.recommendedTypeChecked],
-    files: ['**/*.{ts,tsx}'],
-    ignores: [
-      'node_modules',
-      'dist',
-      'build',
-      '.env',
-      'yarn-error.log',
-      'coverage',
-      '.yarn/*',
-      '!.yarn/patches',
-      '!.yarn/plugins',
-      '!.yarn/releases',
-      '!.yarn/sdks',
-      '!.yarn/versions'
-    ],
-    languageOptions: {
-      ecmaVersion: 2023,
-      globals: globals.browser,
-      parserOptions: {
-        projectService: {
-          allowDefaultProject: ['.storybook/*.ts', '.storybook/*.tsx']
-        },
-        tsconfigRootDir: import.meta.dirname
-      }
-    },
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-      react,
-      prettier,
-      jsxRuntime: react.configs.flat['jsx-runtime'],
-      storybook
-    },
-    rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      'no-var': 'error',
-      indent: ['warn', 2],
-      'linebreak-style': ['error', 'unix'],
-      quotes: ['error', 'single'],
-      'prefer-const': ['error', { destructuring: 'any', ignoreReadBeforeAssign: false }],
-      // semi: ['warn', 'never'],
-      'react/jsx-key': ['warn', { checkFragmentShorthand: true }],
-      'prettier/prettier': ['warn', { trillingComma: 'es5' }]
+export default tsEslint.config({
+  extends: [js.configs.recommended, ...tsEslint.configs.strictTypeChecked],
+  files: ['**/*.{ts,tsx}'],
+  ignores: ['node_modules', 'dist', 'coverage', '.yarn/*'],
+  languageOptions: {
+    ecmaVersion: 2023,
+    globals: globals.browser,
+    parserOptions: {
+      projectService: {
+        allowDefaultProject: ['.storybook/*.ts', '.storybook/*.tsx'],
+        defaultProject: './tsconfig.app.json'
+      },
+      tsconfigRootDir: import.meta.dirname
     }
+  },
+  plugins: {
+    'react-hooks': reactHooks,
+    'react-refresh': reactRefresh,
+    react,
+    prettier,
+    jsxRuntime: react.configs.flat['jsx-runtime'],
+    storybook
+  },
+  rules: {
+    ...reactHooks.configs.recommended.rules,
+    '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'no-var': 'error',
+    curly: 'error',
+    indent: ['warn', 2],
+    'linebreak-style': ['error', 'unix'],
+    quotes: ['error', 'single'],
+    'prefer-const': ['error', { destructuring: 'any', ignoreReadBeforeAssign: false }],
+    // semi: ['warn', 'never'],
+    'react/jsx-key': ['warn', { checkFragmentShorthand: true }],
+    'prettier/prettier': ['warn', { trillingComma: 'es5' }]
   }
-);
+});

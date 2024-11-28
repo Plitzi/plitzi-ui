@@ -21,12 +21,7 @@ export default defineConfig({
         // 'setupTests.ts',
         // 'node_modules'
       ],
-      tsconfigPath: './tsconfig.app.json',
-      afterDiagnostic: diagnostics => {
-        if (diagnostics.length) {
-          throw new Error('Failed to generate typescript definitions');
-        }
-      }
+      tsconfigPath: './tsconfig.app.json'
     }),
     {
       name: 'rename-node-modules',
@@ -62,7 +57,7 @@ export default defineConfig({
   css: { preprocessorOptions: { scss: { api: 'modern-compiler' } } },
   build: {
     lib: {
-      entry: resolve(__dirname, './src/index.ts'),
+      entry: [resolve(__dirname, './src/index.ts'), resolve(__dirname, './src/components/icon/svg/index.ts')],
       name: 'plitzi-ui',
       formats: ['es', 'cjs']
     },

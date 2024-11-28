@@ -30,8 +30,8 @@ const defaultThemeModules = import.meta.glob<{ default: unknown; STYLES_COMPONEN
 );
 
 const defaultTheme = Object.keys(defaultThemeModules).reduce((acum: object, fileKey: string) => {
-  const themeModule = defaultThemeModules?.[fileKey] ?? {};
-  if (!themeModule?.STYLES_COMPONENT_NAME) {
+  const themeModule = defaultThemeModules[fileKey];
+  if (!themeModule.STYLES_COMPONENT_NAME) {
     return acum;
   }
 

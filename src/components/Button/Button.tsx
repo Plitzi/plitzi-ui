@@ -60,8 +60,8 @@ const Button = ({
           icon,
           className: classNames(
             classNameTheme.icon,
-            (child.props as IconProps)?.className,
-            (child.props as IconProps)?.icon
+            (child.props as IconProps).className,
+            (child.props as IconProps).icon
           ),
           size,
           intent: 'custom'

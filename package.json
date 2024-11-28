@@ -114,8 +114,8 @@
   },
   "scripts": {
     "start": "storybook dev -p 6006",
-    "build:prod": "tsc && vite build",
-    "build:dev": "tsc && vite build --watch --minify false",
+    "build:prod": "tsc -p ./tsconfig.app.json && vite build",
+    "build:dev": "tsc -p ./tsconfig.app.json && vite build --watch --minify false",
     "build:analyze": "npx vite-bundle-visualizer",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",

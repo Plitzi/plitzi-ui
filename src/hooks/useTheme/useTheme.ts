@@ -55,7 +55,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
     if (typeof componentKey === 'string') {
       let callback = defaultStyleCVA;
       callback = get(theme, `components.${componentName}.${componentKey}`, defaultStyleCVA);
-      if (!callback || typeof callback !== 'function') {
+      if (typeof callback !== 'function') {
         return className ?? '';
       }
 
@@ -68,11 +68,11 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
         compKey = compKey as string;
         const callback = get(theme, `components.${componentName}.${String(compKey)}`, defaultStyleCVA);
         let value;
-        if (callback && typeof callback === 'function' && typeof className === 'object') {
+        if (typeof callback === 'function' && typeof className === 'object') {
           value = callback({ ...variant, className: get(className, compKey, '') });
-        } else if (callback && typeof callback === 'function' && typeof className === 'string' && i === 0) {
+        } else if (typeof callback === 'function' && typeof className === 'string' && i === 0) {
           value = callback({ ...variant, className });
-        } else if (callback && typeof callback === 'function') {
+        } else if (typeof callback === 'function') {
           value = callback(variant);
         }
 
@@ -88,7 +88,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
 
     return '';
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme, componentName, componentKey?.length, className, variant, defaultStyleCVA]) as useThemeResponse<
+  }, [theme, componentName, componentKey.length, className, variant, defaultStyleCVA]) as useThemeResponse<
     TSlots,
     TisString
   >;

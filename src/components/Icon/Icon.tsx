@@ -53,7 +53,7 @@ const Icon = ({
       }
 
       components.iconChildren = cloneElement<childProps>(child as ReactElement<childProps>, {
-        className: classNames(className, (child.props as childProps)?.className),
+        className: classNames(className, (child.props as childProps).className),
         ...props
       });
     });
