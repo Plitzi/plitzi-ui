@@ -57,7 +57,7 @@ export default defineConfig({
   css: { preprocessorOptions: { scss: { api: 'modern-compiler' } } },
   build: {
     lib: {
-      entry: [resolve(__dirname, './src/index.ts'), resolve(__dirname, './src/components/icon/svg/index.ts')],
+      entry: [resolve(__dirname, './src/index.ts')],
       name: 'plitzi-ui',
       formats: ['es', 'cjs']
     },

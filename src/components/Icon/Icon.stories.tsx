@@ -1,6 +1,7 @@
 // Relatives
 import Flex from '@components/Flex';
 import Icon from './Icon';
+import DesktopWithMobile from './svg/DesktopWithMobile';
 
 // Types
 import type { Meta, StoryObj } from '@storybook/react';
@@ -50,4 +51,13 @@ export const AsChildren: Story = {
 export const SvgIcon: Story = {
   args: {},
   render: args => <Icon {...args} icon="DesktopWithMobile" />
+};
+
+export const SvgIcon2: Story = {
+  args: {},
+  render: args => (
+    <Icon {...args}>
+      <DesktopWithMobile />
+    </Icon>
+  )
 };

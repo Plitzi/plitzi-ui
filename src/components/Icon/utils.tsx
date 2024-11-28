@@ -11,7 +11,7 @@ export const loadComponent = async (icon: string, extensions = ['', '.tsx', '.es
   for (const ext of extensions) {
     try {
       const filePath = `${icon}${ext}`;
-      const component = (await import(filePath)) as Module;
+      const component = (await import(/* @vite-ignore */ filePath)) as Module;
 
       return component;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
