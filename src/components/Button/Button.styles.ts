@@ -26,7 +26,7 @@ export default {
       },
       size: {
         base: 'py-2.5 px-4 text-base rounded-lg',
-        sm: 'py-1.5 px-3 text-sm rounded-lg',
+        sm: 'py-1.5 px-3 text-[14px] leading-[18px] rounded-lg',
         xs: 'py-1.5 px-2 text-xs rounded-lg',
         custom: ''
       },

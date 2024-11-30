@@ -27,7 +27,7 @@ export default {
         xs: 'text-xs w-3 h-3',
         sm: 'text-sm w-[14px] h-[14px]',
         base: 'w-4 h-4',
-        lg: 'text-lg w-5 h-5',
+        lg: 'text-lg w-[18px] h-[18px]',
         xl: 'text-xl w-6 h-6',
         '2xl': 'text-2xl w-7 h-7',
         '3xl': 'text-3xl w-8 h-8',
