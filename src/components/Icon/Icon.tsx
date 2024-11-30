@@ -5,22 +5,45 @@ import classNames from 'classnames';
 // Alias
 import useTheme from '@hooks/useTheme';
 
+// Relatives
+import { getIntent } from './utils';
+
 // Types
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type IconStyles from './Icon.styles';
 import type { variantKeys } from './Icon.styles';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
-export type IconProps = { children?: ReactNode; icon?: string; active?: boolean } & HTMLAttributes<HTMLElement> &
+export type IconProps = {
+  children?: ReactNode;
+  icon?: string;
+  active?: boolean;
+  disabled?: boolean;
+} & HTMLAttributes<HTMLElement> &
   useThemeSharedProps<typeof IconStyles, typeof variantKeys>;
 
 type childProps = { className?: string; [key: string]: unknown };
 
-const Icon = ({ className, children, icon, active = false, intent, size, cursor, ...props }: IconProps) => {
+const Icon = ({
+  className,
+  children,
+  icon,
+  active = false,
+  disabled = false,
+  intent,
+  size,
+  cursor,
+  ...props
+}: IconProps) => {
   className = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
     className,
     componentKey: 'root',
-    variant: { intent: active ? 'active' : intent, size, cursor }
+    variant: {
+      // intent: disabled ? 'disabled' : active ? 'active' : intent,
+      intent: getIntent(disabled, active, intent),
+      size,
+      cursor: disabled ? 'disabled' : cursor
+    }
   });
 
   const { iconChildren } = useMemo(() => {
