@@ -1,15 +1,15 @@
 // Packages
-import { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
+import { useCallback, useMemo } from 'react';
 
 // Alias
 import useTheme from '@hooks/useTheme';
 
 // Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type MetricInputStyles from './MetricInput.styles';
 import type { variantKeys } from './MetricInput.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, Ref } from 'react';
 
 export type MetricInputProps = {

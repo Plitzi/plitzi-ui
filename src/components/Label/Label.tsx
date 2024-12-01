@@ -2,9 +2,9 @@
 import useTheme from '@hooks/useTheme';
 
 // Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type LabelStyles from './Label.styles';
 import type { variantKeys } from './Label.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type LabelProps = {
   label?: string;

@@ -1,6 +1,6 @@
 // Packages
-import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import classNames from 'classnames';
+import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
 // Alias
 import useTheme from '@hooks/useTheme';
@@ -9,9 +9,9 @@ import useTheme from '@hooks/useTheme';
 import { getIntent } from './utils';
 
 // Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type IconStyles from './Icon.styles';
 import type { variantKeys } from './Icon.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
 export type IconProps = {

@@ -1,19 +1,19 @@
 // Packages
-import { useCallback } from 'react';
 import classNames from 'classnames';
+import { useCallback } from 'react';
 
 // Alias
-import useTheme from '@hooks/useTheme';
-import Label from '@components/Label';
 import ErrorMessage from '@components/ErrorMessage';
+import Label from '@components/Label';
+import useTheme from '@hooks/useTheme';
 
 // Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
-import type { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
-import type { LabelProps } from '@components/Label';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
+import type { LabelProps } from '@components/Label';
+import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
 
 export type InputProps = {
   ref?: Ref<HTMLInputElement>;

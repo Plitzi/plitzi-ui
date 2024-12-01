@@ -6,6 +6,7 @@ import tsEslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import prettier from 'eslint-plugin-prettier';
 import storybook from 'eslint-plugin-storybook';
+import importEslint from 'eslint-plugin-import';
 
 // const path = require('path');
 
@@ -25,6 +26,7 @@ export default tsEslint.config({
     }
   },
   plugins: {
+    import: importEslint,
     'react-hooks': reactHooks,
     'react-refresh': reactRefresh,
     react,
@@ -44,6 +46,22 @@ export default tsEslint.config({
     'prefer-const': ['error', { destructuring: 'any', ignoreReadBeforeAssign: false }],
     // semi: ['warn', 'never'],
     'react/jsx-key': ['warn', { checkFragmentShorthand: true }],
-    'prettier/prettier': ['warn', { trillingComma: 'es5' }]
+    'prettier/prettier': ['warn', { trillingComma: 'es5' }],
+    '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
+    'import/order': [
+      'error',
+      {
+        groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index'], 'type'],
+        pathGroups: [
+          { pattern: '@icons/**', group: 'internal' },
+          { pattern: '@components/**', group: 'internal' },
+          { pattern: '@hooks/**', group: 'internal' },
+          { pattern: '@/**', group: 'internal' } // , position: 'before'
+        ],
+        pathGroupsExcludedImportTypes: ['type'],
+        alphabetize: { order: 'asc', caseInsensitive: true },
+        'newlines-between': 'always-and-inside-groups'
+      }
+    ]
   }
 });

@@ -1,17 +1,16 @@
 // Packages
-import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import classNames from 'classnames';
+import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
 // Alias
-import useTheme from '@hooks/useTheme';
 import Icon from '@components/Icon';
+import useTheme from '@hooks/useTheme';
 
-// Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type ButtonStyles from './Button.styles';
 import type { variantKeys } from './Button.styles';
-import type { ReactElement, ReactNode, Ref } from 'react';
 import type { IconProps } from '@components/Icon';
+import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { ReactElement, ReactNode, Ref, ButtonHTMLAttributes } from 'react';
 
 export type ButtonProps = {
   ref?: Ref<HTMLButtonElement>;
@@ -22,7 +21,8 @@ export type ButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-} & useThemeSharedProps<typeof ButtonStyles, typeof variantKeys>;
+} & ButtonHTMLAttributes<HTMLButtonElement> &
+  useThemeSharedProps<typeof ButtonStyles, typeof variantKeys>;
 
 const Button = ({
   ref,

@@ -36,7 +36,7 @@ export default {
         disabled: 'cursor-not-allowed'
       },
       size: {
-        base: 'py-2.5 px-4 px-3 gap-2',
+        base: 'py-2.5 px-4 gap-2',
         sm: 'py-1.5 px-2 gap-1.5',
         xs: 'py-1 px-1 gap-1'
       }

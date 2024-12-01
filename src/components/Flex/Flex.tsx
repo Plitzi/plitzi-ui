@@ -2,9 +2,9 @@
 import useTheme from '@hooks/useTheme';
 
 // Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type FlexStyles from './Flex.styles';
 import type { variantKeys } from './Flex.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { HTMLAttributes, ReactNode, Ref } from 'react';
 
 export type FlexProps = { ref?: Ref<HTMLDivElement>; children?: ReactNode } & HTMLAttributes<HTMLDivElement> &

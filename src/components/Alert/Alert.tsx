@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import useTheme from '@hooks/useTheme';
 
 // Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type AlertStyles from './Alert.styles';
 import type { variantKeys } from './Alert.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export const ALERT_INTENT_SUCCESS = 'success';
 export const ALERT_INTENT_ERROR = 'error';

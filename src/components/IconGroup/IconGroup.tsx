@@ -2,22 +2,22 @@
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
 // Alias
-import useTheme from '@hooks/useTheme';
 import Flex from '@components/Flex';
 import Icon from '@components/Icon';
+import useTheme from '@hooks/useTheme';
 
 // Relatives
 import IconSeparator from './IconSeparator';
 
 // Types
-import type { useThemeSharedProps } from '@hooks/useTheme';
 import type IconGroupStyles from './IconGroup.styles';
 import type { variantKeys } from './IconGroup.styles';
-import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
-import type { variantKeys as variantKeysIcon } from '@components/Icon/Icon.styles';
-import type { ReactElement, ReactNode } from 'react';
-import type { IconProps } from '@components/Icon';
 import type { IconSeparatorProps } from './IconSeparator';
+import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
+import type { IconProps } from '@components/Icon';
+import type { variantKeys as variantKeysIcon } from '@components/Icon/Icon.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { ReactElement, ReactNode } from 'react';
 
 export type IconGroupProps = { children?: ReactNode } & useThemeSharedProps<
   typeof IconGroupStyles,

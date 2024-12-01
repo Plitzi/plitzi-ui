@@ -1,16 +1,16 @@
 // Relatives
-import Dummy from './Dummy';
 import Alert from './Alert';
 import Button from './Button';
-import Input from './Input';
+import Dummy from './Dummy';
 import ErrorMessage from './ErrorMessage';
+import Flex from './Flex';
+import Icon from './Icon';
+import IconGroup from './IconGroup';
+import Input from './Input';
 import Label from './Label';
 import MetricInput from './MetricInput';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
-import Icon from './Icon';
-import IconGroup from './IconGroup';
-import Flex from './Flex';
 
 export * from './Dummy';
 export * from './ErrorMessage';
