@@ -47,7 +47,7 @@ const PopupProvider = ({
   },
   limitMode
 }: PopupProviderProps) => {
-  const [, setRerender] = useState(0);
+  const [reRender, setRerender] = useState(0);
   const popupsRef = useRef<Popups>(popups);
   const placementCacheRef = useRef<{ [key: string]: PopupPlacement | undefined }>({
     ...popups.left.reduce((acum, popup) => ({ ...acum, [popup.id]: 'left' }), {}),
@@ -136,13 +136,18 @@ const PopupProvider = ({
       existsPopup,
       removePopup
     }),
-    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, popupsRef]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, reRender]
   );
 
   return (
     <PopupContext value={popupContextValue}>
       {renderLeftPopup && popupsRef.current.left.length > 0 && (
-        <PopupSidebar className="flex flex-col border-l border-gray-300 bg-white overflow-y-auto" placement="left" />
+        <PopupSidebar
+          className="flex flex-col border-l border-gray-300 bg-white overflow-y-auto"
+          placement="left"
+          placementTabs="left"
+        />
       )}
       {children}
       {renderFloatingPopup && popupsRef.current.floating.length > 0 && (

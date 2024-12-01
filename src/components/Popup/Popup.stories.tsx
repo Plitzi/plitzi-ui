@@ -67,9 +67,11 @@ export const Primary: Story = {
     };
 
     return (
-      <PopupProvider popups={popups}>
-        <div className="flex w-full h-[500px] bg-gray-300"></div>
-      </PopupProvider>
+      <div className="flex">
+        <PopupProvider popups={popups}>
+          <div className="flex grow h-[500px] bg-gray-300"></div>
+        </PopupProvider>
+      </div>
     );
     // return <Popup {...args} />;
   }
