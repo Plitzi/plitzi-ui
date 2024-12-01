@@ -1,5 +1,4 @@
 // Packages
-import classNames from 'classnames';
 import { useCallback, useMemo, useState } from 'react';
 
 // Alias
@@ -62,9 +61,9 @@ const Popup = ({
   onFocus,
   removePopup
 }: PopupProps) => {
-  className = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
+  const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
     className,
-    componentKey: 'root',
+    componentKey: ['root', 'btn'],
     variant: {}
   });
   const [x] = useState((window.innerWidth - width) / 2);
@@ -82,11 +81,13 @@ const Popup = ({
           key="0"
           intent="custom"
           size="custom"
-          className="h-6 w-6"
-          content="Left Sidebar"
+          border="none"
+          className={classNameTheme.btn}
+          title="Left Sidebar"
+          content=""
           onClick={handleClickEmbedLeft}
         >
-          <i className="fas fa-caret-square-left" />
+          <Button.Icon icon="fa-solid fa-angles-left" />
         </Button>
       );
     }
@@ -97,22 +98,24 @@ const Popup = ({
           key="1"
           intent="custom"
           size="custom"
-          className="h-6 w-6"
-          content="Right Sidebar"
+          border="none"
+          className={classNameTheme.btn}
+          title="Right Sidebar"
+          content=""
           onClick={handleClickEmbedRight}
         >
-          <i className="fas fa-caret-square-right" />
+          <Button.Icon icon="fa-solid fa-angles-right" />
         </Button>
       );
     }
 
     return actions;
-  }, [allowLeftSide, allowRightSide, handleClickEmbedLeft, handleClickEmbedRight]);
+  }, [allowLeftSide, allowRightSide, handleClickEmbedLeft, handleClickEmbedRight, classNameTheme.btn]);
 
   return (
     <ContainerDraggable
       key={id}
-      className={classNames('pointer-events-auto', className)}
+      className={classNameTheme.root}
       icon={icon}
       title={title}
       width={width}

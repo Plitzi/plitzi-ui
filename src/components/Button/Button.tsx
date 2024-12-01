@@ -37,12 +37,14 @@ const Button = ({
   size,
   intent,
   border,
+  justify,
+  items,
   ...buttonProps
 }: ButtonProps) => {
   const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys, false>('Button', {
     className,
     componentKey: ['root', 'icon'],
-    variant: { intent, size, border }
+    variant: { intent, size, border, justify, items }
   });
 
   const { iconChildren } = useMemo(() => {

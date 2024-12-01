@@ -5,13 +5,19 @@ import noop from 'lodash/noop';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Alias
-import Button from '@components/Button';
 import Card from '@components/Card';
-import ContainerResizable from '@components/ContainerResizable';
 import ContainerWindow from '@components/ContainerWindow';
+import useTheme from '@hooks/useTheme';
+
+// Relatives
+import ContainerDraggableContent from './ContainerDraggableContent';
+import ContainerDraggableHeader from './ContainerDraggableHeader';
 
 // Types
+import type ContainerDraggableStyles from './ContainerDraggable.styles';
+import type { variantKeys } from './ContainerDraggable.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ReactNode } from 'react';
 
 export const LIMIT_MODE_PARENT = 'parent';
@@ -40,7 +46,7 @@ export type ContainerDraggableProps = {
   onClose?: (e: MouseEvent | React.MouseEvent) => void;
   onFocus?: (e: MouseEvent | React.MouseEvent | TouchEvent | React.TouchEvent) => void;
   onCollapse?: (collapsed: boolean) => void;
-};
+} & useThemeSharedProps<typeof ContainerDraggableStyles, typeof variantKeys>;
 
 const ContainerDraggable = ({
   icon,
@@ -55,13 +61,21 @@ const ContainerDraggable = ({
   titleHeight = 34,
   allowResize = false,
   allowExternal = true,
-  resizeHandles = resizeHandlesDefault, // ['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne']
+  resizeHandles = resizeHandlesDefault,
   customActions = customActionsDefault,
   parentElement,
+  intent,
+  size,
   onClose = noop,
   onFocus = noop,
   onCollapse = noop
 }: ContainerDraggableProps) => {
+  className = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
+    className,
+    componentKey: 'root',
+    variant: { intent, size }
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const elementRef = useRef<HTMLDivElement>(null);
   const unmounted = useRef(false);
@@ -227,35 +241,6 @@ const ContainerDraggable = ({
     }
   };
 
-  const handleClickClose = useCallback(
-    (e: MouseEvent | React.MouseEvent) => {
-      e.stopPropagation();
-      onClose(e);
-    },
-    [onClose]
-  );
-
-  const handleClickCollapse = useCallback(
-    (e: MouseEvent | React.MouseEvent) => {
-      e.stopPropagation();
-      setCollapsed(state => {
-        onCollapse(!state);
-
-        return !state;
-      });
-    },
-    [onCollapse]
-  );
-
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (!collapsed) {
-        onFocus(e);
-      }
-    },
-    [onFocus, collapsed]
-  );
-
   const handleClickExternal = () => setExternalWindow(state => !state);
 
   const handleTouchMove = useCallback(
@@ -340,81 +325,42 @@ const ContainerDraggable = ({
 
   return (
     <Card
-      className={classNames(
-        'component__container-draggable absolute z-50 flex flex-col overflow-hidden bg-white',
-        className,
-        {
-          rounded: !collapsed,
-          'not-last:mr-4 !top-auto !left-auto relative rounded-tl rounded-tr': collapsed
-        }
-      )}
+      className={classNames('component__container-draggable', className)}
+      intent="white"
       rounded="none"
       shadow="dark"
       ref={elementRef}
       style={style}
     >
-      <div
-        className={classNames('pl-3 pr-1 py-1 flex justify-between items-center select-none text-white bg-blue-400', {
-          'border-b border-gray-300': !collapsed
-        })}
+      <ContainerDraggableHeader
+        intent={intent}
+        size={size}
+        collapsed={collapsed}
+        icon={icon}
+        title={title}
+        allowExternal={allowExternal}
+        customActions={customActions}
+        setCollapsed={setCollapsed}
+        setExternalWindow={setExternalWindow}
+        onClose={onClose}
+        onCollapse={onCollapse}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
+      />
+      <ContainerDraggableContent
+        ref={containerRef}
+        collapsed={collapsed}
+        onFocus={onFocus}
+        allowResize={allowResize}
+        resizeHandles={resizeHandles}
+        minConstraintsX={minConstraintsX}
+        minConstraintsY={minConstraintsY}
+        width={width}
+        height={height - titleHeight}
+        parentElement={parentElement}
       >
-        <label
-          className={classNames('flex items-center gap-1 truncate grow cursor-move', { '!cursor-auto': collapsed })}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-        >
-          {icon}
-          {title}
-        </label>
-        <div className="flex">
-          {customActions}
-          <Button
-            intent="custom"
-            size="custom"
-            className="h-6 w-6"
-            content="Collapse / Expand"
-            onClick={handleClickCollapse}
-          >
-            {!collapsed && <i className="fas fa-minus" />}
-            {collapsed && <i className="far fa-window-maximize" />}
-          </Button>
-          {allowExternal && (
-            <Button
-              intent="custom"
-              size="custom"
-              className="h-6 w-6"
-              content="External Window"
-              onClick={handleClickExternal}
-            >
-              <i className="fas fa-window-restore" />
-            </Button>
-          )}
-          <Button
-            intent="custom"
-            size="custom"
-            className="h-6 w-6 text-red-400 hover:text-red-500"
-            content="Close"
-            onClick={handleClickClose}
-          >
-            <i className="fas fa-times" />
-          </Button>
-        </div>
-      </div>
-      <div ref={containerRef} className={classNames('grow', { hidden: collapsed })} onClick={handleClick}>
-        {!allowResize && children}
-        {allowResize && (
-          <ContainerResizable
-            resizeHandles={resizeHandles}
-            minConstraintsX={minConstraintsX}
-            minConstraintsY={minConstraintsY}
-            width={width}
-            height={height - titleHeight}
-            parentElement={parentElement}
-          >
-            {children}
-          </ContainerResizable>
-        )}
-      </div>
+        {children}
+      </ContainerDraggableContent>
     </Card>
   );
 };

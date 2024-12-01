@@ -15,7 +15,7 @@ export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunc
 
 type ThemeSlot = { [key: string]: object };
 type ThemeClassName<T> = { [K in keyof T]?: string } | string;
-type VariantKeys = { [key: string]: readonly (string | number)[] };
+type VariantKeys = { [key: string]: readonly (string | number | boolean)[] };
 type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
 
 export type useThemeResponse<TSlot extends ThemeSlot, TisString = true> = TisString extends false

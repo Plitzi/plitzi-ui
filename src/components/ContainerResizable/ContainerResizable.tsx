@@ -271,7 +271,7 @@ const ContainerResizable = ({
           onMouseDown={handleMouseDown(resizeHandle)}
         >
           <div
-            className={classNames('transition-[background-color_0.5s_0.25s_ease-out]', {
+            className={classNames('transition-[background-color_0.5s_0.25s_ease-out] rounded-br-lg', {
               'h-1 w-full bg-gray-300 hover:bg-blue-400 cursor-ns-resize': resizeHandle === 's' || resizeHandle === 'n',
               'h-full w-1 bg-gray-300 hover:bg-blue-400 cursor-ew-resize': resizeHandle === 'e' || resizeHandle === 'w',
               'h-3 w-3 cursor-se-resize border-b-4 border-r-4 border-gray-300 hover:border-blue-400 active:pointer-events-none':
