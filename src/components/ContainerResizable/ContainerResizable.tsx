@@ -282,7 +282,7 @@ const ContainerResizable = ({
   }
 
   return (
-    <div ref={containerRef} className={classNames(className, { 'group-5': hoverMode, grow: autoGrow })}>
+    <div ref={containerRef} className={classNames(classNameTheme.root, { 'group-5': hoverMode, grow: autoGrow })}>
       <div
         ref={containerInternalRef}
         className={classNames(classNameTheme.rootInternal, {
