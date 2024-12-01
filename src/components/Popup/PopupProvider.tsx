@@ -120,6 +120,7 @@ const PopupProvider = ({
         }
 
         popupsArr[placement] = popupsArr[placement].toSorted((_, popup2) => (popup2.id === popupId ? sort : 0));
+        setRerender(Date.now());
       },
     []
   );
