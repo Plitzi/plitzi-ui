@@ -15,10 +15,6 @@ import usePopup from './usePopup';
 import type { PopupInstance } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
 
-export const POPUP_SIDEBAR_PLACEMENT_TOP = 'top';
-export const POPUP_SIDEBAR_PLACEMENT_LEFT = 'left';
-export const POPUP_SIDEBAR_PLACEMENT_RIGHT = 'right';
-
 const popupsActiveDefault: string[] = [];
 
 export type PopupSidebarProps = {
@@ -36,7 +32,7 @@ export type PopupSidebarProps = {
 
 const PopupSidebar = ({
   className = '',
-  placement = POPUP_SIDEBAR_PLACEMENT_RIGHT,
+  placement = 'right',
   placementTabs = 'right',
   canHide = false,
   multiSelect = false,
@@ -60,11 +56,11 @@ const PopupSidebar = ({
   }, [placement, popupLeft, popupRight]);
   const containerRef = useRef<HTMLDivElement>(undefined);
   const resizeHandles = useMemo<ResizeHandle[]>(() => {
-    if (placementTabs === POPUP_SIDEBAR_PLACEMENT_TOP) {
+    if (placementTabs === 'top') {
       return ['s'];
     }
 
-    if (placementTabs === POPUP_SIDEBAR_PLACEMENT_LEFT) {
+    if (placementTabs === 'left') {
       return ['e'];
     }
 
@@ -159,7 +155,7 @@ const PopupSidebar = ({
     return undefined;
   }
 
-  if (popupsActive.length === 0 && placementTabs !== POPUP_SIDEBAR_PLACEMENT_TOP && canHide) {
+  if (popupsActive.length === 0 && placementTabs !== 'top' && canHide) {
     return (
       <PopupSidebarTabs
         className={className}
@@ -183,8 +179,8 @@ const PopupSidebar = ({
     >
       <div
         className={classNames('h-full flex grow bg-white', {
-          'flex-col': placementTabs === POPUP_SIDEBAR_PLACEMENT_TOP,
-          'flex-row-reverse': placementTabs === POPUP_SIDEBAR_PLACEMENT_RIGHT
+          'flex-col': placementTabs === 'top',
+          'flex-row-reverse': placementTabs === 'right'
         })}
       >
         <PopupSidebarTabs placementTabs={placementTabs} popupsActive={popupsActive} onTabClick={handleClickTab} />

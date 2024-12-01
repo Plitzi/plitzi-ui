@@ -34,7 +34,7 @@ const PopupSidebarTabs = ({
     return [];
   }, [placementTabs, popupLeft, popupRight]);
 
-  const handleClickPopup = (popupId: string) => () => placementPopup?.(popupId)('POPUP_PLACEMENT_FLOATING');
+  const handleClickPopup = (popupId: string) => () => placementPopup?.(popupId)('floating');
 
   const handleClickFocusPopup = (popupId: string) => () => onTabClick(popupId);
 

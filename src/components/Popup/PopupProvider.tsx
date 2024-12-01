@@ -47,9 +47,13 @@ const PopupProvider = ({
   },
   limitMode
 }: PopupProviderProps) => {
-  const [_, setRerender] = useState(0);
+  const [, setRerender] = useState(0);
   const popupsRef = useRef<Popups>(popups);
-  const placementCacheRef = useRef<{ [key: string]: PopupPlacement | undefined }>({});
+  const placementCacheRef = useRef<{ [key: string]: PopupPlacement | undefined }>({
+    ...popups.left.reduce((acum, popup) => ({ ...acum, [popup.id]: 'left' }), {}),
+    ...popups.right.reduce((acum, popup) => ({ ...acum, [popup.id]: 'right' }), {}),
+    ...popups.floating.reduce((acum, popup) => ({ ...acum, [popup.id]: 'floating' }), {})
+  });
 
   const addPopup = useCallback((id: string, component: ReactNode, settings: PopupSettings = {} as PopupSettings) => {
     if (!settings.placement) {
@@ -58,6 +62,7 @@ const PopupProvider = ({
 
     popupsRef.current[settings.placement].push({ id, component, settings });
     placementCacheRef.current = { ...placementCacheRef.current, [id]: settings.placement ?? 'floating' };
+    setRerender(Date.now());
   }, []);
 
   const removePopup = useCallback(
@@ -85,7 +90,6 @@ const PopupProvider = ({
 
   const placementPopup = useCallback(
     (popupId: string) => (placement: PopupPlacement) => {
-      console.log('hey');
       const currentPlacement = placementCacheRef.current[popupId];
       if (!currentPlacement) {
         return;

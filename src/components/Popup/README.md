@@ -11,7 +11,7 @@ example calls
       );
       addPopup('toolbar', <StyleInspector id={id} internal={internal} />, {
         title,
-        placement: 'POPUP_PLACEMENT_FLOATING'
+        placement: 'floating'
       });
     }
 ```
