@@ -8,10 +8,10 @@ import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
+import ContainerResizableStyles from './ContainerResizable.styles';
 import { snapToGrid } from './utils';
 
 // Types
-import type ContainerResizableStyles from './ContainerResizable.styles';
 import type { variantKeys } from './ContainerResizable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
@@ -19,7 +19,6 @@ import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
 export type ResizeHandle = 'se' | 's' | 'e' | 'n' | 'w' | 'nw' | 'sw' | 'ne';
 
 export type ContainerResizableProps = {
-  classNameInternal?: string;
   parentElement?: HTMLElement | null;
   hoverMode?: boolean;
   autoGrow?: boolean;
@@ -43,7 +42,6 @@ const resizeHandlesDefault: ResizeHandle[] = ['se'];
 
 const ContainerResizable = ({
   className,
-  classNameInternal = '',
   parentElement,
   hoverMode = false,
   autoGrow = true,
@@ -62,12 +60,11 @@ const ContainerResizable = ({
   handle,
   onChange = noop
 }: ContainerResizableProps) => {
-  className = useTheme<typeof ContainerResizableStyles, typeof variantKeys>('ContainerResizable', {
+  const classNameTheme = useTheme<typeof ContainerResizableStyles, typeof variantKeys, false>('ContainerResizable', {
     className,
-    componentKey: 'root',
+    componentKey: ['root', 'rootInternal'],
     variant: {}
   });
-  const [allResizeHandles] = useState(['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne']);
   const [width, setWidth] = useState(widthProp);
   const [height, setHeight] = useState(heightProp);
   const [clientX, setClientX] = useState(0);
@@ -260,28 +257,19 @@ const ContainerResizable = ({
       return (
         <div
           key={resizeHandle}
-          className={classNames('absolute flex justify-center items-center z-[40]', {
-            'hidden group-5-hover:flex': hoverMode,
-            'w-auto left-0 right-0 top-0': resizeHandle === 'n',
-            'w-auto left-0 right-0 bottom-0': resizeHandle === 's',
-            'right-0 bottom-0': resizeHandle === 'se',
-            'h-auto top-0 bottom-0 right-0': resizeHandle === 'e',
-            'h-auto top-0 left-0 bottom-0': resizeHandle === 'w'
-          })}
+          className={ContainerResizableStyles.handlerContainer({ position: resizeHandle, hover: hoverMode })}
           onMouseDown={handleMouseDown(resizeHandle)}
         >
-          <div
-            className={classNames('transition-[background-color_0.5s_0.25s_ease-out] rounded-br-lg', {
-              'h-1 w-full bg-gray-300 hover:bg-blue-400 cursor-ns-resize': resizeHandle === 's' || resizeHandle === 'n',
-              'h-full w-1 bg-gray-300 hover:bg-blue-400 cursor-ew-resize': resizeHandle === 'e' || resizeHandle === 'w',
-              'h-3 w-3 cursor-se-resize border-b-4 border-r-4 border-gray-300 hover:border-blue-400 active:pointer-events-none':
-                resizeHandle === 'se'
-            })}
-          />
+          <div className={ContainerResizableStyles.handler({ position: resizeHandle })} />
         </div>
       );
     },
     [handle, handleMouseDown, hoverMode]
+  );
+
+  const resizeHandlesChildren = useMemo(
+    () => resizeHandles.map(h => renderResizeHandle(h)),
+    [resizeHandles, renderResizeHandle]
   );
 
   const style = {} as CSSProperties;
@@ -294,13 +282,10 @@ const ContainerResizable = ({
   }
 
   return (
-    <div
-      ref={containerRef}
-      className={classNames('relative flex flex-col', className, { 'group-5': hoverMode, grow: autoGrow })}
-    >
+    <div ref={containerRef} className={classNames(className, { 'group-5': hoverMode, grow: autoGrow })}>
       <div
         ref={containerInternalRef}
-        className={classNames('flex flex-col grow overflow-auto', classNameInternal, {
+        className={classNames(classNameTheme.rootInternal, {
           'pt-1': resizeHandles.includes('n'),
           'pb-1': resizeHandles.includes('s'),
           'pl-1': resizeHandles.includes('w'),
@@ -310,7 +295,7 @@ const ContainerResizable = ({
       >
         {children}
       </div>
-      {resizeHandles.filter(h => allResizeHandles.includes(h)).map(h => renderResizeHandle(h))}
+      {resizeHandlesChildren}
     </div>
   );
 };

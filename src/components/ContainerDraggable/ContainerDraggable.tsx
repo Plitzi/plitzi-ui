@@ -318,9 +318,12 @@ const ContainerDraggable = ({
     );
   }
 
-  let style = { top: yRef.current, left: xRef.current, width: '', height: '' };
+  let style = { top: yRef.current, left: xRef.current, width: undefined, height: undefined };
   if (!allowResize) {
-    style = { ...style, width: `${width}px`, height: `${height}px` };
+    style = { ...style, width: `${width}px`, height: `${height}px` } as typeof style & {
+      width: string;
+      height: string;
+    };
   }
 
   return (
