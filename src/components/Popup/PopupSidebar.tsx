@@ -1,19 +1,23 @@
 // Packages
-import classNames from 'classnames';
 import noop from 'lodash/noop';
 import { use, useMemo, useState, useRef, useCallback, useEffect } from 'react';
 
 // Alias
 import ContainerResizable from '@components/ContainerResizable';
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
+import useTheme from '@hooks/useTheme';
 
 // Relatives
 import PopupSidebarTabs from './PopupSidebarTabs';
 import usePopup from './usePopup';
 
 // Types
+import type PopupStyles from './Popup.styles';
+import type { variantKeys } from './Popup.styles';
 import type { PopupInstance } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 
 const popupsActiveDefault: string[] = [];
 
@@ -28,7 +32,7 @@ export type PopupSidebarProps = {
   popupsActive?: string[];
   onSelect?: (popupId: string, popupsActive: string[]) => void;
   onLoadPopups?: (popupsActive: string[]) => void;
-};
+} & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupSidebar = ({
   className = '',
@@ -42,6 +46,11 @@ const PopupSidebar = ({
   onSelect = noop,
   onLoadPopups = noop
 }: PopupSidebarProps) => {
+  const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
+    className,
+    componentKey: ['sidebarRoot', 'sidebar', 'sidebarContainer'],
+    variant: { placement: placementTabs }
+  });
   const { popupLeft, popupRight } = usePopup();
   const popups = useMemo<PopupInstance[]>(() => {
     if (placement === 'left') {
@@ -54,7 +63,20 @@ const PopupSidebar = ({
 
     return [];
   }, [placement, popupLeft, popupRight]);
-  const containerRef = useRef<HTMLDivElement>(undefined);
+  const [popupsActive, setPopupsActive] = useState(() => {
+    const popupsSelected = popupsActiveProp.length > 0 ? popupsActiveProp : popups.map(popup => popup.id);
+    if (multiSelect) {
+      return popupsSelected;
+    }
+
+    if (popupsSelected.length > 0) {
+      return [popupsSelected[0]];
+    }
+
+    return [];
+  });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [resizeHeight, setResizeHeight] = useState(Infinity);
   const resizeHandles = useMemo<ResizeHandle[]>(() => {
     if (placementTabs === 'top') {
       return ['s'];
@@ -67,71 +89,42 @@ const PopupSidebar = ({
     return ['w'];
   }, [placementTabs]);
   const { rootDOM } = use(ContainerRootContext);
-  const [, setRerender] = useState(false);
-  const prevPopups = useRef(popups);
-  const popupsActiveRef = useRef<string[]>([]);
-  popupsActiveRef.current = popupsActiveProp.filter(item => popups.map(popup => popup.id).includes(item));
 
-  const processItems = useCallback(
-    (prevItems: PopupInstance[], items: PopupInstance[]) => {
-      if (items.length === 0 && popupsActiveRef.current.length === 0) {
-        return popupsActiveRef.current;
-      }
+  useDidUpdateEffect(() => {
+    setPopupsActive(popupsActiveProp);
+  }, [popupsActiveProp]);
 
-      if (items.length === 0 && popupsActiveRef.current.length > 0) {
-        return [];
-      }
+  useEffect(() => {
+    let resizeHeight = Infinity;
+    if (containerRef.current && popupsActive.length > 1) {
+      resizeHeight = containerRef.current.offsetHeight / popupsActive.length;
+    }
 
-      if (items.length > 0 && popupsActiveRef.current.length === 0 && !canHide) {
-        return [items[items.length - 1].id];
-      }
-
-      if (prevItems.length > items.length) {
-        // Items Removed
-        const itemsRemoved = prevItems.filter(item => !items.includes(item));
-
-        return popupsActiveRef.current.filter(item => !itemsRemoved.map(item => item.id).includes(item));
-      }
-
-      // Items Added
-      const itemsAdded = items.filter(item => !prevItems.includes(item));
-      if (itemsAdded.length === 0) {
-        return popupsActiveRef.current;
-      }
-
-      return [...popupsActiveRef.current, ...itemsAdded.map(item => item.id)];
-    },
-    [popupsActiveRef, canHide]
-  );
+    setResizeHeight(resizeHeight);
+  }, [popupsActive]);
 
   const handleClickTab = useCallback(
     (popupId: string) => {
-      if (popupsActiveRef.current.includes(popupId) && canHide) {
-        popupsActiveRef.current = popupsActiveRef.current.filter(i => i !== popupId);
-        setRerender(state => !state);
-        onSelect(popupId, [...popupsActiveRef.current]);
-
+      if (popupsActive.includes(popupId) && popupsActive.length === 1) {
         return;
       }
 
-      if (multiSelect) {
-        popupsActiveRef.current = [...popupsActiveRef.current, popupId];
+      let newPopupsActive = popupsActive;
+      if (popupsActive.includes(popupId) && canHide) {
+        newPopupsActive = popupsActive.filter(i => i !== popupId);
+      } else if (popupsActive.includes(popupId)) {
+        newPopupsActive = popupsActive.filter(i => i !== popupId);
+      } else if (multiSelect) {
+        newPopupsActive = [...popupsActive, popupId];
       } else {
-        popupsActiveRef.current = [popupId];
+        newPopupsActive = [popupId];
       }
 
-      setRerender(state => !state);
-      onSelect(popupId, [...popupsActiveRef.current]);
+      onSelect(popupId, newPopupsActive);
+      setPopupsActive(newPopupsActive);
     },
-    [multiSelect, setRerender, canHide, onSelect]
+    [multiSelect, canHide, onSelect, popupsActive]
   );
-
-  const popupsActive = useMemo(() => {
-    popupsActiveRef.current = processItems(prevPopups.current, popups);
-    prevPopups.current = popups;
-
-    return popupsActiveRef.current;
-  }, [popups, processItems]);
 
   useEffect(() => {
     if (popupsActive.length > 0) {
@@ -139,16 +132,26 @@ const PopupSidebar = ({
     }
   }, [popups, onLoadPopups, popupsActive]);
 
-  const setContainerRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (!containerRef.current) {
-        containerRef.current = node;
-        setRerender(state => !state);
-      } else {
-        containerRef.current = node;
-      }
-    },
-    [containerRef, setRerender]
+  const popupsChildren = useMemo(
+    () =>
+      popups
+        .filter(pop => popupsActive.includes(pop.id))
+        .map((popup, i) => {
+          if (i !== popupsActive.length - 1) {
+            return (
+              <ContainerResizable key={popup.id} resizeHandles={['s']} height={resizeHeight} autoGrow={false}>
+                <div className="flex flex-col grow min-h-0 basis-0">{popup.component}</div>
+              </ContainerResizable>
+            );
+          }
+
+          return (
+            <div key={popup.id} className="flex flex-col grow min-h-0 basis-0">
+              {popup.component}
+            </div>
+          );
+        }),
+    [popups, popupsActive, resizeHeight]
   );
 
   if (!popups.length) {
@@ -168,7 +171,7 @@ const PopupSidebar = ({
 
   return (
     <ContainerResizable
-      className={className}
+      className={classNameTheme.sidebarRoot}
       autoGrow={false}
       minConstraintsX={minWidth}
       minConstraintsY={Infinity}
@@ -177,39 +180,10 @@ const PopupSidebar = ({
       resizeHandles={resizeHandles}
       parentElement={rootDOM}
     >
-      <div
-        className={classNames('h-full flex grow bg-white', {
-          'flex-col': placementTabs === 'top',
-          'flex-row-reverse': placementTabs === 'right'
-        })}
-      >
+      <div className={classNameTheme.sidebar}>
         <PopupSidebarTabs placementTabs={placementTabs} popupsActive={popupsActive} onTabClick={handleClickTab} />
-        <div
-          ref={setContainerRef}
-          className={classNames('flex flex-col grow', { 'min-w-0 overflow-y-auto': placementTabs !== 'top' })}
-        >
-          {popups
-            .filter(pop => popupsActive.includes(pop.id))
-            .map((popup, i) => {
-              let height = Infinity;
-              if (containerRef.current && popupsActive.length > 1) {
-                height = containerRef.current.offsetHeight / popupsActive.length;
-              }
-
-              if (i !== popupsActive.length - 1) {
-                return (
-                  <ContainerResizable key={popup.id} resizeHandles={['s']} height={height} autoGrow={false}>
-                    <div className="flex flex-col grow min-h-0 basis-0">{popup.component}</div>
-                  </ContainerResizable>
-                );
-              }
-
-              return (
-                <div key={popup.id} className="flex flex-col grow min-h-0 basis-0">
-                  {popup.component}
-                </div>
-              );
-            })}
+        <div ref={containerRef} className={classNameTheme.sidebarContainer}>
+          {popupsChildren}
         </div>
       </div>
     </ContainerResizable>

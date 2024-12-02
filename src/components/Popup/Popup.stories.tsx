@@ -28,10 +28,21 @@ export const Primary: Story = {
       left: [
         {
           id: 'popup-1',
-          component: <div>Hello World</div>,
+          component: <div>Hello World 1</div>,
           settings: {
             icon: <i className="fa-solid fa-sliders text-base" />,
             title: 'Popup 1',
+            allowLeftSide: true,
+            allowRightSide: true,
+            resizeHandles: ['se'] as ResizeHandle[]
+          }
+        },
+        {
+          id: 'popup-4',
+          component: <div>Hello World 4</div>,
+          settings: {
+            icon: <i className="fa-solid fa-sliders text-base" />,
+            title: 'Popup 4',
             allowLeftSide: true,
             allowRightSide: true,
             resizeHandles: ['se'] as ResizeHandle[]
@@ -41,7 +52,7 @@ export const Primary: Story = {
       right: [
         {
           id: 'popup-2',
-          component: <div>Hello World</div>,
+          component: <div>Hello World 2</div>,
           settings: {
             icon: <i className="fa-solid fa-sliders text-base" />,
             title: 'Popup 2',
@@ -54,7 +65,7 @@ export const Primary: Story = {
       floating: [
         {
           id: 'popup-3',
-          component: <div>Hello World</div>,
+          component: <div>Hello World 3</div>,
           settings: {
             icon: <i className="fa-solid fa-sliders text-base" />,
             title: 'Popup 3',
@@ -68,7 +79,7 @@ export const Primary: Story = {
 
     return (
       <div className="flex">
-        <PopupProvider popups={popups}>
+        <PopupProvider popups={popups} multiSelect>
           <div className="flex grow h-[500px] bg-gray-200"></div>
         </PopupProvider>
       </div>

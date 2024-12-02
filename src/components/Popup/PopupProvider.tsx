@@ -29,6 +29,7 @@ export type PopupProviderProps = {
   renderLeftPopup?: boolean;
   renderRightPopup?: boolean;
   renderFloatingPopup?: boolean;
+  multiSelect?: boolean;
   popups?: Popups;
   limitMode?: ContainerDraggableProps['limitMode'];
 };
@@ -40,6 +41,7 @@ const PopupProvider = ({
   renderLeftPopup = true,
   renderRightPopup = true,
   renderFloatingPopup = true,
+  multiSelect = false,
   popups = {
     left: [],
     right: [],
@@ -143,7 +145,9 @@ const PopupProvider = ({
 
   return (
     <PopupContext value={popupContextValue}>
-      {renderLeftPopup && popupsRef.current.left.length > 0 && <PopupSidebar placement="left" placementTabs="left" />}
+      {renderLeftPopup && popupsRef.current.left.length > 0 && (
+        <PopupSidebar placement="left" placementTabs="left" multiSelect={multiSelect} />
+      )}
       {children}
       {renderFloatingPopup && popupsRef.current.floating.length > 0 && (
         <PopupFloatingArea
@@ -154,7 +158,7 @@ const PopupProvider = ({
           )}
         />
       )}
-      {renderRightPopup && popupsRef.current.right.length > 0 && <PopupSidebar />}
+      {renderRightPopup && popupsRef.current.right.length > 0 && <PopupSidebar multiSelect={multiSelect} />}
     </PopupContext>
   );
 };
