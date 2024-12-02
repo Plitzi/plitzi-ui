@@ -69,7 +69,7 @@ export const Primary: Story = {
     return (
       <div className="flex">
         <PopupProvider popups={popups}>
-          <div className="flex grow h-[500px] bg-gray-300"></div>
+          <div className="flex grow h-[500px] bg-gray-200"></div>
         </PopupProvider>
       </div>
     );

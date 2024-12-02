@@ -143,13 +143,7 @@ const PopupProvider = ({
 
   return (
     <PopupContext value={popupContextValue}>
-      {renderLeftPopup && popupsRef.current.left.length > 0 && (
-        <PopupSidebar
-          className="flex flex-col border-l border-gray-300 bg-white overflow-y-auto"
-          placement="left"
-          placementTabs="left"
-        />
-      )}
+      {renderLeftPopup && popupsRef.current.left.length > 0 && <PopupSidebar placement="left" placementTabs="left" />}
       {children}
       {renderFloatingPopup && popupsRef.current.floating.length > 0 && (
         <PopupFloatingArea
@@ -160,9 +154,7 @@ const PopupProvider = ({
           )}
         />
       )}
-      {renderRightPopup && popupsRef.current.right.length > 0 && (
-        <PopupSidebar className="flex flex-col border-l border-gray-300 bg-white overflow-y-auto" />
-      )}
+      {renderRightPopup && popupsRef.current.right.length > 0 && <PopupSidebar />}
     </PopupContext>
   );
 };
