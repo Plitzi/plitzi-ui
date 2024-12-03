@@ -41,7 +41,7 @@ export default {
       size: 'base'
     }
   }),
-  separator: cva('bg-gray-300', {
+  separator: cva('bg-gray-500', {
     variants: {
       intent: {
         default: ''
