@@ -17,6 +17,7 @@ import type { MouseEventHandler, ReactElement, ReactNode } from 'react';
 
 export type ContainerCollapsableProps = {
   collapsed?: boolean;
+  autoGrow?: boolean;
   children?: ReactNode;
   onChange?: (collapsed: boolean) => void;
 } & useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys>;
@@ -24,14 +25,15 @@ export type ContainerCollapsableProps = {
 const ContainerCollapsable = ({
   className = '',
   collapsed: collapsedProp = false,
+  autoGrow = false,
   children,
   onChange
 }: ContainerCollapsableProps) => {
+  const [collapsed, setCollapsed] = useState(collapsedProp);
   const classNameTheme = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys, false>(
     'ContainerCollapsable',
-    { className, componentKey: ['root'], variant: {} }
+    { className, componentKey: ['root'], variant: { grow: autoGrow ? !collapsed : false } }
   );
-  const [collapsed, setCollapsed] = useState(collapsedProp);
 
   const handleClick: MouseEventHandler<HTMLDivElement> = useCallback(
     e => {

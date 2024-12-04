@@ -3,16 +3,21 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: [],
-  size: []
+  size: [],
+  grow: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'ContainerCollapsable';
 
 export default {
-  root: cva('flex flex-col', {
+  root: cva('flex flex-col transition-all transition-200', {
     variants: {
       intent: {},
-      size: {}
+      size: {},
+      grow: {
+        true: 'grow',
+        false: ''
+      }
     },
     compoundVariants: [],
     defaultVariants: {}
@@ -21,6 +26,6 @@ export default {
   headerContainer: cva('flex items-center gap-2'),
   headerSlot: cva('flex gap-2'),
   headerTitle: cva('m-0 flex items-center grow cursor-pointer'),
-  headerIconContainer: cva(''),
+  headerIconContainer: cva('flex items-center justify-center w-4'),
   content: cva('')
 };
