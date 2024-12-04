@@ -10,11 +10,12 @@ import type ButtonStyles from './Button.styles';
 import type { variantKeys } from './Button.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactElement, ReactNode, Ref, ButtonHTMLAttributes } from 'react';
+import type { ReactElement, ReactNode, Ref, ButtonHTMLAttributes, JSX } from 'react';
 
 export type ButtonProps = {
   ref?: Ref<HTMLButtonElement>;
   children?: ReactNode;
+  testId?: string;
   content?: ReactNode;
   icon?: string;
   iconPlacement?: 'before' | 'after' | 'both' | 'none';
@@ -28,6 +29,7 @@ const Button = ({
   ref,
   children,
   content = 'Button',
+  testId,
   className = '',
   icon = '',
   iconPlacement = 'none',
@@ -78,9 +80,10 @@ const Button = ({
     <button
       ref={ref}
       type={type}
-      className={classNames(classNameTheme.root)}
+      data-testid={testId}
+      className={classNameTheme.root}
       disabled={disabled}
-      {...(buttonProps as React.JSX.IntrinsicElements['button'])}
+      {...(buttonProps as JSX.IntrinsicElements['button'])}
     >
       {!loading && content && (
         <>

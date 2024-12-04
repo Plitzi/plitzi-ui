@@ -1,4 +1,5 @@
 // Relatives
+import Accordion from './Accordion';
 import Alert from './Alert';
 import Button from './Button';
 import Card from './Card';
@@ -19,6 +20,7 @@ import Popup from './Popup';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 
+export * from './Accordion';
 export * from './Dummy';
 export * from './ErrorMessage';
 export * from './Card';
@@ -40,6 +42,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Accordion,
   Dummy,
   Alert,
   Button,
