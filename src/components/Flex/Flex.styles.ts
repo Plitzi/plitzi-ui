@@ -6,7 +6,8 @@ export const variantKeys = {
   wrap: ['wrap', 'nowrap', 'wrap-reverse'],
   items: ['start', 'end', 'center', 'baseline', 'stretch'],
   justify: ['normal', 'start', 'end', 'center', 'between', 'around', 'evenly', 'stretch'],
-  gap: [0, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16]
+  gap: [0, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16],
+  grow: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Flex';
@@ -19,6 +20,10 @@ export default {
         row: '',
         'row-reverse': 'flex-row-reverse',
         'col-reverse': 'flex-col-reverse'
+      },
+      grow: {
+        true: 'flex-grow',
+        false: ''
       },
       wrap: {
         wrap: 'flex-wrap',
@@ -67,7 +72,8 @@ export default {
       wrap: 'nowrap',
       justify: 'start',
       items: 'start',
-      gap: 0
+      gap: 0,
+      grow: false
     }
   })
 };

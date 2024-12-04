@@ -10,7 +10,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'ContainerCollapsable';
 
 export default {
-  root: cva('flex flex-col transition-all transition-200', {
+  root: cva('flex flex-col', {
     variants: {
       intent: {},
       size: {},

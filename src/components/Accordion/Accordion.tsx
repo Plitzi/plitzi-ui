@@ -41,6 +41,7 @@ const Accordion = ({
   items: flexItems,
   justify,
   gap = 4,
+  grow,
   onChange
 }: AccordionProps) => {
   className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
@@ -138,6 +139,7 @@ const Accordion = ({
       items={flexItems}
       justify={justify}
       gap={gap}
+      grow={itemSelected.length > 0 ? grow : false}
     >
       <AccordionProvider onUnloadItem={handleUnloadItem}>{items}</AccordionProvider>
     </Flex>

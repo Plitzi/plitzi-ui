@@ -39,6 +39,7 @@ const AccordionItem = ({
   items,
   justify,
   gap = 4,
+  grow,
   onClick
 }: AccordionItemProps) => {
   const { onUnloadItem } = useContext(AccordionContext);
@@ -96,6 +97,7 @@ const AccordionItem = ({
       items={items}
       justify={justify}
       gap={gap}
+      grow={isOpen ? grow : false}
     >
       {header}
       {isOpen && content}

@@ -35,32 +35,34 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   render: args => (
-    <Accordion {...args}>
-      <Accordion.Item>
-        <Accordion.Item.Header title="Item 1">
-          <div className="border border-white px-2 py-1">Header Slot</div>
-        </Accordion.Item.Header>
-        <Accordion.Item.Content>
-          <Flex direction="column">Hello World</Flex>
-        </Accordion.Item.Content>
-      </Accordion.Item>
-      <Accordion.Item>
-        <Accordion.Item.Header title="Item 2" isError>
-          <div className="border border-white px-2 py-1">Header Slot</div>
-        </Accordion.Item.Header>
-        <Accordion.Item.Content>
-          <Flex direction="column">Hello World 2</Flex>
-        </Accordion.Item.Content>
-      </Accordion.Item>
-      <Accordion.Item>
-        <Accordion.Item.Header title="Item 2" isWarning>
-          <div className="border border-white px-2 py-1">Header Slot</div>
-        </Accordion.Item.Header>
-        <Accordion.Item.Content>
-          <Flex direction="column">Hello World 3</Flex>
-        </Accordion.Item.Content>
-      </Accordion.Item>
-    </Accordion>
+    <div className="flex flex-col h-[400px] bg-red-300">
+      <Accordion {...args} grow>
+        <Accordion.Item grow>
+          <Accordion.Item.Header title="Item 1">
+            <div className="border border-white px-2 py-1">Header Slot</div>
+          </Accordion.Item.Header>
+          <Accordion.Item.Content>
+            <Flex direction="column">Hello World</Flex>
+          </Accordion.Item.Content>
+        </Accordion.Item>
+        <Accordion.Item>
+          <Accordion.Item.Header title="Item 2" isError>
+            <div className="border border-white px-2 py-1">Header Slot</div>
+          </Accordion.Item.Header>
+          <Accordion.Item.Content>
+            <Flex direction="column">Hello World 2</Flex>
+          </Accordion.Item.Content>
+        </Accordion.Item>
+        <Accordion.Item>
+          <Accordion.Item.Header title="Item 2" isWarning>
+            <div className="border border-white px-2 py-1">Header Slot</div>
+          </Accordion.Item.Header>
+          <Accordion.Item.Content>
+            <Flex direction="column">Hello World 3</Flex>
+          </Accordion.Item.Content>
+        </Accordion.Item>
+      </Accordion>
+    </div>
   )
 };
 
