@@ -22,6 +22,7 @@ type AccordionItemId = Exclude<AccordionItemProps['id'], undefined>;
 export type AccordionProps = {
   children?: ReactNode;
   multi?: boolean;
+  alwaysOpen?: boolean;
   defaultIndex?: AccordionItemId[];
   index?: AccordionItemId[];
   testId?: string;
@@ -36,6 +37,7 @@ const Accordion = ({
   defaultIndex = emptyArray,
   index = emptyArray,
   multi = false,
+  alwaysOpen = true,
   testId = '',
   intent,
   direction = 'column',
@@ -53,7 +55,18 @@ const Accordion = ({
     className,
     variant: { intent, size }
   });
-  const [itemSelected, setItemSelected] = useState<AccordionItemId[]>(() => (multi ? defaultIndex : index.slice(0, 1)));
+  const [itemSelected, setItemSelected] = useState<AccordionItemId[]>(() => {
+    const items = index.length > 0 ? index : defaultIndex;
+    if (multi) {
+      return items;
+    }
+
+    if (items.length > 0) {
+      return items.slice(0, 1);
+    }
+
+    return [];
+  });
 
   const handleUnloadItem = useCallback((id: AccordionItemId) => {
     setItemSelected(state => {
@@ -73,6 +86,10 @@ const Accordion = ({
 
       setItemSelected(state => {
         const found = state.includes(index);
+        if (alwaysOpen && state.length === 1 && found) {
+          return state;
+        }
+
         let newState = state;
         if (multi && !found) {
           newState = [...state, index];
@@ -89,7 +106,7 @@ const Accordion = ({
         return newState;
       });
     },
-    [multi, onChange]
+    [multi, alwaysOpen, onChange]
   );
 
   useEffect(() => {

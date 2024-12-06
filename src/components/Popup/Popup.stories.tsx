@@ -60,6 +60,17 @@ export const Primary: Story = {
             allowRightSide: true,
             resizeHandles: ['se'] as ResizeHandle[]
           }
+        },
+        {
+          id: 'popup-5',
+          component: <div>Hello World 5</div>,
+          settings: {
+            icon: <i className="fa-solid fa-sliders text-base" />,
+            title: 'Popup 5',
+            allowLeftSide: true,
+            allowRightSide: true,
+            resizeHandles: ['se'] as ResizeHandle[]
+          }
         }
       ],
       floating: [
@@ -78,8 +89,8 @@ export const Primary: Story = {
     };
 
     return (
-      <div className="flex">
-        <PopupProvider popups={popups} multiSelect>
+      <div className="flex border border-solid border-gray-300">
+        <PopupProvider popups={popups} multiSelect canHide>
           <div className="flex grow h-[500px] bg-gray-200"></div>
         </PopupProvider>
       </div>

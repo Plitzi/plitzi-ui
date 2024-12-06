@@ -22,12 +22,12 @@ export default {
     }
   }),
   item: cva('transition-all cursor-pointer'),
-  itemHeader: cva('flex justify-between items-center font-medium cursor-pointer select-none leading-3 uppercase', {
+  itemHeader: cva('font-medium cursor-pointer select-none leading-3 uppercase', {
     variants: {
       size: {
-        xs: 'px-1 text-sm h-5',
-        sm: 'px-1.5 h-6',
-        md: 'px-2 text-lg h-7'
+        xs: 'px-1 py-0.5 text-sm h-5',
+        sm: 'px-1.5 py-1 h-6',
+        md: 'px-2 py-1.5 text-lg h-7'
       }
     },
     compoundVariants: [],
@@ -35,7 +35,7 @@ export default {
       size: 'md'
     }
   }),
-  itemHeaderSlot: cva('flex items-center gap-2'),
+  itemHeaderSlot: cva(''),
   itemHeaderIcon: cva('flex items-center justify-center w-4 h-4'),
   itemHeaderIconError: cva('flex items-center justify-center text-red-500'),
   itemHeaderIconWarning: cva('flex items-center justify-center text-orange-500'),

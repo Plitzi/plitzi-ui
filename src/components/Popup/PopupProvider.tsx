@@ -30,6 +30,7 @@ export type PopupProviderProps = {
   renderRightPopup?: boolean;
   renderFloatingPopup?: boolean;
   multiSelect?: boolean;
+  canHide?: boolean;
   popups?: Popups;
   limitMode?: ContainerDraggableProps['limitMode'];
 };
@@ -42,6 +43,7 @@ const PopupProvider = ({
   renderRightPopup = true,
   renderFloatingPopup = true,
   multiSelect = false,
+  canHide = true,
   popups = {
     left: [],
     right: [],
@@ -146,7 +148,7 @@ const PopupProvider = ({
   return (
     <PopupContext value={popupContextValue}>
       {renderLeftPopup && popupsRef.current.left.length > 0 && (
-        <PopupSidebar placement="left" placementTabs="left" multiSelect={multiSelect} />
+        <PopupSidebar placement="left" placementTabs="left" multiSelect={multiSelect} canHide={canHide} />
       )}
       {children}
       {renderFloatingPopup && popupsRef.current.floating.length > 0 && (
@@ -158,7 +160,9 @@ const PopupProvider = ({
           )}
         />
       )}
-      {renderRightPopup && popupsRef.current.right.length > 0 && <PopupSidebar multiSelect={multiSelect} />}
+      {renderRightPopup && popupsRef.current.right.length > 0 && (
+        <PopupSidebar multiSelect={multiSelect} canHide={canHide} />
+      )}
     </PopupContext>
   );
 };

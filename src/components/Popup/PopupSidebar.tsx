@@ -1,14 +1,17 @@
 // Packages
 import noop from 'lodash/noop';
-import { use, useMemo, useState, useRef, useCallback, useEffect } from 'react';
+import { use, useMemo, useState, useCallback, useEffect } from 'react';
 
 // Alias
+import Accordion from '@components/Accordion';
+import Button from '@components/Button';
 import ContainerResizable from '@components/ContainerResizable';
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
+// import PopupSidebarItem from './PopupSidebarItem';
 import PopupSidebarTabs from './PopupSidebarTabs';
 import usePopup from './usePopup';
 
@@ -51,7 +54,7 @@ const PopupSidebar = ({
     componentKey: ['sidebarRoot', 'sidebar', 'sidebarContainer'],
     variant: { placement: placementTabs }
   });
-  const { popupLeft, popupRight } = usePopup();
+  const { placementPopup, popupLeft, popupRight } = usePopup();
   const popups = useMemo<PopupInstance[]>(() => {
     if (placement === 'left') {
       return popupLeft;
@@ -75,8 +78,6 @@ const PopupSidebar = ({
 
     return [];
   });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [resizeHeight, setResizeHeight] = useState(Infinity);
   const resizeHandles = useMemo<ResizeHandle[]>(() => {
     if (placementTabs === 'top') {
       return ['s'];
@@ -94,18 +95,9 @@ const PopupSidebar = ({
     setPopupsActive(popupsActiveProp);
   }, [popupsActiveProp]);
 
-  useEffect(() => {
-    let resizeHeight = Infinity;
-    if (containerRef.current && popupsActive.length > 1) {
-      resizeHeight = containerRef.current.offsetHeight / popupsActive.length;
-    }
-
-    setResizeHeight(resizeHeight);
-  }, [popupsActive]);
-
   const handleClickTab = useCallback(
     (popupId: string) => {
-      if (popupsActive.includes(popupId) && popupsActive.length === 1) {
+      if (!canHide && popupsActive.includes(popupId) && popupsActive.length === 1) {
         return;
       }
 
@@ -126,33 +118,83 @@ const PopupSidebar = ({
     [multiSelect, canHide, onSelect, popupsActive]
   );
 
+  const handleClickFloating = useCallback(
+    (popupId: string) => () => placementPopup?.(popupId)('floating'),
+    [placementPopup]
+  );
+
   useEffect(() => {
     if (popupsActive.length > 0) {
       onLoadPopups(popupsActive);
     }
   }, [popups, onLoadPopups, popupsActive]);
 
-  const popupsChildren = useMemo(
-    () =>
-      popups
-        .filter(pop => popupsActive.includes(pop.id))
-        .map((popup, i) => {
-          if (i !== popupsActive.length - 1) {
-            return (
-              <ContainerResizable key={popup.id} resizeHandles={['s']} height={resizeHeight} autoGrow={false}>
-                <div className="flex flex-col grow min-h-0 basis-0">{popup.component}</div>
-              </ContainerResizable>
-            );
-          }
+  const handleClick = useCallback((popupId: string) => () => handleClickTab(popupId), [handleClickTab]);
 
-          return (
-            <div key={popup.id} className="flex flex-col grow min-h-0 basis-0">
-              {popup.component}
-            </div>
-          );
-        }),
-    [popups, popupsActive, resizeHeight]
-  );
+  const popupsChildren = useMemo(() => {
+    return (
+      <Accordion
+        className={classNameTheme.sidebarContainer}
+        grow
+        gap={0}
+        multi={multiSelect}
+        defaultIndex={popupsActive.length > 0 ? popupsActive.slice(0, 1) : [popups[0].id]}
+      >
+        {popups
+          .filter(pop => popupsActive.includes(pop.id))
+          .map((popup, i) => {
+            return (
+              <Accordion.Item
+                key={i}
+                id={popup.id}
+                grow
+                className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
+              >
+                <Accordion.Item.Header
+                  title={popup.settings.title}
+                  iconExpanded={null}
+                  iconCollapsed={null}
+                  direction={placement === 'left' ? 'row-reverse' : 'row'}
+                >
+                  <Button
+                    intent="custom"
+                    size="custom"
+                    border="none"
+                    className={classNameTheme.btn}
+                    title="Floating Popup"
+                    content=""
+                    onClick={handleClickFloating(popup.id)}
+                  >
+                    <Button.Icon icon="fas fa-window-restore" />
+                  </Button>
+                  <Button
+                    intent="custom"
+                    size="custom"
+                    border="none"
+                    className={classNameTheme.btn}
+                    title="Hide"
+                    content=""
+                    onClick={handleClick(popup.id)}
+                  >
+                    <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />
+                  </Button>
+                </Accordion.Item.Header>
+                <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
+              </Accordion.Item>
+            );
+          })}
+      </Accordion>
+    );
+  }, [
+    classNameTheme.sidebarContainer,
+    classNameTheme.btn,
+    multiSelect,
+    popupsActive,
+    popups,
+    placement,
+    handleClickFloating,
+    handleClick
+  ]);
 
   if (!popups.length) {
     return undefined;
@@ -182,9 +224,7 @@ const PopupSidebar = ({
     >
       <div className={classNameTheme.sidebar}>
         <PopupSidebarTabs placementTabs={placementTabs} popupsActive={popupsActive} onTabClick={handleClickTab} />
-        <div ref={containerRef} className={classNameTheme.sidebarContainer}>
-          {popupsChildren}
-        </div>
+        {popupsChildren}
       </div>
     </ContainerResizable>
   );

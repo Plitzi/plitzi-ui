@@ -1,9 +1,14 @@
+// Packages
+import classNames from 'classnames';
+
 // Alias
+import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
 // Types
 import type { variantKeys } from './Accordion.styles';
 import type AccordionStyles from './Accordion.styles';
+import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEvent, ReactNode } from 'react';
 
@@ -14,8 +19,13 @@ export type ItemHeaderProps = {
   isError?: boolean;
   isWarning?: boolean;
   testId?: string;
+  iconCollapsed?: ReactNode;
+  iconExpanded?: ReactNode;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
-} & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys>;
+} & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>;
+
+const iconCollapsedDefault = <i className="fa-solid fa-chevron-right" />;
+const iconExpandedDefault = <i className="fa-solid fa-chevron-down" />;
 
 const ItemHeader = ({
   className,
@@ -23,32 +33,53 @@ const ItemHeader = ({
   isOpen = false,
   isError = false,
   isWarning = false,
+  iconCollapsed = iconCollapsedDefault,
+  iconExpanded = iconExpandedDefault,
   testId = '',
   children,
   intent,
+  direction = 'row',
+  wrap,
+  items = 'center',
+  justify = 'between',
+  gap = 4,
+  grow = false,
+  basis = 0,
   size,
   onClick
 }: ItemHeaderProps) => {
-  const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys, false>('Accordion', {
-    componentKey: ['itemHeader', 'itemHeaderIcon', 'itemHeaderIconError', 'itemHeaderSlot', 'itemHeaderIconWarning'],
-    className,
-    variant: { intent, size }
-  });
+  const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex, false>(
+    'Accordion',
+    {
+      componentKey: ['itemHeader', 'itemHeaderIcon', 'itemHeaderIconError', 'itemHeaderSlot', 'itemHeaderIconWarning'],
+      className,
+      variant: { intent, size }
+    }
+  );
 
   return (
-    <div
-      data-testid={testId ? `${testId}accordion-item-header` : undefined}
+    <Flex
+      testId={testId ? `${testId}-accordion-item-header` : undefined}
       className={classNameTheme.itemHeader}
+      direction={direction}
+      wrap={wrap}
+      items={items}
+      justify={justify}
+      gap={gap}
+      basis={basis}
+      grow={grow}
       onClick={onClick}
     >
-      <div className="flex items-center gap-4">
-        <div className={classNameTheme.itemHeaderIcon}>
-          {!isOpen && <i className="fa-solid fa-chevron-right" />}
-          {isOpen && <i className="fa-solid fa-chevron-down" />}
-        </div>
+      <div className={classNames('flex items-center gap-4', { 'flex-row-reverse': direction === 'row-reverse' })}>
+        {iconCollapsed && iconExpanded && (
+          <div className={classNameTheme.itemHeaderIcon}>
+            {!isOpen && iconCollapsed}
+            {isOpen && iconExpanded}
+          </div>
+        )}
         {title}
       </div>
-      <div className={classNameTheme.itemHeaderSlot}>
+      <Flex items="center" gap={2} direction={direction} className={classNameTheme.itemHeaderSlot}>
         {isError && (
           <div className={classNameTheme.itemHeaderIconError}>
             <i className="fa-solid fa-triangle-exclamation" />
@@ -60,8 +91,8 @@ const ItemHeader = ({
           </div>
         )}
         {children}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
