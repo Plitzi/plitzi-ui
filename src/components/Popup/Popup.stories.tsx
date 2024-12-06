@@ -63,17 +63,17 @@ export const Primary: Story = {
         }
       ],
       floating: [
-        {
-          id: 'popup-3',
-          component: <div>Hello World 3</div>,
-          settings: {
-            icon: <i className="fa-solid fa-sliders text-base" />,
-            title: 'Popup 3',
-            allowLeftSide: true,
-            allowRightSide: true,
-            resizeHandles: ['se'] as ResizeHandle[]
-          }
-        }
+        // {
+        //   id: 'popup-3',
+        //   component: <div>Hello World 3</div>,
+        //   settings: {
+        //     icon: <i className="fa-solid fa-sliders text-base" />,
+        //     title: 'Popup 3',
+        //     allowLeftSide: true,
+        //     allowRightSide: true,
+        //     resizeHandles: ['se'] as ResizeHandle[]
+        //   }
+        // }
       ]
     };
 

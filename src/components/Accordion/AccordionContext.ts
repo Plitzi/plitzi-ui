@@ -3,12 +3,18 @@ import { createContext } from 'react';
 
 // Types
 import type { AccordionItemProps } from './AccordionItem';
+import type { RefObject } from 'react';
 
 export type AccordionContextValue = {
-  onUnloadItem?: (id: AccordionItemProps['id']) => void;
+  containerRef?: RefObject<HTMLDivElement | null>;
+  onUnloadItem?: (id: Exclude<AccordionItemProps['id'], undefined>) => void;
 };
 
 const accordionDefault = {
+  itemSelected: [],
+  spaceAvailable: { availableWidth: 0, availableHeight: 0 },
+  orientation: 'vertical' as const,
+  containerRef: undefined,
   onUnloadItem: undefined
 };
 

@@ -1,6 +1,5 @@
 // Alias
 import cva from '@/helpers/cvaWrapper';
-import ContainerDraggableStyles from '@components/ContainerDraggable/ContainerDraggable.styles';
 
 export const variantKeys = {
   placement: ['top', 'left', 'right', 'none']
@@ -10,7 +9,14 @@ export const STYLES_COMPONENT_NAME = 'Popup';
 
 export default {
   root: cva('pointer-events-auto'),
-  btn: ContainerDraggableStyles.btn,
+  btn: cva('h-6 w-6', {
+    variants: {
+      intent: {},
+      collapsed: {}
+    },
+    compoundVariants: [],
+    defaultVariants: {}
+  }),
   sidebarRoot: cva(''),
   sidebar: cva('h-full flex grow bg-white', {
     variants: {

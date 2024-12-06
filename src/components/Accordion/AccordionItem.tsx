@@ -1,5 +1,5 @@
 // Packages
-import { Children, cloneElement, isValidElement, useContext, useEffect, useMemo } from 'react';
+import { Children, cloneElement, isValidElement, useContext, useEffect, useMemo, useRef } from 'react';
 
 // Alias
 import Flex from '@components/Flex';
@@ -39,14 +39,17 @@ const AccordionItem = ({
   items,
   justify,
   gap = 4,
-  grow,
+  grow = true,
+  basis = 0,
+  size,
   onClick
 }: AccordionItemProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const { onUnloadItem } = useContext(AccordionContext);
   className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: 'item',
     className,
-    variant: { intent }
+    variant: { intent, size }
   });
 
   useEffect(() => {
@@ -70,6 +73,7 @@ const AccordionItem = ({
         const itemHeaderProps = child.props as ItemHeaderProps;
         components.header = cloneElement<ItemHeaderProps>(child as ReactElement<ItemHeaderProps>, {
           intent,
+          size,
           isOpen,
           ...itemHeaderProps,
           testId: testId ? `${testId}-${id}` : undefined,
@@ -77,8 +81,10 @@ const AccordionItem = ({
         });
       } else if (child.type === ItemContent) {
         const itemContentProps = child.props as ItemContentProps;
-        components.content = cloneElement<ItemHeaderProps>(child as ReactElement<ItemContentProps>, {
+        components.content = cloneElement<ItemContentProps>(child as ReactElement<ItemContentProps>, {
           intent,
+          size,
+          grow,
           ...itemContentProps,
           testId: testId ? `${testId}-${id}` : undefined
         });
@@ -86,10 +92,12 @@ const AccordionItem = ({
     });
 
     return components;
-  }, [children, intent, testId, id, isOpen, onClick]);
+  }, [children, intent, testId, id, isOpen, size, grow, onClick]);
 
   return (
     <Flex
+      ref={ref}
+      aria-expanded={isOpen}
       testId={testId ? `${testId}-${id}-accordion-item` : undefined}
       className={className}
       direction={direction}
@@ -97,6 +105,7 @@ const AccordionItem = ({
       items={items}
       justify={justify}
       gap={gap}
+      basis={basis}
       grow={isOpen ? grow : false}
     >
       {header}

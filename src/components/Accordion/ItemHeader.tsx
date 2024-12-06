@@ -9,7 +9,7 @@ import type { MouseEvent, ReactNode } from 'react';
 
 export type ItemHeaderProps = {
   children?: ReactNode;
-  title?: string;
+  title?: ReactNode;
   isOpen?: boolean;
   isError?: boolean;
   isWarning?: boolean;
@@ -26,12 +26,13 @@ const ItemHeader = ({
   testId = '',
   children,
   intent,
+  size,
   onClick
 }: ItemHeaderProps) => {
   const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys, false>('Accordion', {
     componentKey: ['itemHeader', 'itemHeaderIcon', 'itemHeaderIconError', 'itemHeaderSlot', 'itemHeaderIconWarning'],
     className,
-    variant: { intent }
+    variant: { intent, size }
   });
 
   return (

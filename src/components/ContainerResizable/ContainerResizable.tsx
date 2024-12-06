@@ -2,7 +2,7 @@
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import noop from 'lodash/noop';
-import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle } from 'react';
 
 // Alias
 import useTheme from '@hooks/useTheme';
@@ -14,11 +14,12 @@ import { snapToGrid } from './utils';
 // Types
 import type { variantKeys } from './ContainerResizable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
+import type { CSSProperties, HTMLAttributes, MouseEventHandler, ReactNode, Ref } from 'react';
 
 export type ResizeHandle = 'se' | 's' | 'e' | 'n' | 'w' | 'nw' | 'sw' | 'ne';
 
 export type ContainerResizableProps = {
+  ref?: Ref<HTMLDivElement | null>;
   parentElement?: HTMLElement | null;
   hoverMode?: boolean;
   autoGrow?: boolean;
@@ -36,11 +37,13 @@ export type ContainerResizableProps = {
   children?: ReactNode;
   handle?: ReactNode | ((resizeHandle: string) => ReactNode);
   onChange?: (width: number, height: number) => void;
-} & useThemeSharedProps<typeof ContainerResizableStyles, typeof variantKeys>;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> &
+  useThemeSharedProps<typeof ContainerResizableStyles, typeof variantKeys>;
 
 const resizeHandlesDefault: ResizeHandle[] = ['se'];
 
 const ContainerResizable = ({
+  ref,
   className,
   parentElement,
   hoverMode = false,
@@ -58,7 +61,8 @@ const ContainerResizable = ({
   maxConstraintsY = Infinity,
   children,
   handle,
-  onChange = noop
+  onChange = noop,
+  ...props
 }: ContainerResizableProps) => {
   const classNameTheme = useTheme<typeof ContainerResizableStyles, typeof variantKeys, false>('ContainerResizable', {
     className,
@@ -72,7 +76,8 @@ const ContainerResizable = ({
   const [oWidth, setOWidth] = useState<number>(0);
   const [oHeight, setOHeight] = useState<number>(0);
   const [clientY, setClientY] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => containerRef.current, [containerRef]);
   const containerInternalRef = useRef<HTMLDivElement>(null);
   const onChangeDebounced = useRef(debounce(onChange, 150));
   const parentElementDOM = useMemo(() => {
@@ -282,7 +287,11 @@ const ContainerResizable = ({
   }
 
   return (
-    <div ref={containerRef} className={classNames(classNameTheme.root, { 'group-5': hoverMode, grow: autoGrow })}>
+    <div
+      {...props}
+      ref={containerRef}
+      className={classNames(classNameTheme.root, { 'group-5': hoverMode, grow: autoGrow })}
+    >
       <div
         ref={containerInternalRef}
         className={classNames(classNameTheme.rootInternal, {

@@ -1,5 +1,5 @@
 // Packages
-import { Children, cloneElement, isValidElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { Children, cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Alias
 import Flex from '@components/Flex';
@@ -17,16 +17,18 @@ import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.style
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
 
+type AccordionItemId = Exclude<AccordionItemProps['id'], undefined>;
+
 export type AccordionProps = {
   children?: ReactNode;
   multi?: boolean;
-  defaultIndex?: AccordionItemProps['id'][];
-  index?: AccordionItemProps['id'][];
+  defaultIndex?: AccordionItemId[];
+  index?: AccordionItemId[];
   testId?: string;
-  onChange?: (expandedIndex: AccordionItemProps['id'][]) => void;
+  onChange?: (expandedIndex: AccordionItemId[]) => void;
 } & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>;
 
-const emptyArray = [] as AccordionItemProps['id'][];
+const emptyArray = [] as AccordionItemId[];
 
 const Accordion = ({
   className,
@@ -42,18 +44,18 @@ const Accordion = ({
   justify,
   gap = 4,
   grow,
+  size,
   onChange
 }: AccordionProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: 'root',
     className,
-    variant: { intent }
+    variant: { intent, size }
   });
-  const [itemSelected, setItemSelected] = useState<AccordionItemProps['id'][]>(() =>
-    multi ? defaultIndex : index.slice(0, 1)
-  );
+  const [itemSelected, setItemSelected] = useState<AccordionItemId[]>(() => (multi ? defaultIndex : index.slice(0, 1)));
 
-  const handleUnloadItem = useCallback((id: AccordionItemProps['id']) => {
+  const handleUnloadItem = useCallback((id: AccordionItemId) => {
     setItemSelected(state => {
       if (state.includes(id)) {
         return state.filter(item => item !== id);
@@ -64,7 +66,7 @@ const Accordion = ({
   }, []);
 
   const handleClick = useCallback(
-    (index: AccordionItemProps['id'], onClick?: AccordionItemProps['onClick']) => (e: MouseEvent<HTMLDivElement>) => {
+    (index: AccordionItemId, onClick?: AccordionItemProps['onClick']) => (e: MouseEvent<HTMLDivElement>) => {
       if (onClick) {
         onClick(e);
       }
@@ -118,6 +120,7 @@ const Accordion = ({
             intent,
             key: i,
             grow,
+            size,
             ...accordionItemProps,
             testId,
             id: itemId,
@@ -129,10 +132,11 @@ const Accordion = ({
     });
 
     return components;
-  }, [children, testId, intent, itemSelected, grow, handleClick]);
+  }, [children, testId, intent, itemSelected, grow, size, handleClick]);
 
   return (
     <Flex
+      ref={containerRef}
       testId={testId ? `${testId}-accordion` : undefined}
       className={className}
       direction={direction}
@@ -142,7 +146,9 @@ const Accordion = ({
       gap={gap}
       grow={itemSelected.length > 0 ? grow : false}
     >
-      <AccordionProvider onUnloadItem={handleUnloadItem}>{items}</AccordionProvider>
+      <AccordionProvider containerRef={containerRef} onUnloadItem={handleUnloadItem}>
+        {items}
+      </AccordionProvider>
     </Flex>
   );
 };

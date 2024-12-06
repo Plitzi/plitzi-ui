@@ -45,7 +45,7 @@ export const Primary: Story = {
             <Flex direction="column">Hello World</Flex>
           </Accordion.Item.Content>
         </Accordion.Item>
-        <Accordion.Item grow={false} className="border-t border-solid border-gray-300">
+        <Accordion.Item className="border-t border-solid border-gray-300">
           <Accordion.Item.Header title="Item 2" isError>
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>
@@ -55,7 +55,7 @@ export const Primary: Story = {
             </Flex>
           </Accordion.Item.Content>
         </Accordion.Item>
-        <Accordion.Item grow={false} className="not-first:border-t not-first:border-solid not-first:border-gray-300">
+        <Accordion.Item className="not-first:border-t not-first:border-solid not-first:border-gray-300">
           <Accordion.Item.Header title="Item 2" isWarning>
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>

@@ -12,8 +12,8 @@ export type AccordionProviderProps = {
   children: ReactNode;
 } & AccordionContextValue;
 
-const AccordionProvider = ({ children, onUnloadItem }: AccordionProviderProps) => {
-  const data = useMemo(() => ({ onUnloadItem }), [onUnloadItem]);
+const AccordionProvider = ({ children, containerRef, onUnloadItem }: AccordionProviderProps) => {
+  const data = useMemo(() => ({ containerRef, onUnloadItem }), [containerRef, onUnloadItem]);
 
   return <AccordionContext.Provider value={data}>{children}</AccordionContext.Provider>;
 };
