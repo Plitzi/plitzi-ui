@@ -26,7 +26,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {},
-  args: {}
+  args: { multi: true }
 } satisfies Meta<typeof Accordion>;
 
 export default meta;
@@ -35,9 +35,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   render: args => (
-    <div className="flex flex-col h-[400px] bg-red-300">
-      <Accordion {...args} grow>
-        <Accordion.Item grow>
+    <div className="flex flex-col h-[400px] bg-gray-600 text-white">
+      <Accordion {...args} grow gap={0} defaultIndex={['0']}>
+        <Accordion.Item grow className="">
           <Accordion.Item.Header title="Item 1">
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>
@@ -45,15 +45,17 @@ export const Primary: Story = {
             <Flex direction="column">Hello World</Flex>
           </Accordion.Item.Content>
         </Accordion.Item>
-        <Accordion.Item>
+        <Accordion.Item grow={false} className="border-t border-solid border-gray-300">
           <Accordion.Item.Header title="Item 2" isError>
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>
           <Accordion.Item.Content>
-            <Flex direction="column">Hello World 2</Flex>
+            <Flex className="h-[150px]" direction="column">
+              Hello World 2
+            </Flex>
           </Accordion.Item.Content>
         </Accordion.Item>
-        <Accordion.Item>
+        <Accordion.Item grow={false} className="not-first:border-t not-first:border-solid not-first:border-gray-300">
           <Accordion.Item.Header title="Item 2" isWarning>
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>

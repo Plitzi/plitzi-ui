@@ -40,7 +40,13 @@ const ItemHeader = ({
       className={classNameTheme.itemHeader}
       onClick={onClick}
     >
-      {title}
+      <div className="flex items-center gap-4">
+        <div className={classNameTheme.itemHeaderIcon}>
+          {!isOpen && <i className="fa-solid fa-chevron-right" />}
+          {isOpen && <i className="fa-solid fa-chevron-down" />}
+        </div>
+        {title}
+      </div>
       <div className={classNameTheme.itemHeaderSlot}>
         {isError && (
           <div className={classNameTheme.itemHeaderIconError}>
@@ -53,10 +59,6 @@ const ItemHeader = ({
           </div>
         )}
         {children}
-        <div className={classNameTheme.itemHeaderIcon}>
-          {!isOpen && <i className="fa-solid fa-chevron-right" />}
-          {isOpen && <i className="fa-solid fa-chevron-down" />}
-        </div>
       </div>
     </div>
   );

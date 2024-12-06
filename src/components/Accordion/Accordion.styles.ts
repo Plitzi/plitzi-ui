@@ -17,9 +17,9 @@ export default {
       intent: 'default'
     }
   }),
-  item: cva(''),
+  item: cva('transition-all cursor-pointer'),
   itemHeader: cva(
-    'flex justify-between items-center bg-gray-300 pl-3 pr-4 text-sm font-medium cursor-pointer select-none leading-3 h-9 uppercase'
+    'flex justify-between items-center pl-3 pr-4 text-sm font-medium cursor-pointer select-none leading-3 h-9 uppercase'
   ),
   itemHeaderSlot: cva('flex items-center gap-2'),
   itemHeaderIcon: cva('flex items-center justify-center w-4 h-4'),

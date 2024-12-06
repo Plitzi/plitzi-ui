@@ -117,6 +117,7 @@ const Accordion = ({
           cloneElement<AccordionItemProps>(child as ReactElement<AccordionItemProps>, {
             intent,
             key: i,
+            grow,
             ...accordionItemProps,
             testId,
             id: itemId,
@@ -128,7 +129,7 @@ const Accordion = ({
     });
 
     return components;
-  }, [children, testId, intent, itemSelected, handleClick]);
+  }, [children, testId, intent, itemSelected, grow, handleClick]);
 
   return (
     <Flex
