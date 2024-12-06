@@ -11,7 +11,6 @@ import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
-// import PopupSidebarItem from './PopupSidebarItem';
 import PopupSidebarTabs from './PopupSidebarTabs';
 import usePopup from './usePopup';
 
