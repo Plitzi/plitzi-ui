@@ -23,6 +23,7 @@ export type AccordionItemProps = {
   children?: ReactNode;
   id?: string;
   isOpen?: boolean;
+  resizable?: boolean;
   testId?: string;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 } & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>;
@@ -33,13 +34,15 @@ const AccordionItem = ({
   children,
   testId = '',
   isOpen = false,
+  resizable = true,
   intent,
   direction = 'column',
   wrap,
   items,
   justify,
   gap = 4,
-  grow = true,
+  grow,
+  shrink = 0,
   basis = 0,
   size,
   onClick
@@ -59,11 +62,7 @@ const AccordionItem = ({
   }, [id, onUnloadItem]);
 
   const { header, content } = useMemo(() => {
-    const components: { header: ReactNode; content: ReactNode } = {
-      header: undefined,
-      content: undefined
-    };
-
+    const components: { header: ReactNode; content: ReactNode } = { header: undefined, content: undefined };
     Children.forEach(children, child => {
       if (!isValidElement(child)) {
         return;
@@ -84,7 +83,7 @@ const AccordionItem = ({
         components.content = cloneElement<ItemContentProps>(child as ReactElement<ItemContentProps>, {
           intent,
           size,
-          grow,
+          grow: grow ?? isOpen,
           ...itemContentProps,
           testId: testId ? `${testId}-${id}` : undefined
         });
@@ -92,7 +91,13 @@ const AccordionItem = ({
     });
 
     return components;
-  }, [children, intent, testId, id, isOpen, size, grow, onClick]);
+  }, [children, intent, size, isOpen, testId, id, onClick, grow]);
+
+  useEffect(() => {
+    if (!isOpen && ref.current && ref.current.style.flexBasis) {
+      ref.current.style.flexBasis = '0px';
+    }
+  }, [isOpen]);
 
   return (
     <Flex
@@ -105,11 +110,13 @@ const AccordionItem = ({
       items={items}
       justify={justify}
       gap={gap}
+      shrink={shrink}
       basis={basis}
-      grow={isOpen ? grow : false}
+      grow={isOpen}
     >
       {header}
       {isOpen && content}
+      {isOpen && resizable && <div className="divider h-1 bg-red-500 cursor-row-resize w-full" />}
     </Flex>
   );
 };

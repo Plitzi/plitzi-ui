@@ -8,6 +8,7 @@ import useTheme from '@hooks/useTheme';
 // Relatives
 import AccordionItem from './AccordionItem';
 import AccordionProvider from './AccordionProvider';
+import useResize from './useResize';
 
 // Types
 import type { variantKeys } from './Accordion.styles';
@@ -124,21 +125,26 @@ const Accordion = ({
       items: []
     };
 
-    Children.forEach(children, (child, i) => {
+    const childrenFiltered = Children.toArray(children)
+      .filter(child => isValidElement(child) && child.type === AccordionItem)
+      .map(child => child as ReactElement<AccordionItemProps>);
+
+    childrenFiltered.forEach((child, i) => {
       if (!isValidElement(child)) {
         return;
       }
 
       if (child.type === AccordionItem) {
-        const accordionItemProps = child.props as AccordionItemProps;
+        const accordionItemProps = child.props;
         const itemId = accordionItemProps.id ?? i.toString();
+        const nextItemId = !!childrenFiltered[i + 1] && (childrenFiltered[i + 1].props.id ?? `${i + 1}`);
         components.items.push(
-          cloneElement<AccordionItemProps>(child as ReactElement<AccordionItemProps>, {
+          cloneElement<AccordionItemProps>(child, {
             intent,
-            grow,
             size,
             key: itemId,
             ...accordionItemProps,
+            resizable: i !== childrenFiltered.length - 1 && itemSelected.includes(nextItemId),
             testId,
             id: itemId,
             isOpen: itemSelected.includes(itemId),
@@ -149,7 +155,13 @@ const Accordion = ({
     });
 
     return components;
-  }, [children, testId, intent, itemSelected, grow, size, handleClick]);
+  }, [children, testId, intent, itemSelected, size, handleClick]);
+  const panels = useMemo(
+    () => items.map(item => ({ size: item.props.isOpen ? 100 : 29, minSize: item.props.isOpen ? 100 : 29 })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [items.length, itemSelected]
+  );
+  useResize({ panels, containerRef });
 
   useEffect(() => {
     if (alwaysOpen && items.length > 0 && !items.find(item => item.props.isOpen) && items[0].props.id) {
