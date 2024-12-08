@@ -36,7 +36,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   render: args => (
     <div className="flex flex-col h-[400px] bg-gray-600 text-white">
-      <Accordion {...args} grow gap={0} defaultIndex={['0']}>
+      <Accordion {...args} grow gap={0} defaultValue={['0']}>
         <Accordion.Item grow className="">
           <Accordion.Item.Header title="Item 1">
             <div className="border border-white px-2 py-1">Header Slot</div>
@@ -109,7 +109,7 @@ export const ConditionalItems: Story = {
           <Button content="Show 2 and 4" disabled={visible} onClick={() => setVisible(true)} testId="btn-1" />
           <Button content="Hide 2 and 4" disabled={!visible} onClick={() => setVisible(false)} testId="btn-2" />
         </Flex>
-        <Accordion {...args} multi defaultIndex={['fancy', '1']} testId="testAccordion">
+        <Accordion {...args} multi defaultValue={['fancy', '1']} testId="testAccordion">
           <Accordion.Item id="fancy">
             <Accordion.Item.Header title="Item 1">
               <div className="border border-white px-2 py-1">Header Slot</div>
