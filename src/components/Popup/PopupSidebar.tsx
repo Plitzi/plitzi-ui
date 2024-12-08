@@ -118,75 +118,6 @@ const PopupSidebar = ({
     }
   }, [popups, onLoadPopups, popupsActive]);
 
-  const popupsChildren = useMemo(() => {
-    return (
-      <Accordion
-        className={classNameTheme.sidebarContainer}
-        grow
-        gap={0}
-        multi={multiSelect}
-        defaultIndex={popupsActive.length > 0 ? popupsActive.slice(0, 1) : [popups[0].id]}
-      >
-        {popups
-          .filter(pop => popupsActive.includes(pop.id))
-          .map((popup, i) => {
-            return (
-              <Accordion.Item
-                key={i}
-                id={popup.id}
-                grow
-                className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
-              >
-                <Accordion.Item.Header
-                  title={popup.settings.title}
-                  iconExpanded={null}
-                  iconCollapsed={null}
-                  direction={placement === 'left' ? 'row-reverse' : 'row'}
-                >
-                  <Button
-                    intent="custom"
-                    size="custom"
-                    border="none"
-                    className={classNameTheme.btn}
-                    title="Floating Popup"
-                    content=""
-                    onClick={handleClickFloating(popup.id)}
-                  >
-                    <Button.Icon icon="fas fa-window-restore" />
-                  </Button>
-                  {(placement === 'left' || placement === 'right') && (
-                    <Button
-                      intent="custom"
-                      size="custom"
-                      border="none"
-                      className={classNameTheme.btn}
-                      title="Hide"
-                      content=""
-                      onClick={handleClickCollapse(popup.id, placement)}
-                    >
-                      <Button.Icon
-                        icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'}
-                      />
-                    </Button>
-                  )}
-                </Accordion.Item.Header>
-                <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
-              </Accordion.Item>
-            );
-          })}
-      </Accordion>
-    );
-  }, [
-    classNameTheme.sidebarContainer,
-    classNameTheme.btn,
-    multiSelect,
-    popupsActive,
-    popups,
-    placement,
-    handleClickFloating,
-    handleClickCollapse
-  ]);
-
   if (!popups.length) {
     return undefined;
   }
@@ -223,7 +154,61 @@ const PopupSidebar = ({
           multiSelect={multiSelect}
           canHide={canHide}
         />
-        {popupsChildren}
+        <Accordion
+          className={classNameTheme.sidebarContainer}
+          grow
+          gap={0}
+          multi={multiSelect}
+          defaultIndex={popupsActive.length > 0 ? popupsActive.slice(0, 1) : [popups[0].id]}
+        >
+          {popups
+            .filter(pop => popupsActive.includes(pop.id))
+            .map((popup, i) => {
+              return (
+                <Accordion.Item
+                  key={popup.id}
+                  id={popup.id}
+                  grow
+                  className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
+                >
+                  <Accordion.Item.Header
+                    title={popup.settings.title}
+                    iconExpanded={null}
+                    iconCollapsed={null}
+                    direction={placement === 'left' ? 'row-reverse' : 'row'}
+                  >
+                    <Button
+                      intent="custom"
+                      size="custom"
+                      border="none"
+                      className={classNameTheme.btn}
+                      title="Floating Popup"
+                      content=""
+                      onClick={handleClickFloating(popup.id)}
+                    >
+                      <Button.Icon icon="fas fa-window-restore" />
+                    </Button>
+                    {(placement === 'left' || placement === 'right') && (
+                      <Button
+                        intent="custom"
+                        size="custom"
+                        border="none"
+                        className={classNameTheme.btn}
+                        title="Hide"
+                        content=""
+                        onClick={handleClickCollapse(popup.id, placement)}
+                      >
+                        <Button.Icon
+                          icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'}
+                        />
+                      </Button>
+                    )}
+                  </Accordion.Item.Header>
+                  <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
+                </Accordion.Item>
+              );
+            })}
+        </Accordion>
       </div>
     </ContainerResizable>
   );

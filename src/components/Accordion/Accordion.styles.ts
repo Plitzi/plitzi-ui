@@ -21,7 +21,7 @@ export default {
       intent: 'default'
     }
   }),
-  item: cva('transition-all cursor-pointer'),
+  item: cva('transition-all'),
   itemHeader: cva('font-medium cursor-pointer select-none leading-3 uppercase', {
     variants: {
       size: {
