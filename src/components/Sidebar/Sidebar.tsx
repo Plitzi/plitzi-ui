@@ -19,7 +19,7 @@ import type { ReactElement, ReactNode } from 'react';
 
 export type SidebarProps = {
   children?: ReactNode;
-  placement?: 'top' | 'left' | 'right';
+  placement?: 'top' | 'left' | 'right' | 'buttom';
   selected?: string;
   value?: string[];
   multi?: boolean;
@@ -77,8 +77,8 @@ const Sidebar = ({
         const itemId = iconProps.id ?? i.toString();
         components.items.push(
           cloneElement<SidebarIconProps>(child as ReactElement<SidebarIconProps>, {
-            key: i,
             ...iconProps,
+            key: i,
             active: value.includes(itemId),
             id: itemId
           })
@@ -87,8 +87,8 @@ const Sidebar = ({
         const separatorProps = child.props as SidebarSeparatorProps;
         components.items.push(
           cloneElement<SidebarSeparatorProps>(child as ReactElement<SidebarSeparatorProps>, {
-            key: i,
-            ...separatorProps
+            ...separatorProps,
+            key: i
           })
         );
       }

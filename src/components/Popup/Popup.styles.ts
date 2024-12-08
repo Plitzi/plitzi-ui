@@ -43,5 +43,16 @@ export default {
     defaultVariants: {
       placement: 'right'
     }
+  }),
+  tabs: cva('', {
+    variants: {
+      placement: {
+        top: '',
+        left: '',
+        right: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {}
   })
 };

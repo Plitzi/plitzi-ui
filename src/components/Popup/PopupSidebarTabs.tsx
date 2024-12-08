@@ -1,10 +1,17 @@
 // Packages
-import classNames from 'classnames';
-import noop from 'lodash/noop';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+
+// Alias
+import Sidebar, { SidebarProps } from '@components/Sidebar';
+import useTheme from '@hooks/useTheme';
 
 // Relatives
 import usePopup from './usePopup';
+
+// Types
+import type PopupStyles from './Popup.styles';
+import type { variantKeys } from './Popup.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 
 const popupsActiveDefault: string[] = [];
 
@@ -12,16 +19,25 @@ export type PopupSidebarTabsProps = {
   className?: string;
   placementTabs?: 'top' | 'left' | 'right' | 'none';
   popupsActive?: string[];
-  onTabClick?: (popupId: string) => void;
-};
+  canHide?: boolean;
+  multiSelect?: boolean;
+  onChange?: (popups: string[]) => void;
+} & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupSidebarTabs = ({
   className = '',
   placementTabs = 'right',
   popupsActive = popupsActiveDefault,
-  onTabClick = noop
+  canHide = true,
+  multiSelect = true,
+  onChange
 }: PopupSidebarTabsProps) => {
-  const { placementPopup, popupLeft, popupRight, removePopup } = usePopup();
+  const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
+    className,
+    componentKey: ['tabs'],
+    variant: { placement: placementTabs }
+  });
+  const { popupLeft, popupRight } = usePopup();
   const popups = useMemo(() => {
     if (placementTabs === 'left') {
       return popupLeft;
@@ -34,62 +50,29 @@ const PopupSidebarTabs = ({
     return [];
   }, [placementTabs, popupLeft, popupRight]);
 
-  const handleClickPopup = (popupId: string) => () => placementPopup?.(popupId)('floating');
+  // const handleClickPopup = (popupId: string) => () => placementPopup?.(popupId)('floating');
 
-  const handleClickFocusPopup = (popupId: string) => () => onTabClick(popupId);
+  const handleChange = useCallback((popups: string[]) => onChange?.(popups), [onChange]);
 
   if (!popups.length) {
     return undefined;
   }
 
   return (
-    <ul
-      className={classNames('m-0 p-0 flex list-none', className, {
-        'bg-gray-300': placementTabs === 'top',
-        'bg-gray-700': placementTabs !== 'top',
-        '[writing-mode:vertical-lr] [text-orientation:mixed] items-center':
-          placementTabs === 'right' || placementTabs === 'left',
-        'rotate-180': placementTabs === 'left',
-        'justify-end': placementTabs === 'right'
-      })}
+    <Sidebar
+      value={popupsActive}
+      onChange={handleChange}
+      canEmpty={canHide}
+      multi={multiSelect}
+      className={classNameTheme.tabs}
+      placement={placementTabs as Partial<SidebarProps['placement']>}
     >
-      {popups.map((popup, i) => {
-        const { icon, title, allowLeftSide } = popup.settings;
-        const isActive = popupsActive.includes(popup.id);
-
-        return (
-          <li
-            key={i}
-            className={classNames('relative flex items-center cursor-pointer overflow-hidden select-none', {
-              'px-2 py-1 grow border-r border-gray-300 first:last:border-b last:border-r-0': placementTabs === 'top',
-              'px-1 py-4 text-white': placementTabs !== 'top',
-              'bg-white': isActive && placementTabs === 'top',
-              'bg-gray-600': isActive && placementTabs !== 'top'
-            })}
-            onClick={handleClickFocusPopup(popup.id)}
-          >
-            <label className="m-0 gap-1 flex justify-center items-center grow basis-0 text-sm cursor-pointer text-center truncate">
-              {icon}
-              {title}
-            </label>
-            {allowLeftSide && (
-              <span
-                className={classNames('flex', { 'ml-2': placementTabs === 'top', 'mt-2': placementTabs !== 'top' })}
-                onClick={handleClickPopup(popup.id)}
-              >
-                <i className="fas fa-caret-square-left" />
-              </span>
-            )}
-            <span
-              className={classNames('flex', { 'ml-2': placementTabs === 'top', 'mt-2': placementTabs !== 'top' })}
-              onClick={removePopup?.(popup.id)}
-            >
-              <i className="fas fa-times" />
-            </span>
-          </li>
-        );
-      })}
-    </ul>
+      {popups.map((popup, i) => (
+        <Sidebar.Icon key={i} id={popup.id}>
+          {popup.settings.icon}
+        </Sidebar.Icon>
+      ))}
+    </Sidebar>
   );
 };
 

@@ -1,5 +1,4 @@
 // Packages
-import noop from 'lodash/noop';
 import { use, useMemo, useState, useCallback, useEffect } from 'react';
 
 // Alias
@@ -15,6 +14,7 @@ import PopupSidebarTabs from './PopupSidebarTabs';
 import usePopup from './usePopup';
 
 // Types
+import type { PopupPlacement } from './Popup';
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
 import type { PopupInstance } from './PopupProvider';
@@ -32,7 +32,7 @@ export type PopupSidebarProps = {
   minWidth?: number;
   maxWidth?: number;
   popupsActive?: string[];
-  onSelect?: (popupId: string, popupsActive: string[]) => void;
+  onSelect?: (popupsActive: string[]) => void;
   onLoadPopups?: (popupsActive: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
@@ -45,8 +45,8 @@ const PopupSidebar = ({
   minWidth = 280,
   maxWidth = 500,
   popupsActive: popupsActiveProp = popupsActiveDefault,
-  onSelect = noop,
-  onLoadPopups = noop
+  onSelect,
+  onLoadPopups
 }: PopupSidebarProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
     className,
@@ -94,27 +94,12 @@ const PopupSidebar = ({
     setPopupsActive(popupsActiveProp);
   }, [popupsActiveProp]);
 
-  const handleClickTab = useCallback(
-    (popupId: string) => {
-      if (!canHide && popupsActive.includes(popupId) && popupsActive.length === 1) {
-        return;
-      }
-
-      let newPopupsActive = popupsActive;
-      if (popupsActive.includes(popupId) && canHide) {
-        newPopupsActive = popupsActive.filter(i => i !== popupId);
-      } else if (popupsActive.includes(popupId)) {
-        newPopupsActive = popupsActive.filter(i => i !== popupId);
-      } else if (multiSelect) {
-        newPopupsActive = [...popupsActive, popupId];
-      } else {
-        newPopupsActive = [popupId];
-      }
-
-      onSelect(popupId, newPopupsActive);
-      setPopupsActive(newPopupsActive);
+  const handleChangeTabs = useCallback(
+    (popsActive: string[]) => {
+      onSelect?.(popsActive);
+      setPopupsActive(popsActive);
     },
-    [multiSelect, canHide, onSelect, popupsActive]
+    [onSelect]
   );
 
   const handleClickFloating = useCallback(
@@ -122,13 +107,16 @@ const PopupSidebar = ({
     [placementPopup]
   );
 
+  const handleClickCollapse = useCallback(
+    (popupId: string, placement: PopupPlacement) => () => placementPopup?.(popupId)(placement),
+    [placementPopup]
+  );
+
   useEffect(() => {
-    if (popupsActive.length > 0) {
+    if (popupsActive.length > 0 && onLoadPopups) {
       onLoadPopups(popupsActive);
     }
   }, [popups, onLoadPopups, popupsActive]);
-
-  const handleClick = useCallback((popupId: string) => () => handleClickTab(popupId), [handleClickTab]);
 
   const popupsChildren = useMemo(() => {
     return (
@@ -166,17 +154,21 @@ const PopupSidebar = ({
                   >
                     <Button.Icon icon="fas fa-window-restore" />
                   </Button>
-                  <Button
-                    intent="custom"
-                    size="custom"
-                    border="none"
-                    className={classNameTheme.btn}
-                    title="Hide"
-                    content=""
-                    onClick={handleClick(popup.id)}
-                  >
-                    <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />
-                  </Button>
+                  {(placement === 'left' || placement === 'right') && (
+                    <Button
+                      intent="custom"
+                      size="custom"
+                      border="none"
+                      className={classNameTheme.btn}
+                      title="Hide"
+                      content=""
+                      onClick={handleClickCollapse(popup.id, placement)}
+                    >
+                      <Button.Icon
+                        icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'}
+                      />
+                    </Button>
+                  )}
                 </Accordion.Item.Header>
                 <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
               </Accordion.Item>
@@ -192,7 +184,7 @@ const PopupSidebar = ({
     popups,
     placement,
     handleClickFloating,
-    handleClick
+    handleClickCollapse
   ]);
 
   if (!popups.length) {
@@ -205,7 +197,9 @@ const PopupSidebar = ({
         className={className}
         placementTabs={placementTabs}
         popupsActive={popupsActive}
-        onTabClick={handleClickTab}
+        multiSelect={multiSelect}
+        canHide={canHide}
+        onChange={handleChangeTabs}
       />
     );
   }
@@ -222,7 +216,13 @@ const PopupSidebar = ({
       parentElement={rootDOM}
     >
       <div className={classNameTheme.sidebar}>
-        <PopupSidebarTabs placementTabs={placementTabs} popupsActive={popupsActive} onTabClick={handleClickTab} />
+        <PopupSidebarTabs
+          placementTabs={placementTabs}
+          popupsActive={popupsActive}
+          onChange={handleChangeTabs}
+          multiSelect={multiSelect}
+          canHide={canHide}
+        />
         {popupsChildren}
       </div>
     </ContainerResizable>
