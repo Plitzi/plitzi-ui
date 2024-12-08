@@ -137,6 +137,7 @@ const Accordion = ({
             intent,
             grow,
             size,
+            key: itemId,
             ...accordionItemProps,
             testId,
             id: itemId,

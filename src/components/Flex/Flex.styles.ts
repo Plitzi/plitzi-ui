@@ -78,7 +78,8 @@ export const variantKeys = {
     'full'
   ],
   grow: [true, false],
-  basis: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  basis: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  shrink: [0, 1]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Flex';
@@ -127,7 +128,7 @@ export default {
         72: 'basis-72',
         80: 'basis-80',
         96: 'basis-96',
-        auto: 'basis-auto',
+        auto: '',
         px: 'basis-px',
         '0.5': 'basis-0.5',
         '1.5': 'basis-1.5',
@@ -200,6 +201,10 @@ export default {
         12: 'gap-12',
         14: 'gap-14',
         16: 'gap-16'
+      },
+      shrink: {
+        1: 'flex-shrink',
+        0: ''
       }
     },
     compoundVariants: [],
@@ -208,7 +213,9 @@ export default {
       wrap: 'nowrap',
       justify: 'start',
       items: 'start',
+      basis: 'auto',
       gap: 0,
+      shrink: 0,
       grow: false
     }
   })
