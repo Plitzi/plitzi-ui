@@ -14,7 +14,6 @@ import PopupSidebarTabs from './PopupSidebarTabs';
 import usePopup from './usePopup';
 
 // Types
-import type { PopupPlacement } from './Popup';
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
 import type { PopupInstance } from './PopupProvider';
@@ -31,9 +30,9 @@ export type PopupSidebarProps = {
   multiSelect?: boolean;
   minWidth?: number;
   maxWidth?: number;
-  popupsActive?: string[];
-  onSelect?: (popupsActive: string[]) => void;
-  onLoadPopups?: (popupsActive: string[]) => void;
+  value?: string[];
+  onChange?: (value: string[]) => void;
+  onLoadPopups?: (value: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupSidebar = ({
@@ -44,8 +43,8 @@ const PopupSidebar = ({
   multiSelect = false,
   minWidth = 280,
   maxWidth = 500,
-  popupsActive: popupsActiveProp = popupsActiveDefault,
-  onSelect,
+  value: valueProp = popupsActiveDefault,
+  onChange,
   onLoadPopups
 }: PopupSidebarProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
@@ -66,7 +65,7 @@ const PopupSidebar = ({
     return [];
   }, [placement, popupLeft, popupRight]);
   const [popupsActive, setPopupsActive] = useState(() => {
-    const popupsSelected = popupsActiveProp.length > 0 ? popupsActiveProp : popups.map(popup => popup.id);
+    const popupsSelected = valueProp.length > 0 ? valueProp : popups.map(popup => popup.id);
     if (multiSelect) {
       return popupsSelected;
     }
@@ -91,15 +90,15 @@ const PopupSidebar = ({
   const { rootDOM } = use(ContainerRootContext);
 
   useDidUpdateEffect(() => {
-    setPopupsActive(popupsActiveProp);
-  }, [popupsActiveProp]);
+    setPopupsActive(valueProp);
+  }, [valueProp]);
 
   const handleChangeTabs = useCallback(
     (popsActive: string[]) => {
-      onSelect?.(popsActive);
+      onChange?.(popsActive);
       setPopupsActive(popsActive);
     },
-    [onSelect]
+    [onChange]
   );
 
   const handleClickFloating = useCallback(
@@ -108,8 +107,8 @@ const PopupSidebar = ({
   );
 
   const handleClickCollapse = useCallback(
-    (popupId: string, placement: PopupPlacement) => () => placementPopup?.(popupId)(placement),
-    [placementPopup]
+    (popupId: string) => () => setPopupsActive(state => state.filter(item => item !== popupId)),
+    []
   );
 
   useEffect(() => {
@@ -159,7 +158,7 @@ const PopupSidebar = ({
           grow
           gap={0}
           multi={multiSelect}
-          defaultIndex={popupsActive.length > 0 ? popupsActive.slice(0, 1) : [popups[0].id]}
+          defaultValue={popupsActive.length > 0 ? popupsActive.slice(0, 1) : [popups[0].id]}
         >
           {popups
             .filter(pop => popupsActive.includes(pop.id))
@@ -196,7 +195,7 @@ const PopupSidebar = ({
                         className={classNameTheme.btn}
                         title="Hide"
                         content=""
-                        onClick={handleClickCollapse(popup.id, placement)}
+                        onClick={handleClickCollapse(popup.id)}
                       >
                         <Button.Icon
                           icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'}

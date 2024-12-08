@@ -16,7 +16,7 @@ import type { ReactNode } from 'react';
 
 export type PopupInstance = { id: string; component: ReactNode; settings: PopupSettings };
 
-type Popups = {
+export type Popups = {
   left: PopupInstance[];
   right: PopupInstance[];
   floating: PopupInstance[];
@@ -33,7 +33,10 @@ export type PopupProviderProps = {
   canHide?: boolean;
   popups?: Popups;
   limitMode?: ContainerDraggableProps['limitMode'];
+  onChange?: (value: Popups) => void;
 };
+
+const defaultPopups = { left: [], right: [], floating: [] };
 
 const PopupProvider = ({
   children,
@@ -44,12 +47,9 @@ const PopupProvider = ({
   renderFloatingPopup = true,
   multiSelect = false,
   canHide = true,
-  popups = {
-    left: [],
-    right: [],
-    floating: []
-  },
-  limitMode
+  popups = defaultPopups,
+  limitMode,
+  onChange
 }: PopupProviderProps) => {
   const [reRender, setRerender] = useState(0);
   const popupsRef = useRef<Popups>(popups);
@@ -59,15 +59,19 @@ const PopupProvider = ({
     ...popups.floating.reduce((acum, popup) => ({ ...acum, [popup.id]: 'floating' }), {})
   });
 
-  const addPopup = useCallback((id: string, component: ReactNode, settings: PopupSettings = {} as PopupSettings) => {
-    if (!settings.placement) {
-      return;
-    }
+  const addPopup = useCallback(
+    (id: string, component: ReactNode, settings: PopupSettings = {} as PopupSettings) => {
+      if (!settings.placement) {
+        return;
+      }
 
-    popupsRef.current[settings.placement].push({ id, component, settings });
-    placementCacheRef.current = { ...placementCacheRef.current, [id]: settings.placement ?? 'floating' };
-    setRerender(Date.now());
-  }, []);
+      popupsRef.current[settings.placement].push({ id, component, settings });
+      placementCacheRef.current = { ...placementCacheRef.current, [id]: settings.placement ?? 'floating' };
+      setRerender(Date.now());
+      onChange?.(popupsRef.current);
+    },
+    [onChange]
+  );
 
   const removePopup = useCallback(
     (popupId: string) => () => {
@@ -79,8 +83,9 @@ const PopupProvider = ({
       popupsRef.current[placement] = popupsRef.current[placement].filter(popup => popup.id !== popupId);
       placementCacheRef.current = omit(placementCacheRef.current, [popupId]);
       setRerender(Date.now());
+      onChange?.(popupsRef.current);
     },
-    []
+    [onChange]
   );
 
   const existsPopup = useCallback((popupId: string) => {
@@ -106,8 +111,9 @@ const PopupProvider = ({
       pops[placement] = pops[placement] = [...pops[placement], popupInstance];
       placementCacheRef.current[popupId] = placement;
       setRerender(Date.now());
+      onChange?.(popupsRef.current);
     },
-    []
+    [onChange]
   );
 
   const focusPopup = useCallback(

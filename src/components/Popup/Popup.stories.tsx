@@ -3,6 +3,7 @@ import Popup from './Popup';
 import PopupProvider from './PopupProvider';
 
 // Types
+import type { Popups } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -90,7 +91,7 @@ export const Primary: Story = {
 
     return (
       <div className="flex border border-solid border-gray-300">
-        <PopupProvider popups={popups} multiSelect canHide>
+        <PopupProvider popups={popups} multiSelect canHide onChange={(value: Popups) => console.log(value)}>
           <div className="flex grow h-[500px] bg-gray-200"></div>
         </PopupProvider>
       </div>

@@ -23,8 +23,8 @@ export type AccordionProps = {
   children?: ReactNode;
   multi?: boolean;
   alwaysOpen?: boolean;
-  defaultIndex?: AccordionItemId[];
-  index?: AccordionItemId[];
+  defaultValue?: AccordionItemId[];
+  value?: AccordionItemId[];
   testId?: string;
   onChange?: (expandedIndex: AccordionItemId[]) => void;
 } & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>;
@@ -34,8 +34,8 @@ const emptyArray = [] as AccordionItemId[];
 const Accordion = ({
   className,
   children,
-  defaultIndex = emptyArray,
-  index = emptyArray,
+  defaultValue = emptyArray,
+  value = emptyArray,
   multi = false,
   alwaysOpen = true,
   testId = '',
@@ -56,7 +56,7 @@ const Accordion = ({
     variant: { intent, size }
   });
   const [itemSelected, setItemSelected] = useState<AccordionItemId[]>(() => {
-    const items = index.length > 0 ? index : defaultIndex;
+    const items = value.length > 0 ? value : defaultValue;
     if (multi) {
       return items;
     }
@@ -110,17 +110,17 @@ const Accordion = ({
   );
 
   useEffect(() => {
-    if (!multi && index.length === 0) {
+    if (!multi && value.length === 0) {
       setItemSelected(state => (state.length > 0 ? state.slice(0, 1) : []));
-    } else if (!multi && index.length > 0) {
-      setItemSelected(index.slice(0, 1));
-    } else if (index.length > 0) {
-      setItemSelected(index);
+    } else if (!multi && value.length > 0) {
+      setItemSelected(value.slice(0, 1));
+    } else if (value.length > 0) {
+      setItemSelected(value);
     }
-  }, [multi, index]);
+  }, [multi, value]);
 
   const { items } = useMemo(() => {
-    const components: { items: ReactNode[] } = {
+    const components: { items: ReactElement<AccordionItemProps>[] } = {
       items: []
     };
 
@@ -135,7 +135,6 @@ const Accordion = ({
         components.items.push(
           cloneElement<AccordionItemProps>(child as ReactElement<AccordionItemProps>, {
             intent,
-            key: i,
             grow,
             size,
             ...accordionItemProps,
@@ -150,6 +149,14 @@ const Accordion = ({
 
     return components;
   }, [children, testId, intent, itemSelected, grow, size, handleClick]);
+
+  useEffect(() => {
+    if (alwaysOpen && items.length > 0 && !items.find(item => item.props.isOpen) && items[0].props.id) {
+      const itemsSelected = [items[0].props.id];
+      setItemSelected(itemsSelected);
+      onChange?.(itemsSelected);
+    }
+  }, [alwaysOpen, items, onChange]);
 
   return (
     <Flex
