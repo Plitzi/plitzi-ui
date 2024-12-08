@@ -41,7 +41,7 @@ export const Primary: Story = {
           id: 'popup-4',
           component: <div>Hello World 4</div>,
           settings: {
-            icon: <i className="fa-solid fa-sliders text-base" />,
+            icon: <i className="fa-solid fa-plus" />,
             title: 'Popup 4',
             allowLeftSide: true,
             allowRightSide: true,
@@ -54,7 +54,7 @@ export const Primary: Story = {
           id: 'popup-2',
           component: <div>Hello World 2</div>,
           settings: {
-            icon: <i className="fa-solid fa-sliders text-base" />,
+            icon: <i className="fas fa-file" />,
             title: 'Popup 2',
             allowLeftSide: true,
             allowRightSide: true,
@@ -65,7 +65,7 @@ export const Primary: Story = {
           id: 'popup-5',
           component: <div>Hello World 5</div>,
           settings: {
-            icon: <i className="fa-solid fa-sliders text-base" />,
+            icon: <i className="fa-solid fa-image" />,
             title: 'Popup 5',
             allowLeftSide: true,
             allowRightSide: true,

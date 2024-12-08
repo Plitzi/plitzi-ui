@@ -17,7 +17,7 @@ const popupsActiveDefault: string[] = [];
 
 export type PopupSidebarTabsProps = {
   className?: string;
-  placementTabs?: 'top' | 'left' | 'right' | 'none';
+  placement?: 'top' | 'left' | 'right' | 'none';
   popupsActive?: string[];
   canHide?: boolean;
   multiSelect?: boolean;
@@ -26,37 +26,31 @@ export type PopupSidebarTabsProps = {
 
 const PopupSidebarTabs = ({
   className = '',
-  placementTabs = 'right',
+  placement = 'right',
   popupsActive = popupsActiveDefault,
   canHide = true,
   multiSelect = true,
   onChange
 }: PopupSidebarTabsProps) => {
-  const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
+  className = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
-    componentKey: ['tabs'],
-    variant: { placement: placementTabs }
+    componentKey: 'tabs',
+    variant: { placement }
   });
   const { popupLeft, popupRight } = usePopup();
   const popups = useMemo(() => {
-    if (placementTabs === 'left') {
+    if (placement === 'left') {
       return popupLeft;
     }
 
-    if (placementTabs === 'right') {
+    if (placement === 'right') {
       return popupRight;
     }
 
     return [];
-  }, [placementTabs, popupLeft, popupRight]);
-
-  // const handleClickPopup = (popupId: string) => () => placementPopup?.(popupId)('floating');
+  }, [placement, popupLeft, popupRight]);
 
   const handleChange = useCallback((popups: string[]) => onChange?.(popups), [onChange]);
-
-  if (!popups.length) {
-    return undefined;
-  }
 
   return (
     <Sidebar
@@ -64,8 +58,8 @@ const PopupSidebarTabs = ({
       onChange={handleChange}
       canEmpty={canHide}
       multi={multiSelect}
-      className={classNameTheme.tabs}
-      placement={placementTabs as Partial<SidebarProps['placement']>}
+      className={className}
+      placement={placement as Partial<SidebarProps['placement']>}
     >
       {popups.map((popup, i) => (
         <Sidebar.Icon key={i} id={popup.id}>

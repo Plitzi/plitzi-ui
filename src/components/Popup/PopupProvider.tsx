@@ -102,8 +102,8 @@ const PopupProvider = ({
       const pops = popupsRef.current;
       const popupIndex = pops[currentPlacement].findIndex(popup => popup.id === popupId);
       const popupInstance = pops[currentPlacement][popupIndex];
-      pops[currentPlacement].splice(popupIndex, 1);
-      pops[placement].push(popupInstance);
+      pops[currentPlacement] = pops[currentPlacement].toSpliced(popupIndex, 1);
+      pops[placement] = pops[placement] = [...pops[placement], popupInstance];
       placementCacheRef.current[popupId] = placement;
       setRerender(Date.now());
     },

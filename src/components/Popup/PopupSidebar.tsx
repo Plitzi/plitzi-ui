@@ -195,7 +195,7 @@ const PopupSidebar = ({
     return (
       <PopupSidebarTabs
         className={className}
-        placementTabs={placementTabs}
+        placement={placementTabs}
         popupsActive={popupsActive}
         multiSelect={multiSelect}
         canHide={canHide}
@@ -217,7 +217,7 @@ const PopupSidebar = ({
     >
       <div className={classNameTheme.sidebar}>
         <PopupSidebarTabs
-          placementTabs={placementTabs}
+          placement={placementTabs}
           popupsActive={popupsActive}
           onChange={handleChangeTabs}
           multiSelect={multiSelect}
