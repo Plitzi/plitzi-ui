@@ -95,7 +95,7 @@ const AccordionItem = ({
 
   useEffect(() => {
     if (!isOpen && ref.current && ref.current.style.flexBasis) {
-      ref.current.style.flexBasis = '0px';
+      ref.current.style.flexBasis = '';
     }
   }, [isOpen]);
 

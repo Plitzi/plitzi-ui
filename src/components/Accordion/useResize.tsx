@@ -1,5 +1,5 @@
 // Packages
-import { RefObject, useCallback, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 export type UseResizeProps = {
   panels: { size: number; minSize: number }[];
@@ -7,7 +7,7 @@ export type UseResizeProps = {
   updatePanelStyles?: (containerRef: RefObject<HTMLDivElement | null>, sizes: number[]) => void;
 };
 
-export type UseResizeResponse = [RefObject<number[]>, () => void];
+export type UseResizeResponse = [RefObject<number[]>, () => void, boolean];
 
 const updatePanelStylesDefault = (containerRef: RefObject<HTMLDivElement | null>, sizes: number[]) => {
   const panelElements = Array.from(containerRef.current?.children ?? []) as HTMLElement[];
@@ -21,6 +21,7 @@ const useResize = ({
   containerRef,
   updatePanelStyles = updatePanelStylesDefault
 }: UseResizeProps): UseResizeResponse => {
+  const [resizing, setResizing] = useState(false);
   const sizes = useRef<number[]>(panels.map(panel => panel.size));
   const startY = useRef<number>(0);
   const currentIndex = useRef<number>(0);
@@ -44,6 +45,7 @@ const useResize = ({
       const delta = e.clientY - startY.current;
       handleResize(currentIndex.current, delta);
       startY.current = e.clientY;
+      setResizing(true);
     },
     [handleResize]
   );
@@ -54,6 +56,7 @@ const useResize = ({
       e.preventDefault();
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      setResizing(false);
     },
     [handleMouseMove]
   );
@@ -96,7 +99,7 @@ const useResize = ({
     [containerRef, updatePanelStyles]
   );
 
-  return [sizes, updatePanels];
+  return [sizes, updatePanels, resizing];
 };
 
 export default useResize;
