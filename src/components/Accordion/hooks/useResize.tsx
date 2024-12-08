@@ -35,6 +35,8 @@ const useResize = ({
         sizes.current[index] = currentSize;
         sizes.current[index + 1] = nextSize;
         updatePanelStyles(containerRef, sizes.current);
+      } else {
+        console.log('damn');
       }
     },
     [containerRef, panels, updatePanelStyles]

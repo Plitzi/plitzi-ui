@@ -29,7 +29,7 @@ export const Primary: Story = {
       left: [
         {
           id: 'popup-1',
-          component: <div>Hello World 1</div>,
+          component: <div className="h-[600px]">Hello World 1</div>,
           settings: {
             icon: <i className="fa-solid fa-sliders text-base" />,
             title: 'Popup 1',

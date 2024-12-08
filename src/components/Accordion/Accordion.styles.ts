@@ -27,7 +27,7 @@ export default {
       resizing: false
     }
   }),
-  item: cva('transition-all overflow-auto'),
+  item: cva('transition-all'),
   itemHeader: cva('font-medium cursor-pointer select-none leading-3 uppercase', {
     variants: {
       size: {

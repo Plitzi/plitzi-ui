@@ -9,7 +9,7 @@ import useTheme from '@hooks/useTheme';
 // Relatives
 import AccordionItem from './AccordionItem';
 import AccordionProvider from './AccordionProvider';
-import useResize from './useResize';
+import useResize from './hooks/useResize';
 
 // Types
 import type { variantKeys } from './Accordion.styles';
