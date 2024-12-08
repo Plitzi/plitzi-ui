@@ -21,7 +21,7 @@ export type SidebarProps = {
   children?: ReactNode;
   placement?: 'top' | 'left' | 'right' | 'buttom';
   selected?: string;
-  value?: string[];
+  value?: string | string[];
   multi?: boolean;
   canEmpty?: boolean;
   onChange?: (item: string[]) => void;
@@ -42,24 +42,36 @@ const Sidebar = ({
     variant: { placement }
   });
 
+  const finalValue = useMemo(() => {
+    if (typeof value === 'string' && value) {
+      return [value];
+    }
+
+    if (typeof value === 'string') {
+      return [];
+    }
+
+    return value;
+  }, [value]);
+
   const handleChange = useCallback(
     (id: string) => {
       if (!onChange) {
         return;
       }
 
-      const found = value.includes(id);
+      const found = finalValue.includes(id);
       if (multi && found) {
-        onChange(value.filter(v => v !== id));
+        onChange(finalValue.filter(v => v !== id));
       } else if (multi) {
-        onChange([...value, id]);
+        onChange([...finalValue, id]);
       } else if (found && canEmpty) {
         onChange([]);
       } else if (!found) {
         onChange([id]);
       }
     },
-    [canEmpty, multi, onChange, value]
+    [canEmpty, multi, onChange, finalValue]
   );
 
   const { items } = useMemo(() => {
@@ -79,7 +91,7 @@ const Sidebar = ({
           cloneElement<SidebarIconProps>(child as ReactElement<SidebarIconProps>, {
             ...iconProps,
             key: i,
-            active: value.includes(itemId),
+            active: finalValue.includes(itemId),
             id: itemId
           })
         );
@@ -95,7 +107,7 @@ const Sidebar = ({
     });
 
     return components;
-  }, [children, value]);
+  }, [children, finalValue]);
 
   return (
     <div className={className}>
