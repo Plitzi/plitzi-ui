@@ -49,8 +49,8 @@ const AccordionItem = ({
 }: AccordionItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { onUnloadItem } = useContext(AccordionContext);
-  className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
-    componentKey: 'item',
+  const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys, false>('Accordion', {
+    componentKey: ['item', 'itemDivider'],
     className,
     variant: { intent, size }
   });
@@ -104,7 +104,7 @@ const AccordionItem = ({
       ref={ref}
       aria-expanded={isOpen}
       testId={testId ? `${testId}-${id}-accordion-item` : undefined}
-      className={className}
+      className={classNameTheme.item}
       direction={direction}
       wrap={wrap}
       items={items}
@@ -116,7 +116,7 @@ const AccordionItem = ({
     >
       {header}
       {isOpen && content}
-      {isOpen && resizable && <div className="divider h-1 bg-red-500 cursor-row-resize w-full" />}
+      {isOpen && resizable && <div className={classNameTheme.itemDivider} />}
     </Flex>
   );
 };

@@ -79,7 +79,9 @@ const useResize = ({
     currentIndex.current = 0;
 
     panelElements.forEach((panel, index) => {
-      sizes.current[index] = panel.offsetHeight;
+      setTimeout(() => {
+        sizes.current[index] = panel.offsetHeight;
+      }, 200); // 150ms transition duration, 50ms more just in case
       if (index < panels.length - 1) {
         const divider = panel.querySelector('.divider');
         divider?.addEventListener('mousedown', e => handleMouseDown(e as MouseEvent, index));

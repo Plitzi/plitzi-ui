@@ -4,7 +4,8 @@ import { cva } from 'class-variance-authority';
 export const variantKeys = {
   intent: ['default'],
   grow: [true, false],
-  size: ['xs', 'md', 'sm']
+  size: ['xs', 'md', 'sm'],
+  resizing: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Accordion';
@@ -14,14 +15,19 @@ export default {
     variants: {
       intent: {
         default: []
+      },
+      resizing: {
+        true: 'select-none',
+        false: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default'
+      intent: 'default',
+      resizing: false
     }
   }),
-  item: cva('transition-all'),
+  item: cva('transition-all overflow-auto'),
   itemHeader: cva('font-medium cursor-pointer select-none leading-3 uppercase', {
     variants: {
       size: {
@@ -56,5 +62,8 @@ export default {
       grow: true,
       size: 'md'
     }
-  })
+  }),
+  itemDivider: cva(
+    'divider h-1 bg-primary-400 cursor-row-resize w-full opacity-0 hover:opacity-100 transition-all translate-y-1/2'
+  )
 };

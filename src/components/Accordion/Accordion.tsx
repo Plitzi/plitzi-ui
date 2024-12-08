@@ -1,4 +1,5 @@
 // Packages
+import classNames from 'classnames';
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Alias
@@ -51,11 +52,6 @@ const Accordion = ({
   onChange
 }: AccordionProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
-    componentKey: 'root',
-    className,
-    variant: { intent, size }
-  });
   const [itemSelected, setItemSelected] = useState<AccordionItemId[]>(() => {
     const items = value.length > 0 ? value : defaultValue;
     if (multi) {
@@ -161,7 +157,13 @@ const Accordion = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [items.length, itemSelected]
   );
-  useResize({ panels, containerRef });
+  const [, , resizing] = useResize({ panels, containerRef });
+
+  className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
+    componentKey: 'root',
+    className,
+    variant: { intent, size, resizing }
+  });
 
   useEffect(() => {
     if (alwaysOpen && items.length > 0 && !items.find(item => item.props.isOpen) && items[0].props.id) {
@@ -175,7 +177,7 @@ const Accordion = ({
     <Flex
       ref={containerRef}
       testId={testId ? `${testId}-accordion` : undefined}
-      className={className}
+      className={classNames(className, { resizing })}
       direction={direction}
       wrap={wrap}
       items={flexItems}
