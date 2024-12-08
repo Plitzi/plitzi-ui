@@ -177,7 +177,7 @@ const Accordion = ({
     <Flex
       ref={containerRef}
       testId={testId ? `${testId}-accordion` : undefined}
-      className={classNames(className, { resizing })}
+      className={classNames(className, { 'accordion-resizing': resizing })}
       direction={direction}
       wrap={wrap}
       items={flexItems}

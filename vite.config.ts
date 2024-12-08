@@ -2,11 +2,12 @@
 /// <reference types="vitest" />
 
 // Packages
-import { defineConfig } from 'vite';
-import path, { resolve } from 'node:path';
-import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
 import { rename } from 'fs/promises';
+import path, { resolve } from 'node:path';
+
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   plugins: [
@@ -25,6 +26,9 @@ export default defineConfig({
     }),
     {
       name: 'rename-node-modules',
+      apply(_, { command }) {
+        return command === 'build';
+      },
       closeBundle: async () => {
         try {
           await rename('./dist/node_modules', './dist/vendor');
