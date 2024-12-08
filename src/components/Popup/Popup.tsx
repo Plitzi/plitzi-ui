@@ -1,5 +1,5 @@
 // Packages
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 // Alias
 import Button from '@components/Button';
@@ -66,8 +66,11 @@ const Popup = ({
     componentKey: ['root', 'btn'],
     variant: {}
   });
-  const [x] = useState((window.innerWidth - width) / 2);
-  const [y] = useState((window.innerHeight - height) / 2);
+
+  const { x, y } = useMemo(
+    () => ({ x: (window.innerWidth - width) / 2, y: (window.innerHeight - height) / 2 }),
+    [width, height]
+  );
 
   const handleClickEmbedLeft = useCallback(() => placementPopup?.('left'), [placementPopup]);
 
