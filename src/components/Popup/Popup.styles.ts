@@ -2,7 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  placement: ['left', 'right', 'none']
+  placement: ['left', 'right']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Popup';

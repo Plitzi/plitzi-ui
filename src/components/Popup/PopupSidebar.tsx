@@ -17,7 +17,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 export type PopupSidebarProps = {
   placement?: 'left' | 'right';
 } & Omit<SidebarProps, 'placement'> &
-  useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
+  useThemeSharedProps<typeof PopupStyles, Omit<typeof variantKeys, 'placement'>>;
 
 const PopupSidebar = ({
   className = '',
