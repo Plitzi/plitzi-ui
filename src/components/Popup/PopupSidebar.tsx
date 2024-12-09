@@ -2,7 +2,7 @@
 import { useCallback, useMemo } from 'react';
 
 // Alias
-import Sidebar, { SidebarProps } from '@components/Sidebar';
+import Sidebar from '@components/Sidebar';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
@@ -11,25 +11,19 @@ import usePopup from './usePopup';
 // Types
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
-import type { variantKeys as variantKeysSidebar } from '@components/Sidebar/Sidebar.styles';
+import type { SidebarProps } from '@components/Sidebar';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
-const popupsActiveDefault: string[] = [];
-
 export type PopupSidebarProps = {
-  className?: string;
-  popupsActive?: string[];
-  canHide?: boolean;
-  multiSelect?: boolean;
   placement?: 'left' | 'right';
-  onChange?: (popups: string[]) => void;
-} & useThemeSharedProps<typeof PopupStyles, typeof variantKeys & Omit<typeof variantKeysSidebar, 'placement'>>;
+} & Omit<SidebarProps, 'placement'> &
+  useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupSidebar = ({
   className = '',
-  popupsActive = popupsActiveDefault,
-  canHide = true,
-  multiSelect = true,
+  value,
+  canEmpty = true,
+  multi = true,
   placement = 'right',
   border,
   padding,
@@ -53,10 +47,10 @@ const PopupSidebar = ({
 
   return (
     <Sidebar
-      value={popupsActive}
+      value={value}
       onChange={handleChange}
-      canEmpty={canHide}
-      multi={multiSelect}
+      canEmpty={canEmpty}
+      multi={multi}
       className={className}
       placement={placement as Partial<SidebarProps['placement']>}
       border={border}

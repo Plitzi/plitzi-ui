@@ -1,5 +1,5 @@
 // Packages
-import { use, useMemo, useState, useCallback, useEffect } from 'react';
+import { use, useMemo, useState, useCallback } from 'react';
 
 // Alias
 import Accordion from '@components/Accordion';
@@ -33,7 +33,6 @@ export type PopupSidePanelProps = {
   maxWidth?: number;
   value?: string[];
   onChange?: (value: string[]) => void;
-  onLoadPopups?: (value: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupSidePanel = ({
@@ -46,8 +45,7 @@ const PopupSidePanel = ({
   minWidth = 280,
   maxWidth = 500,
   value: valueProp = popupsActiveDefault,
-  onChange,
-  onLoadPopups
+  onChange
 }: PopupSidePanelProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
     className,
@@ -105,12 +103,6 @@ const PopupSidePanel = ({
     []
   );
 
-  useEffect(() => {
-    if (popupsActive.length > 0 && onLoadPopups) {
-      onLoadPopups(popupsActive);
-    }
-  }, [popups, onLoadPopups, popupsActive]);
-
   if (!popups.length || (popupsActive.length === 0 && !showSidebar)) {
     return undefined;
   }
@@ -119,9 +111,9 @@ const PopupSidePanel = ({
     return (
       <PopupSidebar
         placement={placementTabs}
-        popupsActive={popupsActive}
-        multiSelect={multiSelect}
-        canHide={canHide}
+        value={popupsActive}
+        multi={multiSelect}
+        canEmpty={canHide}
         onChange={handleChangeTabs}
       />
     );
@@ -142,10 +134,10 @@ const PopupSidePanel = ({
         {showSidebar && (
           <PopupSidebar
             placement={placementTabs}
-            popupsActive={popupsActive}
+            value={popupsActive}
+            multi={multiSelect}
+            canEmpty={canHide}
             onChange={handleChangeTabs}
-            multiSelect={multiSelect}
-            canHide={canHide}
           />
         )}
         <Accordion
