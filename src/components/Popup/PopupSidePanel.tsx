@@ -94,7 +94,10 @@ const PopupSidePanel = ({
   );
 
   const handleClickFloating = useCallback(
-    (popupId: string) => () => placementPopup?.(popupId)('floating'),
+    (popupId: string) => () => {
+      placementPopup?.(popupId)('floating');
+      setPopupsActive(state => state.filter(popup => popup !== popupId));
+    },
     [placementPopup]
   );
 
