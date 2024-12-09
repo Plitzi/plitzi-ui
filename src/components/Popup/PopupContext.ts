@@ -13,10 +13,10 @@ export type PopupContextValue = {
   popupFloating: PopupInstance[];
   limitMode?: ContainerDraggableProps['limitMode'];
   addPopup?: (id: string, component: ReactNode, settings?: PopupSettings) => void;
-  focusPopup?: (popupId: string, sort?: number) => () => void;
-  placementPopup?: (popupId: string) => (placement: PopupPlacement) => void;
+  focusPopup?: (popupId: string, sort?: number) => void;
+  placementPopup?: (popupId: string, placement: PopupPlacement) => void;
   existsPopup?: (popupId: string) => boolean;
-  removePopup?: (popupId: string) => () => void;
+  removePopup?: (popupId: string) => void;
 };
 
 const popupDefaultValue = {

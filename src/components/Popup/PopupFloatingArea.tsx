@@ -29,9 +29,9 @@ const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
             key={popup.id}
             id={popup.id}
             title={title}
-            placementPopup={placementPopup?.(popup.id)}
-            onFocus={focusPopup?.(popup.id)}
-            removePopup={removePopup?.(popup.id)}
+            placementPopup={placementPopup}
+            onFocus={focusPopup}
+            removePopup={removePopup}
             limitMode={limitMode}
             parentElement={rootDOM}
           >

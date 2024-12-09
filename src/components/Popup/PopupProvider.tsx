@@ -98,7 +98,7 @@ const PopupProvider = ({
   }, []);
 
   const placementPopup = useCallback(
-    (popupId: string) => (placement: PopupPlacement) => {
+    (popupId: string, placement: PopupPlacement) => {
       const currentPlacement = placementCacheRef.current[popupId];
       if (!currentPlacement) {
         return;

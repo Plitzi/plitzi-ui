@@ -34,9 +34,9 @@ export type PopupProps = {
   resizeHandles?: ResizeHandle[];
   limitMode?: 'window' | 'parent' | 'none';
   parentElement?: HTMLElement | null;
-  placementPopup?: (placement: PopupPlacement) => void;
-  onFocus?: () => void;
-  removePopup?: () => void;
+  placementPopup?: (popupId: string, placement: PopupPlacement) => void;
+  onFocus?: (popupId: string, sort?: number) => void;
+  removePopup?: (popupId: string) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 export type PopupSettings = { placement?: PopupPlacement } & Omit<PopupProps, 'id'>;
@@ -72,9 +72,13 @@ const Popup = ({
     [width, height]
   );
 
-  const handleClickEmbedLeft = useCallback(() => placementPopup?.('left'), [placementPopup]);
+  const handleClickEmbedLeft = useCallback(() => placementPopup?.(id, 'left'), [placementPopup, id]);
 
-  const handleClickEmbedRight = useCallback(() => placementPopup?.('right'), [placementPopup]);
+  const handleClickEmbedRight = useCallback(() => placementPopup?.(id, 'right'), [placementPopup, id]);
+
+  const handleFocus = useCallback(() => onFocus?.(id), [id, onFocus]);
+
+  const handleClose = useCallback(() => removePopup?.(id), [id, removePopup]);
 
   const customActionsMemo = useMemo(() => {
     const actions = [];
@@ -125,8 +129,8 @@ const Popup = ({
       height={height}
       x={x}
       y={y}
-      onClose={removePopup}
-      onFocus={onFocus}
+      onClose={handleClose}
+      onFocus={handleFocus}
       allowResize={allowResize}
       allowExternal={allowExternal}
       resizeHandles={resizeHandles}
