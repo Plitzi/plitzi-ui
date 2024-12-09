@@ -11,25 +11,28 @@ import usePopup from './usePopup';
 // Types
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
+import type { variantKeys as variantKeysSidebar } from '@components/Sidebar/Sidebar.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 const popupsActiveDefault: string[] = [];
 
 export type PopupSidebarTabsProps = {
   className?: string;
-  placement?: 'top' | 'left' | 'right' | 'none';
   popupsActive?: string[];
   canHide?: boolean;
   multiSelect?: boolean;
+  placement?: 'top' | 'left' | 'right' | 'none';
   onChange?: (popups: string[]) => void;
-} & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
+} & useThemeSharedProps<typeof PopupStyles, typeof variantKeys & Omit<typeof variantKeysSidebar, 'placement'>>;
 
 const PopupSidebarTabs = ({
   className = '',
-  placement = 'right',
   popupsActive = popupsActiveDefault,
   canHide = true,
   multiSelect = true,
+  placement = 'right',
+  border,
+  padding,
   onChange
 }: PopupSidebarTabsProps) => {
   className = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
@@ -60,6 +63,8 @@ const PopupSidebarTabs = ({
       multi={multiSelect}
       className={className}
       placement={placement as Partial<SidebarProps['placement']>}
+      border={border}
+      padding={padding}
     >
       {popups.map((popup, i) => (
         <Sidebar.Icon key={i} id={popup.id}>

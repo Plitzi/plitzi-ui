@@ -28,6 +28,7 @@ export type PopupSidebarProps = {
   placementTabs?: 'top' | 'left' | 'right' | 'none';
   canHide?: boolean;
   multiSelect?: boolean;
+  showSidebar?: boolean;
   minWidth?: number;
   maxWidth?: number;
   value?: string[];
@@ -41,6 +42,7 @@ const PopupSidebar = ({
   placementTabs = 'right',
   canHide = false,
   multiSelect = false,
+  showSidebar = true,
   minWidth = 280,
   maxWidth = 500,
   value: valueProp = popupsActiveDefault,
@@ -117,7 +119,7 @@ const PopupSidebar = ({
     }
   }, [popups, onLoadPopups, popupsActive]);
 
-  if (!popups.length) {
+  if (!popups.length || (popupsActive.length === 0 && !showSidebar)) {
     return undefined;
   }
 
@@ -146,13 +148,15 @@ const PopupSidebar = ({
       parentElement={rootDOM}
     >
       <div className={classNameTheme.sidebar}>
-        <PopupSidebarTabs
-          placement={placementTabs}
-          popupsActive={popupsActive}
-          onChange={handleChangeTabs}
-          multiSelect={multiSelect}
-          canHide={canHide}
-        />
+        {showSidebar && (
+          <PopupSidebarTabs
+            placement={placementTabs}
+            popupsActive={popupsActive}
+            onChange={handleChangeTabs}
+            multiSelect={multiSelect}
+            canHide={canHide}
+          />
+        )}
         <Accordion
           className={classNameTheme.sidebarContainer}
           grow

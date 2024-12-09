@@ -30,16 +30,18 @@ export type SidebarProps = {
 const Sidebar = ({
   className,
   children,
-  placement,
   value = [],
   multi = false,
   canEmpty = false,
+  placement,
+  border,
+  padding,
   onChange
 }: SidebarProps) => {
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
     className,
     componentKey: 'root',
-    variant: { placement }
+    variant: { placement, border, padding }
   });
 
   const finalValue = useMemo(() => {
@@ -103,6 +105,9 @@ const Sidebar = ({
             key: i
           })
         );
+      } else {
+        const childProps = child.props as object;
+        components.items.push(cloneElement<unknown>(child as ReactElement, { ...childProps, key: i }));
       }
     });
 

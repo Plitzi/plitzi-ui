@@ -45,7 +45,7 @@ export default {
   itemHeaderIcon: cva('flex items-center justify-center w-4 h-4'),
   itemHeaderIconError: cva('flex items-center justify-center text-red-500'),
   itemHeaderIconWarning: cva('flex items-center justify-center text-orange-500'),
-  itemContent: cva('', {
+  itemContent: cva('flex', {
     variants: {
       size: {
         xs: 'px-1',
