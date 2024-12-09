@@ -16,7 +16,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 const popupsActiveDefault: string[] = [];
 
-export type PopupSidebarTabsProps = {
+export type PopupSidebarProps = {
   className?: string;
   popupsActive?: string[];
   canHide?: boolean;
@@ -25,7 +25,7 @@ export type PopupSidebarTabsProps = {
   onChange?: (popups: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys & Omit<typeof variantKeysSidebar, 'placement'>>;
 
-const PopupSidebarTabs = ({
+const PopupSidebar = ({
   className = '',
   popupsActive = popupsActiveDefault,
   canHide = true,
@@ -34,10 +34,10 @@ const PopupSidebarTabs = ({
   border,
   padding,
   onChange
-}: PopupSidebarTabsProps) => {
+}: PopupSidebarProps) => {
   className = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
-    componentKey: 'tabs',
+    componentKey: 'sidebar',
     variant: { placement }
   });
   const { popupLeft, popupRight } = usePopup();
@@ -71,4 +71,4 @@ const PopupSidebarTabs = ({
   );
 };
 
-export default PopupSidebarTabs;
+export default PopupSidebar;

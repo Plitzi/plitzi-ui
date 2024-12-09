@@ -10,7 +10,7 @@ import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
-import PopupSidebarTabs from './PopupSidebarTabs';
+import PopupSidebar from './PopupSidebar';
 import usePopup from './usePopup';
 
 // Types
@@ -51,7 +51,7 @@ const PopupSidePanel = ({
 }: PopupSidePanelProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
     className,
-    componentKey: ['sidebarRoot', 'sidebar', 'sidebarContainer'],
+    componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
     variant: { placement: placementTabs }
   });
   const { placementPopup, popupLeft, popupRight } = usePopup();
@@ -117,8 +117,7 @@ const PopupSidePanel = ({
 
   if (popupsActive.length === 0 && canHide) {
     return (
-      <PopupSidebarTabs
-        className={className}
+      <PopupSidebar
         placement={placementTabs}
         popupsActive={popupsActive}
         multiSelect={multiSelect}
@@ -130,7 +129,7 @@ const PopupSidePanel = ({
 
   return (
     <ContainerResizable
-      className={classNameTheme.sidebarRoot}
+      className={classNameTheme.sidePanelRoot}
       autoGrow={false}
       minConstraintsX={minWidth}
       minConstraintsY={Infinity}
@@ -139,9 +138,9 @@ const PopupSidePanel = ({
       resizeHandles={resizeHandles}
       parentElement={rootDOM}
     >
-      <div className={classNameTheme.sidebar}>
+      <div className={classNameTheme.sidePanel}>
         {showSidebar && (
-          <PopupSidebarTabs
+          <PopupSidebar
             placement={placementTabs}
             popupsActive={popupsActive}
             onChange={handleChangeTabs}
@@ -150,7 +149,7 @@ const PopupSidePanel = ({
           />
         )}
         <Accordion
-          className={classNameTheme.sidebarContainer}
+          className={classNameTheme.sidePanelContainer}
           grow
           gap={0}
           multi={multiSelect}

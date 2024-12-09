@@ -17,8 +17,8 @@ export default {
     compoundVariants: [],
     defaultVariants: {}
   }),
-  sidebarRoot: cva(''),
-  sidebar: cva('h-full flex grow bg-white', {
+  sidePanelRoot: cva(''),
+  sidePanel: cva('h-full flex grow bg-white', {
     variants: {
       placement: {
         left: '',
@@ -30,7 +30,7 @@ export default {
       placement: 'right'
     }
   }),
-  sidebarContainer: cva('flex flex-col grow', {
+  sidePanelContainer: cva('flex flex-col grow', {
     variants: {
       placement: {
         left: 'min-w-0 overflow-y-auto',
@@ -42,7 +42,7 @@ export default {
       placement: 'right'
     }
   }),
-  tabs: cva('', {
+  sidebar: cva('', {
     variants: {
       placement: {
         left: '',
