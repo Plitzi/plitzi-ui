@@ -21,7 +21,7 @@ export type PopupSidebarTabsProps = {
   popupsActive?: string[];
   canHide?: boolean;
   multiSelect?: boolean;
-  placement?: 'top' | 'left' | 'right' | 'none';
+  placement?: 'left' | 'right';
   onChange?: (popups: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys & Omit<typeof variantKeysSidebar, 'placement'>>;
 
@@ -46,11 +46,7 @@ const PopupSidebarTabs = ({
       return popupLeft;
     }
 
-    if (placement === 'right') {
-      return popupRight;
-    }
-
-    return [];
+    return popupRight;
   }, [placement, popupLeft, popupRight]);
 
   const handleChange = useCallback((popups: string[]) => onChange?.(popups), [onChange]);

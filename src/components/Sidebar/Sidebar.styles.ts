@@ -23,11 +23,32 @@ export default {
         right: 'border-l'
       },
       padding: {
-        normal: 'py-4',
+        normal: '',
         none: ''
       }
     },
-    compoundVariants: [],
+    compoundVariants: [
+      {
+        placement: 'top',
+        padding: 'normal',
+        className: 'px-4'
+      },
+      {
+        placement: 'bottom',
+        padding: 'normal',
+        className: 'px-4'
+      },
+      {
+        placement: 'left',
+        padding: 'normal',
+        className: 'py-4'
+      },
+      {
+        placement: 'right',
+        padding: 'normal',
+        className: 'py-4'
+      }
+    ],
     defaultVariants: {
       placement: 'left',
       border: 'solid',

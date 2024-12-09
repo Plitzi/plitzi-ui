@@ -7,7 +7,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 // Relatives
 import PopupContext from './PopupContext';
 import PopupFloatingArea from './PopupFloatingArea';
-import PopupSidebar from './PopupSidebar';
+import PopupSidePanel from './PopupSidePanel';
 
 // Types
 import type { PopupPlacement, PopupSettings } from './Popup';
@@ -154,7 +154,7 @@ const PopupProvider = ({
   return (
     <PopupContext value={popupContextValue}>
       {renderLeftPopup && popupsRef.current.left.length > 0 && (
-        <PopupSidebar placement="left" placementTabs="left" multiSelect={multiSelect} canHide={canHide} />
+        <PopupSidePanel placement="left" placementTabs="left" multiSelect={multiSelect} canHide={canHide} />
       )}
       {children}
       {renderFloatingPopup && popupsRef.current.floating.length > 0 && (
@@ -167,7 +167,7 @@ const PopupProvider = ({
         />
       )}
       {renderRightPopup && popupsRef.current.right.length > 0 && (
-        <PopupSidebar multiSelect={multiSelect} canHide={canHide} />
+        <PopupSidePanel multiSelect={multiSelect} canHide={canHide} />
       )}
     </PopupContext>
   );

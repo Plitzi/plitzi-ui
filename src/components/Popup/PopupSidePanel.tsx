@@ -22,10 +22,10 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 const popupsActiveDefault: string[] = [];
 
-export type PopupSidebarProps = {
+export type PopupSidePanelProps = {
   className?: string;
-  placement?: 'left' | 'right' | 'top';
-  placementTabs?: 'top' | 'left' | 'right' | 'none';
+  placement?: 'left' | 'right';
+  placementTabs?: 'left' | 'right';
   canHide?: boolean;
   multiSelect?: boolean;
   showSidebar?: boolean;
@@ -36,7 +36,7 @@ export type PopupSidebarProps = {
   onLoadPopups?: (value: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
-const PopupSidebar = ({
+const PopupSidePanel = ({
   className = '',
   placement = 'right',
   placementTabs = 'right',
@@ -48,7 +48,7 @@ const PopupSidebar = ({
   value: valueProp = popupsActiveDefault,
   onChange,
   onLoadPopups
-}: PopupSidebarProps) => {
+}: PopupSidePanelProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
     className,
     componentKey: ['sidebarRoot', 'sidebar', 'sidebarContainer'],
@@ -60,11 +60,7 @@ const PopupSidebar = ({
       return popupLeft;
     }
 
-    if (placement === 'right') {
-      return popupRight;
-    }
-
-    return [];
+    return popupRight;
   }, [placement, popupLeft, popupRight]);
   const [popupsActive, setPopupsActive] = useState(() => {
     const popupsSelected = valueProp.length > 0 ? valueProp : popups.map(popup => popup.id);
@@ -79,10 +75,6 @@ const PopupSidebar = ({
     return [];
   });
   const resizeHandles = useMemo<ResizeHandle[]>(() => {
-    if (placementTabs === 'top') {
-      return ['s'];
-    }
-
     if (placementTabs === 'left') {
       return ['e'];
     }
@@ -123,7 +115,7 @@ const PopupSidebar = ({
     return undefined;
   }
 
-  if (popupsActive.length === 0 && placementTabs !== 'top' && canHide) {
+  if (popupsActive.length === 0 && canHide) {
     return (
       <PopupSidebarTabs
         className={className}
@@ -191,21 +183,19 @@ const PopupSidebar = ({
                     >
                       <Button.Icon icon="fas fa-window-restore" />
                     </Button>
-                    {(placement === 'left' || placement === 'right') && (
-                      <Button
-                        intent="custom"
-                        size="custom"
-                        border="none"
-                        className={classNameTheme.btn}
-                        title="Hide"
-                        content=""
-                        onClick={handleClickCollapse(popup.id)}
-                      >
-                        <Button.Icon
-                          icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'}
-                        />
-                      </Button>
-                    )}
+                    <Button
+                      intent="custom"
+                      size="custom"
+                      border="none"
+                      className={classNameTheme.btn}
+                      title="Hide"
+                      content=""
+                      onClick={handleClickCollapse(popup.id)}
+                    >
+                      <Button.Icon
+                        icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'}
+                      />
+                    </Button>
                   </Accordion.Item.Header>
                   <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
                 </Accordion.Item>
@@ -217,4 +207,4 @@ const PopupSidebar = ({
   );
 };
 
-export default PopupSidebar;
+export default PopupSidePanel;

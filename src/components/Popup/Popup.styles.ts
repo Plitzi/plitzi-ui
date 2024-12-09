@@ -2,7 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  placement: ['top', 'left', 'right', 'none']
+  placement: ['left', 'right', 'none']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Popup';
@@ -21,7 +21,6 @@ export default {
   sidebar: cva('h-full flex grow bg-white', {
     variants: {
       placement: {
-        top: 'flex-col',
         left: '',
         right: 'flex-row-reverse'
       }
@@ -34,7 +33,6 @@ export default {
   sidebarContainer: cva('flex flex-col grow', {
     variants: {
       placement: {
-        top: '',
         left: 'min-w-0 overflow-y-auto',
         right: 'min-w-0 overflow-y-auto'
       }
@@ -47,7 +45,6 @@ export default {
   tabs: cva('', {
     variants: {
       placement: {
-        top: '',
         left: '',
         right: ''
       }
