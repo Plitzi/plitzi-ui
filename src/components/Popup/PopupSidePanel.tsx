@@ -26,7 +26,7 @@ export type PopupSidePanelProps = {
   placement?: 'left' | 'right';
   placementTabs?: 'left' | 'right';
   canHide?: boolean;
-  multiSelect?: boolean;
+  multi?: boolean;
   showSidebar?: boolean;
   minWidth?: number;
   maxWidth?: number;
@@ -39,7 +39,7 @@ const PopupSidePanel = ({
   placement = 'right',
   placementTabs = 'right',
   canHide = false,
-  multiSelect = false,
+  multi = false,
   showSidebar = true,
   minWidth = 280,
   maxWidth = 500,
@@ -52,9 +52,10 @@ const PopupSidePanel = ({
     variant: { placement: placementTabs }
   });
   const { placementPopup, popups } = usePopup(placement);
+  const popupsIds = useMemo(() => popups.map(popup => popup.id), [popups]);
   const [popupsActive, setPopupsActive] = useState(() => {
-    const popupsSelected = valueProp.length > 0 ? valueProp : popups.map(popup => popup.id);
-    if (multiSelect) {
+    const popupsSelected = valueProp.length > 0 ? valueProp : popupsIds;
+    if (multi) {
       return popupsSelected;
     }
 
@@ -64,6 +65,10 @@ const PopupSidePanel = ({
 
     return [];
   });
+  const popupsActiveFiltered = useMemo(
+    () => popupsActive.filter(val => popupsIds.includes(val)),
+    [popupsActive, popupsIds]
+  );
   const resizeHandles = useMemo<ResizeHandle[]>(() => {
     if (placementTabs === 'left') {
       return ['e'];
@@ -98,16 +103,18 @@ const PopupSidePanel = ({
     []
   );
 
-  if (!popups.length || (popupsActive.length === 0 && !showSidebar)) {
+  console.log(popups, popupsActive, popupsActiveFiltered);
+
+  if (!popups.length || (popupsActiveFiltered.length === 0 && !showSidebar)) {
     return undefined;
   }
 
-  if (popupsActive.length === 0 && canHide) {
+  if (popupsActiveFiltered.length === 0 && canHide) {
     return (
       <PopupSidebar
         placement={placementTabs}
-        value={popupsActive}
-        multi={multiSelect}
+        value={popupsActiveFiltered}
+        multi={multi}
         canEmpty={canHide}
         onChange={handleChangeTabs}
       />
@@ -129,8 +136,8 @@ const PopupSidePanel = ({
         {showSidebar && (
           <PopupSidebar
             placement={placementTabs}
-            value={popupsActive}
-            multi={multiSelect}
+            value={popupsActiveFiltered}
+            multi={multi}
             canEmpty={canHide}
             onChange={handleChangeTabs}
           />
@@ -139,11 +146,11 @@ const PopupSidePanel = ({
           className={classNameTheme.sidePanelContainer}
           grow
           gap={0}
-          multi={multiSelect}
-          defaultValue={popupsActive.length > 0 ? popupsActive.slice(0, 1) : [popups[0].id]}
+          multi={multi}
+          defaultValue={popupsActiveFiltered.length > 0 ? popupsActiveFiltered.slice(0, 1) : [popups[0].id]}
         >
           {popups
-            .filter(pop => popupsActive.includes(pop.id))
+            .filter(pop => popupsActiveFiltered.includes(pop.id))
             .map((popup, i) => {
               return (
                 <Accordion.Item
