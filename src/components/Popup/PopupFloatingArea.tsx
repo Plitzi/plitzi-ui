@@ -1,5 +1,5 @@
 // Packages
-import { use } from 'react';
+import { memo, use } from 'react';
 
 // Alias
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
@@ -13,14 +13,14 @@ export type PopupFloatingAreaProps = {
 };
 const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
   const { rootDOM } = use(ContainerRootContext);
-  const { placementPopup, popupFloating, removePopup, focusPopup, limitMode } = usePopup();
-  if (!popupFloating.length) {
+  const { placementPopup, popups, removePopup, focusPopup, limitMode } = usePopup('floating');
+  if (!popups.length) {
     return undefined;
   }
 
   return (
     <div className={className}>
-      {popupFloating.map(popup => {
+      {popups.map(popup => {
         const { title } = popup.settings;
 
         return (
@@ -43,4 +43,4 @@ const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
   );
 };
 
-export default PopupFloatingArea;
+export default memo(PopupFloatingArea);

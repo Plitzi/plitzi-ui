@@ -8,9 +8,7 @@ import type { ContainerDraggableProps } from '@components/ContainerDraggable';
 import type { ReactNode } from 'react';
 
 export type PopupContextValue = {
-  popupLeft: PopupInstance[];
-  popupRight: PopupInstance[];
-  popupFloating: PopupInstance[];
+  popups: PopupInstance[];
   limitMode?: ContainerDraggableProps['limitMode'];
   addPopup?: (id: string, component: ReactNode, settings?: PopupSettings) => void;
   focusPopup?: (popupId: string, sort?: number) => void;
@@ -20,9 +18,7 @@ export type PopupContextValue = {
 };
 
 const popupDefaultValue = {
-  popupLeft: [],
-  popupRight: [],
-  popupFloating: [],
+  popups: [],
   limitMode: 'window' as const,
   addPopup: undefined,
   focusPopup: undefined,
@@ -31,6 +27,10 @@ const popupDefaultValue = {
   removePopup: undefined
 };
 
-const PopupContext = createContext<PopupContextValue | undefined>(popupDefaultValue);
+const PopupContextFloating = createContext<PopupContextValue | undefined>(popupDefaultValue);
 
-export default PopupContext;
+const PopupContextLeft = createContext<PopupContextValue | undefined>(popupDefaultValue);
+
+const PopupContextRight = createContext<PopupContextValue | undefined>(popupDefaultValue);
+
+export { PopupContextFloating, PopupContextLeft, PopupContextRight };

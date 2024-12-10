@@ -5,7 +5,7 @@ import omit from 'lodash/omit';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 // Relatives
-import PopupContext from './PopupContext';
+import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
 import PopupFloatingArea from './PopupFloatingArea';
 import PopupSidePanel from './PopupSidePanel';
 
@@ -51,7 +51,7 @@ const PopupProvider = ({
   limitMode,
   onChange
 }: PopupProviderProps) => {
-  const [reRender, setRerender] = useState(0);
+  const [, setRerender] = useState(0);
   const popupsRef = useRef<Popups>(popups);
   const placementCacheRef = useRef<{ [key: string]: PopupPlacement | undefined }>({
     ...popups.left.reduce((acum, popup) => ({ ...acum, [popup.id]: 'left' }), {}),
@@ -74,7 +74,7 @@ const PopupProvider = ({
   );
 
   const removePopup = useCallback(
-    (popupId: string) => () => {
+    (popupId: string) => {
       const placement = placementCacheRef.current[popupId];
       if (!placement) {
         return;
@@ -135,11 +135,9 @@ const PopupProvider = ({
     []
   );
 
-  const popupContextValue = useMemo(
+  const popupContextValueFloating = useMemo(
     () => ({
-      popupLeft: get(popupsRef.current, 'left', []),
-      popupRight: get(popupsRef.current, 'right', []),
-      popupFloating: get(popupsRef.current, 'floating', []),
+      popups: get(popupsRef.current, 'floating', []),
       limitMode,
       addPopup,
       focusPopup,
@@ -148,28 +146,60 @@ const PopupProvider = ({
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, reRender]
+    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, popupsRef.current.floating]
+  );
+
+  const popupContextValueLeft = useMemo(
+    () => ({
+      popups: get(popupsRef.current, 'left', []),
+      limitMode,
+      addPopup,
+      focusPopup,
+      placementPopup,
+      existsPopup,
+      removePopup
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, popupsRef.current.left]
+  );
+
+  const popupContextValueRight = useMemo(
+    () => ({
+      popups: get(popupsRef.current, 'right', []),
+      limitMode,
+      addPopup,
+      focusPopup,
+      placementPopup,
+      existsPopup,
+      removePopup
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, popupsRef.current.right]
   );
 
   return (
-    <PopupContext value={popupContextValue}>
-      {renderLeftPopup && popupsRef.current.left.length > 0 && (
-        <PopupSidePanel placement="left" placementTabs="left" multiSelect={multiSelect} canHide={canHide} />
-      )}
-      {children}
-      {renderFloatingPopup && popupsRef.current.floating.length > 0 && (
-        <PopupFloatingArea
-          className={classNames(
-            'pr-20 z-50 flex justify-end items-end pointer-events-none overflow-visible',
-            { 'fixed top-0 left-0': floatingFixedArea },
-            floatingClassName
+    <PopupContextFloating value={popupContextValueFloating}>
+      <PopupContextLeft value={popupContextValueLeft}>
+        <PopupContextRight value={popupContextValueRight}>
+          {renderLeftPopup && popupsRef.current.left.length > 0 && (
+            <PopupSidePanel placement="left" placementTabs="left" multiSelect={multiSelect} canHide={canHide} />
           )}
-        />
-      )}
-      {renderRightPopup && popupsRef.current.right.length > 0 && (
-        <PopupSidePanel multiSelect={multiSelect} canHide={canHide} />
-      )}
-    </PopupContext>
+          {children}
+          {renderFloatingPopup && popupsRef.current.floating.length > 0 && (
+            <PopupFloatingArea
+              className={classNames(
+                'pr-20 z-50 flex justify-end items-end pointer-events-none overflow-visible',
+                { 'fixed top-0 left-0': floatingFixedArea },
+                floatingClassName
+              )}
+            />
+          )}
+          {renderRightPopup && popupsRef.current.right.length > 0 && (
+            <PopupSidePanel multiSelect={multiSelect} canHide={canHide} />
+          )}
+        </PopupContextRight>
+      </PopupContextLeft>
+    </PopupContextFloating>
   );
 };
 

@@ -1,5 +1,5 @@
 // Packages
-import { use, useMemo, useState, useCallback } from 'react';
+import { use, useMemo, useState, useCallback, memo } from 'react';
 
 // Alias
 import Accordion from '@components/Accordion';
@@ -16,7 +16,6 @@ import usePopup from './usePopup';
 // Types
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
-import type { PopupInstance } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
@@ -52,14 +51,8 @@ const PopupSidePanel = ({
     componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
     variant: { placement: placementTabs }
   });
-  const { placementPopup, popupLeft, popupRight } = usePopup();
-  const popups = useMemo<PopupInstance[]>(() => {
-    if (placement === 'left') {
-      return popupLeft;
-    }
-
-    return popupRight;
-  }, [placement, popupLeft, popupRight]);
+  const { placementPopup, popups } = usePopup(placement);
+  console.log(popups);
   const [popupsActive, setPopupsActive] = useState(() => {
     const popupsSelected = valueProp.length > 0 ? valueProp : popups.map(popup => popup.id);
     if (multiSelect) {
@@ -201,4 +194,4 @@ const PopupSidePanel = ({
   );
 };
 
-export default PopupSidePanel;
+export default memo(PopupSidePanel);

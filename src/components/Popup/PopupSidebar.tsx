@@ -1,5 +1,5 @@
 // Packages
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 
 // Alias
 import Sidebar from '@components/Sidebar';
@@ -34,14 +34,7 @@ const PopupSidebar = ({
     componentKey: 'sidebar',
     variant: { placement }
   });
-  const { popupLeft, popupRight } = usePopup();
-  const popups = useMemo(() => {
-    if (placement === 'left') {
-      return popupLeft;
-    }
-
-    return popupRight;
-  }, [placement, popupLeft, popupRight]);
+  const { popups } = usePopup(placement);
 
   const handleChange = useCallback((popups: string[]) => onChange?.(popups), [onChange]);
 
@@ -65,4 +58,4 @@ const PopupSidebar = ({
   );
 };
 
-export default PopupSidebar;
+export default memo(PopupSidebar);
