@@ -52,7 +52,6 @@ const PopupSidePanel = ({
     variant: { placement: placementTabs }
   });
   const { placementPopup, popups } = usePopup(placement);
-  console.log(popups);
   const [popupsActive, setPopupsActive] = useState(() => {
     const popupsSelected = valueProp.length > 0 ? valueProp : popups.map(popup => popup.id);
     if (multiSelect) {

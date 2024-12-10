@@ -65,7 +65,7 @@ const PopupProvider = ({
         return;
       }
 
-      popupsRef.current[settings.placement].push({ id, component, settings });
+      popupsRef.current[settings.placement] = [...popupsRef.current[settings.placement], { id, component, settings }];
       placementCacheRef.current = { ...placementCacheRef.current, [id]: settings.placement ?? 'floating' };
       setRerender(Date.now());
       onChange?.(popupsRef.current);
