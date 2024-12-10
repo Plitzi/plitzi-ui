@@ -33,6 +33,10 @@ const SidebarIcon = ({ children, id, className, active = false, onClick, ...prop
         onClick(e);
       }
 
+      if (e.isPropagationStopped() || e.isDefaultPrevented()) {
+        return;
+      }
+
       if (id && onChange) {
         onChange(id);
       }
