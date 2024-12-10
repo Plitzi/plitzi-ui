@@ -1,7 +1,8 @@
 // Packages
-import { use, useMemo, useState, useCallback, memo } from 'react';
+import { use, useMemo, useState, useCallback, memo, useRef } from 'react';
 
 // Alias
+import { arrayDifference } from '@/helpers/utils';
 import Accordion from '@components/Accordion';
 import Button from '@components/Button';
 import ContainerResizable from '@components/ContainerResizable';
@@ -82,6 +83,14 @@ const PopupSidePanel = ({
     setPopupsActive(valueProp);
   }, [valueProp]);
 
+  const prevPopupIds = useRef(popupsIds);
+  useDidUpdateEffect(() => {
+    setPopupsActive(popupsIds);
+    const newPopupsIds = arrayDifference(prevPopupIds.current, popupsIds);
+    onChange?.([...popupsActiveFiltered, ...newPopupsIds]);
+    prevPopupIds.current = popupsIds;
+  }, [popupsIds]);
+
   const handleChangeTabs = useCallback(
     (popsActive: string[]) => {
       onChange?.(popsActive);
@@ -93,17 +102,21 @@ const PopupSidePanel = ({
   const handleClickFloating = useCallback(
     (popupId: string) => () => {
       placementPopup?.(popupId, 'floating');
-      setPopupsActive(state => state.filter(popup => popup !== popupId));
+      const newValue = popupsActiveFiltered.filter(item => item !== popupId);
+      setPopupsActive(newValue);
+      onChange?.(newValue);
     },
-    [placementPopup]
+    [onChange, placementPopup, popupsActiveFiltered]
   );
 
   const handleClickCollapse = useCallback(
-    (popupId: string) => () => setPopupsActive(state => state.filter(item => item !== popupId)),
-    []
+    (popupId: string) => () => {
+      const newValue = popupsActiveFiltered.filter(item => item !== popupId);
+      setPopupsActive(newValue);
+      onChange?.(newValue);
+    },
+    [popupsActiveFiltered, onChange]
   );
-
-  console.log(popups, popupsActive, popupsActiveFiltered);
 
   if (!popups.length || (popupsActiveFiltered.length === 0 && !showSidebar)) {
     return undefined;

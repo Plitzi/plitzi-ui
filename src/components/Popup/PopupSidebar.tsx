@@ -16,6 +16,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type PopupSidebarProps = {
   placement?: 'left' | 'right';
+  canHide?: boolean;
 } & Omit<SidebarProps, 'placement'> &
   useThemeSharedProps<typeof PopupStyles, Omit<typeof variantKeys, 'placement'>>;
 
@@ -23,6 +24,7 @@ const PopupSidebar = ({
   className = '',
   value,
   canEmpty = true,
+  canHide = false,
   multi = true,
   placement = 'right',
   border,
@@ -37,6 +39,10 @@ const PopupSidebar = ({
   const { popups } = usePopup(placement);
 
   const handleChange = useCallback((popups: string[]) => onChange?.(popups), [onChange]);
+
+  if (canHide && !popups.length) {
+    return undefined;
+  }
 
   return (
     <Sidebar
