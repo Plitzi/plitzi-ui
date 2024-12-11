@@ -67,6 +67,10 @@ const PopupProvider = ({
         return;
       }
 
+      if (!Array.isArray(popupsRef.current[settings.placement])) {
+        popupsRef.current[settings.placement] = [];
+      }
+
       popupsRef.current[settings.placement] = [
         ...popupsRef.current[settings.placement],
         { id, component, active, settings }

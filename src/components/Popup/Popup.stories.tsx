@@ -89,6 +89,7 @@ export const Primary: Story = {
         // {
         //   id: 'popup-3',
         //   component: <div>Hello World 3</div>,
+        //   active: true,
         //   settings: {
         //     icon: <i className="fa-solid fa-sliders text-base" />,
         //     title: 'Popup 3',
@@ -107,8 +108,46 @@ export const Primary: Story = {
         </PopupProvider>
       </div>
     );
-    // return <Popup {...args} />;
   }
+};
+
+const ContainerNested = () => {
+  const { addPopup, existsPopup } = usePopup('right');
+
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (!existsPopup?.('stateManager')) {
+      addPopup?.('stateManager', <div>Hello World</div>, {
+        icon: <i className="fa-solid fa-sliders text-base" />,
+        title: 'State Manager',
+        allowLeftSide: true,
+        allowRightSide: true,
+        placement: 'right',
+        resizeHandles: ['se']
+      });
+    }
+  };
+
+  return (
+    <div className="flex h-full">
+      <div className="grow">
+        Hello World 3
+        <button className="px-2 py-1 rounded text-white bg-orange-400" onClick={handleClick}>
+          Click Me
+        </button>
+      </div>
+      <PopupSidePanel
+        className="overflow-y-auto max-h-[calc(_100vh_-_48px)]"
+        placementTabs="right"
+        minWidth={320}
+        maxWidth={540}
+        canHide
+        multi
+        value={[]}
+        // onChange={handleChange}
+      />
+    </div>
+  );
 };
 
 const Container = () => {
@@ -145,14 +184,20 @@ const Container = () => {
   const handleClick3 = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (!existsPopup?.('stateManager3')) {
-      addPopup?.('stateManager3', <div>Hello World 3</div>, {
-        icon: <i className="fa-solid fa-sliders text-base" />,
-        title: 'State Manager 3',
-        allowLeftSide: true,
-        allowRightSide: true,
-        placement: 'left',
-        resizeHandles: ['se']
-      });
+      addPopup?.(
+        'stateManager3',
+        <PopupProvider renderLeftPopup={false} renderRightPopup={false} renderFloatingPopup={false}>
+          <ContainerNested />
+        </PopupProvider>,
+        {
+          icon: <i className="fa-solid fa-sliders text-base" />,
+          title: 'State Manager 3',
+          allowLeftSide: true,
+          allowRightSide: true,
+          placement: 'floating',
+          resizeHandles: ['se']
+        }
+      );
     }
   };
 
@@ -203,6 +248,52 @@ export const SidePanelSeparated: Story = {
           <div className="flex grow h-[500px] bg-gray-200 items-center justify-center">
             <Container />
           </div>
+        </PopupProvider>
+      </div>
+    );
+  }
+};
+
+export const NestedProvider: Story = {
+  args: {},
+  render: () => {
+    const popups = {
+      left: [],
+      right: [],
+      floating: [
+        {
+          id: 'popup-3',
+          component: (
+            <PopupProvider renderLeftPopup={false} renderRightPopup={false} renderFloatingPopup={false}>
+              <div>Hello World</div>
+              <PopupSidePanel
+                className="overflow-y-auto max-h-[calc(_100vh_-_48px)]"
+                placementTabs="right"
+                minWidth={320}
+                maxWidth={540}
+                canHide
+                multi
+                value={[]}
+                // onChange={handleChange}
+              />
+            </PopupProvider>
+          ),
+          active: true,
+          settings: {
+            icon: <i className="fa-solid fa-sliders text-base" />,
+            title: 'Popup 3',
+            allowLeftSide: true,
+            allowRightSide: true,
+            resizeHandles: ['se'] as ResizeHandle[]
+          }
+        }
+      ]
+    };
+
+    return (
+      <div className="flex border border-solid border-gray-300">
+        <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
+          <div className="flex grow h-[500px] bg-gray-200"></div>
         </PopupProvider>
       </div>
     );

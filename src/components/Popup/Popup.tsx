@@ -39,7 +39,7 @@ export type PopupProps = {
   removePopup?: (popupId: string) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
-export type PopupSettings = { placement?: PopupPlacement } & Omit<PopupProps, 'id'>;
+export type PopupSettings = { placement?: PopupPlacement } & Omit<PopupProps, 'id' | 'placement'>;
 
 const Popup = ({
   className,
