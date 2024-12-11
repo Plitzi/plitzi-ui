@@ -52,10 +52,9 @@ const PopupSidePanel = ({
     componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
     variant: { placement: placementTabs }
   });
-  const { placementPopup, popups } = usePopup(placement);
-  const popupsIds = useMemo(() => popups.map(popup => popup.id), [popups]);
+  const { placementPopup, popups, popupIds } = usePopup(placement);
   const [popupsActive, setPopupsActive] = useState(() => {
-    const popupsSelected = valueProp.length > 0 ? valueProp : popupsIds;
+    const popupsSelected = valueProp.length > 0 ? valueProp : popupIds;
     if (multi) {
       return popupsSelected;
     }
@@ -67,8 +66,8 @@ const PopupSidePanel = ({
     return [];
   });
   const popupsActiveFiltered = useMemo(
-    () => popupsActive.filter(val => popupsIds.includes(val)),
-    [popupsActive, popupsIds]
+    () => popupsActive.filter(val => popupIds.includes(val)),
+    [popupsActive, popupIds]
   );
   const resizeHandles = useMemo<ResizeHandle[]>(() => {
     if (placementTabs === 'left') {
@@ -83,13 +82,13 @@ const PopupSidePanel = ({
     setPopupsActive(valueProp);
   }, [valueProp]);
 
-  const prevPopupIds = useRef(popupsIds);
+  const prevPopupIds = useRef(popupIds);
   useDidUpdateEffect(() => {
-    setPopupsActive(popupsIds);
-    const newPopupsIds = arrayDifference(prevPopupIds.current, popupsIds);
+    setPopupsActive(popupIds);
+    const newPopupsIds = arrayDifference(prevPopupIds.current, popupIds);
     onChange?.([...popupsActiveFiltered, ...newPopupsIds]);
-    prevPopupIds.current = popupsIds;
-  }, [popupsIds]);
+    prevPopupIds.current = popupIds;
+  }, [popupIds]);
 
   const handleChangeTabs = useCallback(
     (popsActive: string[]) => {

@@ -16,10 +16,19 @@ import type { MouseEvent } from 'react';
 
 export type SidebarIconProps = {
   id?: string;
+  detatched?: boolean;
 } & IconProps &
   useThemeSharedProps<typeof SidebarStyles, typeof variantKeys>;
 
-const SidebarIcon = ({ children, id, className, active = false, onClick, ...props }: SidebarIconProps) => {
+const SidebarIcon = ({
+  children,
+  id,
+  className,
+  active = false,
+  detatched = false,
+  onClick,
+  ...props
+}: SidebarIconProps) => {
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
     className,
     componentKey: 'icon',
@@ -33,7 +42,7 @@ const SidebarIcon = ({ children, id, className, active = false, onClick, ...prop
         onClick(e);
       }
 
-      if (e.isPropagationStopped() || e.isDefaultPrevented()) {
+      if (detatched || e.isPropagationStopped() || e.isDefaultPrevented()) {
         return;
       }
 
@@ -41,7 +50,7 @@ const SidebarIcon = ({ children, id, className, active = false, onClick, ...prop
         onChange(id);
       }
     },
-    [onClick, id, onChange]
+    [onClick, detatched, id, onChange]
   );
 
   return (

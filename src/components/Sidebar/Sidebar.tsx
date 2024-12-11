@@ -89,14 +89,12 @@ const Sidebar = ({
       if (child.type === SidebarIcon) {
         const iconProps = child.props as SidebarIconProps;
         const itemId = iconProps.id ?? i.toString();
-        components.items.push(
-          cloneElement<SidebarIconProps>(child as ReactElement<SidebarIconProps>, {
-            ...iconProps,
-            key: i,
-            active: finalValue.includes(itemId),
-            id: itemId
-          })
-        );
+        const newIconProps = { ...iconProps, key: i, id: itemId };
+        if (!iconProps.detatched) {
+          newIconProps.active = finalValue.includes(itemId);
+        }
+
+        components.items.push(cloneElement<SidebarIconProps>(child as ReactElement<SidebarIconProps>, newIconProps));
       } else if (child.type === SidebarSeparator) {
         const separatorProps = child.props as SidebarSeparatorProps;
         components.items.push(

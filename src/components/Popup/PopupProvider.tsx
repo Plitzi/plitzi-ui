@@ -138,6 +138,7 @@ const PopupProvider = ({
   const popupContextValueFloating = useMemo(
     () => ({
       popups: get(popupsRef.current, 'floating', []),
+      popupIds: get(popupsRef.current, 'floating', []).map(popup => popup.id),
       limitMode,
       addPopup,
       focusPopup,
@@ -152,6 +153,7 @@ const PopupProvider = ({
   const popupContextValueLeft = useMemo(
     () => ({
       popups: get(popupsRef.current, 'left', []),
+      popupIds: get(popupsRef.current, 'left', []).map(popup => popup.id),
       limitMode,
       addPopup,
       focusPopup,
@@ -166,6 +168,7 @@ const PopupProvider = ({
   const popupContextValueRight = useMemo(
     () => ({
       popups: get(popupsRef.current, 'right', []),
+      popupIds: get(popupsRef.current, 'right', []).map(popup => popup.id),
       limitMode,
       addPopup,
       focusPopup,
