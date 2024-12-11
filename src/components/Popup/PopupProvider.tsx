@@ -36,8 +36,6 @@ export type PopupProviderProps = {
   onChange?: (value: Popups) => void;
 };
 
-const defaultPopups = { left: [], right: [], floating: [] };
-
 const PopupProvider = ({
   children,
   floatingClassName = 'h-screen w-screen',
@@ -47,18 +45,18 @@ const PopupProvider = ({
   renderFloatingPopup = true,
   multi = false,
   canHide = true,
-  popups = defaultPopups,
+  popups,
   limitMode,
   onChange
 }: PopupProviderProps) => {
   const [, setRerender] = useState(0);
-  const popupsRef = useRef<Popups>(popups);
+  const popupsRef = useRef<Popups>(popups ?? { left: [], right: [], floating: [] });
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
   const placementCacheRef = useRef<{ [key: string]: PopupPlacement | undefined }>({
-    ...popups.left.reduce((acum, popup) => ({ ...acum, [popup.id]: 'left' }), {}),
-    ...popups.right.reduce((acum, popup) => ({ ...acum, [popup.id]: 'right' }), {}),
-    ...popups.floating.reduce((acum, popup) => ({ ...acum, [popup.id]: 'floating' }), {})
+    ...popupsRef.current.left.reduce((acum, popup) => ({ ...acum, [popup.id]: 'left' }), {}),
+    ...popupsRef.current.right.reduce((acum, popup) => ({ ...acum, [popup.id]: 'right' }), {}),
+    ...popupsRef.current.floating.reduce((acum, popup) => ({ ...acum, [popup.id]: 'floating' }), {})
   });
 
   const addPopup = useCallback(
@@ -113,7 +111,7 @@ const PopupProvider = ({
     const popupIndex = pops[currentPlacement].findIndex(popup => popup.id === popupId);
     const popupInstance = pops[currentPlacement][popupIndex];
     pops[currentPlacement] = pops[currentPlacement].toSpliced(popupIndex, 1);
-    pops[placement] = pops[placement] = [...pops[placement], popupInstance];
+    pops[placement] = [...pops[placement], popupInstance];
     placementCacheRef.current[popupId] = placement;
     setRerender(Date.now());
     onChangeRef.current?.(popupsRef.current);
@@ -196,11 +194,11 @@ const PopupProvider = ({
     <PopupContextFloating value={popupContextValueFloating}>
       <PopupContextLeft value={popupContextValueLeft}>
         <PopupContextRight value={popupContextValueRight}>
-          {renderLeftPopup && popupsRef.current.left.length > 0 && (
+          {renderLeftPopup && popupsRef.current.left.length && (
             <PopupSidePanel placement="left" placementTabs="left" multi={multi} canHide={canHide} />
           )}
           {children}
-          {renderFloatingPopup && popupsRef.current.floating.length > 0 && (
+          {renderFloatingPopup && popupsRef.current.floating.length && (
             <PopupFloatingArea
               className={classNames(
                 'pr-20 z-50 flex justify-end items-end pointer-events-none overflow-visible',
@@ -209,7 +207,7 @@ const PopupProvider = ({
               )}
             />
           )}
-          {renderRightPopup && popupsRef.current.right.length > 0 && <PopupSidePanel multi={multi} canHide={canHide} />}
+          {renderRightPopup && popupsRef.current.right.length && <PopupSidePanel multi={multi} canHide={canHide} />}
         </PopupContextRight>
       </PopupContextLeft>
     </PopupContextFloating>
