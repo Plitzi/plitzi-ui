@@ -6,8 +6,12 @@ import type { DependencyList, EffectCallback } from 'react';
 
 export type UpdateEffectCallback = EffectCallback | ((prevDependencies: DependencyList) => void);
 
-const useDidUpdateEffect = (callback: UpdateEffectCallback, dependencies: DependencyList) => {
-  const isMountingRef = useRef(false);
+const useDidUpdateEffect = (
+  callback: UpdateEffectCallback,
+  dependencies: DependencyList,
+  asEffect: boolean = false
+) => {
+  const isMountingRef = useRef(asEffect);
   const prevDependencies = useRef(dependencies);
 
   useEffect(() => {
