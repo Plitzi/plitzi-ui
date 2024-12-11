@@ -37,6 +37,7 @@ export const Primary: Story = {
         {
           id: 'popup-1',
           component: <div className="h-[600px] bg-red-300">Hello World 1</div>,
+          active: false,
           settings: {
             icon: <i className="fa-solid fa-sliders text-base" />,
             title: 'Popup 1',
@@ -48,6 +49,7 @@ export const Primary: Story = {
         {
           id: 'popup-4',
           component: <div>Hello World 4</div>,
+          active: true,
           settings: {
             icon: <i className="fa-solid fa-plus" />,
             title: 'Popup 4',
@@ -61,6 +63,7 @@ export const Primary: Story = {
         {
           id: 'popup-2',
           component: <div>Hello World 2</div>,
+          active: false,
           settings: {
             icon: <i className="fas fa-file" />,
             title: 'Popup 2',
@@ -72,6 +75,7 @@ export const Primary: Story = {
         {
           id: 'popup-5',
           component: <div>Hello World 5</div>,
+          active: false,
           settings: {
             icon: <i className="fa-solid fa-image" />,
             title: 'Popup 5',
@@ -172,13 +176,15 @@ export const SidePanelSeparated: Story = {
   render: function Render() {
     const [popupsActiveLeft, setPopupsActiveLeft] = useState<string[]>([]);
 
+    const handleChangeProvider = useCallback((value: Popups) => console.log(value), []);
+
     const handleChangeLeft = useCallback((popups: string[]) => setPopupsActiveLeft(popups), []);
 
     console.log('storybook', popupsActiveLeft);
 
     return (
       <div className="flex border border-solid border-gray-300">
-        <PopupProvider renderLeftPopup={false} multi canHide onChange={(value: Popups) => console.log(value)}>
+        <PopupProvider renderLeftPopup={false} multi canHide onChange={handleChangeProvider}>
           <div className="flex">
             <PopupSidebar placement="left" canHide value={popupsActiveLeft} onChange={handleChangeLeft} />
             <PopupSidePanel

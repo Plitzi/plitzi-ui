@@ -10,6 +10,7 @@ import type { ReactNode } from 'react';
 export type PopupContextValue = {
   popups: PopupInstance[];
   popupIds: string[];
+  popupActiveIds: string[];
   limitMode?: ContainerDraggableProps['limitMode'];
   addPopup?: (id: string, component: ReactNode, settings?: PopupSettings) => void;
   focusPopup?: (popupId: string, sort?: number) => void;
@@ -21,6 +22,7 @@ export type PopupContextValue = {
 const popupDefaultValue = {
   popups: [],
   popupIds: [],
+  popupActiveIds: [],
   limitMode: 'window' as const,
   addPopup: undefined,
   focusPopup: undefined,

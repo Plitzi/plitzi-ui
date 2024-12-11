@@ -1,5 +1,5 @@
 // Packages
-import { use, useMemo, useState, useCallback, memo, useRef } from 'react';
+import { use, useMemo, useState, useCallback, memo } from 'react';
 
 // Alias
 import { arrayDifference } from '@/helpers/utils';
@@ -52,9 +52,9 @@ const PopupSidePanel = ({
     componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
     variant: { placement: placementTabs }
   });
-  const { placementPopup, popups, popupIds } = usePopup(placement);
+  const { placementPopup, popups, popupIds, popupActiveIds } = usePopup(placement);
   const [popupsActive, setPopupsActive] = useState(() => {
-    const popupsSelected = valueProp.length > 0 ? valueProp : popupIds;
+    const popupsSelected = valueProp.length > 0 ? valueProp : popupActiveIds;
     if (multi) {
       return popupsSelected;
     }
@@ -82,13 +82,14 @@ const PopupSidePanel = ({
     setPopupsActive(valueProp);
   }, [valueProp]);
 
-  const prevPopupIds = useRef(popupIds);
-  useDidUpdateEffect(() => {
-    setPopupsActive(popupIds);
-    const newPopupsIds = arrayDifference(prevPopupIds.current, popupIds);
-    onChange?.([...popupsActiveFiltered, ...newPopupsIds]);
-    prevPopupIds.current = popupIds;
-  }, [popupIds]);
+  useDidUpdateEffect(
+    prevState => {
+      const newPopupsIds = [...popupsActiveFiltered, ...arrayDifference(prevState[0] as string[], popupActiveIds)];
+      onChange?.(newPopupsIds);
+      setPopupsActive(newPopupsIds);
+    },
+    [popupActiveIds]
+  );
 
   const handleChangeTabs = useCallback(
     (popsActive: string[]) => {
