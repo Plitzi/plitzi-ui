@@ -194,11 +194,11 @@ const PopupProvider = ({
     <PopupContextFloating value={popupContextValueFloating}>
       <PopupContextLeft value={popupContextValueLeft}>
         <PopupContextRight value={popupContextValueRight}>
-          {renderLeftPopup && popupsRef.current.left.length && (
+          {renderLeftPopup && !!popupsRef.current.left.length && (
             <PopupSidePanel placement="left" placementTabs="left" multi={multi} canHide={canHide} />
           )}
           {children}
-          {renderFloatingPopup && popupsRef.current.floating.length && (
+          {renderFloatingPopup && !!popupsRef.current.floating.length && (
             <PopupFloatingArea
               className={classNames(
                 'pr-20 z-50 flex justify-end items-end pointer-events-none overflow-visible',
@@ -207,7 +207,7 @@ const PopupProvider = ({
               )}
             />
           )}
-          {renderRightPopup && popupsRef.current.right.length && <PopupSidePanel multi={multi} canHide={canHide} />}
+          {renderRightPopup && !!popupsRef.current.right.length && <PopupSidePanel multi={multi} canHide={canHide} />}
         </PopupContextRight>
       </PopupContextLeft>
     </PopupContextFloating>
