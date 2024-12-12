@@ -86,23 +86,35 @@ export const Primary: Story = {
         }
       ],
       floating: [
-        // {
-        //   id: 'popup-3',
-        //   component: <div>Hello World 3</div>,
-        //   active: true,
-        //   settings: {
-        //     icon: <i className="fa-solid fa-sliders text-base" />,
-        //     title: 'Popup 3',
-        //     allowLeftSide: true,
-        //     allowRightSide: true,
-        //     resizeHandles: ['se'] as ResizeHandle[]
-        //   }
-        // }
+        {
+          id: 'popup-3',
+          component: <div>Hello World 3</div>,
+          active: true,
+          settings: {
+            icon: <i className="fa-solid fa-sliders text-base" />,
+            title: 'Popup 3',
+            allowLeftSide: true,
+            allowRightSide: true,
+            resizeHandles: ['se'] as ResizeHandle[]
+          }
+        },
+        {
+          id: 'popup-6',
+          component: <div>Hello World 6</div>,
+          active: true,
+          settings: {
+            icon: <i className="fa-solid fa-sliders text-base" />,
+            title: 'Popup 6',
+            allowLeftSide: true,
+            allowRightSide: true,
+            resizeHandles: ['se'] as ResizeHandle[]
+          }
+        }
       ]
     };
 
     return (
-      <div className="flex border border-solid border-gray-300">
+      <div className="flex border border-solid border-gray-300 relative">
         <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
           <div className="flex grow h-[500px] bg-gray-200"></div>
         </PopupProvider>

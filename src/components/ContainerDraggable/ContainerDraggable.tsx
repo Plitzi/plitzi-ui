@@ -18,7 +18,7 @@ import type ContainerDraggableStyles from './ContainerDraggable.styles';
 import type { variantKeys } from './ContainerDraggable.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 export const LIMIT_MODE_PARENT = 'parent';
 export const LIMIT_MODE_WINDOW = 'window';
@@ -70,10 +70,11 @@ const ContainerDraggable = ({
   onFocus = noop,
   onCollapse = noop
 }: ContainerDraggableProps) => {
+  const [collapsed, setCollapsed] = useState(false);
   className = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
     className,
     componentKey: 'root',
-    variant: { intent, size }
+    variant: { intent, size, collapsed }
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -81,7 +82,6 @@ const ContainerDraggable = ({
   const unmounted = useRef(false);
   const xRef = useRef(x);
   const yRef = useRef(y);
-  const [collapsed, setCollapsed] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [offsetX, setOffsetX] = useState(x);
   const [offsetY, setOffsetY] = useState(y);
@@ -318,12 +318,14 @@ const ContainerDraggable = ({
     );
   }
 
-  let style = { top: yRef.current, left: xRef.current, width: undefined, height: undefined };
+  let style = { top: yRef.current, left: xRef.current, width: undefined, height: undefined } as CSSProperties;
   if (!allowResize) {
-    style = { ...style, width: `${width}px`, height: `${height}px` } as typeof style & {
-      width: string;
-      height: string;
-    };
+    style = { ...style, width: `${width}px`, height: `${height}px` };
+  }
+
+  if (collapsed) {
+    style.top = undefined;
+    style.left = undefined;
   }
 
   return (
