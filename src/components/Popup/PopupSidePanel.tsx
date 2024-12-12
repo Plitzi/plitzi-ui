@@ -121,11 +121,16 @@ const PopupSidePanel = ({
     [popupsActiveFiltered, onChange]
   );
 
+  const popupsFiltered = useMemo(
+    () => popups.filter(pop => popupsActiveFiltered.includes(pop.id) && !!pop.component),
+    [popups, popupsActiveFiltered]
+  );
+
   if (!popups.length || (popupsActiveFiltered.length === 0 && !showSidebar)) {
     return undefined;
   }
 
-  if (popupsActiveFiltered.length === 0 && canHide) {
+  if (popupsFiltered.length === 0 && canHide) {
     return (
       <PopupSidebar
         placement={placementTabs}
@@ -170,48 +175,44 @@ const PopupSidePanel = ({
           multi={multi}
           defaultValue={popupsActiveFiltered.length > 0 ? popupsActiveFiltered.slice(0, 1) : [popups[0].id]}
         >
-          {popups
-            .filter(pop => popupsActiveFiltered.includes(pop.id) && !!pop.component)
-            .map((popup, i) => {
-              return (
-                <Accordion.Item
-                  key={popup.id}
-                  id={popup.id}
-                  grow
-                  className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
-                >
-                  <Accordion.Item.Header title={popup.settings.title} iconExpanded={null} iconCollapsed={null}>
-                    {popup.settings.allowFloatingSide !== false && (
-                      <Button
-                        intent="custom"
-                        size="custom"
-                        border="none"
-                        className={classNameTheme.btn}
-                        title="Floating Popup"
-                        content=""
-                        onClick={handleClickFloating(popup.id)}
-                      >
-                        <Button.Icon icon="fas fa-window-restore" />
-                      </Button>
-                    )}
+          {popupsFiltered.map((popup, i) => {
+            return (
+              <Accordion.Item
+                key={popup.id}
+                id={popup.id}
+                grow
+                className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
+              >
+                <Accordion.Item.Header title={popup.settings.title} iconExpanded={null} iconCollapsed={null}>
+                  {popup.settings.allowFloatingSide !== false && (
                     <Button
                       intent="custom"
                       size="custom"
                       border="none"
                       className={classNameTheme.btn}
-                      title="Hide"
+                      title="Floating Popup"
                       content=""
-                      onClick={handleClickCollapse(popup.id)}
+                      onClick={handleClickFloating(popup.id)}
                     >
-                      <Button.Icon
-                        icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'}
-                      />
+                      <Button.Icon icon="fas fa-window-restore" />
                     </Button>
-                  </Accordion.Item.Header>
-                  <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
-                </Accordion.Item>
-              );
-            })}
+                  )}
+                  <Button
+                    intent="custom"
+                    size="custom"
+                    border="none"
+                    className={classNameTheme.btn}
+                    title="Hide"
+                    content=""
+                    onClick={handleClickCollapse(popup.id)}
+                  >
+                    <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />
+                  </Button>
+                </Accordion.Item.Header>
+                <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
+              </Accordion.Item>
+            );
+          })}
         </Accordion>
       </div>
     </ContainerResizable>

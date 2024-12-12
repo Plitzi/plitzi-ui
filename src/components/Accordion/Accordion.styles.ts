@@ -31,9 +31,9 @@ export default {
   itemHeader: cva('font-bold cursor-pointer select-none leading-3 uppercase', {
     variants: {
       size: {
-        xs: 'p-0.5 text-sm h-5',
-        sm: 'p-1 h-6',
-        md: 'p-1.5 text-lg h-7',
+        xs: 'p-1 text-sm h-6',
+        sm: 'p-1.5 h-7',
+        md: 'p-2 text-lg h-11',
         lg: 'p-2 text-lg h-11',
         custom: ''
       }

@@ -54,6 +54,18 @@ const popups = {
         allowRightSide: true,
         resizeHandles: ['se'] as ResizeHandle[]
       }
+    },
+    {
+      id: 'popup-7',
+      component: undefined,
+      active: true,
+      settings: {
+        icon: <i className="fa-solid fa-plus" />,
+        title: 'Popup 7',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
     }
   ],
   right: [
