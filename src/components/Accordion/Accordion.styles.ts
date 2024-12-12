@@ -31,10 +31,10 @@ export default {
   itemHeader: cva('font-medium cursor-pointer select-none leading-3 uppercase', {
     variants: {
       size: {
-        xs: 'px-1 py-0.5 text-sm h-5',
-        sm: 'px-1.5 py-1 h-6',
-        md: 'px-2 py-1.5 text-lg h-7',
-        lg: 'px-2 py-1.5 text-lg h-7',
+        xs: 'p-0.5 text-sm h-5',
+        sm: 'p-1 h-6',
+        md: 'p-1.5 text-lg h-7',
+        lg: 'p-2 text-lg h-8',
         custom: ''
       }
     },
@@ -50,9 +50,10 @@ export default {
   itemContent: cva('flex', {
     variants: {
       size: {
-        xs: 'px-1',
-        sm: 'px-1.5',
-        md: 'px-2',
+        xs: 'p-0.5',
+        sm: 'p-1',
+        md: 'p-1.5',
+        lg: 'p-2',
         custom: ''
       },
       grow: {

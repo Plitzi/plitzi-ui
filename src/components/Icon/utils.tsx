@@ -1,7 +1,11 @@
 // Types
 import type { IconProps } from './Icon';
 
-const getIntent = (disabled: boolean, active: boolean, intent?: IconProps['intent']): IconProps['intent'] => {
+const getIntent = (
+  disabled: boolean,
+  active: boolean,
+  intent: IconProps['intent'] = 'primary'
+): IconProps['intent'] => {
   if (disabled) {
     return 'disabled';
   }
