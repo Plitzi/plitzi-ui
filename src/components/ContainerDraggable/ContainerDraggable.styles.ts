@@ -22,12 +22,12 @@ export default {
     compoundVariants: [],
     defaultVariants: {}
   }),
-  header: cva('h-9 pb-2 px-1 flex justify-between items-center select-none bg-white', {
+  header: cva('h-9 px-1 gap-4 flex justify-between items-center select-none bg-white', {
     variants: {
       intent: {},
       collapsed: {
         true: '',
-        false: 'border-b border-gray-300'
+        false: 'pb-2 border-b border-gray-300'
       }
     },
     compoundVariants: [],
