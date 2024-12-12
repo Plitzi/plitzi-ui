@@ -28,19 +28,19 @@ export default {
     }
   }),
   item: cva('transition-all'),
-  itemHeader: cva('font-medium cursor-pointer select-none leading-3 uppercase', {
+  itemHeader: cva('font-bold cursor-pointer select-none leading-3 uppercase', {
     variants: {
       size: {
         xs: 'p-0.5 text-sm h-5',
         sm: 'p-1 h-6',
         md: 'p-1.5 text-lg h-7',
-        lg: 'p-2 text-lg h-8',
+        lg: 'p-2 text-lg h-11',
         custom: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      size: 'md'
+      size: 'lg'
     }
   }),
   itemHeaderSlot: cva(''),

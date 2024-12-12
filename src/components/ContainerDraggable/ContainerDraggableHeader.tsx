@@ -18,6 +18,7 @@ export type ContainerDraggableHeaderProps = {
   title?: ReactNode;
   customActions: ReactNode[];
   allowExternal?: boolean;
+  allowClose?: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
   setExternalWindow: Dispatch<SetStateAction<boolean>>;
   onClose?: (e: MouseEvent | React.MouseEvent) => void;
@@ -34,6 +35,7 @@ const ContainerDraggableHeader = ({
   icon,
   title,
   allowExternal = true,
+  allowClose = true,
   customActions,
   setCollapsed,
   setExternalWindow,
@@ -103,17 +105,19 @@ const ContainerDraggableHeader = ({
             <Button.Icon icon="fas fa-window-restore" />
           </Button>
         )}
-        <Button
-          intent="custom"
-          size="custom"
-          border="none"
-          className={classNames(' text-red-400 hover:text-red-500', classNameTheme.btn)}
-          title="Close"
-          content=""
-          onClick={handleClickClose}
-        >
-          <Button.Icon icon="fas fa-times" />
-        </Button>
+        {allowClose && (
+          <Button
+            intent="custom"
+            size="custom"
+            border="none"
+            className={classNames(' text-red-400 hover:text-red-500', classNameTheme.btn)}
+            title="Close"
+            content=""
+            onClick={handleClickClose}
+          >
+            <Button.Icon icon="fas fa-times" />
+          </Button>
+        )}
       </Flex>
     </div>
   );

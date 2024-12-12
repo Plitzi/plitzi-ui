@@ -29,90 +29,90 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const popups = {
+  left: [
+    {
+      id: 'popup-1',
+      component: <div className="h-[600px] bg-red-300">Hello World 1</div>,
+      active: false,
+      settings: {
+        icon: <i className="fa-solid fa-sliders text-base" />,
+        title: 'Popup 1',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
+    },
+    {
+      id: 'popup-4',
+      component: <div>Hello World 4</div>,
+      active: true,
+      settings: {
+        icon: <i className="fa-solid fa-plus" />,
+        title: 'Popup 4',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
+    }
+  ],
+  right: [
+    {
+      id: 'popup-2',
+      component: <div>Hello World 2</div>,
+      active: true,
+      settings: {
+        icon: <i className="fas fa-file" />,
+        title: 'Popup 2',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
+    },
+    {
+      id: 'popup-5',
+      component: <div>Hello World 5</div>,
+      active: false,
+      settings: {
+        icon: <i className="fa-solid fa-image" />,
+        title: 'Popup 5',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
+    }
+  ],
+  floating: [
+    {
+      id: 'popup-3',
+      component: <div>Hello World 3</div>,
+      active: true,
+      settings: {
+        icon: <i className="fa-solid fa-sliders text-base" />,
+        title: 'Popup 3',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
+    },
+    {
+      id: 'popup-6',
+      component: <div>Hello World 6</div>,
+      active: true,
+      settings: {
+        icon: <i className="fa-solid fa-sliders text-base" />,
+        title: 'Popup 6',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
+    }
+  ]
+};
+
 export const Primary: Story = {
   args: {},
   render: () => {
-    const popups = {
-      left: [
-        {
-          id: 'popup-1',
-          component: <div className="h-[600px] bg-red-300">Hello World 1</div>,
-          active: false,
-          settings: {
-            icon: <i className="fa-solid fa-sliders text-base" />,
-            title: 'Popup 1',
-            allowLeftSide: true,
-            allowRightSide: true,
-            resizeHandles: ['se'] as ResizeHandle[]
-          }
-        },
-        {
-          id: 'popup-4',
-          component: <div>Hello World 4</div>,
-          active: true,
-          settings: {
-            icon: <i className="fa-solid fa-plus" />,
-            title: 'Popup 4',
-            allowLeftSide: true,
-            allowRightSide: true,
-            resizeHandles: ['se'] as ResizeHandle[]
-          }
-        }
-      ],
-      right: [
-        {
-          id: 'popup-2',
-          component: <div>Hello World 2</div>,
-          active: true,
-          settings: {
-            icon: <i className="fas fa-file" />,
-            title: 'Popup 2',
-            allowLeftSide: true,
-            allowRightSide: true,
-            resizeHandles: ['se'] as ResizeHandle[]
-          }
-        },
-        {
-          id: 'popup-5',
-          component: <div>Hello World 5</div>,
-          active: false,
-          settings: {
-            icon: <i className="fa-solid fa-image" />,
-            title: 'Popup 5',
-            allowLeftSide: true,
-            allowRightSide: true,
-            resizeHandles: ['se'] as ResizeHandle[]
-          }
-        }
-      ],
-      floating: [
-        {
-          id: 'popup-3',
-          component: <div>Hello World 3</div>,
-          active: true,
-          settings: {
-            icon: <i className="fa-solid fa-sliders text-base" />,
-            title: 'Popup 3',
-            allowLeftSide: true,
-            allowRightSide: true,
-            resizeHandles: ['se'] as ResizeHandle[]
-          }
-        },
-        {
-          id: 'popup-6',
-          component: <div>Hello World 6</div>,
-          active: true,
-          settings: {
-            icon: <i className="fa-solid fa-sliders text-base" />,
-            title: 'Popup 6',
-            allowLeftSide: true,
-            allowRightSide: true,
-            resizeHandles: ['se'] as ResizeHandle[]
-          }
-        }
-      ]
-    };
-
     return (
       <div className="flex border border-solid border-gray-300 relative">
         <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
@@ -241,14 +241,21 @@ export const SidePanelSeparated: Story = {
 
     return (
       <div className="flex border border-solid border-gray-300">
-        <PopupProvider renderLeftPopup={false} multi canHide onChange={handleChangeProvider}>
+        <PopupProvider popups={popups} renderLeftPopup={false} multi canHide onChange={handleChangeProvider}>
           <div className="flex">
-            <PopupSidebar placement="left" canHide value={popupsActiveLeft} onChange={handleChangeLeft} />
+            <PopupSidebar
+              placement="left"
+              separatorsBefore={['popup-4']}
+              canHide
+              value={popupsActiveLeft}
+              onChange={handleChangeLeft}
+            />
             <PopupSidePanel
               showSidebar={false}
               className="overflow-y-auto max-h-[calc(_100vh_-_48px)]"
               placementTabs="left"
               placement="left"
+              separatorsBefore={['popup-4']}
               minWidth={335}
               maxWidth={540}
               canHide

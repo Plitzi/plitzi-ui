@@ -30,6 +30,8 @@ export type PopupProps = {
   allowResize?: boolean;
   allowLeftSide?: boolean;
   allowRightSide?: boolean;
+  allowFloatingSide?: boolean;
+  allowClose?: boolean;
   allowExternal?: boolean;
   resizeHandles?: ResizeHandle[];
   limitMode?: 'window' | 'parent' | 'none';
@@ -52,6 +54,7 @@ const Popup = ({
   allowResize = true,
   allowLeftSide = true,
   allowRightSide = true,
+  allowClose = true,
   allowExternal = true,
   resizeHandles = resizeHandlesDefault, // ['s', 'e', 'w', 'se', 'sw', 'nw', 'ne'],
   limitMode = LIMIT_MODE_WINDOW,
@@ -133,6 +136,7 @@ const Popup = ({
       onFocus={handleFocus}
       allowResize={allowResize}
       allowExternal={allowExternal}
+      allowClose={allowClose}
       resizeHandles={resizeHandles}
       customActions={customActionsMemo}
       limitMode={limitMode}

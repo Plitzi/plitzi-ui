@@ -4,6 +4,9 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
+// Alias
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
+
 // Relatives
 import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
 import PopupFloatingArea from './PopupFloatingArea';
@@ -62,6 +65,15 @@ const PopupProvider = ({
     ...popupsRef.current.right.reduce((acum, popup) => ({ ...acum, [popup.id]: 'right' }), {}),
     ...popupsRef.current.floating.reduce((acum, popup) => ({ ...acum, [popup.id]: 'floating' }), {})
   });
+
+  useDidUpdateEffect(() => {
+    popupsRef.current = popups ?? { left: [], right: [], floating: [] };
+    placementCacheRef.current = {
+      ...popupsRef.current.left.reduce((acum, popup) => ({ ...acum, [popup.id]: 'left' }), {}),
+      ...popupsRef.current.right.reduce((acum, popup) => ({ ...acum, [popup.id]: 'right' }), {}),
+      ...popupsRef.current.floating.reduce((acum, popup) => ({ ...acum, [popup.id]: 'floating' }), {})
+    };
+  }, [popups]);
 
   const addPopup = useCallback(
     (id: string, component: ReactNode, settings: PopupSettings = {} as PopupSettings, active: boolean = true) => {

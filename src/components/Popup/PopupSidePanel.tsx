@@ -2,7 +2,7 @@
 import { use, useMemo, useState, useCallback, memo } from 'react';
 
 // Alias
-import { arrayDifference } from '@/helpers/utils';
+import { arrayDifference, emptyArray } from '@/helpers/utils';
 import Accordion from '@components/Accordion';
 import Button from '@components/Button';
 import ContainerResizable from '@components/ContainerResizable';
@@ -31,6 +31,7 @@ export type PopupSidePanelProps = {
   showSidebar?: boolean;
   minWidth?: number;
   maxWidth?: number;
+  separatorsBefore?: string[];
   value?: string[];
   onChange?: (value: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
@@ -45,6 +46,7 @@ const PopupSidePanel = ({
   minWidth = 280,
   maxWidth = 500,
   value: valueProp = popupsActiveDefault,
+  separatorsBefore = emptyArray,
   size,
   onChange
 }: PopupSidePanelProps) => {
@@ -131,6 +133,7 @@ const PopupSidePanel = ({
         multi={multi}
         canEmpty={canHide}
         size={size}
+        separatorsBefore={separatorsBefore}
         onChange={handleChangeTabs}
       />
     );
@@ -155,6 +158,7 @@ const PopupSidePanel = ({
             multi={multi}
             canEmpty={canHide}
             size={size}
+            separatorsBefore={separatorsBefore}
             onChange={handleChangeTabs}
           />
         )}
@@ -167,7 +171,7 @@ const PopupSidePanel = ({
           defaultValue={popupsActiveFiltered.length > 0 ? popupsActiveFiltered.slice(0, 1) : [popups[0].id]}
         >
           {popups
-            .filter(pop => popupsActiveFiltered.includes(pop.id))
+            .filter(pop => popupsActiveFiltered.includes(pop.id) && !!pop.component)
             .map((popup, i) => {
               return (
                 <Accordion.Item
@@ -176,23 +180,20 @@ const PopupSidePanel = ({
                   grow
                   className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
                 >
-                  <Accordion.Item.Header
-                    title={popup.settings.title}
-                    iconExpanded={null}
-                    iconCollapsed={null}
-                    // direction={placement === 'left' ? 'row-reverse' : 'row'}
-                  >
-                    <Button
-                      intent="custom"
-                      size="custom"
-                      border="none"
-                      className={classNameTheme.btn}
-                      title="Floating Popup"
-                      content=""
-                      onClick={handleClickFloating(popup.id)}
-                    >
-                      <Button.Icon icon="fas fa-window-restore" />
-                    </Button>
+                  <Accordion.Item.Header title={popup.settings.title} iconExpanded={null} iconCollapsed={null}>
+                    {popup.settings.allowFloatingSide !== false && (
+                      <Button
+                        intent="custom"
+                        size="custom"
+                        border="none"
+                        className={classNameTheme.btn}
+                        title="Floating Popup"
+                        content=""
+                        onClick={handleClickFloating(popup.id)}
+                      >
+                        <Button.Icon icon="fas fa-window-restore" />
+                      </Button>
+                    )}
                     <Button
                       intent="custom"
                       size="custom"

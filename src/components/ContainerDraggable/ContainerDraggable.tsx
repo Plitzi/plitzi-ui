@@ -39,6 +39,7 @@ export type ContainerDraggableProps = {
   height: number;
   allowResize: boolean;
   allowExternal: boolean;
+  allowClose?: boolean;
   resizeHandles: ResizeHandle[];
   customActions: ReactNode[];
   parentElement?: HTMLElement | null;
@@ -60,6 +61,7 @@ const ContainerDraggable = ({
   height = 150,
   titleHeight = 34,
   allowResize = false,
+  allowClose = true,
   allowExternal = true,
   resizeHandles = resizeHandlesDefault,
   customActions = customActionsDefault,
@@ -211,10 +213,6 @@ const ContainerDraggable = ({
   }, [dragging, containerRect]);
 
   const handleMouseDown = (e: MouseEvent | React.MouseEvent) => {
-    if (collapsed) {
-      return;
-    }
-
     let rect;
     if (limitMode === LIMIT_MODE_PARENT) {
       if (!elementRef.current || !elementRef.current.parentNode) {
@@ -292,16 +290,13 @@ const ContainerDraggable = ({
   const handleTouchStart = useCallback(
     (e: TouchEvent | React.TouchEvent) => {
       e.stopPropagation();
-      if (collapsed) {
-        return;
-      }
 
       setDragging(true);
       setTX(e.touches[0].clientX);
       setTY(e.touches[0].clientY);
       onFocus(e);
     },
-    [collapsed, onFocus]
+    [onFocus]
   );
 
   if (externalWindow) {
@@ -323,11 +318,6 @@ const ContainerDraggable = ({
     style = { ...style, width: `${width}px`, height: `${height}px` };
   }
 
-  if (collapsed) {
-    style.top = undefined;
-    style.left = undefined;
-  }
-
   return (
     <Card
       className={classNames('component__container-draggable', className)}
@@ -344,6 +334,7 @@ const ContainerDraggable = ({
         icon={icon}
         title={title}
         allowExternal={allowExternal}
+        allowClose={allowClose}
         customActions={customActions}
         setCollapsed={setCollapsed}
         setExternalWindow={setExternalWindow}

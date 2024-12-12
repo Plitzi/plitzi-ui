@@ -40,7 +40,7 @@ const AccordionItem = ({
   wrap,
   items,
   justify,
-  gap = 4,
+  gap = 0,
   grow,
   shrink = 0,
   basis = 0,

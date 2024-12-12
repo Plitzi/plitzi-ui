@@ -10,13 +10,13 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'ContainerDraggable';
 
 export default {
-  root: cva('flex flex-col overflow-hidden p-2', {
+  root: cva('flex flex-col overflow-hidden p-2 absolute z-50 rounded-lg', {
     variants: {
       intent: {},
       size: {},
       collapsed: {
-        false: 'rounded-lg absolute z-50',
-        true: 'not-last:mr-4 !top-auto !left-auto relative rounded-tl-lg rounded-tr-lg'
+        false: '',
+        true: ''
       }
     },
     compoundVariants: [],
@@ -39,7 +39,7 @@ export default {
     variants: {
       intent: {},
       collapsed: {
-        true: '!cursor-auto',
+        true: '',
         false: ''
       }
     },
