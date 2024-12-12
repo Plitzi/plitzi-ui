@@ -13,7 +13,7 @@ export const variantKeys = {
     'custom'
   ],
   cursor: ['pointer', 'disabled', 'custom'],
-  size: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl', 'custom']
+  size: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Icon';
@@ -39,7 +39,7 @@ export default {
       size: {
         xs: 'text-xs min-w-3 min-h-3',
         sm: 'text-sm min-w-[14px] min-h-[14px]',
-        base: 'min-w-4 min-h-4',
+        md: 'min-w-4 min-h-4',
         lg: 'text-lg min-w-[18px] min-h-[18px]',
         xl: 'text-xl min-w-6 min-h-6',
         '2xl': 'text-2xl min-w-7 min-h-7',
@@ -56,7 +56,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'primary',
-      size: 'base'
+      size: 'md'
     }
   })
 };

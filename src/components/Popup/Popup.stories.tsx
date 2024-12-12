@@ -63,7 +63,7 @@ export const Primary: Story = {
         {
           id: 'popup-2',
           component: <div>Hello World 2</div>,
-          active: false,
+          active: true,
           settings: {
             icon: <i className="fas fa-file" />,
             title: 'Popup 2',

@@ -3,7 +3,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['default', 'error', 'disabled'],
-  size: ['xs', 'sm', 'base']
+  size: ['xs', 'sm', 'md']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'MetricInput';
@@ -17,7 +17,7 @@ export default {
         disabled: 'text-gray-400'
       },
       size: {
-        base: 'text-base',
+        md: 'text-base',
         sm: 'text-sm',
         xs: 'text-xs'
       }
@@ -25,7 +25,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   inputContainer: cva('flex items-center border rounded-lg relative', {
@@ -36,7 +36,7 @@ export default {
         disabled: 'cursor-not-allowed'
       },
       size: {
-        base: 'py-2.5 px-4 gap-2',
+        md: 'py-2.5 px-4 gap-2',
         sm: 'py-1.5 px-2 gap-1.5',
         xs: 'py-1 px-1 gap-1'
       }
@@ -44,7 +44,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   input: cva('p-0 border-0 outline-none focus:ring-0', {
@@ -55,7 +55,7 @@ export default {
         disabled: 'cursor-not-allowed'
       },
       size: {
-        base: 'text-base',
+        md: 'text-base',
         sm: 'text-sm',
         xs: 'text-xs'
       }
@@ -63,7 +63,7 @@ export default {
     compoundVariants: [
       {
         intent: 'error',
-        size: 'base',
+        size: 'md',
         className: 'pr-6'
       },
       {
@@ -79,7 +79,7 @@ export default {
     ],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   units: cva(
@@ -95,7 +95,7 @@ export default {
           disabled: 'cursor-not-allowed'
         },
         size: {
-          base: 'pl-2 text-base min-w-10',
+          md: 'pl-2 text-base min-w-10',
           sm: 'pl-1.5 text-sm min-w-8',
           xs: 'pl-1 text-xs min-w-7'
         }
@@ -103,7 +103,7 @@ export default {
       compoundVariants: [],
       defaultVariants: {
         intent: 'default',
-        size: 'base'
+        size: 'md'
       }
     }
   ),
@@ -113,7 +113,7 @@ export default {
         default: ''
       },
       size: {
-        base: 'right-16 gap-2',
+        md: 'right-16 gap-2',
         sm: 'right-12 gap-1.5',
         xs: 'right-10 gap-1'
       }
@@ -121,7 +121,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   icon: cva('', {
@@ -131,7 +131,7 @@ export default {
         error: 'text-red-600'
       },
       size: {
-        base: '',
+        md: '',
         sm: '',
         xs: ''
       }
@@ -139,7 +139,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   iconError: cva('', {
@@ -149,7 +149,7 @@ export default {
         error: 'text-red-600'
       },
       size: {
-        base: '',
+        md: '',
         sm: '',
         xs: ''
       }
@@ -157,7 +157,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   iconLoading: cva('', {
@@ -166,7 +166,7 @@ export default {
         default: ''
       },
       size: {
-        base: '',
+        md: '',
         sm: '',
         xs: ''
       }
@@ -174,7 +174,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   })
 };

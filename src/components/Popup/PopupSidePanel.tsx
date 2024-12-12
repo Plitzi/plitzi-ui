@@ -45,12 +45,13 @@ const PopupSidePanel = ({
   minWidth = 280,
   maxWidth = 500,
   value: valueProp = popupsActiveDefault,
+  size,
   onChange
 }: PopupSidePanelProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
     className,
     componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
-    variant: { placement: placementTabs }
+    variant: { placement: placementTabs, size }
   });
   const { placementPopup, popups, popupIds, popupActiveIds } = usePopup(placement);
   const [popupsActive, setPopupsActive] = useState(() => {
@@ -129,6 +130,7 @@ const PopupSidePanel = ({
         value={popupsActiveFiltered}
         multi={multi}
         canEmpty={canHide}
+        size={size}
         onChange={handleChangeTabs}
       />
     );
@@ -152,11 +154,13 @@ const PopupSidePanel = ({
             value={popupsActiveFiltered}
             multi={multi}
             canEmpty={canHide}
+            size={size}
             onChange={handleChangeTabs}
           />
         )}
         <Accordion
           className={classNameTheme.sidePanelContainer}
+          size={size}
           grow
           gap={0}
           multi={multi}
@@ -176,7 +180,7 @@ const PopupSidePanel = ({
                     title={popup.settings.title}
                     iconExpanded={null}
                     iconCollapsed={null}
-                    direction={placement === 'left' ? 'row-reverse' : 'row'}
+                    // direction={placement === 'left' ? 'row-reverse' : 'row'}
                   >
                     <Button
                       intent="custom"

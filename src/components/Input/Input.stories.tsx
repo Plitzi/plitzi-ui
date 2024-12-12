@@ -39,7 +39,7 @@ export const Primary: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <Input {...args} size="base" value={value} onChange={handleChange} />
+        <Input {...args} size="md" value={value} onChange={handleChange} />
         <Input {...args} size="sm" />
         <Input {...args} size="xs" />
       </div>
@@ -55,7 +55,7 @@ export const Builder: Story = {
   },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
-      <Input {...args} size="base" className={{ input: 'w-[50px]' }} />
+      <Input {...args} size="md" className={{ input: 'w-[50px]' }} />
       <Input {...args} size="sm" className={{ input: 'w-[50px]' }} />
       <Input {...args} size="xs" className={{ input: 'w-[50px]' }} />
     </div>

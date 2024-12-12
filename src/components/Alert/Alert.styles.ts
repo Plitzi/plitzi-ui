@@ -3,7 +3,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['default', 'success', 'error', 'warning', 'info'],
-  size: ['base', 'lg', 'xl']
+  size: ['md', 'lg', 'xl']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Alert';
@@ -19,7 +19,7 @@ export default {
         info: 'bg-blue-400'
       },
       size: {
-        base: 'p-4',
+        md: 'p-4',
         lg: '',
         xl: ''
       }
@@ -27,7 +27,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   iconContainer: cva('flex items-center mr-4'),
@@ -41,7 +41,7 @@ export default {
         info: 'bg-blue-400'
       },
       size: {
-        base: '',
+        md: '',
         lg: 'fa-2x',
         xl: 'fa-3x'
       }
@@ -49,7 +49,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   }),
   content: cva('grow basis-0 min-w-0')

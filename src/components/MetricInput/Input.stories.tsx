@@ -39,7 +39,7 @@ export const Primary: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <MetricInput {...args} size="base" value={value} onChange={handleChange} />
+        <MetricInput {...args} size="md" value={value} onChange={handleChange} />
         <MetricInput {...args} size="sm" />
         <MetricInput {...args} size="xs" />
       </div>
@@ -69,7 +69,7 @@ export const Metrics: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <MetricInput {...args} size="base" value={value} onChange={handleChange} />
+        <MetricInput {...args} size="md" value={value} onChange={handleChange} />
         <MetricInput {...args} size="sm" />
         <MetricInput {...args} size="xs" />
       </div>
@@ -90,7 +90,7 @@ export const Builder: Story = {
   },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
-      <MetricInput {...args} size="base" className={{ input: 'w-[50px]' }} />
+      <MetricInput {...args} size="md" className={{ input: 'w-[50px]' }} />
       <MetricInput {...args} size="sm" className={{ input: 'w-[50px]' }} />
       <MetricInput {...args} size="xs" className={{ input: 'w-[50px]' }} />
     </div>

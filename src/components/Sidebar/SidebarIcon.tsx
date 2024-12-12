@@ -17,7 +17,7 @@ import type { MouseEvent } from 'react';
 export type SidebarIconProps = {
   id?: string;
   detatched?: boolean;
-} & IconProps &
+} & Omit<IconProps, 'size'> &
   useThemeSharedProps<typeof SidebarStyles, typeof variantKeys>;
 
 const SidebarIcon = ({
@@ -26,13 +26,14 @@ const SidebarIcon = ({
   className,
   active = false,
   detatched = false,
+  size,
   onClick,
   ...props
 }: SidebarIconProps) => {
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
     className,
     componentKey: 'icon',
-    variant: {}
+    variant: { size }
   });
   const { onChange } = use(SidebarContext);
 
@@ -56,7 +57,7 @@ const SidebarIcon = ({
   return (
     <Icon
       className={className}
-      size="lg"
+      size={size as Partial<IconProps['size']>}
       cursor="pointer"
       intent="tertiary"
       active={active}

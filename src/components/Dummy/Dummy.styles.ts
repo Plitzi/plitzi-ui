@@ -3,7 +3,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['default', 'danger'],
-  size: ['base', 'sm', 'xl']
+  size: ['md', 'sm', 'xl']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Dummy';
@@ -17,14 +17,14 @@ export default {
       },
       size: {
         xs: 'text-xs',
-        base: '',
+        md: '',
         xl: 'text-xl'
       }
     },
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   })
 };

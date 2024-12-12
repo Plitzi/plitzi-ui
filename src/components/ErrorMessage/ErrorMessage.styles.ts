@@ -3,7 +3,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['default', 'error', 'disabled'],
-  size: ['xs', 'sm', 'base']
+  size: ['xs', 'sm', 'md']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'ErrorMessage';
@@ -17,7 +17,7 @@ export default {
         disabled: ''
       },
       size: {
-        base: 'text-base',
+        md: 'text-base',
         sm: 'text-sm',
         xs: 'text-xs'
       }
@@ -25,7 +25,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   })
 };

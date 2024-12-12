@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 export const variantKeys = {
   intent: ['default'],
   grow: [true, false],
-  size: ['xs', 'md', 'sm'],
+  size: ['xs', 'md', 'sm', 'lg', 'custom'],
   resizing: [true, false]
 } as const;
 
@@ -33,7 +33,9 @@ export default {
       size: {
         xs: 'px-1 py-0.5 text-sm h-5',
         sm: 'px-1.5 py-1 h-6',
-        md: 'px-2 py-1.5 text-lg h-7'
+        md: 'px-2 py-1.5 text-lg h-7',
+        lg: 'px-2 py-1.5 text-lg h-7',
+        custom: ''
       }
     },
     compoundVariants: [],
@@ -50,7 +52,8 @@ export default {
       size: {
         xs: 'px-1',
         sm: 'px-1.5',
-        md: 'px-2'
+        md: 'px-2',
+        custom: ''
       },
       grow: {
         true: 'overflow-auto basis-0 grow',

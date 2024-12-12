@@ -42,7 +42,7 @@ const Input = ({
   hasError = false,
   prefix = '',
   type = 'text',
-  size = 'base',
+  size,
   intent = 'default',
   value = '',
   error = '',

@@ -32,12 +32,13 @@ const PopupSidebar = ({
   exclude = emptyArray,
   border,
   padding,
+  size = 'lg',
   onChange
 }: PopupSidebarProps) => {
   className = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
     componentKey: 'sidebar',
-    variant: { placement }
+    variant: { placement, size }
   });
   const { popups } = usePopup(placement);
 
@@ -50,6 +51,7 @@ const PopupSidebar = ({
   return (
     <Sidebar
       value={value}
+      size={size}
       onChange={handleChange}
       canEmpty={canEmpty}
       multi={multi}

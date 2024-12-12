@@ -3,7 +3,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['primary', 'secondary', 'disabled', 'custom'],
-  size: ['xs', 'sm', 'base', 'custom'],
+  size: ['xs', 'sm', 'md', 'custom'],
   border: ['solid', 'none', 'custom'],
   items: ['start', 'end', 'center', 'baseline', 'stretch'],
   justify: ['normal', 'start', 'end', 'center', 'between', 'around', 'evenly', 'stretch']
@@ -27,7 +27,7 @@ export default {
         secondary: ['hover:bg-primary-200 hover:text-black', 'focus:bg-primary-200 focus:text-black', disabledIntent]
       },
       size: {
-        base: 'py-2.5 px-4 text-base rounded-lg',
+        md: 'py-2.5 px-4 text-base rounded-lg',
         sm: 'py-1.5 px-3 text-[14px] leading-[18px] rounded-lg',
         xs: 'py-1.5 px-2 text-xs rounded-lg',
         custom: ''
@@ -61,7 +61,7 @@ export default {
       justify: 'center',
       intent: 'primary',
       border: 'solid',
-      size: 'base'
+      size: 'md'
     }
   }),
   icon: cva('', {
@@ -70,13 +70,13 @@ export default {
         default: ''
       },
       size: {
-        base: ''
+        md: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'base'
+      size: 'md'
     }
   })
 };

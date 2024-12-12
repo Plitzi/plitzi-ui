@@ -26,7 +26,7 @@ export const Primary: Story = {
     <Flex items="center" gap={2}>
       <Icon {...args} size="xs" />
       <Icon {...args} size="sm" />
-      <Icon {...args} size="base" />
+      <Icon {...args} size="md" />
       <Icon {...args} size="lg" />
       <Icon {...args} size="xl" />
       <Icon {...args} size="2xl" />
@@ -47,7 +47,7 @@ export const Secondary: Story = {
     <Flex items="center" gap={2}>
       <Icon {...args} size="xs" intent="secondary" />
       <Icon {...args} size="sm" intent="secondary" />
-      <Icon {...args} size="base" intent="secondary" />
+      <Icon {...args} size="md" intent="secondary" />
       <Icon {...args} size="lg" intent="secondary" />
       <Icon {...args} size="xl" intent="secondary" />
       <Icon {...args} size="2xl" intent="secondary" />
@@ -68,7 +68,7 @@ export const Tertiary: Story = {
     <Flex items="center" gap={2}>
       <Icon {...args} size="xs" intent="tertiary" />
       <Icon {...args} size="sm" intent="tertiary" />
-      <Icon {...args} size="base" intent="tertiary" />
+      <Icon {...args} size="md" intent="tertiary" />
       <Icon {...args} size="lg" intent="tertiary" />
       <Icon {...args} size="xl" intent="tertiary" />
       <Icon {...args} size="2xl" intent="tertiary" />

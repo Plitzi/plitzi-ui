@@ -4,7 +4,8 @@ import cva from '@/helpers/cvaWrapper';
 export const variantKeys = {
   placement: ['left', 'right', 'top', 'bottom'],
   border: ['solid', 'none'],
-  padding: ['normal', 'none']
+  padding: ['normal', 'none'],
+  size: ['xs', 'md', 'sm', 'lg', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Sidebar';
@@ -55,6 +56,20 @@ export default {
       padding: 'normal'
     }
   }),
-  icon: cva('h-10 w-10 rounded-lg shrink-0'),
+  icon: cva('shrink-0', {
+    variants: {
+      size: {
+        lg: 'h-10 w-10 rounded-lg',
+        md: 'h-8 w-8 rounded-lg',
+        sm: 'h-6 w-6 rounded',
+        xs: 'h-4 w-4 rounded-sm',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
   separator: cva('w-6 bg-gray-200 h-px shrink-0')
 };

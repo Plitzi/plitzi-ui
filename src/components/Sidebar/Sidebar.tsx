@@ -36,12 +36,13 @@ const Sidebar = ({
   placement,
   border,
   padding,
+  size,
   onChange
 }: SidebarProps) => {
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
     className,
     componentKey: 'root',
-    variant: { placement, border, padding }
+    variant: { placement, border, padding, size }
   });
 
   const finalValue = useMemo(() => {
@@ -89,7 +90,7 @@ const Sidebar = ({
       if (child.type === SidebarIcon) {
         const iconProps = child.props as SidebarIconProps;
         const itemId = iconProps.id ?? i.toString();
-        const newIconProps = { ...iconProps, key: i, id: itemId };
+        const newIconProps = { size, ...iconProps, key: i, id: itemId };
         if (!iconProps.detatched) {
           newIconProps.active = finalValue.includes(itemId);
         }
@@ -110,7 +111,7 @@ const Sidebar = ({
     });
 
     return components;
-  }, [children, finalValue]);
+  }, [children, finalValue, size]);
 
   return (
     <div className={className}>

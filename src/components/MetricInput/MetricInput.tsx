@@ -37,7 +37,7 @@ const MetricInput = ({
   prefix = '',
   units = [],
   type = 'text',
-  size = 'base',
+  size,
   intent = 'default',
   value = '',
   onChange,

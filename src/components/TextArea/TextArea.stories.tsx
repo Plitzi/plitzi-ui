@@ -37,7 +37,7 @@ export const Primary: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <TextArea {...args} size="base" value={value} onChange={handleChange} />
+        <TextArea {...args} size="md" value={value} onChange={handleChange} />
         <TextArea {...args} size="sm" value={value} />
         <TextArea {...args} size="xs" value={value} />
       </div>
@@ -51,7 +51,7 @@ export const Builder: Story = {
   },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
-      <TextArea {...args} size="base" className={{ input: 'w-[50px]' }} />
+      <TextArea {...args} size="md" className={{ input: 'w-[50px]' }} />
       <TextArea {...args} size="sm" className={{ input: 'w-[50px]' }} />
       <TextArea {...args} size="xs" className={{ input: 'w-[50px]' }} />
     </div>

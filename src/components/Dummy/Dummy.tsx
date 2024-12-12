@@ -8,7 +8,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type DummyProps = { content?: string } & useThemeSharedProps<typeof DummyStyles, typeof variantKeys>;
 
-const Dummy = ({ className, content, intent = 'default', size = 'base' }: DummyProps) => {
+const Dummy = ({ className, content, intent = 'default', size }: DummyProps) => {
   className = useTheme<typeof DummyStyles, typeof variantKeys>('Dummy', {
     className,
     componentKey: 'root',
