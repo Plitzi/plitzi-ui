@@ -124,16 +124,16 @@ export default {
       size: 'md'
     }
   }),
-  icon: cva('', {
+  icon: cva('border-r border-gray-400 shrink-0', {
     variants: {
       intent: {
         default: '',
         error: 'text-red-600'
       },
       size: {
-        md: '',
-        sm: '',
-        xs: ''
+        md: 'pr-2',
+        sm: 'pr-1.5',
+        xs: 'pr-1'
       }
     },
     compoundVariants: [],

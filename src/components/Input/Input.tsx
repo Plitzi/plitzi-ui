@@ -85,7 +85,7 @@ const Input = ({
 
   return (
     <div className={classNameTheme.root}>
-      <Label label={label} hasError={hasError} disabled={disabled} intent={intent} size={size} />
+      {label && <Label label={label} hasError={hasError} disabled={disabled} intent={intent} size={size} />}
       <div className={classNameTheme.inputContainer}>
         {iconChildren}
         {prefix && <div>{prefix}</div>}

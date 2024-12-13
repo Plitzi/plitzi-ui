@@ -24,7 +24,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    icon: 'fa-solid fa-check',
     hasError: true,
     prefix: '$'
   },
@@ -39,9 +38,15 @@ export const Primary: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <MetricInput {...args} size="md" value={value} onChange={handleChange} />
-        <MetricInput {...args} size="sm" />
-        <MetricInput {...args} size="xs" />
+        <MetricInput {...args} size="md" value={value} onChange={handleChange}>
+          <MetricInput.Icon icon="fa-solid fa-check" />
+        </MetricInput>
+        <MetricInput {...args} size="sm">
+          <MetricInput.Icon icon="fa-solid fa-check" />
+        </MetricInput>
+        <MetricInput {...args} size="xs">
+          <MetricInput.Icon icon="fa-solid fa-check" />
+        </MetricInput>
       </div>
     );
   }
@@ -49,7 +54,6 @@ export const Primary: Story = {
 
 export const Metrics: Story = {
   args: {
-    icon: 'fa-solid fa-check',
     hasError: true,
     prefix: '$',
     units: [
@@ -69,9 +73,15 @@ export const Metrics: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <MetricInput {...args} size="md" value={value} onChange={handleChange} />
-        <MetricInput {...args} size="sm" />
-        <MetricInput {...args} size="xs" />
+        <MetricInput {...args} size="md" value={value} onChange={handleChange}>
+          <MetricInput.Icon icon="fa-solid fa-check" />
+        </MetricInput>
+        <MetricInput {...args} size="sm">
+          <MetricInput.Icon icon="fa-solid fa-check" />
+        </MetricInput>
+        <MetricInput {...args} size="xs">
+          <MetricInput.Icon icon="fa-solid fa-check" />
+        </MetricInput>
       </div>
     );
   }
@@ -79,7 +89,6 @@ export const Metrics: Story = {
 
 export const Builder: Story = {
   args: {
-    icon: '',
     hasError: false,
     prefix: '',
     units: [

@@ -1,20 +1,22 @@
 // Packages
 import classNames from 'classnames';
 import get from 'lodash/get';
-import { useCallback, useMemo } from 'react';
+import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
 // Alias
+import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
 // Types
 import type MetricInputStyles from './MetricInput.styles';
 import type { variantKeys } from './MetricInput.styles';
+import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, Ref } from 'react';
+import type { ChangeEvent, ReactElement, ReactNode, Ref } from 'react';
 
 export type MetricInputProps = {
   ref?: Ref<HTMLInputElement>;
-  icon?: string;
+  children?: ReactNode;
   placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
@@ -28,8 +30,8 @@ export type MetricInputProps = {
 
 const MetricInput = ({
   ref,
+  children,
   className = '',
-  icon = '',
   placeholder = 'Text',
   loading = false,
   disabled = false,
@@ -104,10 +106,32 @@ const MetricInput = ({
     [val, onChange]
   );
 
+  const { iconChildren } = useMemo(() => {
+    const components = {
+      iconChildren: undefined as ReactNode
+    };
+
+    Children.forEach(children, child => {
+      if (!isValidElement(child)) {
+        return;
+      }
+
+      if (child.type === Icon) {
+        components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
+          className: classNames(classNameTheme.icon, (child.props as IconProps).className),
+          size,
+          intent: 'custom'
+        });
+      }
+    });
+
+    return components;
+  }, [children, classNameTheme.icon, size]);
+
   return (
     <div className={classNameTheme.root}>
       <div className={classNameTheme.inputContainer}>
-        <i className={classNames(icon, classNameTheme.icon)} />
+        {iconChildren}
         {prefix && <div>{prefix}</div>}
         <input
           ref={ref}
@@ -138,5 +162,7 @@ const MetricInput = ({
     </div>
   );
 };
+
+MetricInput.Icon = Icon;
 
 export default MetricInput;
