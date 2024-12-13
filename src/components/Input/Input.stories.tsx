@@ -24,7 +24,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    icon: 'fa-solid fa-check',
     hasError: true,
     prefix: '$'
   },
@@ -39,9 +38,15 @@ export const Primary: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <Input {...args} size="md" value={value} onChange={handleChange} />
-        <Input {...args} size="sm" />
-        <Input {...args} size="xs" />
+        <Input {...args} size="md" value={value} onChange={handleChange}>
+          <Input.Icon icon="fa-solid fa-check" />
+        </Input>
+        <Input {...args} size="sm">
+          <Input.Icon icon="fa-solid fa-check" />
+        </Input>
+        <Input {...args} size="xs">
+          <Input.Icon icon="fa-solid fa-check" />
+        </Input>
       </div>
     );
   }
@@ -49,7 +54,6 @@ export const Primary: Story = {
 
 export const Builder: Story = {
   args: {
-    icon: '',
     hasError: false,
     prefix: ''
   },

@@ -1,9 +1,10 @@
 // Packages
 import classNames from 'classnames';
-import { useCallback } from 'react';
+import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
 // Alias
 import ErrorMessage from '@components/ErrorMessage';
+import Icon from '@components/Icon';
 import Label from '@components/Label';
 import useTheme from '@hooks/useTheme';
 
@@ -11,13 +12,15 @@ import useTheme from '@hooks/useTheme';
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
+import type { IconProps } from '@components/Icon';
 import type { LabelProps } from '@components/Label';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, ReactElement, ReactNode, Ref } from 'react';
 
 export type InputProps = {
   ref?: Ref<HTMLInputElement>;
-  icon?: string;
+  children?: ReactNode;
+  // icon?: string;
   placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
@@ -33,8 +36,9 @@ export type InputProps = {
 
 const Input = ({
   ref,
+  children,
   className = '',
-  icon = '',
+  // icon = '',
   label = 'Input',
   placeholder = 'Text',
   loading = false,
@@ -55,18 +59,35 @@ const Input = ({
     variant: { intent: disabled ? 'disabled' : hasError ? 'error' : intent, size }
   });
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e.target.value);
-    },
-    [onChange]
-  );
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value), [onChange]);
+
+  const { iconChildren } = useMemo(() => {
+    const components = {
+      iconChildren: undefined as ReactNode
+    };
+
+    Children.forEach(children, child => {
+      if (!isValidElement(child)) {
+        return;
+      }
+
+      if (child.type === Icon) {
+        components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
+          className: classNames(classNameTheme.icon, (child.props as IconProps).className),
+          size,
+          intent: 'custom'
+        });
+      }
+    });
+
+    return components;
+  }, [children, classNameTheme.icon, size]);
 
   return (
     <div className={classNameTheme.root}>
       <Label label={label} hasError={hasError} disabled={disabled} intent={intent} size={size} />
       <div className={classNameTheme.inputContainer}>
-        <i className={classNames(icon, classNameTheme.icon)} />
+        {iconChildren}
         {prefix && <div>{prefix}</div>}
         <input
           ref={ref}
@@ -93,5 +114,7 @@ const Input = ({
     </div>
   );
 };
+
+Input.Icon = Icon;
 
 export default Input;

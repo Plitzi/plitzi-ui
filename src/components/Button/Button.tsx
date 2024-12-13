@@ -17,7 +17,6 @@ export type ButtonProps = {
   children?: ReactNode;
   testId?: string;
   content?: ReactNode;
-  icon?: string;
   iconPlacement?: 'before' | 'after' | 'both' | 'none';
   loading?: boolean;
   disabled?: boolean;
@@ -31,7 +30,6 @@ const Button = ({
   content = 'Button',
   testId,
   className = '',
-  icon = '',
   iconPlacement = 'none',
   loading = false,
   disabled = false,
@@ -61,12 +59,7 @@ const Button = ({
 
       if (child.type === Icon) {
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
-          icon,
-          className: classNames(
-            classNameTheme.icon,
-            (child.props as IconProps).className,
-            (child.props as IconProps).icon
-          ),
+          className: classNames(classNameTheme.icon, (child.props as IconProps).className),
           size,
           intent: 'custom'
         });
@@ -74,7 +67,7 @@ const Button = ({
     });
 
     return components;
-  }, [children, icon, classNameTheme.icon, size]);
+  }, [children, classNameTheme.icon, size]);
 
   return (
     <button

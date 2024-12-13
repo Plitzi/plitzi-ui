@@ -18,9 +18,11 @@ import Label from './Label';
 import MetricInput from './MetricInput';
 import Popup from './Popup';
 import Sidebar from './Sidebar';
+import Text from './Text';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 
+export * from './Text';
 export * from './Sidebar';
 export * from './Accordion';
 export * from './Dummy';
@@ -44,6 +46,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Text,
   Sidebar,
   Accordion,
   Dummy,
