@@ -1,27 +1,12 @@
 // Alias
 import cva from '@/helpers/cvaWrapper';
 
-export const variantKeys = {
-  intent: [],
-  size: [],
-  grow: [true, false]
-} as const;
+export const variantKeys = {} as const;
 
 export const STYLES_COMPONENT_NAME = 'ContainerCollapsable';
 
 export default {
-  root: cva('flex flex-col', {
-    variants: {
-      intent: {},
-      size: {},
-      grow: {
-        true: 'grow',
-        false: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {}
-  }),
+  root: cva(''),
   header: cva('flex justify-between items-center cursor-pointer select-none gap-2 px-1'),
   headerContainer: cva('flex items-center gap-2'),
   headerSlot: cva(''),

@@ -19,11 +19,11 @@ export type TextProps = {
 } & HTMLAttributes<HTMLElement> &
   useThemeSharedProps<typeof TextStyles, typeof variantKeys>;
 
-const Text = ({ className, children, as = 'p', isTruncated, testId, size, weight, ...props }: TextProps) => {
+const Text = ({ className, children, as = 'p', isTruncated, testId, intent, size, weight, ...props }: TextProps) => {
   className = useTheme<typeof TextStyles, typeof variantKeys>('Text', {
     className,
     componentKey: 'root',
-    variant: { size, weight }
+    variant: { intent, size, weight }
   });
 
   return (

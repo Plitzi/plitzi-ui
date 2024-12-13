@@ -2,6 +2,8 @@
 import { Children, cloneElement, isValidElement, useCallback, useMemo, useState } from 'react';
 
 // Alias
+import Flex from '@components/Flex';
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
@@ -12,28 +14,40 @@ import ContainerCollapsableHeader from './ContainerCollapsableHeader';
 import type ContainerCollapsableStyles from './ContainerCollapsable.styles';
 import type { variantKeys } from './ContainerCollapsable.styles';
 import type { ContainerCollapsableHeaderProps } from './ContainerCollapsableHeader';
+import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEventHandler, ReactElement, ReactNode } from 'react';
 
 export type ContainerCollapsableProps = {
   collapsed?: boolean;
-  autoGrow?: boolean;
   children?: ReactNode;
   onChange?: (collapsed: boolean) => void;
-} & useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys>;
+} & useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const ContainerCollapsable = ({
   className = '',
   collapsed: collapsedProp = false,
-  autoGrow = false,
   children,
+  direction = 'column',
+  wrap,
+  items,
+  justify,
+  gap,
+  grow,
+  shrink,
+  basis,
   onChange
 }: ContainerCollapsableProps) => {
   const [collapsed, setCollapsed] = useState(collapsedProp);
-  const classNameTheme = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys, false>(
-    'ContainerCollapsable',
-    { className, componentKey: ['root'], variant: { grow: autoGrow ? !collapsed : false } }
-  );
+  className = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys>('ContainerCollapsable', {
+    className,
+    componentKey: 'root',
+    variant: {}
+  });
+
+  useDidUpdateEffect(() => {
+    setCollapsed(collapsedProp);
+  }, [collapsedProp]);
 
   const handleClick: MouseEventHandler<HTMLDivElement> = useCallback(
     e => {
@@ -65,10 +79,20 @@ const ContainerCollapsable = ({
   }, [children, collapsed, handleClick]);
 
   return (
-    <div className={classNameTheme.root}>
+    <Flex
+      className={className}
+      direction={direction}
+      wrap={wrap}
+      items={items}
+      justify={justify}
+      gap={gap}
+      shrink={shrink}
+      basis={basis}
+      grow={grow ? !collapsed : false}
+    >
       {header}
       {!collapsed && content}
-    </div>
+    </Flex>
   );
 };
 

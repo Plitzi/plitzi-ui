@@ -2,6 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
+  intent: ['custom', 'primary'],
   size: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl', 'custom'],
   weight: [
     100,
@@ -30,6 +31,10 @@ export const STYLES_COMPONENT_NAME = 'Text';
 export default {
   root: cva('', {
     variants: {
+      intent: {
+        primary: 'text-primary-500',
+        custom: ''
+      },
       size: {
         xs: 'text-xs',
         sm: 'text-sm',
@@ -69,6 +74,7 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
+      intent: 'custom',
       size: 'md',
       weight: 400
     }
