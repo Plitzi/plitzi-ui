@@ -25,3 +25,15 @@ export const Primary: Story = {
     </ContainerCollapsable>
   )
 };
+
+export const Secondary: Story = {
+  args: {},
+  render: args => (
+    <ContainerCollapsable {...args} className="bg-gray-300">
+      <ContainerCollapsable.Header placement="right" title="Test">
+        Custom
+      </ContainerCollapsable.Header>
+      <ContainerCollapsable.Content className="bg-gray-500">Content</ContainerCollapsable.Content>
+    </ContainerCollapsable>
+  )
+};

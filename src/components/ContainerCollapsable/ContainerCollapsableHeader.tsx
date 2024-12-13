@@ -34,37 +34,38 @@ const ContainerCollapsableHeader = ({
     'ContainerCollapsable',
     {
       className,
-      componentKey: ['header', 'headerContainer', 'headerTitle', 'headerIconContainer', 'headerSlot'],
+      componentKey: [
+        'header',
+        'headerContainer',
+        'headerTitle',
+        'headerIconContainer',
+        'headerSlot',
+        'headerSlotContainer'
+      ],
       variant: {}
     }
   );
 
   return (
     <div className={classNameTheme.header} onClick={onClick}>
-      {placement === 'left' && (
-        <>
-          <div className={classNameTheme.headerContainer}>
-            <div className={classNameTheme.headerIconContainer}>
-              {collapsed && iconCollapsed}
-              {!collapsed && iconExpanded}
-            </div>
-            <div className={classNameTheme.headerTitle}>{title}</div>
+      <div className={classNameTheme.headerContainer}>
+        {placement === 'left' && (
+          <div className={classNameTheme.headerIconContainer}>
+            {collapsed && iconCollapsed}
+            {!collapsed && iconExpanded}
           </div>
-          <div className={classNameTheme.headerSlot}>{children}</div>
-        </>
-      )}
-      {placement === 'right' && (
-        <>
-          <div className={classNameTheme.headerSlot}>{children}</div>
-          <div className={classNameTheme.headerContainer}>
-            <div className={classNameTheme.headerTitle}>{title}</div>
-            <div className={classNameTheme.headerIconContainer}>
-              {collapsed && iconCollapsed}
-              {!collapsed && iconExpanded}
-            </div>
+        )}
+        <div className={classNameTheme.headerTitle}>{title}</div>
+      </div>
+      <div className={classNameTheme.headerSlotContainer}>
+        <div className={classNameTheme.headerSlot}>{children}</div>
+        {placement === 'right' && (
+          <div className={classNameTheme.headerIconContainer}>
+            {collapsed && iconCollapsed}
+            {!collapsed && iconExpanded}
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 };
