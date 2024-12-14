@@ -7,15 +7,19 @@ import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { json, jsonLanguage } from '@codemirror/lang-json';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
-import classNames from 'classnames';
-import noop from 'lodash/noop';
 import { useCallback, useMemo, useRef } from 'react';
+
+// Alias
+import useTheme from '@hooks/useTheme';
 
 // Relatives
 import useCodeMirror from './hooks/useCodeMirror';
 
 // Types
+import type CodeMirrorStyles from './CodeMirror.styles';
+import type { variantKeys } from './CodeMirror.styles';
 import type { Completion, CompletionContext, CompletionSource } from '@codemirror/autocomplete';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { KeyboardEvent, Ref } from 'react';
 
 export type AutoComplete = string | { type: 'token' | 'css-token' | 'custom-token'; value: string; detail?: string };
@@ -23,35 +27,38 @@ export type AutoComplete = string | { type: 'token' | 'css-token' | 'custom-toke
 const autoCompleteDefault: AutoComplete[] = [];
 
 export type CodeMirrorProps = {
-  className?: string; // temporal until add useTheme
   ref?: Ref<HTMLElement>;
   value?: string;
   mode?: 'css' | 'js' | 'json' | 'text' | 'html';
   theme?: 'light' | 'dark' | 'none';
   lineWrapping?: boolean;
-  autoComplete?: AutoComplete[]; // object what means ?
+  autoComplete?: AutoComplete[];
   multiline?: boolean;
   readOnly?: boolean;
   placeholder?: string;
   onChange?: (value: string) => void;
   getReadOnlyRanges?: (state: EditorState) => { from: number | null; to: number | null }[];
-};
+} & useThemeSharedProps<typeof CodeMirrorStyles, typeof variantKeys>;
 
-const CodeMirror = (props: CodeMirrorProps) => {
-  const {
-    ref,
-    className = '',
-    value = '',
-    mode = 'css',
-    theme = 'light',
-    autoComplete = autoCompleteDefault,
-    onChange = noop,
-    lineWrapping = false,
-    multiline = true,
-    readOnly = false,
-    placeholder = '',
-    getReadOnlyRanges
-  } = props;
+const CodeMirror = ({
+  ref,
+  className,
+  value = '',
+  mode = 'css',
+  theme = 'light',
+  autoComplete = autoCompleteDefault,
+  onChange,
+  lineWrapping = false,
+  multiline = true,
+  readOnly = false,
+  placeholder = '',
+  getReadOnlyRanges
+}: CodeMirrorProps) => {
+  className = useTheme<typeof CodeMirrorStyles, typeof variantKeys>('CodeMirror', {
+    className,
+    componentKey: 'root',
+    variant: {}
+  });
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
   const styleMemo = useMemo(() => ({ height: '100%' }), []);
   const getRanges = useRef(getReadOnlyRanges);
@@ -177,13 +184,7 @@ const CodeMirror = (props: CodeMirrorProps) => {
     e.stopPropagation();
   }, []);
 
-  return (
-    <div
-      className={classNames('h-full grow basis-0 overflow-auto', className)}
-      ref={editorRef}
-      onKeyDown={handleKeyDown}
-    />
-  );
+  return <div className={className} ref={editorRef} onKeyDown={handleKeyDown} />;
 };
 
 export default CodeMirror;

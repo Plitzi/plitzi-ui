@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 // Relatives
 import Card from './Card';
 
-describe('Dummy Tests', () => {
+describe('Card Tests', () => {
   it('Render Component', () => {
     const { baseElement } = render(<Card />);
 

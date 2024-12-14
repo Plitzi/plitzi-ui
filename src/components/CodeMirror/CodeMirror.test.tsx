@@ -11,10 +11,13 @@ describe('CodeMirror', () => {
   });
 
   it('Render Component', () => {
-    render(<CodeMirror />);
+    render(<CodeMirror value="Hello World" />);
 
-    const description = screen.getByText('Dummy Component');
+    const description = screen.getByText('Hello');
     expect(description).toBeDefined();
+
+    const description2 = screen.getByText('World');
+    expect(description2).toBeDefined();
   });
 
   it('trigger events', () => {
