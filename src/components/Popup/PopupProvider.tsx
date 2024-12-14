@@ -133,24 +133,20 @@ const PopupProvider = ({
     onChangeRef.current?.(popupsRef.current);
   }, []);
 
-  const focusPopup = useCallback(
-    (popupId: string, sort: number = -1) =>
-      () => {
-        const placement = placementCacheRef.current[popupId];
-        if (!placement) {
-          return;
-        }
+  const focusPopup = useCallback((popupId: string, sort: number = -1) => {
+    const placement = placementCacheRef.current[popupId];
+    if (!placement) {
+      return;
+    }
 
-        const popupsArr = popupsRef.current;
-        if (popupsArr[placement].length < 1 || popupsArr[placement][popupsArr[placement].length - 1].id === popupId) {
-          return;
-        }
+    const popupsArr = popupsRef.current;
+    if (popupsArr[placement].length < 1 || popupsArr[placement][popupsArr[placement].length - 1].id === popupId) {
+      return;
+    }
 
-        popupsArr[placement] = popupsArr[placement].toSorted((_, popup2) => (popup2.id === popupId ? sort : 0));
-        setRerender(Date.now());
-      },
-    []
-  );
+    popupsArr[placement] = popupsArr[placement].toSorted((_, popup2) => (popup2.id === popupId ? sort : 0));
+    setRerender(Date.now());
+  }, []);
 
   const popupContextValueFloating = useMemo(
     () => ({
