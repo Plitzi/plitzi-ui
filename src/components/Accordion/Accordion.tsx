@@ -1,5 +1,4 @@
 // Packages
-import classNames from 'classnames';
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Alias
@@ -177,7 +176,7 @@ const Accordion = ({
     <Flex
       ref={containerRef}
       testId={testId ? `${testId}-accordion` : undefined}
-      className={classNames(className, { 'accordion-resizing': resizing })}
+      className={className}
       direction={direction}
       wrap={wrap}
       items={flexItems}
