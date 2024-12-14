@@ -3,6 +3,7 @@ import Accordion from './Accordion';
 import Alert from './Alert';
 import Button from './Button';
 import Card from './Card';
+import CodeMirror from './CodeMirror';
 import ContainerCollapsable from './ContainerCollapsable';
 import ContainerDraggable from './ContainerDraggable';
 import ContainerResizable from './ContainerResizable';
@@ -22,6 +23,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 
+export * from './CodeMirror';
 export * from './Text';
 export * from './Sidebar';
 export * from './Accordion';
@@ -46,6 +48,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  CodeMirror,
   Text,
   Sidebar,
   Accordion,

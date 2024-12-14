@@ -40,7 +40,7 @@ export default tsEslint.config({
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'no-var': 'error',
     curly: 'error',
-    indent: ['warn', 2],
+    // indent: ['warn', 2],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     'prefer-const': ['error', { destructuring: 'any', ignoreReadBeforeAssign: false }],
