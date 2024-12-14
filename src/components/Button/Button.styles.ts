@@ -24,7 +24,7 @@ export default {
           'focus:bg-primary-200 focus:text-black',
           disabledIntent
         ],
-        secondary: ['hover:bg-primary-200 hover:text-black', 'focus:bg-primary-200 focus:text-black', disabledIntent]
+        secondary: ['hover:border-black hover:text-black', 'focus:bg-primary-200 focus:text-black', disabledIntent]
       },
       size: {
         md: 'py-2.5 px-4 text-base rounded-lg',
