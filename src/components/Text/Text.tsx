@@ -15,15 +15,27 @@ export type TextProps = {
   children?: ReactNode;
   as?: 'p' | 'b' | 'i' | 'u' | 'abbr' | 'cite' | 'del' | 'em' | 'ins' | 'kbd' | 'mark' | 's' | 'samp' | 'sub' | 'sup';
   isTruncated?: boolean;
+  active?: boolean;
   testId?: string;
 } & HTMLAttributes<HTMLElement> &
   useThemeSharedProps<typeof TextStyles, typeof variantKeys>;
 
-const Text = ({ className, children, as = 'p', isTruncated, testId, intent, size, weight, ...props }: TextProps) => {
+const Text = ({
+  className,
+  children,
+  as = 'p',
+  isTruncated,
+  active,
+  testId,
+  intent,
+  size,
+  weight,
+  ...props
+}: TextProps) => {
   className = useTheme<typeof TextStyles, typeof variantKeys>('Text', {
     className,
     componentKey: 'root',
-    variant: { intent, size, weight }
+    variant: { intent: active ? 'primary' : intent, size, weight }
   });
 
   return (
