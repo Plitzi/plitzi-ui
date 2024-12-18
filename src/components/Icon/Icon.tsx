@@ -19,6 +19,7 @@ export type IconProps = {
   icon?: string;
   active?: boolean;
   disabled?: boolean;
+  title?: string;
 } & HTMLAttributes<HTMLElement> &
   useThemeSharedProps<typeof IconStyles, typeof variantKeys>;
 
@@ -33,13 +34,13 @@ const Icon = ({
   intent,
   size,
   cursor,
+  title,
   ...props
 }: IconProps) => {
   className = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
     className,
     componentKey: 'root',
     variant: {
-      // intent: disabled ? 'disabled' : active ? 'active' : intent,
       intent: getIntent(disabled, active, intent),
       size,
       cursor: disabled ? 'disabled' : cursor
@@ -58,18 +59,19 @@ const Icon = ({
 
       components.iconChildren = cloneElement<childProps>(child as ReactElement<childProps>, {
         className: classNames(className, (child.props as childProps).className),
-        ...props
+        ...props,
+        title
       });
     });
 
     return components;
-  }, [children, className, props]);
+  }, [children, className, props, title]);
 
   if (iconChildren) {
     return iconChildren;
   }
 
-  return <i {...props} className={classNames(icon, className)} />;
+  return <i {...props} title={title} className={classNames(icon, className)} />;
 };
 
 export default Icon;

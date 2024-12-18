@@ -16,11 +16,18 @@ import PopupSidePanel from './PopupSidePanel';
 import type { PopupPlacement, PopupSettings } from './Popup';
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
+import type { AccordionProps } from '@components/Accordion';
 import type { ContainerDraggableProps } from '@components/ContainerDraggable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ReactNode } from 'react';
 
-export type PopupInstance = { id: string; component: ReactNode; active: boolean; settings: PopupSettings };
+export type PopupInstance = {
+  id: string;
+  component: ReactNode;
+  active: boolean;
+  size?: AccordionProps['size'];
+  settings: PopupSettings;
+};
 
 export type Popups = {
   left: PopupInstance[];

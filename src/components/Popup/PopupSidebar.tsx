@@ -56,14 +56,17 @@ const PopupSidebar = ({
           let childPopup;
           if (isValidElement(child) && child.type === SidebarIcon) {
             childPopup = cloneElement<IconProps>(child as ReactElement<IconProps>, {
+              ...(child.props as IconProps),
               key: popup.id,
-              ...(child.props as IconProps)
+              id: popup.id
             });
           } else if (typeof child === 'string') {
-            childPopup = <Sidebar.Icon key={popup.id} id={popup.id} icon={child} />;
+            childPopup = (
+              <Sidebar.Icon key={popup.id} id={popup.id} icon={child} title={popup.settings.title as string} />
+            );
           } else {
             childPopup = (
-              <Sidebar.Icon key={popup.id} id={popup.id}>
+              <Sidebar.Icon key={popup.id} id={popup.id} title={popup.settings.title as string}>
                 {child}
               </Sidebar.Icon>
             );

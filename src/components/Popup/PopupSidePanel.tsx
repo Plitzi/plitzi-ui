@@ -209,7 +209,7 @@ const PopupSidePanel = ({
                     <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />
                   </Button>
                 </Accordion.Item.Header>
-                <Accordion.Item.Content>{popup.component}</Accordion.Item.Content>
+                <Accordion.Item.Content size={popup.size}>{popup.component}</Accordion.Item.Content>
               </Accordion.Item>
             );
           })}
