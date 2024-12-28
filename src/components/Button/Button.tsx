@@ -58,10 +58,12 @@ const Button = ({
       }
 
       if (child.type === Icon) {
+        const childProps = child.props as IconProps;
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
-          className: classNames(classNameTheme.icon, (child.props as IconProps).className),
+          className: classNames(classNameTheme.icon, childProps.className),
           size,
-          intent: 'custom'
+          ...childProps,
+          intent: childProps.intent ?? 'custom'
         });
       }
     });

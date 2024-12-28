@@ -30,7 +30,7 @@ export default {
         tertiary: 'hover:bg-grayviolet-200 text-gray-500',
         tertiaryActive: 'bg-grayviolet-200 text-black',
         disabled: 'text-gray-400',
-        error: 'text-red-500',
+        error: 'text-red-500 hover:text-red-400',
         custom: ''
       },
       cursor: {

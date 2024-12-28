@@ -15,7 +15,7 @@ const disabledIntent =
   'disabled:bg-gray-300 disabled:text-gray-400 disabled:hover:bg-gray-300 disabled:cursor-not-allowed';
 
 export default {
-  root: cva('flex gap-2 outline-none transition-colors transition-150 select-none border', {
+  root: cva('flex outline-none transition-colors transition-150 select-none border', {
     variants: {
       intent: {
         primary: [
@@ -27,9 +27,9 @@ export default {
         secondary: ['hover:border-black hover:text-black', 'focus:bg-primary-200 focus:text-black', disabledIntent]
       },
       size: {
-        md: 'py-2.5 px-4 text-base rounded-lg',
-        sm: 'py-1.5 px-3 text-[14px] leading-[18px] rounded-lg',
-        xs: 'py-1.5 px-2 text-xs rounded-lg',
+        md: 'py-2.5 px-4 gap-2 text-base rounded-lg',
+        sm: 'py-1.5 px-3 gap-1.5 text-[14px] leading-[18px] rounded-lg',
+        xs: 'py-1.5 px-2 gap-1 text-xs rounded-lg',
         custom: ''
       },
       border: {
