@@ -2,8 +2,8 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'error', 'disabled'],
-  size: ['xs', 'sm', 'md']
+  intent: ['default', 'error', 'disabled', 'custom'],
+  size: ['md', 'sm', 'xs', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Label';
@@ -14,12 +14,14 @@ export default {
       intent: {
         default: 'border-gray-200',
         error: '',
-        disabled: 'text-gray-400'
+        disabled: 'text-gray-400',
+        custom: ''
       },
       size: {
-        md: 'text-base',
+        md: '',
         sm: 'text-sm',
-        xs: 'text-xs'
+        xs: 'text-xs',
+        custom: ''
       }
     },
     compoundVariants: [],

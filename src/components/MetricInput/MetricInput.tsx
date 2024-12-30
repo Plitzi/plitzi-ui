@@ -20,7 +20,7 @@ export type MetricInputProps = {
   placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
-  hasError?: boolean;
+  error?: boolean;
   prefix?: string;
   units?: { value: string; label: string }[];
   type?: 'text';
@@ -35,7 +35,7 @@ const MetricInput = ({
   placeholder = 'Text',
   loading = false,
   disabled = false,
-  hasError = false,
+  error = false,
   prefix = '',
   units = [],
   type = 'text',
@@ -48,7 +48,7 @@ const MetricInput = ({
   const classNameTheme = useTheme<typeof MetricInputStyles, typeof variantKeys, false>('MetricInput', {
     className,
     componentKey: ['root', 'input', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'units'],
-    variant: { intent: disabled ? 'disabled' : hasError ? 'error' : intent, size }
+    variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }
   });
 
   const unitsFinal = useMemo(() => {
@@ -143,9 +143,9 @@ const MetricInput = ({
           onChange={handleChange}
           {...(inputProps as React.JSX.IntrinsicElements['input'])}
         />
-        {(hasError || loading) && (
+        {(error || loading) && (
           <div className={classNameTheme.iconFloatingContainer}>
-            {hasError && <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
+            {error && <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
             {loading && <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />}
           </div>
         )}

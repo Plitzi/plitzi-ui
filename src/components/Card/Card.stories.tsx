@@ -18,5 +18,5 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {},
-  render: args => <Card {...args} />
+  render: args => <Card {...args}>Card Content</Card>
 };

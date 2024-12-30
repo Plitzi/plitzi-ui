@@ -48,10 +48,7 @@ const Button = ({
   });
 
   const { iconChildren } = useMemo(() => {
-    const components = {
-      iconChildren: undefined as ReactNode
-    };
-
+    const components: { iconChildren: ReactNode } = { iconChildren: undefined };
     Children.forEach(children, child => {
       if (!isValidElement(child)) {
         return;

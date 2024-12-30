@@ -5,21 +5,27 @@ import useTheme from '@hooks/useTheme';
 import type LabelStyles from './Label.styles';
 import type { variantKeys } from './Label.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 export type LabelProps = {
-  label?: string;
+  children?: ReactNode;
   disabled?: boolean;
-  hasError?: boolean;
-} & useThemeSharedProps<typeof LabelStyles, typeof variantKeys>;
+  error?: boolean;
+} & HTMLAttributes<HTMLLabelElement> &
+  useThemeSharedProps<typeof LabelStyles, typeof variantKeys>;
 
-const Label = ({ className, label, disabled = false, hasError = false, intent, size }: LabelProps) => {
+const Label = ({ className, children, disabled = false, error = false, intent, size, ...labelProps }: LabelProps) => {
   className = useTheme<typeof LabelStyles, typeof variantKeys>('Label', {
     className,
     componentKey: 'root',
-    variant: { intent: disabled ? 'disabled' : hasError ? 'error' : intent, size }
+    variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }
   });
 
-  return <label className={className}>{label}</label>;
+  return (
+    <label className={className} {...labelProps}>
+      {children}
+    </label>
+  );
 };
 
 export default Label;

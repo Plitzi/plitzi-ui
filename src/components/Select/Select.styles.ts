@@ -3,10 +3,10 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['default', 'error', 'disabled'],
-  size: ['md', 'sm', 'xs', 'custom']
+  size: ['md', 'sm', 'xs']
 } as const;
 
-export const STYLES_COMPONENT_NAME = 'Input';
+export const STYLES_COMPONENT_NAME = 'Select';
 
 export default {
   root: cva('flex flex-col', {
@@ -19,8 +19,7 @@ export default {
       size: {
         md: 'gap-2 text-base',
         sm: 'gap-1.5 text-sm',
-        xs: 'gap-1 text-xs',
-        custom: ''
+        xs: 'gap-1 text-xs'
       }
     },
     compoundVariants: [],
@@ -39,8 +38,7 @@ export default {
       size: {
         md: 'py-2.5 px-4 gap-2',
         sm: 'py-1.5 px-2 gap-1.5',
-        xs: 'py-1 px-1 gap-1',
-        custom: ''
+        xs: 'py-1 px-1 gap-1'
       }
     },
     compoundVariants: [],
@@ -49,7 +47,7 @@ export default {
       size: 'md'
     }
   }),
-  input: cva('p-0 border-0 outline-none focus:ring-0 w-full', {
+  select: cva('p-0 border-0 outline-none focus:ring-0 w-full', {
     variants: {
       intent: {
         default: '',
@@ -59,8 +57,7 @@ export default {
       size: {
         md: 'text-base',
         sm: 'text-sm',
-        xs: 'text-xs',
-        custom: ''
+        xs: 'text-xs'
       }
     },
     compoundVariants: [
@@ -91,10 +88,9 @@ export default {
         default: ''
       },
       size: {
-        md: 'right-4 gap-2',
-        sm: 'right-3 gap-1.5',
-        xs: 'right-2 gap-1',
-        custom: ''
+        md: 'right-14 gap-2',
+        sm: 'right-11 gap-1.5',
+        xs: 'right-9 gap-1'
       }
     },
     compoundVariants: [],
@@ -112,8 +108,7 @@ export default {
       size: {
         md: 'pr-2',
         sm: 'pr-1.5',
-        xs: 'pr-1',
-        custom: ''
+        xs: 'pr-1'
       }
     },
     compoundVariants: [],
@@ -127,13 +122,34 @@ export default {
       intent: {
         default: '',
         error: 'text-red-600'
+      },
+      size: {
+        md: '',
+        sm: '',
+        xs: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default'
+      intent: 'default',
+      size: 'md'
     }
   }),
-  iconClear: cva('cursor-pointer'),
-  iconLoading: cva('')
+  iconLoading: cva('', {
+    variants: {
+      intent: {
+        default: ''
+      },
+      size: {
+        md: '',
+        sm: '',
+        xs: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'default',
+      size: 'md'
+    }
+  })
 };

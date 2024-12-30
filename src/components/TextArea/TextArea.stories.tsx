@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    hasError: true
+    error: 'Error Found'
   },
   render: args => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -47,7 +47,7 @@ export const Primary: Story = {
 
 export const Builder: Story = {
   args: {
-    hasError: false
+    error: ''
   },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">

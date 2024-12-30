@@ -11,21 +11,19 @@ import useTheme from '@hooks/useTheme';
 import type TextAreaStyles from './TextArea.styles';
 import type { variantKeys } from './TextArea.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
-import type { LabelProps } from '@components/Label';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
 
 export type TextAreaProps = {
   ref?: Ref<HTMLTextAreaElement>;
+  label?: string;
   placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
-  hasError?: boolean;
   value?: string;
   error?: ErrorMessageProps['message'];
   onChange?: (value: string) => void;
-} & Pick<LabelProps, 'label'> &
-  Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
+} & Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
   useThemeSharedProps<typeof TextAreaStyles, typeof variantKeys>;
 
 const TextArea = ({
@@ -35,7 +33,6 @@ const TextArea = ({
   placeholder = 'Text',
   loading = false,
   disabled = false,
-  hasError = false,
   size = 'md',
   intent = 'default',
   value = '',
@@ -46,7 +43,7 @@ const TextArea = ({
   const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys, false>('TextArea', {
     className,
     componentKey: ['root', 'input', 'inputContainer', 'iconFloatingContainer', 'iconError'],
-    variant: { intent: disabled ? 'disabled' : hasError ? 'error' : intent, size }
+    variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }
   });
 
   const handleChange = useCallback(
@@ -58,7 +55,11 @@ const TextArea = ({
 
   return (
     <div className={classNameTheme.root}>
-      {label && <Label label={label} hasError={hasError} disabled={disabled} intent={intent} size={size} />}
+      {label && (
+        <Label error={!!error} disabled={disabled} intent={intent} size={size}>
+          {label}
+        </Label>
+      )}
       <div className={classNameTheme.inputContainer}>
         <textarea
           ref={ref}
@@ -69,9 +70,9 @@ const TextArea = ({
           onChange={handleChange}
           {...(textareaProps as React.JSX.IntrinsicElements['textarea'])}
         />
-        {(hasError || loading) && (
+        {(error || loading) && (
           <div className={classNameTheme.iconFloatingContainer}>
-            {!disabled && hasError && !loading && (
+            {!disabled && error && !loading && (
               <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />
             )}
             {!disabled && loading && (
@@ -80,7 +81,7 @@ const TextArea = ({
           </div>
         )}
       </div>
-      {hasError && error && <ErrorMessage message={error} intent={intent} size={size} />}
+      {error && <ErrorMessage message={error} intent={intent} size={size} />}
     </div>
   );
 };

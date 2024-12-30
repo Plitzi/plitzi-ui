@@ -6,6 +6,7 @@ import Card from './Card';
 import CodeMirror from './CodeMirror';
 import ContainerCollapsable from './ContainerCollapsable';
 import ContainerDraggable from './ContainerDraggable';
+import ContainerFloating from './ContainerFloating';
 import ContainerResizable from './ContainerResizable';
 import ContainerRoot from './ContainerRoot';
 import ContainerWindow from './ContainerWindow';
@@ -18,11 +19,20 @@ import Input from './Input';
 import Label from './Label';
 import MetricInput from './MetricInput';
 import Popup from './Popup';
+import QueryBuilder from './QueryBuilder';
+import Select from './Select';
+import Select2 from './Select2';
 import Sidebar from './Sidebar';
+import Switch from './Switch';
 import Text from './Text';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 
+export * from './ContainerFloating';
+export * from './Switch';
+export * from './QueryBuilder';
+export * from './Select';
+export * from './Select2';
 export * from './CodeMirror';
 export * from './Text';
 export * from './Sidebar';
@@ -48,6 +58,11 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  ContainerFloating,
+  Switch,
+  QueryBuilder,
+  Select,
+  Select2,
   CodeMirror,
   Text,
   Sidebar,

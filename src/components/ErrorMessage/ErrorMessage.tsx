@@ -9,14 +9,14 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 export type ErrorMessageProps = {
   message?: string;
   disabled?: boolean;
-  hasError?: boolean;
+  error?: boolean;
 } & useThemeSharedProps<typeof ErrorMessageStyles, typeof variantKeys>;
 
-const ErrorMessage = ({ className, message, disabled = false, hasError = false, intent, size }: ErrorMessageProps) => {
+const ErrorMessage = ({ className, message, disabled = false, error = false, intent, size }: ErrorMessageProps) => {
   className = useTheme<typeof ErrorMessageStyles, typeof variantKeys>('ErrorMessage', {
     className,
     componentKey: 'root',
-    variant: { intent: disabled ? 'disabled' : hasError ? 'error' : intent, size }
+    variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }
   });
 
   return <p className={className}>{message}</p>;

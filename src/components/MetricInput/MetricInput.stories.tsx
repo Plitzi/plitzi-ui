@@ -24,7 +24,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    hasError: true,
     prefix: '$'
   },
   render: args => {
@@ -54,7 +53,6 @@ export const Primary: Story = {
 
 export const Metrics: Story = {
   args: {
-    hasError: true,
     prefix: '$',
     units: [
       { value: 'rem', label: 'Rem' },
@@ -89,7 +87,6 @@ export const Metrics: Story = {
 
 export const Builder: Story = {
   args: {
-    hasError: false,
     prefix: '',
     units: [
       { value: 'rem', label: 'Rem' },
