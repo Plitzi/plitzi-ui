@@ -2,8 +2,14 @@
 import classNames from 'classnames';
 import { useCallback } from 'react';
 
+// Alias
+import useTheme from '@hooks/useTheme';
+
 // Types
 import type { Option, OptionGroup, Select2Props } from './Select2';
+import type Select2Styles from './Select2.styles';
+import type { variantKeys } from './Select2.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type ListItemProps = {
   className?: string;
@@ -14,7 +20,7 @@ export type ListItemProps = {
   option?: Exclude<Option, OptionGroup>;
   isSelected?: boolean;
   onChange?: Select2Props['onChange'];
-};
+} & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
 const ListItem = ({
   className = '',
@@ -24,8 +30,15 @@ const ListItem = ({
   suffix = '',
   option,
   isSelected = false,
+  size,
   onChange
 }: ListItemProps) => {
+  className = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
+    className,
+    componentKey: 'listItem',
+    variant: { size, selected: isSelected }
+  });
+
   const handleClick = useCallback(() => {
     if (option) {
       onChange?.(option);
@@ -37,15 +50,7 @@ const ListItem = ({
   }, [option, onChange, value, label]);
 
   return (
-    <div
-      className={classNames(
-        'my-0.5 select2__list-item shrink-0 transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded',
-        { 'text-gray-500 hover:bg-blue-100 hover:text-blue-500': !isSelected },
-        { 'bg-blue-100 text-blue-500': isSelected },
-        className
-      )}
-      onClick={handleClick}
-    >
+    <div className={classNames('select2__list-item', className)} onClick={handleClick}>
       {`${prefix ? `${prefix} ` : ''}${label ? label : value}${suffix ? ` ${suffix}` : ''}`}
     </div>
   );

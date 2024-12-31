@@ -24,11 +24,11 @@ export type SelectListProps = {
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 const optionsDefault: Option[] = [];
 
-const SelectList = ({ className = '', options = optionsDefault, value = '', onChange }: SelectListProps) => {
+const SelectList = ({ className = '', options = optionsDefault, value = '', size, onChange }: SelectListProps) => {
   className = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: 'list',
-    variant: {}
+    variant: { size }
   });
 
   return (
@@ -36,7 +36,16 @@ const SelectList = ({ className = '', options = optionsDefault, value = '', onCh
       {options.map((option, index) => {
         const { label } = option;
         if (isOptionGroup(option)) {
-          return <ListGroup key={index} label={label} options={option.options} onChange={onChange} value={value} />;
+          return (
+            <ListGroup
+              key={index}
+              label={label}
+              options={option.options}
+              value={value}
+              size={size}
+              onChange={onChange}
+            />
+          );
         }
 
         const { value: optionValue } = option;
@@ -48,6 +57,7 @@ const SelectList = ({ className = '', options = optionsDefault, value = '', onCh
             label={label}
             value={optionValue}
             option={option}
+            size={size}
             onChange={onChange}
           />
         );

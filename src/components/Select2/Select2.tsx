@@ -4,6 +4,7 @@ import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState 
 
 // Alias
 import ContainerFloating from '@components/ContainerFloating';
+import Flex from '@components/Flex';
 import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
@@ -52,8 +53,6 @@ export type Select2Props = {
   onChange?: (value?: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
-const InputContainerClassName = { iconFloatingContainer: 'mr-6' };
-
 const Select2 = ({
   ref,
   className = '',
@@ -72,7 +71,7 @@ const Select2 = ({
 }: Select2Props) => {
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys, false>('Select2', {
     className,
-    componentKey: [],
+    componentKey: ['inputContainer', 'placeholder', 'listMessage'],
     variant: { size }
   });
   const [loading, setLoading] = useState(options instanceof Promise);
@@ -239,27 +238,24 @@ const Select2 = ({
           error={error}
           loading={loading}
           onClear={handleClickClear}
-          className={InputContainerClassName}
+          className={{ iconFloatingContainer: classNameTheme.inputContainer }}
           value={value}
         >
-          <div className="flex w-full justify-between items-center">
+          <Flex justify="between" items="center" className="w-full">
             <div
               className={classNames('truncate select-none', {
                 'mr-8': !!error || loading,
-                'text-gray-500': !optionSelected?.label
+                [classNameTheme.placeholder]: !optionSelected?.label
               })}
             >
               {optionSelected?.label ?? placeholder}
             </div>
             {!containerVisible && <Icon icon="fa-solid fa-chevron-down" />}
             {containerVisible && <Icon icon="fa-solid fa-chevron-up" />}
-          </div>
+          </Flex>
         </InputContainer>
       </ContainerFloating.Content>
-      <ContainerFloating.Container
-        className="flex flex-col w-full rounded-none rounded-tl-lg rounded-bl-lg"
-        shadow="dark"
-      >
+      <ContainerFloating.Container className="w-full" shadow="dark">
         {!loading && isSearchable && containerVisible && (
           <SelectInput
             size={size}
@@ -273,15 +269,20 @@ const Select2 = ({
           />
         )}
         {!loading && optionsFiltered.length > 0 && (
-          <SelectList value={optionSelected?.value} options={optionsFiltered} onChange={handleChange} />
+          <SelectList value={optionSelected?.value} options={optionsFiltered} onChange={handleChange} size={size} />
         )}
         {!loading && allowCreateOptions && search && (
-          <ListItem className="mx-2.5 mt-2.5" prefix="Create:" label={search} value={search} onChange={handleChange} />
+          <ListItem
+            className="mx-2.5 mt-2.5"
+            prefix="Create:"
+            size={size}
+            label={search}
+            value={search}
+            onChange={handleChange}
+          />
         )}
-        {loading && <div className="py-3 text-gray-500 flex items-center justify-center shrink-0">Loading...</div>}
-        {!loading && optionsFiltered.length === 0 && (
-          <div className="py-3 text-gray-500 flex items-center justify-center shrink-0">No Options</div>
-        )}
+        {loading && <div className={classNameTheme.listMessage}>Loading...</div>}
+        {!loading && optionsFiltered.length === 0 && <div className={classNameTheme.listMessage}>No Options</div>}
       </ContainerFloating.Container>
     </ContainerFloating>
   );

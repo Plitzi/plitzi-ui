@@ -1,20 +1,36 @@
+// Packages
+import classNames from 'classnames';
+
+// Alias
+import Flex from '@components/Flex';
+import useTheme from '@hooks/useTheme';
+
 // Relatives
 import ListItem from './ListItem';
 
 // Types
 import type { Option, OptionGroup, Select2Props } from './Select2';
+import type Select2Styles from './Select2.styles';
+import type { variantKeys } from './Select2.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type ListGroupProps = {
   options?: Exclude<Option, OptionGroup>[];
   label?: string;
   value?: string;
   onChange?: Select2Props['onChange'];
-};
+} & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
-const ListGroup = ({ options, label = '', value = '', onChange }: ListGroupProps) => {
+const ListGroup = ({ className, options, label = '', value = '', size, onChange }: ListGroupProps) => {
+  const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys, false>('Select2', {
+    className,
+    componentKey: ['listGroup', 'listGroupLabel'],
+    variant: { size }
+  });
+
   return (
-    <div className="select2__list-group flex flex-col not-last:border-b not-last:border-gray-300 not-last:pb-2 not-last:mb-2">
-      <div className="pr-2 py-2 cursor-default select-none truncate font-bold text-gray-700">{label}</div>
+    <Flex direction="column" className={classNames('select2__list-group', classNameTheme.listGroup)}>
+      <div className={classNameTheme.listGroupLabel}>{label}</div>
       {options &&
         options.map((option, index) => (
           <ListItem
@@ -22,11 +38,12 @@ const ListGroup = ({ options, label = '', value = '', onChange }: ListGroupProps
             label={option.label}
             value={option.value}
             isSelected={value === option.value}
-            onChange={onChange}
             option={option}
+            size={size}
+            onChange={onChange}
           />
         ))}
-    </div>
+    </Flex>
   );
 };
 
