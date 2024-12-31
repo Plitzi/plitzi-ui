@@ -3,6 +3,7 @@ import Accordion from './Accordion';
 import Alert from './Alert';
 import Button from './Button';
 import Card from './Card';
+import Checkbox from './Checkbox';
 import CodeMirror from './CodeMirror';
 import ContainerCollapsable from './ContainerCollapsable';
 import ContainerDraggable from './ContainerDraggable';
@@ -28,6 +29,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 
+export * from './Checkbox';
 export * from './ContainerFloating';
 export * from './Switch';
 export * from './QueryBuilder';
@@ -58,6 +60,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Checkbox,
   ContainerFloating,
   Switch,
   QueryBuilder,

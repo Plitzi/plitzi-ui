@@ -9,45 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Select';
 
 export default {
-  root: cva('flex flex-col', {
-    variants: {
-      intent: {
-        default: 'border-gray-200',
-        error: '',
-        disabled: 'text-gray-400'
-      },
-      size: {
-        md: 'gap-2 text-base',
-        sm: 'gap-1.5 text-sm',
-        xs: 'gap-1 text-xs'
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'default',
-      size: 'md'
-    }
-  }),
-  inputContainer: cva('flex items-center border rounded-lg relative', {
-    variants: {
-      intent: {
-        default: 'border-gray-200',
-        error: 'border-red-600',
-        disabled: 'cursor-not-allowed'
-      },
-      size: {
-        md: 'py-2.5 px-4 gap-2',
-        sm: 'py-1.5 px-2 gap-1.5',
-        xs: 'py-1 px-1 gap-1'
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'default',
-      size: 'md'
-    }
-  }),
-  select: cva('p-0 border-0 outline-none focus:ring-0 w-full', {
+  input: cva('p-0 border-0 outline-none focus:ring-0 w-full', {
     variants: {
       intent: {
         default: '',
@@ -77,76 +39,6 @@ export default {
         className: 'pr-4'
       }
     ],
-    defaultVariants: {
-      intent: 'default',
-      size: 'md'
-    }
-  }),
-  iconFloatingContainer: cva('flex absolute top-1/2 -translate-y-1/2', {
-    variants: {
-      intent: {
-        default: ''
-      },
-      size: {
-        md: 'right-14 gap-2',
-        sm: 'right-11 gap-1.5',
-        xs: 'right-9 gap-1'
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'default',
-      size: 'md'
-    }
-  }),
-  icon: cva('border-r border-gray-400 shrink-0', {
-    variants: {
-      intent: {
-        default: '',
-        error: 'text-red-600'
-      },
-      size: {
-        md: 'pr-2',
-        sm: 'pr-1.5',
-        xs: 'pr-1'
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'default',
-      size: 'md'
-    }
-  }),
-  iconError: cva('', {
-    variants: {
-      intent: {
-        default: '',
-        error: 'text-red-600'
-      },
-      size: {
-        md: '',
-        sm: '',
-        xs: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'default',
-      size: 'md'
-    }
-  }),
-  iconLoading: cva('', {
-    variants: {
-      intent: {
-        default: ''
-      },
-      size: {
-        md: '',
-        sm: '',
-        xs: ''
-      }
-    },
-    compoundVariants: [],
     defaultVariants: {
       intent: 'default',
       size: 'md'

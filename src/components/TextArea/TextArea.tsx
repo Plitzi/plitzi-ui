@@ -1,10 +1,8 @@
 // Packages
-import classNames from 'classnames';
 import { useCallback } from 'react';
 
 // Alias
-import ErrorMessage from '@components/ErrorMessage';
-import Label from '@components/Label';
+import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
 // Types
@@ -20,6 +18,7 @@ export type TextAreaProps = {
   placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
+  clearable?: boolean;
   value?: string;
   error?: ErrorMessageProps['message'];
   onChange?: (value: string) => void;
@@ -29,10 +28,12 @@ export type TextAreaProps = {
 const TextArea = ({
   ref,
   className = '',
+  children,
   label = 'Text Area',
   placeholder = 'Text',
   loading = false,
   disabled = false,
+  clearable = false,
   size = 'md',
   intent = 'default',
   value = '',
@@ -40,9 +41,9 @@ const TextArea = ({
   onChange,
   ...textareaProps
 }: TextAreaProps) => {
-  const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys, false>('TextArea', {
-    className,
-    componentKey: ['root', 'input', 'inputContainer', 'iconFloatingContainer', 'iconError'],
+  const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys>('TextArea', {
+    className: className && typeof className === 'object' ? className.input : '',
+    componentKey: 'input',
     variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }
   });
 
@@ -53,36 +54,32 @@ const TextArea = ({
     [onChange]
   );
 
+  const handleClickClear = useCallback(() => onChange?.(''), [onChange]);
+
   return (
-    <div className={classNameTheme.root}>
-      {label && (
-        <Label error={!!error} disabled={disabled} intent={intent} size={size}>
-          {label}
-        </Label>
-      )}
-      <div className={classNameTheme.inputContainer}>
-        <textarea
-          ref={ref}
-          placeholder={placeholder}
-          className={classNameTheme.input}
-          disabled={disabled}
-          value={value}
-          onChange={handleChange}
-          {...(textareaProps as React.JSX.IntrinsicElements['textarea'])}
-        />
-        {(error || loading) && (
-          <div className={classNameTheme.iconFloatingContainer}>
-            {!disabled && error && !loading && (
-              <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />
-            )}
-            {!disabled && loading && (
-              <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />
-            )}
-          </div>
-        )}
-      </div>
-      {error && <ErrorMessage message={error} intent={intent} size={size} />}
-    </div>
+    <InputContainer
+      className={className}
+      label={label}
+      error={error}
+      disabled={disabled}
+      intent={intent}
+      size={size}
+      loading={loading}
+      clearable={clearable}
+      value={value}
+      onClear={handleClickClear}
+    >
+      {children}
+      <textarea
+        ref={ref}
+        placeholder={placeholder}
+        className={classNameTheme}
+        disabled={disabled}
+        value={value}
+        onChange={handleChange}
+        {...(textareaProps as React.JSX.IntrinsicElements['textarea'])}
+      />
+    </InputContainer>
   );
 };
 
