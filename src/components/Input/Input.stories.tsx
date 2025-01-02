@@ -15,7 +15,7 @@ const meta = {
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: { error: '' }
+  args: { error: '', label: 'Input' }
 } satisfies Meta<typeof Input>;
 
 export default meta;

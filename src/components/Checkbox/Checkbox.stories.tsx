@@ -21,5 +21,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {},
-  render: args => <Checkbox {...args} />
+  render: args => (
+    <div className="flex flex-col gap-4">
+      <Checkbox {...args} size="md" />
+      <Checkbox {...args} size="sm" />
+      <Checkbox {...args} size="xs" />
+    </div>
+  )
 };

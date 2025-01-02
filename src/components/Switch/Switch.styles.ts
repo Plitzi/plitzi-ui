@@ -80,12 +80,3 @@ export default {
     }
   )
 };
-// 'slider round',
-//             'absolute top-0 bottom-0 left-0 right-0 bg-gray-300 duration-[0.4s]',
-//             'before:absolute before:left-1 before:bottom-1 before:bg-white before:duration-[0.4s] peer-checked:bg-blue-400',
-//             inputClassName,
-//             {
-//               'before:w-6 before:h-6 peer-checked:before:translate-x-[48px]': size === 'lg',
-//               'before:w-4 before:h-4 peer-checked:before:translate-x-[32px]': size === 'md',
-//               'before:w-3 before:h-3 peer-checked:before:translate-x-[20px]': size === 'sm'
-//             }

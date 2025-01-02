@@ -23,7 +23,7 @@ export default {
       size: 'md'
     }
   }),
-  inputContainer: cva('', {
+  inputContainer: cva('flex items-center relative', {
     variants: {
       size: {
         md: 'mr-6',

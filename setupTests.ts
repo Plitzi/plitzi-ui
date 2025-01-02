@@ -1,6 +1,6 @@
 // Packages
-import { expect, vi } from 'vitest';
 import * as matchers from '@testing-library/jest-dom/matchers';
+import { expect, vi } from 'vitest';
 import createFetchMock from 'vitest-fetch-mock';
 
 expect.extend(matchers);
@@ -20,7 +20,7 @@ vi.stubGlobal(
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query: unknown) => ({
     matches: false,
     media: query,
     onchange: null,

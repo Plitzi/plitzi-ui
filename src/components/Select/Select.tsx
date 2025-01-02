@@ -13,6 +13,7 @@ import SelectOption, { SelectOptionProps } from './SelectOption';
 import type SelectStyles from './Select.styles';
 import type { variantKeys } from './Select.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
+import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, ReactNode, Ref, SelectHTMLAttributes, JSX, HTMLAttributes } from 'react';
 
@@ -25,15 +26,15 @@ export type SelectProps = {
   loading?: boolean;
   clearable?: boolean;
   disabled?: boolean;
-  error?: ErrorMessageProps['message'];
+  error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'className' | 'onChange' | 'size'> &
-  useThemeSharedProps<typeof SelectStyles, typeof variantKeys>;
+  useThemeSharedProps<typeof SelectStyles & typeof InputStyles, typeof variantKeys>;
 
 const Select = ({
   ref,
   children,
-  label = 'Input',
+  label = '',
   placeholder = '',
   value = '',
   className = '',

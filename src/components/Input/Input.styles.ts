@@ -2,8 +2,10 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'error', 'disabled'],
-  size: ['md', 'sm', 'xs', 'custom']
+  intent: ['primary', 'custom'],
+  size: ['md', 'sm', 'xs', 'custom'],
+  error: [true, false],
+  disabled: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Input';
@@ -32,9 +34,16 @@ export default {
   inputContainer: cva('flex items-center border rounded-lg relative', {
     variants: {
       intent: {
-        default: 'border-gray-200',
-        error: 'border-red-600',
-        disabled: 'cursor-not-allowed'
+        primary: 'bg-white',
+        custom: ''
+      },
+      error: {
+        true: 'border-red-600',
+        false: 'border-gray-200'
+      },
+      disabled: {
+        true: 'cursor-not-allowed',
+        false: ''
       },
       size: {
         md: 'py-2.5 px-4 gap-2',
@@ -45,7 +54,9 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
+      intent: 'primary',
+      error: false,
+      disabled: false,
       size: 'md'
     }
   }),

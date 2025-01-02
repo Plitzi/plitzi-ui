@@ -18,6 +18,7 @@ import SelectList from './SelectList';
 // Types
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
+import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEvent, Ref } from 'react';
 
@@ -44,7 +45,7 @@ export type Select2Props = {
   options?: Option[] | Promise<Option[]>;
   placeholder?: string;
   disabled?: boolean;
-  error?: string;
+  error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   allowCreateOptions?: boolean;
   isSearchable?: boolean;
   clearable?: boolean;
@@ -61,7 +62,7 @@ const Select2 = ({
   placeholder = 'Select...',
   size = 'md',
   disabled = false,
-  error = '',
+  error = false,
   allowCreateOptions = false,
   isSearchable = true,
   clearable = true,

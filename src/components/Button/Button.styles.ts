@@ -2,17 +2,15 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['primary', 'secondary', 'disabled', 'custom'],
+  intent: ['primary', 'secondary', 'danger', 'custom'],
   size: ['xs', 'sm', 'md', 'custom'],
   border: ['solid', 'none', 'custom'],
   items: ['start', 'end', 'center', 'baseline', 'stretch'],
-  justify: ['normal', 'start', 'end', 'center', 'between', 'around', 'evenly', 'stretch']
+  justify: ['normal', 'start', 'end', 'center', 'between', 'around', 'evenly', 'stretch'],
+  disabled: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Button';
-
-const disabledIntent =
-  'disabled:bg-gray-300 disabled:text-gray-400 disabled:hover:bg-gray-300 disabled:cursor-not-allowed';
 
 export default {
   root: cva('flex outline-none transition-colors transition-150 select-none border', {
@@ -21,15 +19,20 @@ export default {
         primary: [
           'border-transparent bg-primary-500 text-white',
           'hover:bg-primary-200 hover:text-black',
-          'focus:bg-primary-200 focus:text-black',
-          disabledIntent
+          'focus:bg-primary-200 focus:text-black'
         ],
-        secondary: ['hover:border-black hover:text-black', 'focus:bg-primary-200 focus:text-black', disabledIntent]
+        secondary: ['hover:border-black hover:text-black', 'focus:bg-primary-200 focus:text-black'],
+        danger: ['border-transparent bg-red-500 text-white', 'hover:bg-danger-200 hover:text-black'],
+        custom: ''
+      },
+      disabled: {
+        true: 'disabled:bg-gray-300 disabled:text-gray-400 disabled:hover:bg-gray-300 disabled:cursor-not-allowed',
+        false: ''
       },
       size: {
         md: 'py-2.5 px-4 gap-2 text-base rounded-lg',
         sm: 'py-1.5 px-3 gap-1.5 text-[14px] leading-[18px] rounded-lg',
-        xs: 'py-1.5 px-2 gap-1 text-xs rounded-lg',
+        xs: 'py-1 px-2 gap-1 text-xs rounded-lg',
         custom: ''
       },
       border: {
@@ -61,7 +64,8 @@ export default {
       justify: 'center',
       intent: 'primary',
       border: 'solid',
-      size: 'md'
+      size: 'md',
+      disabled: false
     }
   }),
   icon: cva('', {

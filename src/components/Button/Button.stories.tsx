@@ -25,9 +25,14 @@ export const Primary: Story = {
     <div className="flex flex-col gap-4 items-center justify-center">
       <Button {...args} size="md">
         <Button.Icon icon="fa-solid fa-check" />
+        Button
       </Button>
-      <Button {...args} size="sm" />
-      <Button {...args} size="xs" />
+      <Button {...args} size="sm">
+        Button
+      </Button>
+      <Button {...args} size="xs">
+        Button
+      </Button>
     </div>
   )
 };

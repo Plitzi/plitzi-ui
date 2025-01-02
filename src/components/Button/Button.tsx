@@ -16,7 +16,6 @@ export type ButtonProps = {
   ref?: Ref<HTMLButtonElement>;
   children?: ReactNode;
   testId?: string;
-  content?: ReactNode;
   iconPlacement?: 'before' | 'after' | 'both' | 'none';
   loading?: boolean;
   disabled?: boolean;
@@ -27,7 +26,6 @@ export type ButtonProps = {
 const Button = ({
   ref,
   children,
-  content = 'Button',
   testId,
   className = '',
   iconPlacement = 'none',
@@ -44,17 +42,26 @@ const Button = ({
   const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys, false>('Button', {
     className,
     componentKey: ['root', 'icon'],
-    variant: { intent, size, border, justify, items }
+    variant: { intent, size, border, justify, items, disabled }
   });
 
-  const { iconChildren } = useMemo(() => {
-    const components: { iconChildren: ReactNode } = { iconChildren: undefined };
+  const { iconChildren, contentChildren } = useMemo(() => {
+    const components: { iconChildren: ReactNode; contentChildren: ReactNode } = {
+      iconChildren: undefined,
+      contentChildren: undefined
+    };
     Children.forEach(children, child => {
+      if (typeof child === 'string') {
+        components.contentChildren = child;
+
+        return;
+      }
+
       if (!isValidElement(child)) {
         return;
       }
 
-      if (child.type === Icon) {
+      if (child.type === Icon || child.type === 'i') {
         const childProps = child.props as IconProps;
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
           className: classNames(classNameTheme.icon, childProps.className),
@@ -62,6 +69,8 @@ const Button = ({
           ...childProps,
           intent: childProps.intent ?? 'custom'
         });
+      } else {
+        components.contentChildren = child;
       }
     });
 
@@ -77,14 +86,14 @@ const Button = ({
       disabled={disabled}
       {...(buttonProps as JSX.IntrinsicElements['button'])}
     >
-      {!loading && content && (
+      {!loading && contentChildren && (
         <>
-          {(iconPlacement === 'before' || iconPlacement === 'both') && content && iconChildren}
-          {content}
-          {(iconPlacement === 'after' || iconPlacement === 'both') && content && iconChildren}
+          {(iconPlacement === 'before' || iconPlacement === 'both') && contentChildren && iconChildren}
+          {contentChildren}
+          {(iconPlacement === 'after' || iconPlacement === 'both') && contentChildren && iconChildren}
         </>
       )}
-      {!loading && !content && iconChildren}
+      {!loading && !contentChildren && iconChildren}
       {loading && <i className="fa-solid fa-sync fa-spin text-base" />}
     </button>
   );

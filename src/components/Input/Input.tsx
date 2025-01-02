@@ -35,7 +35,7 @@ const Input = ({
   ref,
   children,
   className = '',
-  label = 'Input',
+  label = '',
   placeholder = 'Text',
   loading = false,
   disabled = false,

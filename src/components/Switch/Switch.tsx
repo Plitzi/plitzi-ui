@@ -17,6 +17,7 @@ export type SwitchProps = {
   value?: string;
   checked?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  readOnly?: boolean;
 } & useThemeSharedProps<typeof SwitchyStyles, typeof variantKeys>;
 
 const Switch = ({
@@ -45,7 +46,7 @@ const Switch = ({
           ref={ref}
           value={value}
           checked={checked}
-          onChange={onChange}
+          readOnly={!onChange || inputProps.readOnly}
           className="opacity-0 w-0 h-0 peer"
         />
         <span className={classNames('slider', classNameTheme.slider)} />

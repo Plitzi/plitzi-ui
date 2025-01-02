@@ -12,7 +12,7 @@ const meta = {
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: {}
+  args: { label: 'Input' }
 } satisfies Meta<typeof Select>;
 
 export default meta;
@@ -22,10 +22,22 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: { size: 'md', error: '' },
   render: args => (
-    <Select {...args}>
-      <Select.Icon icon="fa-solid fa-check" />
-      <option value="hello">Hello</option>
-      <option value="world">World</option>
-    </Select>
+    <div className="flex flex-col gap-4 items-center">
+      <Select {...args}>
+        <Select.Icon icon="fa-solid fa-check" />
+        <option value="hello">Hello</option>
+        <option value="world">World</option>
+      </Select>
+      <Select {...args} size="sm">
+        <Select.Icon icon="fa-solid fa-check" />
+        <option value="hello">Hello</option>
+        <option value="world">World</option>
+      </Select>
+      <Select {...args} size="xs">
+        <Select.Icon icon="fa-solid fa-check" />
+        <option value="hello">Hello</option>
+        <option value="world">World</option>
+      </Select>
+    </div>
   )
 };

@@ -7,7 +7,7 @@ import Button from './Button';
 
 describe('Button Tests', () => {
   it('Render Component', () => {
-    render(<Button />);
+    render(<Button>Button</Button>);
 
     const description = screen.getByText('Button');
     expect(description).toBeDefined();

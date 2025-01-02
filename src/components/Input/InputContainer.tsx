@@ -11,13 +11,14 @@ import useTheme from '@hooks/useTheme';
 // Types
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
+import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
 
 type InputContainerProps = {
   label?: string;
-  error?: string;
+  error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   disabled?: boolean;
   intent?: string;
   size?: string;
@@ -98,7 +99,7 @@ const InputContainer = ({
           </div>
         )}
       </div>
-      {error && <ErrorMessage message={error} intent={intent} size={size} />}
+      {error && <ErrorMessage message={typeof error === 'boolean' ? '' : error} intent={intent} size={size} />}
     </div>
   );
 };

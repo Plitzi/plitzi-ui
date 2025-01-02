@@ -9,38 +9,22 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Select';
 
 export default {
-  input: cva('p-0 border-0 outline-none focus:ring-0 w-full', {
+  input: cva('py-0 pl-0 border-0 outline-none focus:ring-0 w-full', {
     variants: {
       intent: {
-        default: '',
+        primary: '',
         error: '',
         disabled: 'cursor-not-allowed'
       },
       size: {
-        md: 'text-base',
-        sm: 'text-sm',
-        xs: 'text-xs'
+        md: 'text-base pl-2 pr-10 bg-[length:24px_24px] bg-[right_0_center]',
+        sm: 'text-sm pl-1.5 pr-8 bg-[length:20px_20px] bg-[right_0_center]',
+        xs: 'text-xs pl-1 pr-6 bg-[length:16px_16px] bg-[right_0_center]'
       }
     },
-    compoundVariants: [
-      {
-        intent: 'error',
-        size: 'md',
-        className: 'pr-6'
-      },
-      {
-        intent: 'error',
-        size: 'sm',
-        className: 'pr-5'
-      },
-      {
-        intent: 'error',
-        size: 'xs',
-        className: 'pr-4'
-      }
-    ],
+    compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
+      intent: 'primary',
       size: 'md'
     }
   })
