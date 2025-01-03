@@ -65,30 +65,23 @@ export default {
       error: false
     }
   }),
-  rule: cva('ml-4 not-first:mt-3 relative flex gap-2 border border-gray-400 p-1 rounded', {
+  rule: cva('flex gap-2 border p-1 rounded ml-4 not-first:mt-3 relative', {
     variants: {
       direction: {
         horizontal: '',
         vertical: 'flex-col'
       },
-      // intent: {
-      //   primary: 'bg-primary-500/20 border-gray-400'
-      // },
-      // mainGroup: {
-      //   true: '',
-      //   false: 'mt-2 ml-4'
-      // },
       showBranches: {
         true: [
           'before:absolute before:border-l before:border-b before:border-gray-400 before:last:rounded-bl before:translate-x-[-50%] before:translate-y-[-0%] before:left-[-4px] before:w-2 before:top-[-13px] before:h-[calc(50%_+_13px)]',
           'after:absolute after:border-l after:border-gray-400 after:translate-x-[-50%] after:translate-y-[calc(50%_+_3px)] after:left-[-4px] after:w-2 last:after:border-none'
         ],
         false: ''
+      },
+      error: {
+        true: 'border-red-400',
+        false: 'border-gray-400'
       }
-      // error: {
-      //   true: 'bg-red-500/20 border-red-400',
-      //   false: 'bg-primary-500/20 border-gray-400'
-      // }
     },
     compoundVariants: [
       {
@@ -104,9 +97,8 @@ export default {
     ],
     defaultVariants: {
       // intent: 'primary',
-      // mainGroup: false,
-      // showBranches: false,
-      // error: false
+      showBranches: false,
+      error: false
     }
   }),
   button: cva('truncate', {

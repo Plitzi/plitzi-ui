@@ -1,6 +1,5 @@
 // Packages
-import classNames from 'classnames';
-import { useCallback, use, ChangeEvent } from 'react';
+import { useCallback, use } from 'react';
 
 // Alias
 import Button from '@components/Button';
@@ -17,6 +16,7 @@ import type { Rule as TRule, RuleGroup, Combinator } from './QueryBuilder';
 import type QueryBuilderStyles from './QueryBuilder.styles';
 import type { variantKeys } from './QueryBuilder.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { ChangeEvent } from 'react';
 
 export type GroupRulesProps = {
   className?: string;
@@ -43,7 +43,7 @@ const GroupRules = ({
   const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
     className,
     componentKey: ['button', 'ruleGroup'],
-    variant: { size, showBranches, mainGroup }
+    variant: { size, showBranches, mainGroup, direction: ruleDirection }
   });
   const {
     addRule,
@@ -137,19 +137,6 @@ const GroupRules = ({
           return (
             <Rule
               key={i}
-              className={classNames('ml-4 not-first:mt-3 relative', {
-                // before
-                'before:absolute before:border-l before:border-b before:border-gray-400 before:last:rounded-bl before:translate-x-[-50%] before:translate-y-[-0%]':
-                  showBranches,
-                'before:left-[-4px] before:w-2': showBranches,
-                'before:top-[-13px] before:h-[calc(50%_+_13px)]': showBranches,
-                // after
-                'after:absolute after:border-l after:border-gray-400 after:translate-x-[-50%] after:translate-y-[calc(50%_+_3px)]':
-                  showBranches,
-                'after:left-[-4px] after:w-2 last:after:border-none': showBranches,
-                'after:top-[0px] after:h-[calc(50%_+_6px)]': showBranches && ruleDirection === 'horizontal',
-                'after:top-[0px] after:h-[calc(50%_+_26px)]': showBranches && ruleDirection === 'vertical'
-              })}
               id={id}
               field={field}
               operator={operator}
@@ -158,6 +145,9 @@ const GroupRules = ({
               isBinding={isBinding}
               enabled={enabled}
               size={size}
+              showBranches={showBranches}
+              mainGroup={mainGroup}
+              direction={ruleDirection}
             />
           );
         })}

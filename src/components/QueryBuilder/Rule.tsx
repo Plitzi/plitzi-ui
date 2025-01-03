@@ -1,5 +1,5 @@
 // Packages
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import get from 'lodash/get';
 import { useCallback, use, useMemo } from 'react';
 
@@ -7,7 +7,7 @@ import { useCallback, use, useMemo } from 'react';
 import Button from '@components/Button';
 import Select2 from '@components/Select2';
 import Switch from '@components/Switch';
-// import useTheme from '@hooks/useTheme';
+import useTheme from '@hooks/useTheme';
 
 // Relatives
 import { defaultOperators } from './helpers/QueryBuilderContants';
@@ -42,15 +42,17 @@ const Rule = ({
   ruleDirection = 'horizontal',
   isBinding = false,
   enabled = true,
-  size
+  size,
+  showBranches,
+  direction
 }: RuleProps) => {
-  // const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
-  //   className,
-  //   componentKey: ['button', 'ruleGroup'],
-  //   variant: { size, showBranches, mainGroup }
-  // });
   const { fields, update, updateRuleOperator, updateRuleValue, updateEnabled, remove, allowDisableRules, error } =
     use(QueryBuilderContext);
+  const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
+    className,
+    componentKey: ['rule'],
+    variant: { size, showBranches, direction, error }
+  });
   const fieldDefinition = useMemo(() => get(fields, field), [fields, field]);
   const fieldsOptions = useMemo(() => {
     const fieldsAux = Object.values(fields).reduce<Array<Option | OptionGroup>>((acum, field) => {
@@ -119,10 +121,11 @@ const Rule = ({
 
   return (
     <div
-      className={classNames('flex gap-2 border border-gray-400 p-1 rounded', className, {
-        'border-red-400': error,
-        'flex-col': ruleDirection === 'vertical'
-      })}
+      // className={classNames('flex gap-2 border border-gray-400 p-1 rounded', className, {
+      //   'border-red-400': error,
+      //   'flex-col': ruleDirection === 'vertical'
+      // })}
+      className={classNameTheme.rule}
     >
       <div className="flex grow basis-0 min-w-0 gap-2">
         <Select2
