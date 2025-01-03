@@ -3,13 +3,26 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['primary', 'secondary', 'danger'],
-  size: ['md', 'sm', 'xs']
+  size: ['md', 'sm', 'xs', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Checkbox';
 
 export default {
-  root: cva('flex items-center gap-2 cursor-pointer select-none'),
+  root: cva('flex items-center cursor-pointer select-none', {
+    variants: {
+      size: {
+        md: 'gap-2',
+        sm: 'gap-1.5',
+        xs: 'gap-1',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
   input: cva(
     'cursor-pointer form-tick appearance-none bg-white border border-gray-300 checked:border-transparent focus:ring-0 focus:ring-offset-0 focus:shadow-none',
     {
@@ -21,8 +34,9 @@ export default {
         },
         size: {
           md: 'h-6 w-6 rounded',
-          sm: 'h-4 w-4 rounded',
-          xs: 'h-3 w-3 rounded-sm'
+          sm: 'h-5 w-5 rounded',
+          xs: 'h-4 w-4 rounded-sm',
+          custom: ''
         }
       },
       compoundVariants: [],

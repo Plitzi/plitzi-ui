@@ -1,6 +1,6 @@
 // Packages
 import classNames from 'classnames';
-import { useCallback, use, useMemo, ChangeEvent } from 'react';
+import { useCallback, use, ChangeEvent } from 'react';
 
 // Alias
 import Button from '@components/Button';
@@ -73,43 +73,27 @@ const GroupRules = ({
 
   const handleRemove = useCallback(() => remove(groupId), [remove, groupId]);
 
-  const combinatorsParsed = useMemo(() => {
-    if (!combinators.length) {
-      return [];
-    }
-
-    return combinators.map(combinator => {
-      // if (typeof combinator === 'string') {
-      //   return { value: combinator, label: combinator.toUpperCase() };
-      // }
-
-      return { value: combinator.value, label: combinator.label };
-    });
-  }, [combinators]);
-
   return (
     <div className={classNameTheme.ruleGroup}>
       <div className="flex gap-2">
         <Select
           value={combinator}
-          label=""
-          className={{ inputContainer: 'border-gray-400 !p-0 !rounded-none', root: 'justify-end' }}
-          size="sm"
+          size={size}
           onChange={handleChangeCombinator}
-          disabled={!rules || rules.length < 2 || combinatorsParsed.length < 2}
+          disabled={!rules || rules.length < 2 || combinators.length < 2}
           error={error ? 'Invalid Combinator' : undefined}
         >
-          {combinatorsParsed.map(combinator => (
+          {combinators.map(combinator => (
             <option key={combinator.value} value={combinator.value}>
               {combinator.label}
             </option>
           ))}
         </Select>
-        <Button size="custom" className={classNameTheme.button} title="+ Rule" onClick={handleClickAddRule}>
+        <Button size={size} className={classNameTheme.button} title="+ Rule" onClick={handleClickAddRule}>
           + Rule
         </Button>
         <Button
-          size="custom"
+          size={size}
           className={classNameTheme.button}
           title="+ Group"
           onClick={handleClickAddGroup}
@@ -118,13 +102,13 @@ const GroupRules = ({
           + Group
         </Button>
         {!mainGroup && (
-          <Button size="custom" className={classNameTheme.button} intent="danger" onClick={handleRemove}>
+          <Button size={size} className={classNameTheme.button} intent="danger" onClick={handleRemove}>
             X
           </Button>
         )}
         {allowDisableRules && (
           <div className="flex items-center" title="Enable Group">
-            <Switch size="xs" checked={enabled} onChange={handleChangeEnabled} />
+            <Switch size={size} checked={enabled} onChange={handleChangeEnabled} />
           </div>
         )}
       </div>
@@ -133,6 +117,7 @@ const GroupRules = ({
           const { id, enabled } = rule;
           if ('rules' in rule) {
             const { id, rules, combinator, enabled } = rule;
+
             return (
               <GroupRules
                 key={i}
@@ -142,6 +127,7 @@ const GroupRules = ({
                 enabled={enabled}
                 showBranches={showBranches}
                 ruleDirection={ruleDirection}
+                size={size}
               />
             );
           }
@@ -171,6 +157,7 @@ const GroupRules = ({
               ruleDirection={ruleDirection}
               isBinding={isBinding}
               enabled={enabled}
+              size={size}
             />
           );
         })}

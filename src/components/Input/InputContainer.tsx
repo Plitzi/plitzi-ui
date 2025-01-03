@@ -28,7 +28,7 @@ type InputContainerProps = {
   clearable?: boolean;
   value?: unknown;
   onClear?: (e: MouseEvent) => void;
-} & useThemeSharedProps<typeof InputStyles, typeof variantKeys>;
+} & Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const InputContainer = ({
   className,
@@ -94,9 +94,11 @@ const InputContainer = ({
         {iconChildren}
         {prefix && <div>{prefix}</div>}
         {inputChildren}
-        {!disabled && (error || loading || (clearable && !!value)) && (
+        {!disabled && (!!error || loading || (clearable && !!value)) && (
           <div className={classNameTheme.iconFloatingContainer}>
-            {error && !loading && <Icon icon="fa-solid fa-circle-exclamation" className={classNameTheme.iconError} />}
+            {error && !loading && (
+              <Icon intent="custom" icon="fa-solid fa-circle-exclamation" className={classNameTheme.iconError} />
+            )}
             {loading && <Icon icon="fa-solid fa-sync fa-spin" className={classNameTheme.iconLoading} />}
             {!loading && clearable && !!value && (
               <Icon className={classNameTheme.iconClear} icon="fa-solid fa-xmark" onClick={handleClickClear} />

@@ -62,6 +62,8 @@ export const BasicUsage: Story = {
           value={value}
           options={options}
           onChange={option => updateArgs({ value: option })}
+          error="This is an error"
+          clearable
         />
         <Select2
           {...args}

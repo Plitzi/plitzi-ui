@@ -7,9 +7,13 @@ import { useCallback, useMemo, useState } from 'react';
 import Checkbox from '@components/Checkbox';
 import Input from '@components/Input';
 import Select from '@components/Select';
+// import useTheme from '@hooks/useTheme';
 
 // Types
 import type { Field, RuleValue } from './QueryBuilder';
+import type QueryBuilderStyles from './QueryBuilder.styles';
+import type { variantKeys } from './QueryBuilder.styles';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEvent } from 'react';
 
 const valuesDefault = [] as { value: RuleValue; label: string }[];
@@ -22,9 +26,9 @@ export type RuleValueProps = {
   placeholder?: string;
   type?: Field['inputType'];
   validator?: (value: string) => string | boolean;
-  hasError?: boolean;
+  error?: boolean;
   onChange?: (value: RuleValue) => void;
-};
+} & useThemeSharedProps<typeof QueryBuilderStyles, typeof variantKeys>;
 
 const RuleValue = ({
   className = '',
@@ -33,11 +37,17 @@ const RuleValue = ({
   values = valuesDefault,
   placeholder = 'Enter a value',
   type = 'text',
-  hasError = false,
+  error = false,
+  size,
   validator,
   onChange
 }: RuleValueProps) => {
-  const [error, setError] = useState(false);
+  // const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
+  //   className,
+  //   componentKey: ['button', 'ruleGroup'],
+  //   variant: { size, showBranches, mainGroup }
+  // });
+  const [errorInternal, setErrorInternal] = useState<string | boolean | undefined>(error);
 
   const handleChangeCheckbox = useCallback(
     (e: MouseEvent) => onChange?.((e.target as HTMLInputElement).checked),
@@ -55,8 +65,7 @@ const RuleValue = ({
   }, [value, valuePosition]);
 
   const handleChange = useCallback(
-    (e: MouseEvent) => {
-      const val = (e.target as HTMLInputElement).value;
+    (val: string) => {
       if (val.includes(',') && Number.isInteger(valuePosition)) {
         return;
       }
@@ -73,7 +82,7 @@ const RuleValue = ({
       }
 
       const error = validator(val);
-      setError(error === true ? '' : error);
+      setErrorInternal(error === true ? false : error);
     },
     [validator, onChange, valuePosition, value]
   );
@@ -82,7 +91,7 @@ const RuleValue = ({
     case 'checkbox':
       return (
         <div className={classNames('flex items-center', className)}>
-          <Checkbox checked={finalValue} onChange={handleChangeCheckbox} />
+          <Checkbox size={size} checked={finalValue} onChange={handleChangeCheckbox} />
         </div>
       );
 
@@ -94,18 +103,17 @@ const RuleValue = ({
       return (
         <Select
           placeholder={placeholder}
-          size="sm"
           multiple={type === 'multiselect'}
           className={classNames('rounded', className, { '!border-red-300': error })}
           value={finalValue}
+          size={size}
           onChange={handleChange}
         >
-          {values &&
-            values.map((option, i) => (
-              <option key={i} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+          {values.map((option, i) => (
+            <option key={i} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </Select>
       );
 
@@ -115,11 +123,11 @@ const RuleValue = ({
         <Input
           placeholder={placeholder}
           error={error}
-          size="sm"
           className={classNames(className)}
           value={finalValue}
+          error={error}
+          size={size}
           onChange={handleChange}
-          hasError={hasError}
         />
       );
   }

@@ -47,6 +47,7 @@ const Switch = ({
           value={value}
           checked={checked}
           readOnly={!onChange || inputProps.readOnly}
+          onChange={onChange}
           className="opacity-0 w-0 h-0 peer"
         />
         <span className={classNames('slider', classNameTheme.slider)} />

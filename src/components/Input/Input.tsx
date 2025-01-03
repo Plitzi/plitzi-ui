@@ -29,7 +29,7 @@ export type InputProps = {
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &
-  useThemeSharedProps<typeof InputStyles, typeof variantKeys>;
+  Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const Input = ({
   ref,

@@ -242,12 +242,13 @@ const Select2 = ({
           className={{ iconFloatingContainer: classNameTheme.inputContainer }}
           value={value}
         >
-          <Flex justify="between" items="center" className="w-full">
+          <Flex justify="between" items="center" className="min-w-0" grow>
             <div
               className={classNames('truncate select-none', {
                 'mr-8': !!error || loading,
                 [classNameTheme.placeholder]: !optionSelected?.label
               })}
+              title={optionSelected?.label ?? placeholder}
             >
               {optionSelected?.label ?? placeholder}
             </div>

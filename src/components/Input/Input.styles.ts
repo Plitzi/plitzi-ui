@@ -15,11 +15,14 @@ export default {
     variants: {
       intent: {
         primary: 'border-gray-200',
-        error: '',
-        disabled: 'text-gray-400'
+        custom: ''
+      },
+      disabled: {
+        true: 'text-gray-400',
+        false: ''
       },
       size: {
-        md: 'gap-2 text-base',
+        md: 'gap-2',
         sm: 'gap-1.5 text-sm',
         xs: 'gap-1 text-xs',
         custom: ''
@@ -31,7 +34,7 @@ export default {
       size: 'md'
     }
   }),
-  inputContainer: cva('flex items-center border rounded-lg relative', {
+  inputContainer: cva('flex items-center border relative', {
     variants: {
       intent: {
         primary: 'bg-white',
@@ -46,9 +49,9 @@ export default {
         false: ''
       },
       size: {
-        md: 'py-2.5 px-4 gap-2',
-        sm: 'py-1.5 px-2 gap-1.5',
-        xs: 'py-1 px-1 gap-1',
+        md: 'py-2.5 px-4 gap-2 rounded-lg',
+        sm: 'py-1.5 px-2 gap-1.5 rounded',
+        xs: 'py-1 px-1 gap-1 rounded-md',
         custom: ''
       }
     },
@@ -63,7 +66,7 @@ export default {
   input: cva('p-0 border-0 outline-none focus:ring-0 w-full', {
     variants: {
       intent: {
-        primary: ''
+        primary: 'bg-white'
       },
       error: {
         true: '',
@@ -74,29 +77,13 @@ export default {
         false: ''
       },
       size: {
-        md: 'text-base',
+        md: '',
         sm: 'text-sm',
         xs: 'text-xs',
         custom: ''
       }
     },
-    compoundVariants: [
-      {
-        error: true,
-        size: 'md',
-        className: 'pr-6'
-      },
-      {
-        error: true,
-        size: 'sm',
-        className: 'pr-5'
-      },
-      {
-        error: true,
-        size: 'xs',
-        className: 'pr-4'
-      }
-    ],
+    compoundVariants: [],
     defaultVariants: {
       intent: 'primary',
       size: 'md',
@@ -104,15 +91,15 @@ export default {
       error: false
     }
   }),
-  iconFloatingContainer: cva('flex absolute top-1/2 -translate-y-1/2', {
+  iconFloatingContainer: cva('flex', {
     variants: {
       intent: {
         primary: ''
       },
       size: {
-        md: 'right-4 gap-2',
-        sm: 'right-3 gap-1.5',
-        xs: 'right-2 gap-1',
+        md: 'gap-2',
+        sm: 'gap-1.5',
+        xs: 'gap-1',
         custom: ''
       }
     },
@@ -150,7 +137,7 @@ export default {
         primary: ''
       },
       error: {
-        true: 'text-red-600',
+        true: 'text-red-500',
         false: ''
       }
     },

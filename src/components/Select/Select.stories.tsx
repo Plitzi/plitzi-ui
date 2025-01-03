@@ -28,12 +28,12 @@ export const Primary: Story = {
         <option value="hello">Hello</option>
         <option value="world">World</option>
       </Select>
-      <Select {...args} size="sm">
+      <Select {...args} size="sm" error="Test">
         <Select.Icon icon="fa-solid fa-check" />
         <option value="hello">Hello</option>
         <option value="world">World</option>
       </Select>
-      <Select {...args} size="xs">
+      <Select {...args} value="hello" size="xs" clearable>
         <Select.Icon icon="fa-solid fa-check" />
         <option value="hello">Hello</option>
         <option value="world">World</option>

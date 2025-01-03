@@ -2,7 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default'],
+  intent: ['primary'],
   size: ['md', 'sm', 'xs', 'custom'],
   error: [true, false],
   mainGroup: [true, false],
@@ -16,7 +16,7 @@ export default {
   root: cva('', {
     variants: {
       intent: {
-        default: ''
+        primary: ''
       },
       size: {
         md: '',
@@ -26,14 +26,14 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
+      intent: 'primary',
       size: 'md'
     }
   }),
   ruleGroup: cva('flex flex-col p-2 border rounded relative', {
     variants: {
       intent: {
-        default: 'bg-primary-500/20 border-gray-400'
+        primary: 'bg-primary-500/20 border-gray-400'
       },
       mainGroup: {
         true: '',
@@ -59,7 +59,7 @@ export default {
       }
     ],
     defaultVariants: {
-      intent: 'default',
+      intent: 'primary',
       mainGroup: false,
       showBranches: false,
       error: false
@@ -72,7 +72,7 @@ export default {
         vertical: 'flex-col'
       },
       // intent: {
-      //   default: 'bg-primary-500/20 border-gray-400'
+      //   primary: 'bg-primary-500/20 border-gray-400'
       // },
       // mainGroup: {
       //   true: '',
@@ -103,7 +103,7 @@ export default {
       }
     ],
     defaultVariants: {
-      // intent: 'default',
+      // intent: 'primary',
       // mainGroup: false,
       // showBranches: false,
       // error: false
@@ -112,19 +112,19 @@ export default {
   button: cva('truncate', {
     variants: {
       intent: {
-        default: ''
+        primary: ''
       },
       size: {
-        md: 'py-2.5 px-4 gap-2 text-base rounded-lg',
-        sm: 'py-1.5 px-3 gap-1.5 text-[14px] leading-[18px] rounded-lg',
-        xs: 'py-0.5 px-1.5 gap-1 text-xs rounded-lg',
+        md: '',
+        sm: '',
+        xs: '',
         custom: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
-      size: 'xs'
+      intent: 'primary',
+      size: 'md'
     }
   })
 };

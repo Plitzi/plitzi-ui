@@ -29,7 +29,7 @@ export type SelectProps = {
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'className' | 'onChange' | 'size'> &
-  useThemeSharedProps<typeof SelectStyles & typeof InputStyles, typeof variantKeys>;
+  Omit<useThemeSharedProps<typeof SelectStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const Select = ({
   ref,
@@ -50,7 +50,7 @@ const Select = ({
   const classNameTheme = useTheme<typeof SelectStyles, typeof variantKeys>('Select', {
     className: className && typeof className === 'object' ? className.input : '',
     componentKey: 'input',
-    variant: { intent: disabled || loading ? 'disabled' : error ? 'error' : intent, size }
+    variant: { intent, size, error: !!error, disabled }
   });
 
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => onChange?.(e.target.value), [onChange]);

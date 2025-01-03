@@ -26,9 +26,9 @@ export default {
   inputContainer: cva('flex items-center relative', {
     variants: {
       size: {
-        md: 'mr-6',
-        sm: 'mr-4',
-        xs: 'mr-3'
+        md: '',
+        sm: '',
+        xs: ''
       }
     },
     compoundVariants: [],

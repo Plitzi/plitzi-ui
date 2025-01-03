@@ -41,7 +41,8 @@ const Rule = ({
   value = '',
   ruleDirection = 'horizontal',
   isBinding = false,
-  enabled = true
+  enabled = true,
+  size
 }: RuleProps) => {
   // const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
   //   className,
@@ -126,22 +127,21 @@ const Rule = ({
       <div className="flex grow basis-0 min-w-0 gap-2">
         <Select2
           placeholder="Select a field"
-          className="rounded w-full min-w-0"
           options={fieldsOptions}
           value={field}
-          size="sm"
+          size={size}
           onChange={handleChangeField}
           allowCreateOptions
           error={error}
         />
         {ruleDirection === 'vertical' && (
           <>
-            <Button size="sm" intent="danger" className="rounded" onClick={handleRemove}>
+            <Button size={size} intent="danger" className="rounded" onClick={handleRemove}>
               X
             </Button>
             {allowDisableRules && (
               <div className="flex items-center" title="Enable Group">
-                <Switch size="sm" checked={enabled} onChange={handleChangeEnabled} />
+                <Switch size={size} checked={enabled} onChange={handleChangeEnabled} />
               </div>
             )}
           </>
@@ -152,8 +152,9 @@ const Rule = ({
           className="w-full"
           value={operator}
           operators={operators}
-          onChange={handleChangeOperator}
           error={error}
+          size={size}
+          onChange={handleChangeOperator}
         />
       </div>
       {!['empty', 'notEmpty'].includes(operator) && (
@@ -165,9 +166,10 @@ const Rule = ({
               type={inputType}
               values={values}
               value={value}
+              error={error}
+              size={size}
               validator={validator}
               onChange={handleChange}
-              hasError={error}
             />
           )}
           {['between', 'notBetween'].includes(operator) && !isBinding && (
@@ -179,9 +181,10 @@ const Rule = ({
                 valuePosition={0}
                 values={values}
                 value={value}
+                error={error}
+                size={size}
                 validator={validator}
                 onChange={handleChange}
-                hasError={error}
               />
               <RuleValue
                 className="w-full"
@@ -190,42 +193,42 @@ const Rule = ({
                 valuePosition={1}
                 values={values}
                 value={value}
+                error={error}
+                size={size}
                 validator={validator}
                 onChange={handleChange}
-                hasError={error}
               />
             </>
           )}
           {isBinding && (
             <Select2
               placeholder="Select a field"
-              className="rounded w-full min-w-0"
               options={fieldsOptions}
               value={value as string}
-              size="sm"
+              size={size}
               onChange={handleChangeBind}
             />
           )}
           {ruleDirection === 'vertical' && (
-            <Button size="sm" intent="primary" className="rounded w-8" onClick={handleClickBind}>
-              {!isBinding && <i className="fa-solid fa-plug" />}
-              {isBinding && <i className="fa-solid fa-plug-circle-xmark" />}
+            <Button size={size} intent="primary" onClick={handleClickBind}>
+              {!isBinding && <Button.Icon icon="fa-solid fa-plug" />}
+              {isBinding && <Button.Icon icon="fa-solid fa-plug-circle-xmark" />}
             </Button>
           )}
         </div>
       )}
       {ruleDirection === 'horizontal' && (
         <>
-          <Button size="sm" intent="primary" className="rounded w-8" onClick={handleClickBind}>
-            {!isBinding && <i className="fa-solid fa-plug" />}
-            {isBinding && <i className="fa-solid fa-plug-circle-xmark" />}
+          <Button size={size} intent="primary" onClick={handleClickBind}>
+            {!isBinding && <Button.Icon icon="fa-solid fa-plug" />}
+            {isBinding && <Button.Icon icon="fa-solid fa-plug-circle-xmark" />}
           </Button>
-          <Button size="sm" intent="danger" className="rounded w-8" onClick={handleRemove}>
+          <Button size={size} intent="danger" onClick={handleRemove}>
             X
           </Button>
           {allowDisableRules && (
             <div className="flex items-center" title="Enable Group">
-              <Switch size="sm" checked={enabled} onChange={handleChangeEnabled} />
+              <Switch size={size} checked={enabled} onChange={handleChangeEnabled} />
             </div>
           )}
         </>

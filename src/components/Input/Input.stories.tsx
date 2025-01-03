@@ -40,10 +40,10 @@ export const Primary: Story = {
         <Input {...args} size="md" value={value} onChange={handleChange}>
           <Input.Icon icon="fa-solid fa-check" />
         </Input>
-        <Input {...args} size="sm">
+        <Input {...args} size="sm" value={value} error="Nice">
           <Input.Icon icon="fa-solid fa-check" />
         </Input>
-        <Input {...args} size="xs">
+        <Input {...args} size="xs" value="sad" clearable>
           <Input.Icon icon="fa-solid fa-check" />
         </Input>
       </div>
