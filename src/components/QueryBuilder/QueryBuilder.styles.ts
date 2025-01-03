@@ -65,6 +65,7 @@ export default {
       error: false
     }
   }),
+  ruleGroupHeader: cva(''),
   rule: cva('flex gap-2 border p-1 rounded ml-4 not-first:mt-3 relative', {
     variants: {
       direction: {
@@ -96,11 +97,13 @@ export default {
       }
     ],
     defaultVariants: {
-      // intent: 'primary',
+      direction: 'horizontal',
       showBranches: false,
       error: false
     }
   }),
+  ruleField: cva('min-w-0'),
+  ruleOperator: cva('grow basis-0'),
   button: cva('truncate', {
     variants: {
       intent: {

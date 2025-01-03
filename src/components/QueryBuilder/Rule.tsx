@@ -1,10 +1,10 @@
 // Packages
-// import classNames from 'classnames';
 import get from 'lodash/get';
 import { useCallback, use, useMemo } from 'react';
 
 // Alias
 import Button from '@components/Button';
+import Flex from '@components/Flex';
 import Select2 from '@components/Select2';
 import Switch from '@components/Switch';
 import useTheme from '@hooks/useTheme';
@@ -28,7 +28,6 @@ export type RuleProps = {
   field?: string;
   operator?: string;
   value?: TRuleValue;
-  ruleDirection?: 'horizontal' | 'vertical';
   isBinding?: boolean;
   enabled?: boolean;
 } & useThemeSharedProps<typeof QueryBuilderStyles, typeof variantKeys>;
@@ -39,7 +38,6 @@ const Rule = ({
   field = '',
   operator = '',
   value = '',
-  ruleDirection = 'horizontal',
   isBinding = false,
   enabled = true,
   size,
@@ -50,7 +48,7 @@ const Rule = ({
     use(QueryBuilderContext);
   const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
     className,
-    componentKey: ['rule'],
+    componentKey: ['rule', 'ruleField', 'ruleOperator'],
     variant: { size, showBranches, direction, error }
   });
   const fieldDefinition = useMemo(() => get(fields, field), [fields, field]);
@@ -120,14 +118,8 @@ const Rule = ({
   const handleRemove = useCallback(() => remove(id), [remove, id]);
 
   return (
-    <div
-      // className={classNames('flex gap-2 border border-gray-400 p-1 rounded', className, {
-      //   'border-red-400': error,
-      //   'flex-col': ruleDirection === 'vertical'
-      // })}
-      className={classNameTheme.rule}
-    >
-      <div className="flex grow basis-0 min-w-0 gap-2">
+    <div className={classNameTheme.rule}>
+      <Flex grow basis={0} gap={2} className={classNameTheme.ruleField}>
         <Select2
           placeholder="Select a field"
           options={fieldsOptions}
@@ -137,7 +129,7 @@ const Rule = ({
           allowCreateOptions
           error={error}
         />
-        {ruleDirection === 'vertical' && (
+        {direction === 'vertical' && (
           <>
             <Button size={size} intent="danger" className="rounded" onClick={handleRemove}>
               X
@@ -149,17 +141,8 @@ const Rule = ({
             )}
           </>
         )}
-      </div>
-      <div className="flex grow basis-0 min-w-0">
-        <RuleOperator
-          className="w-full"
-          value={operator}
-          operators={operators}
-          error={error}
-          size={size}
-          onChange={handleChangeOperator}
-        />
-      </div>
+      </Flex>
+      <RuleOperator value={operator} operators={operators} error={error} size={size} onChange={handleChangeOperator} />
       {!['empty', 'notEmpty'].includes(operator) && (
         <div className="flex grow basis-0 min-w-0 gap-1">
           {!['between', 'notBetween'].includes(operator) && !isBinding && (
@@ -212,7 +195,7 @@ const Rule = ({
               onChange={handleChangeBind}
             />
           )}
-          {ruleDirection === 'vertical' && (
+          {direction === 'vertical' && (
             <Button size={size} intent="primary" onClick={handleClickBind}>
               {!isBinding && <Button.Icon icon="fa-solid fa-plug" />}
               {isBinding && <Button.Icon icon="fa-solid fa-plug-circle-xmark" />}
@@ -220,7 +203,7 @@ const Rule = ({
           )}
         </div>
       )}
-      {ruleDirection === 'horizontal' && (
+      {direction === 'horizontal' && (
         <>
           <Button size={size} intent="primary" onClick={handleClickBind}>
             {!isBinding && <Button.Icon icon="fa-solid fa-plug" />}

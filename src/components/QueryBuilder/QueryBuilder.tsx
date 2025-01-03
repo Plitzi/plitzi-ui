@@ -88,7 +88,6 @@ export type QueryBuilderProps = {
   query?: RuleGroup;
   fields?: { [key: string]: Field };
   showBranches?: boolean;
-  ruleDirection?: 'horizontal' | 'vertical';
   allowDisableRules?: boolean;
   allowSubGroups?: boolean;
   combinators?: { value: string; label: string }[];
@@ -101,12 +100,12 @@ const QueryBuilder = ({
   query,
   fields = emptyObject,
   showBranches = false,
-  ruleDirection = 'horizontal',
   allowDisableRules = true,
   allowSubGroups = true,
   combinators = defaultCombinators,
   error = false,
-  size,
+  size = 'xs',
+  direction = 'horizontal',
   onChange
 }: QueryBuilderProps) => {
   className = useTheme<typeof QueryBuilderStyles, typeof variantKeys>('QueryBuilder', {
@@ -142,7 +141,7 @@ const QueryBuilder = ({
           rules={rules}
           showBranches={showBranches}
           mainGroup
-          ruleDirection={ruleDirection}
+          direction={direction}
           size={size}
         />
       </QueryBuilderProvider>

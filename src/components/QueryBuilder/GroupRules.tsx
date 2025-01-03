@@ -3,6 +3,7 @@ import { useCallback, use } from 'react';
 
 // Alias
 import Button from '@components/Button';
+import Flex from '@components/Flex';
 import Switch from '@components/Switch';
 import useTheme from '@hooks/useTheme';
 
@@ -26,7 +27,6 @@ export type GroupRulesProps = {
   enabled?: boolean;
   showBranches?: boolean;
   mainGroup?: boolean;
-  ruleDirection?: 'horizontal' | 'vertical';
 } & useThemeSharedProps<typeof QueryBuilderStyles, typeof variantKeys>;
 
 const GroupRules = ({
@@ -37,13 +37,13 @@ const GroupRules = ({
   enabled = true,
   showBranches = false,
   mainGroup = false,
-  ruleDirection = 'horizontal',
+  direction,
   size
 }: GroupRulesProps) => {
   const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
     className,
-    componentKey: ['button', 'ruleGroup'],
-    variant: { size, showBranches, mainGroup, direction: ruleDirection }
+    componentKey: ['button', 'ruleGroup', 'ruleGroupHeader'],
+    variant: { size, showBranches, mainGroup, direction }
   });
   const {
     addRule,
@@ -75,7 +75,7 @@ const GroupRules = ({
 
   return (
     <div className={classNameTheme.ruleGroup}>
-      <div className="flex gap-2">
+      <Flex gap={2} className={classNameTheme.ruleGroupHeader}>
         <Select
           value={combinator}
           size={size}
@@ -111,7 +111,7 @@ const GroupRules = ({
             <Switch size={size} checked={enabled} onChange={handleChangeEnabled} />
           </div>
         )}
-      </div>
+      </Flex>
       {rules &&
         rules.map((rule, i) => {
           const { id, enabled } = rule;
@@ -126,7 +126,7 @@ const GroupRules = ({
                 combinator={combinator}
                 enabled={enabled}
                 showBranches={showBranches}
-                ruleDirection={ruleDirection}
+                direction={direction}
                 size={size}
               />
             );
@@ -141,13 +141,12 @@ const GroupRules = ({
               field={field}
               operator={operator}
               value={value}
-              ruleDirection={ruleDirection}
               isBinding={isBinding}
               enabled={enabled}
               size={size}
               showBranches={showBranches}
               mainGroup={mainGroup}
-              direction={ruleDirection}
+              direction={direction}
             />
           );
         })}
