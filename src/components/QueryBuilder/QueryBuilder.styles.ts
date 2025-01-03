@@ -4,6 +4,7 @@ import cva from '@/helpers/cvaWrapper';
 export const variantKeys = {
   intent: ['primary'],
   size: ['md', 'sm', 'xs', 'custom'],
+  disabled: [true, false],
   error: [true, false],
   mainGroup: [true, false],
   showBranches: [true, false],
@@ -104,22 +105,5 @@ export default {
   }),
   ruleField: cva('min-w-0'),
   ruleOperator: cva('grow basis-0'),
-  button: cva('truncate', {
-    variants: {
-      intent: {
-        primary: ''
-      },
-      size: {
-        md: '',
-        sm: '',
-        xs: '',
-        custom: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'primary',
-      size: 'md'
-    }
-  })
+  button: cva('truncate')
 };

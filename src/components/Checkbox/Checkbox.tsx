@@ -17,15 +17,7 @@ export type CheckboxProps = {
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
   useThemeSharedProps<typeof CheckboxStyles, typeof variantKeys>;
 
-const Checkbox = ({
-  ref,
-  className = '',
-  label = 'Input',
-  error = false,
-  size,
-  intent,
-  ...inputProps
-}: CheckboxProps) => {
+const Checkbox = ({ ref, className = '', label = '', error = false, size, intent, ...inputProps }: CheckboxProps) => {
   const classNameTheme = useTheme<typeof CheckboxStyles, typeof variantKeys, false>('Checkbox', {
     className,
     componentKey: ['root', 'input'],

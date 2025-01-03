@@ -51,7 +51,6 @@ const Rule = ({
     componentKey: ['rule', 'ruleField', 'ruleOperator'],
     variant: { size, showBranches, direction, error }
   });
-  const fieldDefinition = useMemo(() => get(fields, field), [fields, field]);
   const fieldsOptions = useMemo(() => {
     const fieldsAux = Object.values(fields).reduce<Array<Option | OptionGroup>>((acum, field) => {
       const { name, label, operators, defaultValue, group: groupName = 'Others' } = field;
@@ -75,11 +74,6 @@ const Rule = ({
 
     return fieldsAux;
   }, [fields]);
-  const { label, operators, inputType, values = [], validator, placeholder = '' } = fieldDefinition;
-  const placeholderFinal = useMemo(
-    () => (placeholder ? placeholder : `Enter ${label ? label : 'a value'}`),
-    [label, placeholder]
-  );
 
   const handleChangeField = useCallback(
     (option?: Exclude<Option, OptionGroup>) => {
@@ -117,6 +111,21 @@ const Rule = ({
 
   const handleRemove = useCallback(() => remove(id), [remove, id]);
 
+  const fieldDefinition = useMemo(
+    () =>
+      get(fields, field, {
+        label: '',
+        operators: [],
+        inputType: undefined,
+        values: [],
+        placeholder: '',
+        validator: undefined
+      }),
+    [fields, field]
+  );
+
+  const { label, operators, inputType, values = [], placeholder = '', validator } = fieldDefinition;
+
   return (
     <div className={classNameTheme.rule}>
       <Flex grow basis={0} gap={2} className={classNameTheme.ruleField}>
@@ -148,12 +157,13 @@ const Rule = ({
           {!['between', 'notBetween'].includes(operator) && !isBinding && (
             <RuleValue
               className="w-full"
-              placeholder={placeholderFinal}
+              placeholder={placeholder ? placeholder : `Enter ${label ? label : 'a value'}`}
               type={inputType}
               values={values}
               value={value}
               error={error}
               size={size}
+              disabled={!field}
               validator={validator}
               onChange={handleChange}
             />
@@ -162,31 +172,33 @@ const Rule = ({
             <>
               <RuleValue
                 className="w-full"
-                placeholder={placeholderFinal}
+                placeholder={placeholder ? placeholder : `Enter ${label ? label : 'a value'}`}
                 type={inputType}
                 valuePosition={0}
                 values={values}
                 value={value}
                 error={error}
                 size={size}
+                disabled={!field}
                 validator={validator}
                 onChange={handleChange}
               />
               <RuleValue
                 className="w-full"
-                placeholder={placeholderFinal}
+                placeholder={placeholder ? placeholder : `Enter ${label ? label : 'a value'}`}
                 type={inputType}
                 valuePosition={1}
                 values={values}
                 value={value}
                 error={error}
                 size={size}
+                disabled={!field}
                 validator={validator}
                 onChange={handleChange}
               />
             </>
           )}
-          {isBinding && (
+          {isBinding && field && (
             <Select2
               placeholder="Select a field"
               options={fieldsOptions}

@@ -1,5 +1,4 @@
 // Packages
-import classNames from 'classnames';
 import get from 'lodash/get';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -39,6 +38,7 @@ const RuleValue = ({
   type = 'text',
   error = false,
   size,
+  disabled,
   validator,
   onChange
 }: RuleValueProps) => {
@@ -90,9 +90,13 @@ const RuleValue = ({
   switch (type) {
     case 'checkbox':
       return (
-        <div className={classNames('flex items-center', className)}>
-          <Checkbox size={size} checked={finalValue as boolean} onChange={handleChangeCheckbox} />
-        </div>
+        <Checkbox
+          className={className}
+          size={size}
+          checked={finalValue as boolean}
+          disabled={disabled}
+          onChange={handleChangeCheckbox}
+        />
       );
 
     case 'radio':
@@ -104,9 +108,10 @@ const RuleValue = ({
         <Select
           placeholder={placeholder}
           multiple={type === 'multiselect'}
-          className={classNames('rounded', className, { '!border-red-300': errorInternal })}
           value={finalValue as string}
           size={size}
+          disabled={disabled}
+          error={errorInternal}
           onChange={handleChange}
         >
           {values.map((option, i) => (
@@ -126,6 +131,7 @@ const RuleValue = ({
           value={finalValue as string}
           error={errorInternal}
           size={size}
+          disabled={disabled}
           onChange={handleChange}
         />
       );

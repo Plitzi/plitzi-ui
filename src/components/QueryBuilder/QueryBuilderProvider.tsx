@@ -63,11 +63,11 @@ const QueryBuilderProvider = ({
       onChange(
         produce(queryRef.current, draft => {
           const node = getNode(draft, groupId);
-          if (!node || !('rules' in node)) {
+          if (!node) {
             return;
           }
 
-          node.rules.push({ id: uuid(), field: '', operator: '', value: '', enabled: true });
+          (node as RuleGroup).rules.push({ id: uuid(), field: '', operator: '', value: '', enabled: true });
         })
       ),
     [onChange, getNode]
