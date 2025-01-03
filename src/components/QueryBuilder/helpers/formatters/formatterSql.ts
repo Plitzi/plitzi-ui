@@ -14,29 +14,37 @@ export const formatBasic = (rule: Rule) => {
     return `${field} ${operator} ${value ? 'TRUE' : 'FALSE'}`;
   }
 
+  if (typeof value === 'string' && !isNumeric(value)) {
+    return `${field} ${operator} '${value as string}'`;
+  }
+
   if (typeof value === 'number' || isNumeric(value)) {
     return `${field} ${operator} ${value}`;
   }
 
-  return `${field} ${operator} '${value}'`;
+  if (isDate(value)) {
+    return `${field} ${operator} DATE '${value.toString()}'`;
+  }
+
+  return `${field} ${operator} '${JSON.stringify(value)}'`;
 };
 
 export const formatContains = (rule: Rule, not = false) => {
   const { field, value } = rule;
 
-  return `${field}${not ? ' not' : ''} like '%${value}%'`;
+  return `${field}${not ? ' not' : ''} like '%${value as string}%'`;
 };
 
 export const formatBeginsWith = (rule: Rule, not = false) => {
   const { field, value } = rule;
 
-  return `${field}${not ? ' not' : ''} like '${value}%'`;
+  return `${field}${not ? ' not' : ''} like '${value as string}%'`;
 };
 
 export const formatEndsWith = (rule: Rule, not = false) => {
   const { field, value } = rule;
 
-  return `${field}${not ? ' not' : ''} like '%${value}'`;
+  return `${field}${not ? ' not' : ''} like '%${value as string}'`;
 };
 
 export const formatEmpty = (rule: Rule, not = false) => {

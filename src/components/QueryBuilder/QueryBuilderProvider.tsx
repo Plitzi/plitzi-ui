@@ -19,7 +19,7 @@ import type { ReactNode } from 'react';
 
 export type QueryBuilderQueryProviderProps = {
   children: ReactNode;
-  query?: RuleGroup;
+  query: RuleGroup;
   fields: { [key: string]: Field };
   allowDisableRules: boolean;
   allowSubGroups: boolean;
@@ -47,7 +47,7 @@ const QueryBuilderProvider = ({
   const queryMapRef = useRef(queryMap);
   queryMapRef.current = queryMap;
 
-  const getNode = useCallback((nodes: RuleGroup | undefined, id: string): Rule | RuleGroup | undefined => {
+  const getNode = useCallback((nodes: RuleGroup, id: string): Rule | RuleGroup | undefined => {
     const node = get(queryMapRef.current, id);
     if (!node) {
       return undefined;
@@ -63,7 +63,7 @@ const QueryBuilderProvider = ({
       onChange(
         produce(queryRef.current, draft => {
           const node = getNode(draft, groupId);
-          if (!node) {
+          if (!node || !('rules' in node)) {
             return;
           }
 
@@ -77,8 +77,8 @@ const QueryBuilderProvider = ({
     (groupId: string) =>
       onChange(
         produce(queryRef.current, draft => {
-          const node = getNode(draft, groupId) as RuleGroup;
-          if (!node || !allowSubGroups) {
+          const node = getNode(draft, groupId);
+          if (!node || !allowSubGroups || !('rules' in node)) {
             return;
           }
 
@@ -103,8 +103,8 @@ const QueryBuilderProvider = ({
           }
 
           const { parentId } = get(queryMapRef.current, nodeId, {}) as QueryMapNode;
-          const parentNode = getNode(draft, parentId) as RuleGroup;
-          if (!parentNode || !parentNode.rules) {
+          const parentNode = getNode(draft, parentId);
+          if (!parentNode || !('rules' in parentNode)) {
             return;
           }
 
@@ -181,9 +181,9 @@ const QueryBuilderProvider = ({
           let node = getNode(draft, nodeId);
           let parentNode;
           while (node) {
-            const { id, parentId } = get(queryMapRef.current, node.id, '') as QueryMapNode;
-            parentNode = getNode(draft, parentId) as RuleGroup;
-            if (!parentNode) {
+            const { id, parentId } = get(queryMapRef.current, node.id ?? '', '') as QueryMapNode;
+            parentNode = getNode(draft, parentId);
+            if (!parentNode || !('rules' in parentNode)) {
               break;
             }
 

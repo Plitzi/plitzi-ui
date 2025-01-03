@@ -55,19 +55,19 @@ const formatContains = (rule: Rule, not = false) => {
 const formatBeginsWith = (rule: Rule, not = false) => {
   const { field, value } = rule;
   if (not) {
-    return { [field]: { $not: { $regex: `^${value}`, $options: 'i' } } };
+    return { [field]: { $not: { $regex: `^${value as string}`, $options: 'i' } } };
   }
 
-  return { [field]: { $regex: `^${value}`, $options: 'i' } };
+  return { [field]: { $regex: `^${value as string}`, $options: 'i' } };
 };
 
 const formatEndsWith = (rule: Rule, not = false) => {
   const { field, value } = rule;
   if (not) {
-    return { [field]: { $not: { $regex: `${value}$`, $options: 'i' } } };
+    return { [field]: { $not: { $regex: `${value as string}$`, $options: 'i' } } };
   }
 
-  return { [field]: { $regex: `${value}$`, $options: 'i' } };
+  return { [field]: { $regex: `${value as string}$`, $options: 'i' } };
 };
 
 const formatEmpty = (rule: Rule, not = false) => {

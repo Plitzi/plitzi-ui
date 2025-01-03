@@ -25,14 +25,14 @@ export const getQueryMap = (
 
   let map = {};
   const { id, rules } = query;
-  if (!Array.isArray(rules)) {
+  if (!Array.isArray(rules) || !id) {
     return map;
   }
 
   Object.values(rules).forEach((rule: Rule | RuleGroup, i) => {
     if ('rules' in rule) {
       map = { ...map, ...getQueryMap(rule, id, path ? `${path}.rules.${i}` : `rules.${i}`) };
-    } else {
+    } else if (rule.id) {
       const { id: ruleId } = rule;
       map = {
         ...map,

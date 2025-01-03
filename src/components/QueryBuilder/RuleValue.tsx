@@ -14,7 +14,7 @@ import type { Field, RuleValue } from './QueryBuilder';
 import type QueryBuilderStyles from './QueryBuilder.styles';
 import type { variantKeys } from './QueryBuilder.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent } from 'react';
+import type { ChangeEvent } from 'react';
 
 const valuesDefault = [] as { value: RuleValue; label: string }[];
 
@@ -50,18 +50,18 @@ const RuleValue = ({
   const [errorInternal, setErrorInternal] = useState<string | boolean | undefined>(error);
 
   const handleChangeCheckbox = useCallback(
-    (e: MouseEvent) => onChange?.((e.target as HTMLInputElement).checked),
+    (e: ChangeEvent<HTMLInputElement>) => onChange?.((e.target as HTMLInputElement).checked),
     [onChange]
   );
 
-  const finalValue = useMemo(() => {
-    if (Number.isInteger(valuePosition)) {
-      const valueParts = value.split(',');
+  const finalValue = useMemo<string | boolean>(() => {
+    if (Number.isInteger(valuePosition) && typeof value === 'string') {
+      const valueParts: string[] = value.split(',');
 
-      return get(valueParts, valuePosition, value);
+      return get(valueParts, `${valuePosition}`, value);
     }
 
-    return value;
+    return value as string;
   }, [value, valuePosition]);
 
   const handleChange = useCallback(
@@ -70,12 +70,12 @@ const RuleValue = ({
         return;
       }
 
-      if (Number.isInteger(valuePosition)) {
-        const valueParts = value.split(',');
-        valueParts[valuePosition] = e.target.value;
-        onChange(valueParts.join(','));
+      if (valuePosition && Number.isInteger(valuePosition) && typeof value === 'string') {
+        const valueParts: string[] = value.split(',');
+        valueParts[valuePosition] = val;
+        onChange?.(valueParts.join(','));
       } else {
-        onChange(val);
+        onChange?.(val);
       }
       if (typeof validator !== 'function') {
         return;
@@ -91,7 +91,7 @@ const RuleValue = ({
     case 'checkbox':
       return (
         <div className={classNames('flex items-center', className)}>
-          <Checkbox size={size} checked={finalValue} onChange={handleChangeCheckbox} />
+          <Checkbox size={size} checked={finalValue as boolean} onChange={handleChangeCheckbox} />
         </div>
       );
 
@@ -104,13 +104,13 @@ const RuleValue = ({
         <Select
           placeholder={placeholder}
           multiple={type === 'multiselect'}
-          className={classNames('rounded', className, { '!border-red-300': error })}
-          value={finalValue}
+          className={classNames('rounded', className, { '!border-red-300': errorInternal })}
+          value={finalValue as string}
           size={size}
           onChange={handleChange}
         >
           {values.map((option, i) => (
-            <option key={i} value={option.value}>
+            <option key={i} value={option.value as string}>
               {option.label}
             </option>
           ))}
@@ -122,10 +122,9 @@ const RuleValue = ({
       return (
         <Input
           placeholder={placeholder}
-          error={error}
-          className={classNames(className)}
-          value={finalValue}
-          error={error}
+          className={className}
+          value={finalValue as string}
+          error={errorInternal}
           size={size}
           onChange={handleChange}
         />
