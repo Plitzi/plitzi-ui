@@ -26,7 +26,7 @@ export type InputProps = {
   prefix?: string;
   type?: 'text';
   value?: string;
-  error?: ErrorMessageProps['message'];
+  error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &
   useThemeSharedProps<typeof InputStyles, typeof variantKeys>;
@@ -43,16 +43,21 @@ const Input = ({
   prefix = '',
   type = 'text',
   size,
-  intent = 'default',
+  intent = 'primary',
   value = '',
-  error = '',
+  error = false,
   onChange,
   ...inputProps
 }: InputProps) => {
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys>('Input', {
     className: className && typeof className === 'object' ? className.input : '',
     componentKey: 'input',
-    variant: { intent: disabled || loading ? 'disabled' : error ? 'error' : intent, size }
+    variant: {
+      intent,
+      size,
+      disabled: disabled || loading,
+      error: !!error
+    }
   });
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value), [onChange]);
@@ -63,14 +68,14 @@ const Input = ({
     <InputContainer
       className={className}
       label={label}
-      error={error}
-      disabled={disabled}
-      intent={intent}
-      size={size}
       loading={loading}
       clearable={clearable}
       value={value}
       prefix={prefix}
+      disabled={disabled}
+      error={error}
+      intent={intent}
+      size={size}
       onClear={handleClickClear}
     >
       {children}

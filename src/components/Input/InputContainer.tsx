@@ -47,7 +47,12 @@ const InputContainer = ({
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys, false>('Input', {
     className,
     componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear'],
-    variant: { intent: disabled || loading ? 'disabled' : error ? 'error' : intent, size }
+    variant: {
+      intent,
+      size,
+      disabled: disabled || loading,
+      error: !!error
+    }
   });
 
   const handleClickClear = useCallback((e: MouseEvent) => onClear?.(e), [onClear]);
@@ -99,7 +104,9 @@ const InputContainer = ({
           </div>
         )}
       </div>
-      {error && <ErrorMessage message={typeof error === 'boolean' ? '' : error} intent={intent} size={size} />}
+      {error && (
+        <ErrorMessage message={typeof error === 'boolean' ? '' : error} intent={intent} size={size} error={!!error} />
+      )}
     </div>
   );
 };

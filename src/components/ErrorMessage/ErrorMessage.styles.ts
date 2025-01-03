@@ -2,8 +2,10 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'error', 'disabled'],
-  size: ['md', 'sm', 'xs', 'custom']
+  intent: ['primary', 'custom'],
+  size: ['md', 'sm', 'xs', 'custom'],
+  error: [true, false],
+  disabled: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'ErrorMessage';
@@ -12,9 +14,16 @@ export default {
   root: cva('first-letter:capitalize', {
     variants: {
       intent: {
-        default: 'text-red-600',
-        error: 'text-red-600',
-        disabled: ''
+        primary: '',
+        custom: ''
+      },
+      default: {
+        true: '',
+        false: ''
+      },
+      error: {
+        true: 'text-red-600',
+        false: ''
       },
       size: {
         md: 'text-base',
@@ -25,8 +34,10 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
-      size: 'md'
+      intent: 'primary',
+      size: 'md',
+      error: false,
+      default: false
     }
   })
 };
