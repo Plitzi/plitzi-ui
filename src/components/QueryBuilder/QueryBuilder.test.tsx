@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+
 // Packages
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
@@ -416,9 +417,11 @@ describe('QueryBuilder', () => {
     isValid = QueryBuilderEvaluator(queryRaw, undefined);
     expect(isValid).toEqual(false);
 
+    // @ts-expect-error invalid value
     isValid = QueryBuilderEvaluator(queryRaw, null);
     expect(isValid).toEqual(false);
 
+    // @ts-expect-error invalid value
     isValid = QueryBuilderEvaluator([], {
       firstName: 'Steven',
       lastName: 'Vai',
@@ -428,9 +431,10 @@ describe('QueryBuilder', () => {
       birthdate: '1955-10-04',
       firstName_repeat: 'Steven'
     });
-    expect(isValid).toEqual(true);
+    expect(isValid).toEqual(false);
 
     isValid = QueryBuilderEvaluator(
+      // @ts-expect-error invalid value
       {},
       {
         firstName: 'Steven',
@@ -442,8 +446,9 @@ describe('QueryBuilder', () => {
         firstName_repeat: 'Steven'
       }
     );
-    expect(isValid).toEqual(true);
+    expect(isValid).toEqual(false);
 
+    // @ts-expect-error invalid value
     isValid = QueryBuilderEvaluator(null, {
       firstName: 'Steven',
       lastName: 'Vai',
@@ -453,8 +458,9 @@ describe('QueryBuilder', () => {
       birthdate: '1955-10-04',
       firstName_repeat: 'Steven'
     });
-    expect(isValid).toEqual(true);
+    expect(isValid).toEqual(false);
 
+    // @ts-expect-error invalid value
     isValid = QueryBuilderEvaluator(123, {
       firstName: 'Steven',
       lastName: 'Vai',
@@ -464,8 +470,9 @@ describe('QueryBuilder', () => {
       birthdate: '1955-10-04',
       firstName_repeat: 'Steven'
     });
-    expect(isValid).toEqual(true);
+    expect(isValid).toEqual(false);
 
+    // @ts-expect-error invalid value
     isValid = QueryBuilderEvaluator(undefined, {
       firstName: 'Steven',
       lastName: 'Vai',
@@ -475,8 +482,9 @@ describe('QueryBuilder', () => {
       birthdate: '1955-10-04',
       firstName_repeat: 'Steven'
     });
-    expect(isValid).toEqual(true);
+    expect(isValid).toEqual(false);
 
+    // @ts-expect-error invalid value
     isValid = QueryBuilderEvaluator('qwe', {
       firstName: 'Steven',
       lastName: 'Vai',
@@ -486,7 +494,7 @@ describe('QueryBuilder', () => {
       birthdate: '1955-10-04',
       firstName_repeat: 'Steven'
     });
-    expect(isValid).toEqual(true);
+    expect(isValid).toEqual(false);
   });
 
   it('should evaluate complex in', () => {
@@ -711,11 +719,7 @@ describe('QueryBuilder', () => {
     expect(QueryBuilderFormatter(queryRaw)).toBe('');
     expect(QueryBuilderFormatter(queryRaw, 'mongodb')).toStrictEqual({});
 
-    queryRaw = {
-      id: '6533cb2b-f78c-4558-b9ae-ca4a16946680',
-      combinator: 'and',
-      rules: []
-    };
+    queryRaw = { id: '6533cb2b-f78c-4558-b9ae-ca4a16946680', combinator: 'and', rules: [] };
 
     expect(QueryBuilderFormatter(queryRaw)).toBe('');
     expect(QueryBuilderFormatter(queryRaw, 'mongodb')).toStrictEqual({});
@@ -851,14 +855,7 @@ describe('QueryBuilder', () => {
 
     expect(QueryBuilderFormatter(queryRaw)).toBe("values.email = 'test@example.com' and _id = 'qs123'");
     expect(QueryBuilderFormatter(queryRaw, 'mongodb')).toStrictEqual({
-      $and: [
-        {
-          'values.email': 'test@example.com'
-        },
-        {
-          _id: 'qs123'
-        }
-      ]
+      $and: [{ 'values.email': 'test@example.com' }, { _id: 'qs123' }]
     });
 
     queryRaw = {
@@ -886,17 +883,7 @@ describe('QueryBuilder', () => {
       "firstName_repeat like 'Stev%' and firstName = 'test'"
     );
     expect(QueryBuilderFormatter(queryRaw, 'mongodb', false, { firstName_repeat: 'test' })).toStrictEqual({
-      $and: [
-        {
-          firstName_repeat: {
-            $options: 'i',
-            $regex: '^Stev'
-          }
-        },
-        {
-          firstName: 'test'
-        }
-      ]
+      $and: [{ firstName_repeat: { $options: 'i', $regex: '^Stev' } }, { firstName: 'test' }]
     });
   });
 
@@ -1119,8 +1106,8 @@ describe('QueryBuilder', () => {
     );
     expect(previewValues).toEqual({
       nested: {
-        firstName: null,
-        lastName: null,
+        firstName: undefined,
+        lastName: undefined,
         age: '29',
         isMusician: true,
         instrument: '',

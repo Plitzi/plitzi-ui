@@ -20,7 +20,7 @@ describe('Checkbox', () => {
     const component = render(<Checkbox size="sm" className="customClass" />, { wrapper: ThemeProvider });
 
     expect(component.container.firstChild).toBeTruthy();
-    expect(component.container.getElementsByClassName('h-4 w-4').length).toBe(1);
+    expect(component.container.getElementsByClassName('h-5 w-5').length).toBe(1);
     expect(component.container.getElementsByClassName('customClass').length).toBe(1);
   });
 });

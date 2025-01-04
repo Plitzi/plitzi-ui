@@ -9,6 +9,8 @@ import { isDate, isNumeric, isRuleGroup } from './QueryBuilderHelper';
 // Types
 import type { Rule, RuleGroup, RuleValue } from '../QueryBuilder';
 
+type NestedBoolean = boolean | NestedBoolean[];
+
 // Transformers
 
 export const transformQueryJson = (raw?: RuleGroup) => {
@@ -169,22 +171,22 @@ export const evaluateIn = (value: RuleValue, valueToCompare: RuleValue) => {
     return false;
   }
 
-  if (isNumeric(valueToCompare)) {
-    return value.includes(`${valueToCompare}`) || value.includes(parseFloat(valueToCompare));
-  }
-
   if (typeof valueToCompare === 'string' && valueToCompare.includes(',')) {
     valueToCompare = valueToCompare.split(',').map(v => v.trim());
   }
 
   if (Array.isArray(valueToCompare)) {
-    return valueToCompare.some(r => {
+    return valueToCompare.some((r: RuleValue) => {
       if (isNumeric(r)) {
-        return value.includes(`${r}`) || value.includes(parseFloat(valueToCompare));
+        return value.includes(`${r}`) || value.includes(parseFloat(r as string));
       }
 
       return value.includes(r);
     });
+  }
+
+  if (isNumeric(valueToCompare)) {
+    return value.includes(`${valueToCompare}`) || value.includes(parseFloat(valueToCompare as string));
   }
 
   return value.includes(valueToCompare);
@@ -259,22 +261,23 @@ const evaluate = (
   query?: RuleGroup,
   values: { [key: string]: RuleValue } = {},
   granulated = false,
-  fallbackValue = true
-) => {
+  fallbackValue = false
+): NestedBoolean => {
   if (!query) {
     return fallbackValue;
   }
 
   const { combinator, rules, enabled } = query;
   if (!Array.isArray(rules)) {
-    return fallbackValue; // no rules to validate
+    // no rules to validate
+    return fallbackValue;
   }
 
   if (enabled === false) {
     return true;
   }
 
-  const isValid: boolean[] = rules
+  const isValid = rules
     .filter(rule => rule.enabled !== false)
     .map(rule => {
       if ('rules' in rule) {
@@ -292,10 +295,6 @@ const evaluate = (
     return isValid.includes(true);
   }
 
-  if (typeof isValid !== 'boolean') {
-    return false;
-  }
-
   return isValid;
 };
 
@@ -303,7 +302,7 @@ const QueryBuilderEvaluator = (
   queryRAW: RuleGroup,
   values: { [key: string]: RuleValue } = {},
   granulated = false,
-  fallbackValue = true
+  fallbackValue = false
 ) => {
   const query = transformQuery(queryRAW);
 
@@ -315,7 +314,7 @@ const evaluateValuesRequired = (
   values: { [key: string]: RuleValue },
   fallbackValue: unknown,
   isSubQuery = false
-) => {
+): { [key: string]: RuleValue } | Rule[] => {
   const { rules, enabled } = query;
   if (!Array.isArray(rules)) {
     return {}; // no rules to validate
@@ -329,7 +328,7 @@ const evaluateValuesRequired = (
     .filter(rule => rule.enabled !== false)
     .flatMap(rule => {
       if ('rules' in rule) {
-        return evaluateValuesRequired(rule, values, fallbackValue, true);
+        return evaluateValuesRequired(rule, values, fallbackValue, true) as Rule[];
       }
 
       return rule;
@@ -358,7 +357,7 @@ export const getValuesRequired = (
 ) => {
   const query = transformQuery(queryRAW);
 
-  return evaluateValuesRequired(query, values, fallbackValue);
+  return evaluateValuesRequired(query as RuleGroup, values, fallbackValue);
 };
 
 export default QueryBuilderEvaluator;
