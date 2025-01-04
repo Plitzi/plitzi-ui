@@ -106,12 +106,13 @@ const QueryBuilder = ({
   error = false,
   size = 'xs',
   direction = 'horizontal',
+  intent = 'primary',
   onChange
 }: QueryBuilderProps) => {
   className = useTheme<typeof QueryBuilderStyles, typeof variantKeys>('QueryBuilder', {
     className,
     componentKey: 'root',
-    variant: { size }
+    variant: { size, intent }
   });
   const queryMemo = useMemo<RuleGroup>(() => {
     if (!query || !query.id) {
@@ -143,6 +144,7 @@ const QueryBuilder = ({
           mainGroup
           direction={direction}
           size={size}
+          intent={intent}
         />
       </QueryBuilderProvider>
     </Flex>

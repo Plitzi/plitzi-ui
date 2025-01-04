@@ -38,12 +38,13 @@ const GroupRules = ({
   showBranches = false,
   mainGroup = false,
   direction,
-  size
+  size,
+  intent
 }: GroupRulesProps) => {
   const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
     className,
     componentKey: ['button', 'ruleGroup', 'ruleGroupHeader'],
-    variant: { size, showBranches, mainGroup, direction }
+    variant: { size, showBranches, mainGroup, direction, intent }
   });
   const {
     addRule,
@@ -128,6 +129,7 @@ const GroupRules = ({
                 showBranches={showBranches}
                 direction={direction}
                 size={size}
+                intent={intent}
               />
             );
           }
@@ -147,6 +149,7 @@ const GroupRules = ({
               showBranches={showBranches}
               mainGroup={mainGroup}
               direction={direction}
+              intent={intent}
             />
           );
         })}

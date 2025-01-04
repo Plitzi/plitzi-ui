@@ -2,7 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['primary'],
+  intent: ['primary', 'gray'],
   size: ['md', 'sm', 'xs', 'custom'],
   disabled: [true, false],
   error: [true, false],
@@ -34,7 +34,8 @@ export default {
   ruleGroup: cva('flex flex-col p-2 border rounded relative', {
     variants: {
       intent: {
-        primary: 'bg-primary-500/20 border-gray-400'
+        primary: 'bg-primary-500/20 border-gray-400',
+        gray: 'bg-grayviolet-200 border-gray-300'
       },
       mainGroup: {
         true: '',
@@ -46,7 +47,7 @@ export default {
       },
       error: {
         true: 'bg-red-500/20 border-red-400',
-        false: 'bg-primary-500/20 border-gray-400'
+        false: ''
       }
     },
     compoundVariants: [
@@ -54,9 +55,21 @@ export default {
         mainGroup: false,
         showBranches: true,
         className: [
-          'before:absolute before:border-l before:border-b before:border-gray-400 before:last:rounded-bl before:translate-x-[-50%] before:translate-y-[-10px] before:left-[-4px] before:w-2',
-          'after:absolute after:border-l after:border-gray-400 after:translate-x-[-50%] after:translate-y-[calc(100%_-_4px)] after:left-[-4px] after:w-2 last:after:border-none after:top-[0px] after:h-[calc(50%_+_4px)]'
+          'before:absolute before:border-l before:border-b before:last:rounded-bl before:translate-x-[-50%] before:translate-y-[-10px] before:left-[-4px] before:w-2',
+          'after:absolute after:border-l after:translate-x-[-50%] after:translate-y-[calc(100%_-_4px)] after:left-[-4px] after:w-2 last:after:border-none after:top-[0px] after:h-[calc(50%_+_4px)]'
         ]
+      },
+      {
+        mainGroup: false,
+        showBranches: true,
+        intent: 'primary',
+        className: ['before:border-gray-400', 'after:border-gray-400']
+      },
+      {
+        mainGroup: false,
+        showBranches: true,
+        intent: 'gray',
+        className: ['before:border-gray-300', 'after:border-gray-300']
       }
     ],
     defaultVariants: {
@@ -69,6 +82,10 @@ export default {
   ruleGroupHeader: cva(''),
   rule: cva('flex gap-2 border p-1 rounded ml-4 not-first:mt-3 relative', {
     variants: {
+      intent: {
+        primary: 'border-gray-400',
+        gray: 'border-gray-300'
+      },
       direction: {
         horizontal: '',
         vertical: 'flex-col'
@@ -82,7 +99,7 @@ export default {
       },
       error: {
         true: 'border-red-400',
-        false: 'border-gray-400'
+        false: ''
       }
     },
     compoundVariants: [
@@ -95,9 +112,20 @@ export default {
         showBranches: true,
         direction: 'vertical',
         className: 'after:top-[0px] after:h-[calc(50%_+_26px)]'
+      },
+      {
+        showBranches: true,
+        intent: 'primary',
+        className: ['before:border-gray-400', 'after:border-gray-400']
+      },
+      {
+        showBranches: true,
+        intent: 'gray',
+        className: ['before:border-gray-300', 'after:border-gray-300']
       }
     ],
     defaultVariants: {
+      intent: 'primary',
       direction: 'horizontal',
       showBranches: false,
       error: false

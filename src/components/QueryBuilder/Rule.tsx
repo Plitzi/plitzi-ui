@@ -42,14 +42,15 @@ const Rule = ({
   enabled = true,
   size,
   showBranches,
-  direction
+  direction,
+  intent
 }: RuleProps) => {
   const { fields, update, updateRuleOperator, updateRuleValue, updateEnabled, remove, allowDisableRules, error } =
     use(QueryBuilderContext);
   const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
     className,
     componentKey: ['rule', 'ruleField', 'ruleOperator'],
-    variant: { size, showBranches, direction, error }
+    variant: { size, showBranches, direction, error, intent }
   });
   const fieldsOptions = useMemo(() => {
     const fieldsAux = Object.values(fields).reduce<Array<Option | OptionGroup>>((acum, field) => {
