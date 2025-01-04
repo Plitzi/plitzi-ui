@@ -55,8 +55,8 @@ export default {
         mainGroup: false,
         showBranches: true,
         className: [
-          'before:absolute before:border-l before:border-b before:last:rounded-bl before:translate-x-[-50%] before:translate-y-[-10px] before:left-[-4px] before:w-2',
-          'after:absolute after:border-l after:translate-x-[-50%] after:translate-y-[calc(100%_-_4px)] after:left-[-4px] after:w-2 last:after:border-none after:top-[0px] after:h-[calc(50%_+_4px)]'
+          'before:absolute before:border-l before:border-b before:last:rounded-bl before:-translate-x-1/2 before:translate-y-[-10px] before:left-[-4px] before:w-2',
+          'after:absolute after:border-l after:-translate-x-1/2 after:translate-y-[calc(100%_-_4px)] after:left-[-4px] after:w-2 last:after:border-none after:top-[0px] after:h-[calc(50%_+_4px)]'
         ]
       },
       {
@@ -92,8 +92,8 @@ export default {
       },
       showBranches: {
         true: [
-          'before:absolute before:border-l before:border-b before:border-gray-400 before:last:rounded-bl before:translate-x-[-50%] before:translate-y-[-0%] before:left-[-4px] before:w-2 before:top-[-13px] before:h-[calc(50%_+_13px)]',
-          'after:absolute after:border-l after:border-gray-400 after:translate-x-[-50%] after:translate-y-[calc(50%_+_3px)] after:left-[-4px] after:w-2 last:after:border-none'
+          'before:absolute before:border-l before:border-b before:last:rounded-bl before:-translate-x-1/2 before:translate-y-[-0%] before:left-[-4px] before:w-2 before:top-[-13px] before:h-[calc(50%_+_13px)]',
+          'after:absolute after:border-l after:-translate-x-1/2 after:translate-y-[calc(50%_+_3px)] after:left-[-4px] after:w-2 last:after:border-none'
         ],
         false: ''
       },
