@@ -21,7 +21,7 @@ export type RuleValueProps = {
   className?: string;
   valuePosition?: number;
   value?: RuleValue;
-  values?: { value: RuleValue; label: string }[];
+  options?: { value: RuleValue; label: string }[];
   placeholder?: string;
   type?: Field['inputType'];
   validator?: (value: string) => string | boolean;
@@ -33,7 +33,7 @@ const RuleValue = ({
   className = '',
   valuePosition,
   value = '',
-  values = valuesDefault,
+  options = valuesDefault,
   placeholder = 'Enter a value',
   type = 'text',
   error = false,
@@ -114,7 +114,7 @@ const RuleValue = ({
           error={errorInternal}
           onChange={handleChange}
         >
-          {values.map((option, i) => (
+          {options.map((option, i) => (
             <option key={i} value={option.value as string}>
               {option.label}
             </option>

@@ -81,7 +81,7 @@ export type Field = {
     | 'textarea';
   defaultValue?: RuleValue;
   validator?: (value?: string | number | boolean) => boolean | string;
-  values?: { value: RuleValue; label: string }[];
+  options?: { value: RuleValue; label: string }[];
 };
 
 export type QueryBuilderProps = {

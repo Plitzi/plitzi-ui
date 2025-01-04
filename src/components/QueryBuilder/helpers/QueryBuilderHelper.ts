@@ -19,16 +19,12 @@ export const getQueryMap = (
   parentId?: string,
   path = ''
 ): { [key: string]: QueryMapNode | undefined } => {
-  if (!query) {
-    return {};
-  }
-
   let map = {};
-  const { id, rules } = query;
-  if (!Array.isArray(rules) || !id) {
+  if (!query || !query.id || !Array.isArray(query.rules)) {
     return map;
   }
 
+  const { id, rules } = query;
   Object.values(rules).forEach((rule: Rule | RuleGroup, i) => {
     if ('rules' in rule) {
       map = { ...map, ...getQueryMap(rule, id, path ? `${path}.rules.${i}` : `rules.${i}`) };

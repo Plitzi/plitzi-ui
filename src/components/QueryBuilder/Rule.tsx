@@ -117,14 +117,14 @@ const Rule = ({
         label: '',
         operators: [],
         inputType: undefined,
-        values: [],
+        options: [],
         placeholder: '',
         validator: undefined
       }),
     [fields, field]
   );
 
-  const { label, operators, inputType, values = [], placeholder = '', validator } = fieldDefinition;
+  const { label, operators, inputType, options = [], placeholder = '', validator } = fieldDefinition;
 
   return (
     <div className={classNameTheme.rule}>
@@ -159,7 +159,7 @@ const Rule = ({
               className="w-full"
               placeholder={placeholder ? placeholder : `Enter ${label ? label : 'a value'}`}
               type={inputType}
-              values={values}
+              options={options}
               value={value}
               error={error}
               size={size}
@@ -175,7 +175,7 @@ const Rule = ({
                 placeholder={placeholder ? placeholder : `Enter ${label ? label : 'a value'}`}
                 type={inputType}
                 valuePosition={0}
-                values={values}
+                options={options}
                 value={value}
                 error={error}
                 size={size}
@@ -188,7 +188,7 @@ const Rule = ({
                 placeholder={placeholder ? placeholder : `Enter ${label ? label : 'a value'}`}
                 type={inputType}
                 valuePosition={1}
-                values={values}
+                options={options}
                 value={value}
                 error={error}
                 size={size}

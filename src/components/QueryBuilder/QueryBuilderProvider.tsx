@@ -48,12 +48,17 @@ const QueryBuilderProvider = ({
   queryMapRef.current = queryMap;
 
   const getNode = useCallback((nodes: RuleGroup, id: string): Rule | RuleGroup | undefined => {
-    const node = get(queryMapRef.current, id);
-    if (!node) {
+    const { parentId, path } = get(queryMapRef.current, id, {}) as QueryMapNode;
+    if (parentId && !path) {
       return undefined;
     }
 
-    return get(nodes, node.path) as Rule | RuleGroup | undefined;
+    if (path === '') {
+      // Root Group
+      return nodes;
+    }
+
+    return get(nodes, path) as Rule | RuleGroup | undefined;
   }, []);
 
   // main methods
@@ -182,8 +187,8 @@ const QueryBuilderProvider = ({
           let parentNode;
           while (node) {
             const { id, parentId } = get(queryMapRef.current, node.id ?? '', '') as QueryMapNode;
-            parentNode = getNode(draft, parentId);
-            if (!parentNode || !('rules' in parentNode)) {
+            parentNode = getNode(draft, parentId) as RuleGroup | undefined;
+            if (!parentNode) {
               break;
             }
 

@@ -136,7 +136,7 @@ export const BasicUsage: Story = {
         label: 'Gender',
         operators: defaultOperators.filter(op => op.value === '='),
         inputType: 'select',
-        values: [
+        options: [
           { value: 'M', label: 'Male' },
           { value: 'F', label: 'Female' },
           { value: 'O', label: 'Other' }
@@ -147,7 +147,7 @@ export const BasicUsage: Story = {
         label: 'Nested Gender',
         operators: defaultOperators.filter(op => op.value === '='),
         inputType: 'select',
-        values: [
+        options: [
           { value: 'M', label: 'Male' },
           { value: 'F', label: 'Female' },
           { value: 'O', label: 'Other' }
@@ -277,7 +277,7 @@ export const FieldsWithGroup: Story = {
         label: 'Gender',
         operators: defaultOperators.filter(op => op.value === '='),
         inputType: 'select',
-        values: [
+        options: [
           { value: 'M', label: 'Male' },
           { value: 'F', label: 'Female' },
           { value: 'O', label: 'Other' }
@@ -288,7 +288,7 @@ export const FieldsWithGroup: Story = {
         label: 'Nested Gender',
         operators: defaultOperators.filter(op => op.value === '='),
         inputType: 'select',
-        values: [
+        options: [
           { value: 'M', label: 'Male' },
           { value: 'F', label: 'Female' },
           { value: 'O', label: 'Other' }
