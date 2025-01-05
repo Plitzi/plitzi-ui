@@ -7,7 +7,8 @@ export const variantKeys = {
   border: ['solid', 'none', 'custom'],
   items: ['start', 'end', 'center', 'baseline', 'stretch'],
   justify: ['normal', 'start', 'end', 'center', 'between', 'around', 'evenly', 'stretch'],
-  disabled: [true, false]
+  disabled: [true, false],
+  aspect: ['square', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Button';
@@ -28,6 +29,10 @@ export default {
       disabled: {
         true: 'disabled:bg-gray-300 disabled:text-gray-400 disabled:hover:bg-gray-300 disabled:cursor-not-allowed',
         false: ''
+      },
+      aspect: {
+        square: 'aspect-square',
+        custom: ''
       },
       size: {
         md: 'py-2.5 px-4 gap-2 text-base rounded-lg',
@@ -65,7 +70,8 @@ export default {
       intent: 'primary',
       border: 'solid',
       size: 'md',
-      disabled: false
+      disabled: false,
+      aspect: 'custom'
     }
   }),
   icon: cva('', {
