@@ -65,7 +65,17 @@ export default defineConfig({
       formats: ['es', 'cjs']
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'lodash/get', 'lodash/set', 'classnames'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'lodash/get',
+        'lodash/omit',
+        'lodash/debounce',
+        'lodash/set',
+        'classnames',
+        'moment'
+      ],
       output: {
         exports: 'named',
         preserveModules: true, // Keep module structure for tree-shaking

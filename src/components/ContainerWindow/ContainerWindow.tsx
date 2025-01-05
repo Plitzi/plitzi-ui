@@ -1,5 +1,4 @@
 // Packages
-import noop from 'lodash/noop';
 import { useEffect, useMemo, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -16,7 +15,7 @@ export type ContainerWindowProps = {
   width: number;
   height: number;
   children?: ReactNode;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 const ContainerWindow = ({
@@ -26,7 +25,7 @@ const ContainerWindow = ({
   width = 600,
   height = 400,
   children,
-  onClose = noop
+  onClose
 }: ContainerWindowProps) => {
   const { getHost } = useContainerRoot();
   const containerEl = useMemo(() => {
@@ -66,12 +65,18 @@ const ContainerWindow = ({
       copyStyles(getHost() as Document, externalWindow.current.document);
       // update the state in the parent component if the user closes the
       // new window
-      externalWindow.current.addEventListener('beforeunload', () => {
-        onClose();
-      });
-    } else {
+      if (onClose) {
+        externalWindow.current.addEventListener('beforeunload', onClose);
+      }
+    } else if (onClose) {
       onClose();
     }
+
+    return () => {
+      if (externalWindow.current && onClose) {
+        externalWindow.current.removeEventListener('beforeunload', onClose);
+      }
+    };
   }, [getHost, width, height, left, top, containerEl, title, onClose]);
 
   return (

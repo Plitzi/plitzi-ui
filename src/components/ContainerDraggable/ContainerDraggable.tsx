@@ -1,7 +1,6 @@
 // Packages
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import noop from 'lodash/noop';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Alias
@@ -68,9 +67,9 @@ const ContainerDraggable = ({
   parentElement,
   intent,
   size,
-  onClose = noop,
-  onFocus = noop,
-  onCollapse = noop
+  onClose,
+  onFocus,
+  onCollapse
 }: ContainerDraggableProps) => {
   const [collapsed, setCollapsed] = useState(false);
   className = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
@@ -231,7 +230,7 @@ const ContainerDraggable = ({
       setContainerRect(rect);
       setTX(e.clientX);
       setTY(e.clientY);
-      onFocus(e);
+      onFocus?.(e);
     } else {
       setDragging(false);
       setOffsetX(xRef.current);
@@ -294,7 +293,7 @@ const ContainerDraggable = ({
       setDragging(true);
       setTX(e.touches[0].clientX);
       setTY(e.touches[0].clientY);
-      onFocus(e);
+      onFocus?.(e);
     },
     [onFocus]
   );

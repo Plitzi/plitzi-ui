@@ -76,7 +76,7 @@ const GroupRules = ({
 
   return (
     <div className={classNameTheme.ruleGroup}>
-      <Flex gap={2} className={classNameTheme.ruleGroupHeader}>
+      <Flex gap={2} items="center" className={classNameTheme.ruleGroupHeader}>
         <Select
           value={combinator}
           size={size}

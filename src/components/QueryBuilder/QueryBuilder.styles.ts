@@ -80,14 +80,14 @@ export default {
     }
   }),
   ruleGroupHeader: cva(''),
-  rule: cva('flex gap-2 border p-1 rounded ml-4 not-first:mt-3 relative', {
+  rule: cva('border p-1 rounded ml-4 not-first:mt-3 relative', {
     variants: {
       intent: {
         primary: 'border-gray-400',
         gray: 'border-gray-300'
       },
       direction: {
-        horizontal: '',
+        horizontal: 'items-center',
         vertical: 'flex-col'
       },
       showBranches: {

@@ -1,7 +1,6 @@
 // Packages
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import noop from 'lodash/noop';
 import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle } from 'react';
 
 // Alias
@@ -61,7 +60,7 @@ const ContainerResizable = ({
   maxConstraintsY = Infinity,
   children,
   handle,
-  onChange = noop,
+  onChange,
   ...props
 }: ContainerResizableProps) => {
   const classNameTheme = useTheme<typeof ContainerResizableStyles, typeof variantKeys, false>('ContainerResizable', {
@@ -79,7 +78,7 @@ const ContainerResizable = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => containerRef.current, [containerRef]);
   const containerInternalRef = useRef<HTMLDivElement>(null);
-  const onChangeDebounced = useRef(debounce(onChange, 150));
+  const onChangeDebounced = useMemo(() => (onChange ? debounce(onChange, 150) : undefined), [onChange]);
   const parentElementDOM = useMemo(() => {
     if (!parentElement && typeof document !== 'undefined') {
       return document.body;
@@ -172,7 +171,7 @@ const ContainerResizable = ({
 
       // Min and Max
       [finalWidth, finalHeight] = runConstraints(finalWidth, finalHeight, reverse);
-      onChangeDebounced.current(finalWidth, finalHeight);
+      onChangeDebounced?.(finalWidth, finalHeight);
       if (oWidth !== Infinity && containerInternalRef.current) {
         containerInternalRef.current.style.width = `${finalWidth}px`;
       }
@@ -181,7 +180,7 @@ const ContainerResizable = ({
         containerInternalRef.current.style.height = `${finalHeight}px`;
       }
     },
-    [axis, clientX, clientY, direction, grid, oHeight, oWidth, runConstraints, transformScale]
+    [axis, clientX, clientY, direction, grid, oHeight, oWidth, runConstraints, transformScale, onChangeDebounced]
   );
 
   const handleMouseUp = useCallback(

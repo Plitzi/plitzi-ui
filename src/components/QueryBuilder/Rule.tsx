@@ -128,7 +128,7 @@ const Rule = ({
   const { label, operators, inputType, options = [], placeholder = '', validator } = fieldDefinition;
 
   return (
-    <div className={classNameTheme.rule}>
+    <Flex gap={2} className={classNameTheme.rule}>
       <Flex grow basis={0} gap={2} className={classNameTheme.ruleField}>
         <Select2
           placeholder="Select a field"
@@ -218,11 +218,11 @@ const Rule = ({
       )}
       {direction === 'horizontal' && (
         <>
-          <Button size={size} intent="primary" onClick={handleClickBind}>
+          <Button size={size} className="aspect-square" intent="primary" onClick={handleClickBind}>
             {!isBinding && <Button.Icon icon="fa-solid fa-plug" />}
             {isBinding && <Button.Icon icon="fa-solid fa-plug-circle-xmark" />}
           </Button>
-          <Button size={size} intent="danger" onClick={handleRemove}>
+          <Button size={size} intent="danger" className="aspect-square" onClick={handleRemove}>
             X
           </Button>
           {allowDisableRules && (
@@ -232,7 +232,7 @@ const Rule = ({
           )}
         </>
       )}
-    </div>
+    </Flex>
   );
 };
 

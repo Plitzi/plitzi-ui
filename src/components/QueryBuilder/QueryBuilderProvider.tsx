@@ -1,7 +1,6 @@
 // Packages
 import { produce } from 'immer';
 import get from 'lodash/get';
-import noop from 'lodash/noop';
 import set from 'lodash/set';
 import { useCallback, useMemo, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
@@ -36,7 +35,7 @@ const QueryBuilderProvider = ({
   allowSubGroups = true,
   combinators = defaultCombinators,
   error = false,
-  onChange = noop
+  onChange
 }: QueryBuilderQueryProviderProps) => {
   const queryRef = useRef(query);
   queryRef.current = query;
@@ -65,7 +64,7 @@ const QueryBuilderProvider = ({
 
   const handleAddRule = useCallback(
     (groupId: string) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           const node = getNode(draft, groupId);
           if (!node) {
@@ -80,7 +79,7 @@ const QueryBuilderProvider = ({
 
   const handleAddGroup = useCallback(
     (groupId: string) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           const node = getNode(draft, groupId);
           if (!node || !allowSubGroups || !('rules' in node)) {
@@ -100,7 +99,7 @@ const QueryBuilderProvider = ({
 
   const handleUpdate = useCallback(
     (nodeId: string, rule: Partial<Rule | RuleGroup>) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           const node = getNode(draft, nodeId);
           if (!node) {
@@ -121,7 +120,7 @@ const QueryBuilderProvider = ({
 
   const handleUpdateCombinator = useCallback(
     (nodeId: string, combinator: Combinator) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           const node = getNode(draft, nodeId);
           if (!node) {
@@ -136,7 +135,7 @@ const QueryBuilderProvider = ({
 
   const handleUpdateEnabled = useCallback(
     (nodeId: string, isEnabled: boolean) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           const node = getNode(draft, nodeId);
           if (!node) {
@@ -151,7 +150,7 @@ const QueryBuilderProvider = ({
 
   const handleUpdateRuleOperator = useCallback(
     (nodeId: string, operator: Operator) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           const node = getNode(draft, nodeId);
           if (!node) {
@@ -166,7 +165,7 @@ const QueryBuilderProvider = ({
 
   const handleUpdateRuleValue = useCallback(
     (nodeId: string, value: RuleValue) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           const node = getNode(draft, nodeId);
           if (!node) {
@@ -181,7 +180,7 @@ const QueryBuilderProvider = ({
 
   const handleRemove = useCallback(
     (nodeId: string) =>
-      onChange(
+      onChange?.(
         produce(queryRef.current, draft => {
           let node = getNode(draft, nodeId);
           let parentNode;

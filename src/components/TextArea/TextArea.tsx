@@ -1,4 +1,5 @@
 // Packages
+import omit from 'lodash/omit';
 import { useCallback } from 'react';
 
 // Alias
@@ -20,10 +21,10 @@ export type TextAreaProps = {
   disabled?: boolean;
   clearable?: boolean;
   value?: string;
-  error?: ErrorMessageProps['message'];
+  error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
-  useThemeSharedProps<typeof TextAreaStyles, typeof variantKeys>;
+  Omit<useThemeSharedProps<typeof TextAreaStyles, typeof variantKeys>, 'error'>;
 
 const TextArea = ({
   ref,
@@ -35,16 +36,16 @@ const TextArea = ({
   disabled = false,
   clearable = false,
   size = 'md',
-  intent = 'default',
+  intent,
   value = '',
   error = '',
   onChange,
   ...textareaProps
 }: TextAreaProps) => {
-  const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys>('TextArea', {
+  const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys, false>('TextArea', {
     className: className && typeof className === 'object' ? className.input : '',
-    componentKey: 'input',
-    variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }
+    componentKey: ['input', 'inputContainer', 'iconFloatingContainer'],
+    variant: { intent, size, disabled, error: !!error }
   });
 
   const handleChange = useCallback(
@@ -58,7 +59,7 @@ const TextArea = ({
 
   return (
     <InputContainer
-      className={className}
+      className={omit(classNameTheme, 'input')}
       label={label}
       error={error}
       disabled={disabled}
@@ -73,7 +74,7 @@ const TextArea = ({
       <textarea
         ref={ref}
         placeholder={placeholder}
-        className={classNameTheme}
+        className={classNameTheme.input}
         disabled={disabled}
         value={value}
         onChange={handleChange}

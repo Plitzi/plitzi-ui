@@ -13,9 +13,10 @@ export default {
   root: cva('', {
     variants: {
       size: {
-        md: 'gap-2 text-base',
+        md: 'gap-2',
         sm: 'gap-1.5 text-sm',
-        xs: 'gap-1 text-xs'
+        xs: 'gap-1 text-xs',
+        custom: ''
       }
     },
     compoundVariants: [],
@@ -28,7 +29,8 @@ export default {
       size: {
         md: '',
         sm: '',
-        xs: ''
+        xs: '',
+        custom: ''
       }
     },
     compoundVariants: [],
@@ -42,11 +44,17 @@ export default {
   listMessage: cva('py-3 text-gray-500 flex items-center justify-center shrink-0'),
   listGroup: cva('not-last:border-b not-last:border-gray-300 not-last:pb-2 not-last:mb-2'),
   listGroupLabel: cva('pr-2 py-2 cursor-default select-none truncate font-bold text-gray-700'),
-  listItem: cva('my-0.5 shrink-0 transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded', {
+  listItem: cva('my-0.5 shrink-0 transition duration-200 cursor-pointer select-none truncate rounded', {
     variants: {
       selected: {
         true: 'bg-blue-100 text-blue-500',
         false: 'text-gray-500 hover:bg-blue-100 hover:text-blue-500'
+      },
+      size: {
+        md: 'px-2.5 py-2',
+        sm: 'px-2 py-1.5 text-sm',
+        xs: 'px-1.5 py-1 text-xs',
+        custom: ''
       }
     },
     compoundVariants: [],

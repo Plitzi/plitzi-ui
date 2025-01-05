@@ -10,7 +10,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'ContainerFloating';
 
 export default {
-  root: cva('w-full', {
+  root: cva('w-full min-w-0', {
     variants: {},
     compoundVariants: [],
     defaultVariants: {}
