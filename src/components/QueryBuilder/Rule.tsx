@@ -154,7 +154,7 @@ const Rule = ({
       </Flex>
       <RuleOperator value={operator} operators={operators} error={error} size={size} onChange={handleChangeOperator} />
       {!['empty', 'notEmpty'].includes(operator) && (
-        <div className="flex grow basis-0 min-w-0 gap-1">
+        <Flex grow basis={0} gap={2} className="min-w-0">
           {!['between', 'notBetween'].includes(operator) && !isBinding && (
             <RuleValue
               className="w-full"
@@ -214,7 +214,7 @@ const Rule = ({
               {isBinding && <Button.Icon icon="fa-solid fa-plug-circle-xmark" />}
             </Button>
           )}
-        </div>
+        </Flex>
       )}
       {direction === 'horizontal' && (
         <>
