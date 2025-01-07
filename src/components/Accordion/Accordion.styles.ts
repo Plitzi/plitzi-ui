@@ -28,7 +28,7 @@ export default {
     }
   }),
   item: cva(''),
-  itemHeader: cva('font-bold cursor-pointer select-none leading-3 uppercase', {
+  itemHeader: cva('font-bold cursor-pointer select-none leading-3', {
     variants: {
       size: {
         xs: 'p-1 text-sm h-6',

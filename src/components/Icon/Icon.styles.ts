@@ -28,7 +28,7 @@ export default {
         secondary: 'hover:text-primary-200',
         secondaryActive: 'text-primary-500',
         tertiary: 'hover:bg-grayviolet-200 text-gray-500',
-        tertiaryActive: 'bg-grayviolet-200 text-black',
+        tertiaryActive: 'text-black',
         disabled: 'text-gray-400',
         error: 'text-red-500 hover:text-red-400',
         custom: ''

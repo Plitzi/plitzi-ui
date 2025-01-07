@@ -36,10 +36,10 @@ export default {
         primary: ''
       },
       size: {
-        lg: 'w-20 h-8',
-        md: 'w-14 h-6',
-        sm: 'w-10 h-5',
-        xs: 'w-8 h-4',
+        lg: 'w-14 h-8',
+        md: 'w-10 h-6',
+        sm: 'w-8 h-5',
+        xs: 'w-6 h-4',
         custom: ''
       }
     },
@@ -60,10 +60,10 @@ export default {
           primary: 'bg-gray-300 peer-checked:bg-primary-500'
         },
         size: {
-          lg: 'before:w-6 before:h-6 peer-checked:before:translate-x-[48px]',
-          md: 'before:w-4 before:h-4 peer-checked:before:translate-x-[32px]',
-          sm: 'before:w-3 before:h-3 peer-checked:before:translate-x-[20px]',
-          xs: 'before:w-2 before:h-2 peer-checked:before:translate-x-[16px]',
+          lg: 'before:w-6 before:h-6 peer-checked:before:translate-x-[24px]',
+          md: 'before:w-4 before:h-4 peer-checked:before:translate-x-[16px]',
+          sm: 'before:w-3 before:h-3 peer-checked:before:translate-x-[12px]',
+          xs: 'before:w-2 before:h-2 peer-checked:before:translate-x-[8px]',
           custom: ''
         },
         rounded: {

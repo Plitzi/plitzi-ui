@@ -15,10 +15,10 @@ export default {
     variants: {
       intent: {},
       position: {
-        n: 'w-auto left-0 right-0 top-0',
-        s: 'w-auto left-0 right-0 bottom-0',
-        e: 'h-auto top-0 bottom-0 right-0',
-        w: 'h-auto top-0 left-0 bottom-0',
+        n: 'w-auto h-1 left-0 right-0 top-0',
+        s: 'w-auto h-1 left-0 right-0 bottom-0',
+        e: 'h-auto w-1 top-0 bottom-0 right-0',
+        w: 'h-auto w-1 top-0 left-0 bottom-0',
         sw: '',
         nw: '',
         se: 'right-0 bottom-0',
@@ -35,14 +35,14 @@ export default {
       position: 'se'
     }
   }),
-  handler: cva('transition-[background-color_0.5s_0.25s_ease-out]', {
+  handler: cva('transition-[width,background-color] duration-500', {
     variants: {
       intent: {},
       position: {
-        n: 'h-1 w-full bg-gray-300 hover:bg-blue-400 cursor-ns-resize',
-        s: 'h-1 w-full bg-gray-300 hover:bg-blue-400 cursor-ns-resize',
-        e: 'h-full w-1 bg-gray-300 hover:bg-blue-400 cursor-ew-resize',
-        w: 'h-full w-1 bg-gray-300 hover:bg-blue-400 cursor-ew-resize',
+        n: 'h-0.5 hover:h-1 w-full bg-gray-300 hover:bg-blue-400 cursor-ns-resize',
+        s: 'h-0.5 hover:h-1 w-full bg-gray-300 hover:bg-blue-400 cursor-ns-resize',
+        e: 'h-full w-0.5 hover:w-1 bg-gray-300 hover:bg-blue-400 cursor-ew-resize',
+        w: 'h-full w-0.5 hover:w-1 bg-gray-300 hover:bg-blue-400 cursor-ew-resize',
         sw: '',
         nw: '',
         se: 'h-3 w-3 cursor-se-resize border-b-4 border-r-4 border-gray-300 hover:border-blue-400 active:pointer-events-none rounded-br-lg',
