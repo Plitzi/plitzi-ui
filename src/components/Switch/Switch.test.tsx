@@ -20,7 +20,7 @@ describe('Switch Tests', () => {
     const component = render(<Switch size="lg" className="customClass" />, { wrapper: ThemeProvider });
 
     expect(component.container.firstChild).toBeTruthy();
-    expect(component.container.getElementsByClassName('h-8 w-20').length).toBe(1);
+    expect(component.container.getElementsByClassName('h-7 w-12').length).toBe(1);
     expect(component.container.getElementsByClassName('customClass').length).toBe(1);
   });
 });
