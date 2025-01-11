@@ -12,6 +12,7 @@ import ContainerFrame from './ContainerFrame';
 import ContainerResizable from './ContainerResizable';
 import ContainerRoot from './ContainerRoot';
 import ContainerWindow from './ContainerWindow';
+import Contenteditable from './ContentEditable';
 import Dummy from './Dummy';
 import ErrorMessage from './ErrorMessage';
 import Flex from './Flex';
@@ -30,6 +31,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 
+export * from './ContentEditable';
 export * from './ContainerFrame';
 export * from './Checkbox';
 export * from './ContainerFloating';
@@ -62,6 +64,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Contenteditable,
   ContainerFrame,
   Checkbox,
   ContainerFloating,

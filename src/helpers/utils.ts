@@ -23,3 +23,18 @@ export const arrayDifference = <T>(array1: T[], array2: T[], resultType: 'left' 
 
   return [...notInArray2, ...notInArray1];
 };
+
+export const isInViewport = (el?: HTMLElement) => {
+  if (!el) {
+    return false;
+  }
+
+  const rect = el.getBoundingClientRect();
+  const { top, left, bottom, right } = rect;
+  const { innerHeight, innerWidth } = window;
+  const {
+    documentElement: { clientHeight, clientWidth }
+  } = document;
+
+  return top >= 0 && left >= 0 && bottom <= (innerHeight || clientHeight) && right <= (innerWidth || clientWidth);
+};
