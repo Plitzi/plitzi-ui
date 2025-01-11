@@ -8,6 +8,7 @@ import CodeMirror from './CodeMirror';
 import ContainerCollapsable from './ContainerCollapsable';
 import ContainerDraggable from './ContainerDraggable';
 import ContainerFloating from './ContainerFloating';
+import ContainerFrame from './ContainerFrame';
 import ContainerResizable from './ContainerResizable';
 import ContainerRoot from './ContainerRoot';
 import ContainerWindow from './ContainerWindow';
@@ -29,6 +30,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 
+export * from './ContainerFrame';
 export * from './Checkbox';
 export * from './ContainerFloating';
 export * from './Switch';
@@ -60,6 +62,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  ContainerFrame,
   Checkbox,
   ContainerFloating,
   Switch,

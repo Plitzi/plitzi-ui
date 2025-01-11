@@ -59,7 +59,7 @@ const SidebarIcon = ({
       className={className}
       size={size as Partial<IconProps['size']>}
       cursor="pointer"
-      intent="tertiary"
+      intent={active ? 'primary' : 'tertiary'}
       active={active}
       {...props}
       onClick={handleClick}
