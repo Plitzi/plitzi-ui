@@ -30,7 +30,9 @@ import Switch from './Switch';
 import Text from './Text';
 import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
+import Tree from './Tree';
 
+export * from './Tree';
 export * from './ContentEditable';
 export * from './ContainerFrame';
 export * from './Checkbox';
@@ -64,6 +66,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Tree,
   Contenteditable,
   ContainerFrame,
   Checkbox,
