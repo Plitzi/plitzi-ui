@@ -4,12 +4,16 @@ import { Children, isValidElement, memo, useCallback, useEffect, useMemo, useRef
 
 // Alias
 import Contenteditable from '@components/ContentEditable';
+import useTheme from '@hooks/useTheme';
 
 // Relatives
 import TreeNodeActions from './TreeNodeActions';
 
 // Types
+import type TreeStyles from './Tree.styles';
+import type { variantKeys } from './Tree.styles';
 import type { DragMetadata, DropPosition } from './utils';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { DragEvent, MouseEvent, ReactNode } from 'react';
 
 const treeNodePadding = 16;
@@ -35,7 +39,7 @@ export type TreeNodeProps = {
   onHover?: (id?: string) => void;
   onSelect?: (id?: string) => void;
   onDrop?: (id: string, dropPosition: DropPosition) => void;
-};
+} & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const TreeNode = ({
   children,
@@ -60,6 +64,11 @@ const TreeNode = ({
   onDrop
 }: TreeNodeProps) => {
   const [dragHovered, setDragHovered] = useState(false);
+  className = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
+    className,
+    componentKey: 'item',
+    variant: { dragging: dragHovered, selected, hovered, parent: isParent }
+  });
   const [dragAllowed, setDragAllowed] = useState(false);
   const [dropPosition, setDropPosition] = useState<DropPosition>();
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
@@ -199,13 +208,8 @@ const TreeNode = ({
 
   return (
     <div
-      className={classNames('tree__node cursor-pointer pr-1 flex', className, {
-        'node--empty': !isParent,
-        'bg-blue-100 text-black': hovered && !selected,
-        'bg-blue-200 text-white': selected,
-        'node--dragging': dragHovered
-      })}
-      data-tree-id={id}
+      className={className}
+      data-id={id}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}

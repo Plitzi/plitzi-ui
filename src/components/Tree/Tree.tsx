@@ -3,12 +3,18 @@ import { produce } from 'immer';
 import set from 'lodash/set';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
+// Alias
+import useTheme from '@hooks/useTheme';
+
 // Relatives
 import TreeNode from './TreeNode';
 import { defaultDragMetadata, getFlatItems, setOpenedMultiple } from './utils';
 
 // Types
+import type TreeStyles from './Tree.styles';
+import type { variantKeys } from './Tree.styles';
 import type { DragMetadata, TreeFlatItem, TreeItem } from './utils';
+import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type { TreeItem };
 
@@ -28,20 +34,28 @@ export type TreeProps = {
   onChange?: (state: TreeChangeState['action'], data: TreeChangeState['data']) => void;
   onHover?: (value?: string) => void;
   onSelect?: (value?: string) => void;
-};
+} & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const Tree = ({
+  className,
   setDragTree,
   items = [],
   itemsOpened,
   itemHovered,
   itemSelected,
+  intent,
+  size,
   onChange,
   onHover,
   onSelect
 }: TreeProps) => {
+  className = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
+    className,
+    componentKey: 'root',
+    variant: { intent, size }
+  });
   const dragMetadata = useRef<DragMetadata>(defaultDragMetadata);
-  const flatItems = useMemo(() => getFlatItems(items, itemsOpened), [items, itemsOpened]);
+  const flatItems = useMemo(() => getFlatItems(items), [items]);
   const itemsFiltered = useMemo(
     () => Object.values(flatItems).filter(item => !item.parentId || itemsOpened?.[item.parentId]),
     [flatItems, itemsOpened]
@@ -98,11 +112,7 @@ const Tree = ({
   const handleDragOver = useCallback(() => setDragTree?.(true), [setDragTree]);
 
   return (
-    <div
-      className="builder__tree h-full relative grow basis-0 user-select-none overflow-auto group text-sm"
-      tabIndex={-1}
-      onDragOver={handleDragOver}
-    >
+    <div className={className} tabIndex={-1} onDragOver={handleDragOver}>
       {itemsFiltered.map(item => {
         const { id, label, level, isParent, parentId } = item;
 
@@ -115,6 +125,7 @@ const Tree = ({
             level={level}
             isOpen={itemsOpened?.[id]}
             isParent={isParent}
+            canDragDrop={!!parentId}
             setOpened={setOpened}
             hovered={itemHovered === id}
             selected={itemSelected === id}
