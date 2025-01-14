@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 // Alias
 import Flex from '@components/Flex';
+import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
 // Types
@@ -24,8 +25,8 @@ export type ItemHeaderProps = {
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 } & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>;
 
-const iconCollapsedDefault = <i className="fa-solid fa-chevron-right" />;
-const iconExpandedDefault = <i className="fa-solid fa-chevron-down" />;
+const iconCollapsedDefault = <Icon icon="fa-solid fa-chevron-right" intent="custom" />;
+const iconExpandedDefault = <Icon icon="fa-solid fa-chevron-down" intent="custom" />;
 
 const ItemHeader = ({
   className,
@@ -82,12 +83,12 @@ const ItemHeader = ({
       <Flex items="center" gap={2} direction={direction} className={classNameTheme.itemHeaderSlot}>
         {isError && (
           <div className={classNameTheme.itemHeaderIconError}>
-            <i className="fa-solid fa-triangle-exclamation" />
+            <Icon intent="custom" icon="fa-solid fa-triangle-exclamation" />
           </div>
         )}
         {isWarning && (
           <div className={classNameTheme.itemHeaderIconWarning}>
-            <i className="fa-solid fa-triangle-exclamation" />
+            <Icon intent="custom" icon="fa-solid fa-triangle-exclamation" />
           </div>
         )}
         {children}

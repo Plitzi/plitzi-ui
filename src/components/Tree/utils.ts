@@ -35,7 +35,7 @@ export type DragMetadata = {
   dropPosition?: DropPosition;
 };
 
-export type DropPosition = 'top' | 'bottom' | 'left' | 'right' | 'inside';
+export type DropPosition = 'top' | 'bottom' | 'inside'; // | 'left' | 'right'
 
 export const defaultDragMetadata = {
   isDragging: false,
@@ -46,8 +46,8 @@ export const defaultDragMetadata = {
 export const DropDirectionConstants = {
   top: 'top',
   bottom: 'bottom',
-  left: 'left',
-  right: 'right',
+  // left: 'left',
+  // right: 'right',
   inside: 'inside'
 };
 

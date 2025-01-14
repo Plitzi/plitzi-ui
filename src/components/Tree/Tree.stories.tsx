@@ -115,6 +115,10 @@ export const Primary: Story = {
       [updateArgs]
     );
 
+    const handleHover = useCallback((value?: string) => updateArgs({ itemHovered: value }), [updateArgs]);
+
+    const handleSelect = useCallback((value?: string) => updateArgs({ itemSelected: value }), [updateArgs]);
+
     return (
       <Tree
         {...args}
@@ -123,6 +127,8 @@ export const Primary: Story = {
         itemSelected={itemSelected}
         itemHovered={itemHovered}
         onChange={handleChange}
+        onHover={handleHover}
+        onSelect={handleSelect}
       />
     );
   }

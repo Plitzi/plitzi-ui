@@ -88,7 +88,7 @@ const Tree = ({
 
   useEffect(() => {
     if (itemSelected) {
-      onChange?.('itemsOpened', setOpenedMultiple(itemSelected, flatItems));
+      onChange?.('itemsOpened', { ...itemsOpened, ...setOpenedMultiple(itemSelected, flatItems) });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemSelected]);

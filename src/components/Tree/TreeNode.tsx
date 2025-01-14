@@ -4,6 +4,7 @@ import { Children, isValidElement, memo, useCallback, useEffect, useMemo, useRef
 
 // Alias
 import Contenteditable from '@components/ContentEditable';
+import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
@@ -64,13 +65,13 @@ const TreeNode = ({
   onDrop
 }: TreeNodeProps) => {
   const [dragHovered, setDragHovered] = useState(false);
-  className = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
-    className,
-    componentKey: 'item',
-    variant: { dragging: dragHovered, selected, hovered, parent: isParent }
-  });
   const [dragAllowed, setDragAllowed] = useState(false);
   const [dropPosition, setDropPosition] = useState<DropPosition>();
+  const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys, false>('Tree', {
+    className,
+    componentKey: ['item', 'dropIndicator', 'containerEditable'],
+    variant: { selected, hovered, dropPosition, dragAllowed }
+  });
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -208,7 +209,7 @@ const TreeNode = ({
 
   return (
     <div
-      className={className}
+      className={classNameTheme.item}
       data-id={id}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -222,7 +223,16 @@ const TreeNode = ({
       tabIndex={-1}
     >
       <div className="w-full flex" style={{ paddingLeft: `${paddingRight}px` }}>
-        {isOpen && isParent && <div className="line" />}
+        <div ref={ref} className="flex relative grow basis-0 overflow-hidden" onClick={handleClickSelect}>
+          <Contenteditable
+            className={classNames(classNameTheme.containerEditable, { 'opacity-30': dragHovered })}
+            value={label}
+            onChange={handleChange}
+            openMode="doubleClick"
+          />
+          {dragHovered && <span className={classNameTheme.dropIndicator} />}
+        </div>
+        {actionsChildren}
         {isParent && (
           <div
             className={classNames('w-4 flex items-center cursor-pointer', {
@@ -230,31 +240,10 @@ const TreeNode = ({
             })}
             onClick={handleClick}
           >
-            {isOpen && <i className="fas fa-caret-down flex" />}
-            {!isOpen && <i className="fas fa-caret-right flex" />}
+            {!isOpen && <Icon icon="fa-solid fa-chevron-left" />}
+            {isOpen && <Icon icon="fa-solid fa-chevron-down" />}
           </div>
         )}
-        <div ref={ref} className="flex relative grow basis-0 overflow-hidden" onClick={handleClickSelect}>
-          <Contenteditable
-            className={classNames(
-              'focus-visible:px-1 focus-visible:m-[1px] focus-visible:outline-dashed focus-visible:outline-1',
-              'truncate focus-visible:text-clip focus-visible:overflow-auto focus-visible:text-black focus-visible:outline-blue-500',
-              { 'opacity-30': dragHovered }
-            )}
-            value={label}
-            onChange={handleChange}
-            openMode="doubleClick"
-          />
-          {dragHovered && (
-            <span
-              className={classNames('tree__node-drop-indicator p-1', {
-                [`drop-indicator--${dropPosition}`]: dropPosition,
-                'drop-indicator--not-allowed': !dragAllowed
-              })}
-            />
-          )}
-        </div>
-        {actionsChildren}
       </div>
     </div>
   );
