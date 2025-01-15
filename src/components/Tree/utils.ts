@@ -19,7 +19,7 @@ export type TreeItemChild = TreeItemBase & {
 
 export type TreeItem = TreeItemParent | TreeItemChild;
 
-export type TreeFlatItems = { [key: string]: TreeFlatItem };
+export type TreeFlatItems = { [key: string]: TreeFlatItem | undefined };
 
 export type TreeFlatItem = TreeItemBase & {
   level: number;
@@ -71,12 +71,51 @@ export const getFlatItems = (items: TreeItem[], level: number = 0, parentId: str
   return flatItems;
 };
 
-export const setOpenedMultiple = (id: string, flatItems: TreeFlatItems, areOpening = true) => {
+export const setClosedMultiple = (id: string, flatItems: TreeFlatItems) => {
+  let nodesToClose: { [key: string]: boolean } = {};
+  const node = flatItems[id];
+  if (!node?.isParent) {
+    return nodesToClose;
+  }
+
+  nodesToClose[id] = false;
+  const { items } = node;
+  items.forEach((subNodeId: string) => {
+    const subNode = flatItems[subNodeId];
+    if (!subNode || !subNode.isParent) {
+      return;
+    }
+
+    nodesToClose[id] = false;
+    nodesToClose = { ...nodesToClose, ...setClosedMultiple(subNodeId, flatItems) };
+  });
+
+  return nodesToClose;
+};
+
+export const hasParentSelected = (id: string, idSelected: string, flatItems: TreeFlatItems): boolean => {
+  if (!idSelected) {
+    return false;
+  }
+
+  const node = flatItems[id];
+  if (!node || !node.parentId) {
+    return false;
+  }
+
+  if (node.parentId === idSelected) {
+    return true;
+  }
+
+  return hasParentSelected(node.parentId, idSelected, flatItems);
+};
+
+export const setOpenedMultiple = (id: string, flatItems: TreeFlatItems) => {
   const nodesToOpen: { [key: string]: boolean } = {};
-  let node = flatItems[id] as TreeFlatItem | undefined;
+  let node = flatItems[id];
   while (node) {
     if (node.isParent) {
-      nodesToOpen[node.id] = areOpening;
+      nodesToOpen[node.id] = true;
     }
 
     if (!node.parentId) {

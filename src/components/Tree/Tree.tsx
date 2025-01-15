@@ -8,12 +8,12 @@ import useTheme from '@hooks/useTheme';
 
 // Relatives
 import TreeNode from './TreeNode';
-import { defaultDragMetadata, getFlatItems, setOpenedMultiple } from './utils';
+import { defaultDragMetadata, getFlatItems, hasParentSelected, setClosedMultiple, setOpenedMultiple } from './utils';
 
 // Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
-import type { DragMetadata, DropPosition, TreeFlatItem, TreeItem } from './utils';
+import type { DragMetadata, DropPosition, TreeItem } from './utils';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type { TreeItem };
@@ -58,13 +58,13 @@ const Tree = ({
   const dragMetadata = useRef<DragMetadata>(defaultDragMetadata);
   const flatItems = useMemo(() => getFlatItems(items), [items]);
   const itemsFiltered = useMemo(
-    () => Object.values(flatItems).filter(item => !item.parentId || itemsOpened?.[item.parentId]),
+    () => Object.values(flatItems).filter(item => item && (!item.parentId || itemsOpened?.[item.parentId])),
     [flatItems, itemsOpened]
   );
 
   const handleItemChange = useCallback(
     (id: string, label: string) => {
-      const node = flatItems[id] as TreeFlatItem | undefined;
+      const node = flatItems[id];
       if (!node) {
         return;
       }
@@ -83,8 +83,23 @@ const Tree = ({
   const handleSelect = useCallback((nodeId?: string) => onSelect?.(nodeId), [onSelect]);
 
   const setOpened = useCallback(
-    (nodeId: string, opened: boolean) => onChange?.('itemsOpened', { ...itemsOpened, [nodeId]: opened }),
-    [onChange, itemsOpened]
+    (nodeId: string, opened: boolean) => {
+      let newItemsOpened;
+      if (!opened) {
+        newItemsOpened = { ...itemsOpened, ...setClosedMultiple(nodeId, flatItems) };
+      } else {
+        newItemsOpened = { ...itemsOpened, [nodeId]: opened };
+      }
+
+      onChange?.('itemsOpened', newItemsOpened);
+      if (!opened && itemSelected) {
+        const nodeSelected = flatItems[itemSelected];
+        if (nodeSelected && nodeSelected.parentId && !newItemsOpened[nodeSelected.parentId]) {
+          onChange?.('itemSelected', undefined);
+        }
+      }
+    },
+    [flatItems, onChange, itemsOpened, itemSelected]
   );
 
   useEffect(() => {
@@ -92,7 +107,7 @@ const Tree = ({
       return;
     }
 
-    const node = flatItems[itemSelected] as TreeFlatItem | undefined;
+    const node = flatItems[itemSelected];
     if (!node) {
       return;
     }
@@ -132,6 +147,10 @@ const Tree = ({
   return (
     <div className={className} tabIndex={-1} onDragOver={handleDragOver}>
       {itemsFiltered.map(item => {
+        if (!item) {
+          return undefined;
+        }
+
         const { id, label, level, isParent, parentId } = item;
 
         return (
@@ -145,7 +164,7 @@ const Tree = ({
             isParent={isParent}
             canDragDrop={!!parentId}
             setOpened={setOpened}
-            hovered={itemHovered === id || itemSelected === parentId}
+            hovered={itemHovered === id || (!!itemSelected && hasParentSelected(id, itemSelected, flatItems))}
             selected={itemSelected === id}
             setDragMetadata={setDragMetadata}
             resetDragMetadata={resetDragMetadata}

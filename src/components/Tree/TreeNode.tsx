@@ -235,12 +235,7 @@ const TreeNode = ({
         </div>
         {actionsChildren}
         {isParent && (
-          <div
-            className={classNames('w-4 flex items-center cursor-pointer', {
-              'node--open': isOpen
-            })}
-            onClick={handleClick}
-          >
+          <div className="w-4 flex items-center cursor-pointer" onClick={handleClick}>
             {!isOpen && <Icon icon="fa-solid fa-chevron-left" />}
             {isOpen && <Icon icon="fa-solid fa-chevron-down" />}
           </div>
