@@ -75,7 +75,10 @@ export const setOpenedMultiple = (id: string, flatItems: TreeFlatItems, areOpeni
   const nodesToOpen: { [key: string]: boolean } = {};
   let node = flatItems[id] as TreeFlatItem | undefined;
   while (node) {
-    nodesToOpen[node.id] = areOpening;
+    if (node.isParent) {
+      nodesToOpen[node.id] = areOpening;
+    }
+
     if (!node.parentId) {
       break;
     }

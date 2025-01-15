@@ -78,9 +78,11 @@ const TreeNode = ({
   const handleClick = useCallback(
     (e: MouseEvent) => {
       e.stopPropagation();
-      setOpened?.(id, !isOpen);
+      if (isParent) {
+        setOpened?.(id, !isOpen);
+      }
     },
-    [id, isOpen, setOpened]
+    [id, isOpen, setOpened, isParent]
   );
 
   const handleClickSelect = useCallback(() => onSelect?.(id), [onSelect, id]);
@@ -210,6 +212,7 @@ const TreeNode = ({
     <div
       className={classNameTheme.item}
       data-id={id}
+      onClick={handleClickSelect}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
@@ -221,7 +224,7 @@ const TreeNode = ({
       tabIndex={-1}
     >
       <div className="w-full flex" style={{ paddingLeft: `${paddingRight}px` }}>
-        <div ref={ref} className="flex relative grow basis-0 overflow-hidden" onClick={handleClickSelect}>
+        <div ref={ref} className="flex relative grow basis-0 overflow-hidden">
           <Contenteditable
             className={classNames(classNameTheme.containerEditable, { 'opacity-30': dragHovered })}
             value={label}

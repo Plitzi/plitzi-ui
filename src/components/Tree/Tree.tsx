@@ -88,7 +88,16 @@ const Tree = ({
   );
 
   useEffect(() => {
-    if (itemSelected) {
+    if (!itemSelected) {
+      return;
+    }
+
+    const node = flatItems[itemSelected] as TreeFlatItem | undefined;
+    if (!node) {
+      return;
+    }
+
+    if ((node.isParent && !itemsOpened?.[node.id]) || (node.parentId && !itemsOpened?.[node.parentId])) {
       onChange?.('itemsOpened', { ...itemsOpened, ...setOpenedMultiple(itemSelected, flatItems) });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,7 +145,7 @@ const Tree = ({
             isParent={isParent}
             canDragDrop={!!parentId}
             setOpened={setOpened}
-            hovered={itemHovered === id}
+            hovered={itemHovered === id || itemSelected === parentId}
             selected={itemSelected === id}
             setDragMetadata={setDragMetadata}
             resetDragMetadata={resetDragMetadata}
