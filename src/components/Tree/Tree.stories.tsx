@@ -95,6 +95,7 @@ export const Primary: Story = {
 
     const handleChange = useCallback(
       (action: TreeChangeState['action'], data: TreeChangeState['data']) => {
+        console.log(action, data);
         switch (action) {
           case 'itemsChange':
             updateArgs({ items: data as TreeItem[] });
@@ -106,6 +107,9 @@ export const Primary: Story = {
 
           case 'itemChanged':
             updateArgs({ items: data as TreeItem[] });
+            break;
+
+          case 'itemDragged':
             break;
 
           default:

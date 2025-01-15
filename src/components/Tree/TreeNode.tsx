@@ -65,7 +65,7 @@ const TreeNode = ({
   onDrop
 }: TreeNodeProps) => {
   const [dragHovered, setDragHovered] = useState(false);
-  const [dragAllowed, setDragAllowed] = useState(false);
+  const [dragAllowed, setDragAllowed] = useState(true);
   const [dropPosition, setDropPosition] = useState<DropPosition>();
   const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys, false>('Tree', {
     className,
@@ -154,7 +154,6 @@ const TreeNode = ({
     setDragAllowed(true);
     setDropPosition(undefined);
     resetDragMetadata?.();
-
     onDrop?.(id, dropPosition as DropPosition);
   };
 
@@ -219,7 +218,6 @@ const TreeNode = ({
       draggable={canDragDrop}
       onMouseOver={handleHover}
       onMouseLeave={handleMouseLeave}
-      onFocus={undefined}
       tabIndex={-1}
     >
       <div className="w-full flex" style={{ paddingLeft: `${paddingRight}px` }}>

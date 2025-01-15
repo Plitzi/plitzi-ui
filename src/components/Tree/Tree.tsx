@@ -13,7 +13,7 @@ import { defaultDragMetadata, getFlatItems, setOpenedMultiple } from './utils';
 // Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
-import type { DragMetadata, TreeFlatItem, TreeItem } from './utils';
+import type { DragMetadata, DropPosition, TreeFlatItem, TreeItem } from './utils';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type { TreeItem };
@@ -23,6 +23,7 @@ export type TreeChangeState =
   | { action: 'itemChanged'; data: { items: TreeItem[]; item: TreeItem } }
   | { action: 'itemsOpened'; data: { [key: string]: boolean } }
   | { action: 'itemHovered'; data: string | undefined }
+  | { action: 'itemDragged'; data: { id: string; dropPosition: DropPosition } }
   | { action: 'itemSelected'; data: string | undefined };
 
 export type TreeProps = {
@@ -111,6 +112,14 @@ const Tree = ({
 
   const handleDragOver = useCallback(() => setDragTree?.(true), [setDragTree]);
 
+  const handleDrop = useCallback(
+    (id: string, dropPosition: DropPosition) => {
+      setDragTree?.(false);
+      onChange?.('itemDragged', { id, dropPosition });
+    },
+    [setDragTree, onChange]
+  );
+
   return (
     <div className={className} tabIndex={-1} onDragOver={handleDragOver}>
       {itemsFiltered.map(item => {
@@ -135,6 +144,7 @@ const Tree = ({
             onChange={handleItemChange}
             onHover={handleHover}
             onSelect={handleSelect}
+            onDrop={handleDrop}
           />
         );
       })}
