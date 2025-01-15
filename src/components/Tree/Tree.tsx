@@ -1,7 +1,7 @@
 // Packages
 import { produce } from 'immer';
 import set from 'lodash/set';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { DragEvent, useCallback, useEffect, useMemo, useRef } from 'react';
 
 // Alias
 import useTheme from '@hooks/useTheme';
@@ -24,10 +24,10 @@ export type TreeChangeState =
   | { action: 'itemsOpened'; data: { [key: string]: boolean } }
   | { action: 'itemHovered'; data: string | undefined }
   | { action: 'itemDragged'; data: { id: string; dropPosition: DropPosition } }
+  | { action: 'isDragging'; data: boolean }
   | { action: 'itemSelected'; data: string | undefined };
 
 export type TreeProps = {
-  setDragTree?: (dragTree: boolean) => void;
   itemsOpened?: { [key: string]: boolean };
   itemHovered?: string;
   itemSelected?: string;
@@ -39,7 +39,6 @@ export type TreeProps = {
 
 const Tree = ({
   className,
-  setDragTree,
   items = [],
   itemsOpened,
   itemHovered,
@@ -137,18 +136,31 @@ const Tree = ({
 
   const getDragMetadata = useCallback(() => dragMetadata.current, []);
 
-  const handleDragOver = useCallback(() => setDragTree?.(true), [setDragTree]);
+  const handleDragStart = useCallback(
+    (e: DragEvent) => {
+      e.stopPropagation();
+      onChange?.('isDragging', true);
+    },
+    [onChange]
+  );
+
+  const handleDragEnd = useCallback(
+    (e: DragEvent) => {
+      e.stopPropagation();
+      onChange?.('isDragging', false);
+    },
+    [onChange]
+  );
 
   const handleDrop = useCallback(
     (id: string, dropPosition: DropPosition) => {
-      setDragTree?.(false);
       onChange?.('itemDragged', { id, dropPosition });
     },
-    [setDragTree, onChange]
+    [onChange]
   );
 
   return (
-    <div className={className} tabIndex={-1} onDragOver={handleDragOver}>
+    <div className={className} tabIndex={-1} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       {itemsFiltered.map(item => {
         const { id, label, level, isParent, parentId } = item;
 

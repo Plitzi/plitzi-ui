@@ -98,7 +98,6 @@ const TreeNode = ({
       setDragMetadata?.({ isDragging: true, nodeId: id, parentNodeId, nodeHoveredId: '', dropPosition: undefined });
       onHover?.(undefined);
       onSelect?.(undefined);
-      e.stopPropagation();
       e.dataTransfer.setDragImage(e.currentTarget, offsetX, offsetY);
     },
     [onHover, onSelect, setDragMetadata, id, parentNodeId]

@@ -147,3 +147,26 @@ export const setOpenedMultiple = (id: string, flatItems: TreeFlatItems) => {
 
   return nodesToOpen;
 };
+
+export const moveNode = (id: string, dropPosition: DropPosition, flatItems: TreeFlatItems): TreeItem[] => {
+  const node = flatItems[id];
+  if (!node) {
+    return [];
+  }
+
+  const { parentId } = node;
+  switch (dropPosition) {
+    case 'top':
+      break;
+
+    case 'bottom':
+      break;
+
+    case 'inside':
+      break;
+
+    default:
+  }
+
+  return [];
+};
