@@ -13,7 +13,7 @@ import { defaultDragMetadata, getFlatItems, hasParentSelected, setClosedMultiple
 // Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
-import type { DragMetadata, DropPosition, TreeItem } from './utils';
+import type { DragMetadata, DropPosition, TreeFlatItem, TreeItem } from './utils';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type { TreeItem };
@@ -58,7 +58,10 @@ const Tree = ({
   const dragMetadata = useRef<DragMetadata>(defaultDragMetadata);
   const flatItems = useMemo(() => getFlatItems(items), [items]);
   const itemsFiltered = useMemo(
-    () => Object.values(flatItems).filter(item => item && (!item.parentId || itemsOpened?.[item.parentId])),
+    () =>
+      Object.values(flatItems).filter(
+        (item): item is TreeFlatItem => !!item && (!item.parentId || !!itemsOpened?.[item.parentId])
+      ),
     [flatItems, itemsOpened]
   );
 
@@ -147,10 +150,6 @@ const Tree = ({
   return (
     <div className={className} tabIndex={-1} onDragOver={handleDragOver}>
       {itemsFiltered.map(item => {
-        if (!item) {
-          return undefined;
-        }
-
         const { id, label, level, isParent, parentId } = item;
 
         return (
