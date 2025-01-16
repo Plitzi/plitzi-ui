@@ -32,62 +32,24 @@ export const Primary: Story = {
       {
         id: '657425e280b5b09c93b4a284',
         label: 'Page',
-        isParent: true,
-        parentId: undefined,
         icon: 'fa-solid fa-square',
         items: [
-          {
-            id: '672a10680e69f90f255f81ed',
-            label: 'Heading 1',
-            isParent: false,
-            parentId: '657425e280b5b09c93b4a284'
-          },
-          {
-            id: '672a9fb7d8a5a53321f3f52c',
-            label: 'Heading 2',
-            isParent: false,
-            parentId: '657425e280b5b09c93b4a284'
-          },
+          { id: '672a10680e69f90f255f81ed', label: 'Heading 1' },
+          { id: '672a9fb7d8a5a53321f3f52c', label: 'Heading 2' },
           {
             id: '678226237479ee7d61c55cc2',
             label: 'Container',
-            isParent: true,
-            parentId: '657425e280b5b09c93b4a284',
-            items: [
-              {
-                id: '672a9fb8d8a5a53321f3f52c',
-                label: 'Heading 3',
-                isParent: false,
-                parentId: '678226237479ee7d61c55cc2'
-              }
-            ]
+            items: [{ id: '672a9fb8d8a5a53321f3f52c', label: 'Heading 3' }]
           }
         ]
       },
       {
         id: '657425e280b5b09c93b4a285',
         label: 'Page',
-        isParent: true,
-        parentId: undefined,
         items: [
-          {
-            id: '672a10680e69f90f255f82ed',
-            label: 'Heading 4',
-            isParent: false,
-            parentId: '657425e280b5b09c93b4a285'
-          },
-          {
-            id: '672a9fb7d8a5a53325f3f52c',
-            label: 'Heading 5',
-            isParent: false,
-            parentId: '657425e280b5b09c93b4a285'
-          },
-          {
-            id: '678226237479ee7d71c55cc2',
-            label: 'Container 2',
-            isParent: false,
-            parentId: '657425e280b5b09c93b4a285'
-          }
+          { id: '672a10680e69f90f255f82ed', label: 'Heading 4' },
+          { id: '672a9fb7d8a5a53325f3f52c', label: 'Heading 5' },
+          { id: '678226237479ee7d71c55cc2', label: 'Container 2' }
         ]
       }
     ]

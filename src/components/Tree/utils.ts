@@ -4,32 +4,21 @@ import { isInViewport } from '@/helpers/utils';
 // Types
 import type { ReactNode } from 'react';
 
-export type TreeItemBase = {
+export type TreeItem = {
   id: string;
   icon?: ReactNode;
   label: string;
-  isParent: boolean;
-  parentId?: string;
+  items?: TreeItem[];
 };
-
-export type TreeItemParent = TreeItemBase & {
-  isParent: true;
-  items: TreeItem[];
-};
-
-export type TreeItemChild = TreeItemBase & {
-  isParent: false;
-};
-
-export type TreeItem = TreeItemParent | TreeItemChild;
 
 export type TreeFlatItems = { [key: string]: TreeFlatItem | undefined };
 
-export type TreeFlatItem = TreeItemBase & {
+export type TreeFlatItem = Omit<TreeItem, 'items'> & {
   level: number;
   path: string;
   parentId?: string;
-} & ({ isParent: true; items: string[] } | TreeItemChild);
+  items?: string[];
+};
 
 export type DragMetadata = {
   isDragging?: boolean;
@@ -58,15 +47,14 @@ export const DropDirectionConstants = {
 export const getFlatItems = (items: TreeItem[], level: number = 0, parentId: string = '', path: string = '') => {
   let flatItems: TreeFlatItems = {};
   items.forEach((item: TreeItem, i) => {
-    const { id, isParent } = item;
+    const { id, items: subItems } = item;
     const newItem = { ...item, level, parentId, path: path ? `${path}.${i}` : `${i}` } as TreeFlatItem;
-    if (!isParent || !newItem.isParent) {
+    if (!subItems) {
       flatItems[id] = newItem;
 
       return;
     }
 
-    const { items: subItems } = item;
     newItem.items = subItems.map(subItem => subItem.id);
     path = `${path ? `${path}.` : ''}${i}.items`;
     flatItems = { ...flatItems, [id]: newItem, ...getFlatItems(subItems, level + 1, id, path) };
@@ -78,7 +66,7 @@ export const getFlatItems = (items: TreeItem[], level: number = 0, parentId: str
 export const setClosedMultiple = (id: string, flatItems: TreeFlatItems) => {
   let nodesToClose: { [key: string]: boolean } = {};
   const node = flatItems[id];
-  if (!node?.isParent) {
+  if (!node?.items) {
     return nodesToClose;
   }
 
@@ -86,7 +74,7 @@ export const setClosedMultiple = (id: string, flatItems: TreeFlatItems) => {
   const { items } = node;
   items.forEach((subNodeId: string) => {
     const subNode = flatItems[subNodeId];
-    if (!subNode || !subNode.isParent) {
+    if (!subNode || !subNode.items) {
       return;
     }
 
@@ -118,7 +106,7 @@ export const setOpenedMultiple = (id: string, flatItems: TreeFlatItems) => {
   const nodesToOpen: { [key: string]: boolean } = {};
   let node = flatItems[id];
   while (node) {
-    if (node.isParent) {
+    if (node.items) {
       nodesToOpen[node.id] = true;
     }
 

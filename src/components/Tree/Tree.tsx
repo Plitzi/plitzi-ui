@@ -114,7 +114,7 @@ const Tree = ({
       return;
     }
 
-    if ((node.isParent && !itemsOpened?.[node.id]) || (node.parentId && !itemsOpened?.[node.parentId])) {
+    if ((node.items && !itemsOpened?.[node.id]) || (node.parentId && !itemsOpened?.[node.parentId])) {
       onChange?.('itemsOpened', { ...itemsOpened, ...setOpenedMultiple(itemSelected, flatItems) });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,7 +162,7 @@ const Tree = ({
   return (
     <div className={className} tabIndex={-1} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       {itemsFiltered.map(item => {
-        const { id, label, level, isParent, parentId, icon } = item;
+        const { id, label, level, parentId, icon } = item;
 
         return (
           <TreeNode
@@ -172,7 +172,7 @@ const Tree = ({
             label={label}
             level={level}
             isOpen={itemsOpened?.[id]}
-            isParent={isParent}
+            isParent={!!item.items}
             canDragDrop={!!parentId}
             setOpened={setOpened}
             hovered={itemHovered === id || (!!itemSelected && hasParentSelected(id, itemSelected, flatItems))}

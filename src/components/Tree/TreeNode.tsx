@@ -229,7 +229,7 @@ const TreeNodeOriginal = ({
       onMouseLeave={handleMouseLeave}
       tabIndex={-1}
     >
-      <div className="w-full flex gap-1" style={{ paddingLeft: `${paddingRight}px` }}>
+      <div className="w-full flex gap-2" style={{ paddingLeft: `${paddingRight}px` }}>
         {iconChildren}
         <div ref={ref} className="flex relative grow basis-0 overflow-hidden">
           <Contenteditable
