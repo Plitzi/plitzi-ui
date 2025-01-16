@@ -177,6 +177,8 @@ const Tree = ({
             setOpened={setOpened}
             hovered={itemHovered === id || (!!itemSelected && hasParentSelected(id, itemSelected, flatItems))}
             selected={itemSelected === id}
+            intent={intent}
+            size={size}
             setDragMetadata={setDragMetadata}
             resetDragMetadata={resetDragMetadata}
             getDragMetadata={getDragMetadata}

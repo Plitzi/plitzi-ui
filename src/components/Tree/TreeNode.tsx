@@ -54,6 +54,8 @@ const TreeNode = ({
   selected = false,
   canDragDrop = true,
   label = '',
+  intent,
+  size,
   setOpened,
   setDragMetadata,
   getDragMetadata,
@@ -70,7 +72,7 @@ const TreeNode = ({
   const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys, false>('Tree', {
     className,
     componentKey: ['item', 'dropIndicator', 'containerEditable'],
-    variant: { selected, hovered, dropPosition, dragAllowed }
+    variant: { intent, size, selected, hovered, dropPosition, dragAllowed }
   });
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
   const ref = useRef<HTMLDivElement>(null);

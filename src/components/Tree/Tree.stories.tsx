@@ -26,6 +26,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
+    intent: 'secondary',
     itemSelected: '672a9fb8d8a5a53321f3f52c',
     items: [
       {

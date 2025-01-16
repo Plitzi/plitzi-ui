@@ -2,7 +2,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['primary'],
+  intent: ['primary', 'secondary'],
   size: ['md', 'sm', 'xs', 'custom'],
   hovered: [true, false],
   selected: [true, false],
@@ -31,10 +31,14 @@ export default {
       size: 'md'
     }
   }),
-  item: cva('tree_node cursor-pointer pr-1 flex', {
+  item: cva('tree_node cursor-pointer pr-4 pl-4 flex', {
     variants: {
+      intent: {
+        primary: '',
+        secondary: ''
+      },
       selected: {
-        true: 'bg-primary-200 text-white',
+        true: '',
         false: ''
       },
       hovered: {
@@ -46,10 +50,28 @@ export default {
       {
         hovered: true,
         selected: false,
+        intent: 'primary',
         className: 'bg-primary-100 text-black'
+      },
+      {
+        hovered: true,
+        selected: false,
+        intent: 'secondary',
+        className: 'bg-secondary-100 text-black'
+      },
+      {
+        selected: true,
+        intent: 'primary',
+        className: 'bg-primary-200 text-white'
+      },
+      {
+        selected: true,
+        intent: 'secondary',
+        className: 'bg-secondary-200 text-black'
       }
     ],
     defaultVariants: {
+      intent: 'primary',
       selected: false,
       hovered: false
     }
