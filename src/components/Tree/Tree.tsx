@@ -30,7 +30,7 @@ export type TreeChangeState =
   | { action: 'itemChanged'; data: { items: TreeItem[]; item: TreeItem } }
   | { action: 'itemsOpened'; data: { [key: string]: boolean } }
   | { action: 'itemHovered'; data: string | undefined }
-  | { action: 'itemDragged'; data: { id: string; dropPosition: DropPosition } }
+  | { action: 'itemDragged'; data: { id: string; toId: string; dropPosition: DropPosition; items: TreeItem[] } }
   | { action: 'isDragging'; data: boolean }
   | { action: 'itemSelected'; data: string | undefined };
 
@@ -165,7 +165,7 @@ const Tree = ({
     (id: string, toId: string, dropPosition: DropPosition) => {
       const newItems = moveNode(id, toId, dropPosition, items, flatItems);
       if (newItems) {
-        onChange?.('itemDragged', { id, dropPosition, items: newItems });
+        onChange?.('itemDragged', { id, toId, dropPosition, items: newItems });
       }
     },
     [flatItems, items, onChange]
