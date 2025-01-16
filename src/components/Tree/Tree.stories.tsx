@@ -34,6 +34,7 @@ export const Primary: Story = {
         label: 'Page',
         isParent: true,
         parentId: undefined,
+        icon: 'fa-solid fa-square',
         items: [
           {
             id: '672a10680e69f90f255f81ed',

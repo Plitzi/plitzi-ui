@@ -162,7 +162,7 @@ const Tree = ({
   return (
     <div className={className} tabIndex={-1} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       {itemsFiltered.map(item => {
-        const { id, label, level, isParent, parentId } = item;
+        const { id, label, level, isParent, parentId, icon } = item;
 
         return (
           <TreeNode
@@ -186,7 +186,10 @@ const Tree = ({
             onHover={handleHover}
             onSelect={handleSelect}
             onDrop={handleDrop}
-          />
+          >
+            {icon && typeof icon === 'string' && <TreeNode.Icon icon={icon} intent="custom" />}
+            {icon && typeof icon !== 'string' && icon}
+          </TreeNode>
         );
       })}
     </div>

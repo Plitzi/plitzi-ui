@@ -100,5 +100,6 @@ export default {
       compoundVariants: [],
       defaultVariants: {}
     }
-  )
+  ),
+  collapsableIcon: cva('w-4 flex items-center cursor-pointer')
 };

@@ -42,7 +42,7 @@ export type TreeNodeProps = {
   onDrop?: (id: string, dropPosition: DropPosition) => void;
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
-const TreeNode = ({
+const TreeNodeOriginal = ({
   children,
   className = '',
   id = '',
@@ -71,7 +71,7 @@ const TreeNode = ({
   const [dropPosition, setDropPosition] = useState<DropPosition>();
   const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys, false>('Tree', {
     className,
-    componentKey: ['item', 'dropIndicator', 'containerEditable'],
+    componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon'],
     variant: { intent, size, selected, hovered, dropPosition, dragAllowed }
   });
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
@@ -194,8 +194,11 @@ const TreeNode = ({
     paddingRight += 1;
   }
 
-  const { actionsChildren } = useMemo(() => {
-    const components: { actionsChildren: ReactNode } = { actionsChildren: undefined };
+  const { actionsChildren, iconChildren } = useMemo(() => {
+    const components: { actionsChildren?: ReactNode; iconChildren?: ReactNode } = {
+      actionsChildren: undefined,
+      iconChildren: undefined
+    };
     Children.forEach(children, child => {
       if (!isValidElement(child)) {
         return;
@@ -203,6 +206,8 @@ const TreeNode = ({
 
       if (child.type === TreeNodeActions) {
         components.actionsChildren = child;
+      } else if (child.type === Icon) {
+        components.iconChildren = child;
       }
     });
 
@@ -224,7 +229,8 @@ const TreeNode = ({
       onMouseLeave={handleMouseLeave}
       tabIndex={-1}
     >
-      <div className="w-full flex" style={{ paddingLeft: `${paddingRight}px` }}>
+      <div className="w-full flex gap-1" style={{ paddingLeft: `${paddingRight}px` }}>
+        {iconChildren}
         <div ref={ref} className="flex relative grow basis-0 overflow-hidden">
           <Contenteditable
             className={classNames(classNameTheme.containerEditable, { 'opacity-30': dragHovered })}
@@ -236,7 +242,7 @@ const TreeNode = ({
         </div>
         {actionsChildren}
         {isParent && (
-          <div className="w-4 flex items-center cursor-pointer" onClick={handleClick}>
+          <div className={classNameTheme.collapsableIcon} onClick={handleClick}>
             {!isOpen && <Icon icon="fa-solid fa-chevron-left" />}
             {isOpen && <Icon icon="fa-solid fa-chevron-down" />}
           </div>
@@ -246,6 +252,6 @@ const TreeNode = ({
   );
 };
 
-TreeNode.Actions = TreeNodeActions;
+const TreeNode = Object.assign(memo(TreeNodeOriginal), { Icon, Actions: TreeNodeActions });
 
-export default memo(TreeNode);
+export default TreeNode;

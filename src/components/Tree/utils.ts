@@ -1,8 +1,12 @@
 // Alias
 import { isInViewport } from '@/helpers/utils';
 
+// Types
+import type { ReactNode } from 'react';
+
 export type TreeItemBase = {
   id: string;
+  icon?: ReactNode;
   label: string;
   isParent: boolean;
   parentId?: string;
