@@ -1,3 +1,7 @@
+// Packages
+import { produce } from 'immer';
+import get from 'lodash/get';
+
 // Alias
 import { isInViewport } from '@/helpers/utils';
 
@@ -140,25 +144,54 @@ export const setOpenedMultiple = (id: string, flatItems: TreeFlatItems) => {
   return nodesToOpen;
 };
 
-// export const moveNode = (id: string, dropPosition: DropPosition, flatItems: TreeFlatItems): TreeItem[] => {
-//   const node = flatItems[id];
-//   if (!node) {
-//     return [];
-//   }
+export const moveNode = (
+  nodeId: string,
+  toNodeId: string,
+  dropPosition: DropPosition,
+  items: TreeItem[],
+  flatItems: TreeFlatItems
+): TreeItem[] | undefined => {
+  let swapped: boolean = false;
+  const newItems = produce(items, draft => {
+    const flatNode = flatItems[nodeId];
+    const toFlatNode = flatItems[toNodeId];
+    if (!flatNode || !flatNode.parentId || !toFlatNode) {
+      return;
+    }
 
-//   const { parentId } = node;
-//   switch (dropPosition) {
-//     case 'top':
-//       break;
+    const parentFlatNode = flatItems[flatNode.parentId] as TreeFlatItem;
+    const node = get(draft, flatNode.path) as TreeItem;
+    const parentNode = get(draft, parentFlatNode.path) as TreeItem;
 
-//     case 'bottom':
-//       break;
+    // Swap positions
+    const toParentFlatNode = flatItems[toFlatNode.parentId ? toFlatNode.parentId : toNodeId];
+    if (!toParentFlatNode) {
+      return;
+    }
 
-//     case 'inside':
-//       break;
+    if (dropPosition === 'inside' && toNodeId !== flatNode.parentId) {
+      const toItems = get<TreeItem[], string>(draft, `${toFlatNode.path}.items`) as TreeItem[] | undefined;
+      if (toItems) {
+        toItems.splice(toItems.length, 0, node);
+        swapped = true;
+      }
+    } else if (dropPosition !== 'inside' && toFlatNode.parentId) {
+      const toItems = get<TreeItem[], string>(draft, `${toParentFlatNode.path}.items`) as TreeItem[] | undefined;
+      if (toItems) {
+        toItems.splice(toItems.findIndex(item => item.id === toNodeId) + (dropPosition === 'top' ? 0 : 1), 0, node);
+        swapped = true;
+      }
+    }
 
-//     default:
-//   }
+    if (swapped) {
+      parentNode.items = parentNode.items?.filter(item => item.id !== nodeId);
+    }
+  });
 
-//   return [];
-// };
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (!swapped) {
+    return undefined;
+  }
+
+  return newItems;
+};

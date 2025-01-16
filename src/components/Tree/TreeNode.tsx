@@ -39,7 +39,7 @@ export type TreeNodeProps = {
   onChange?: (id: string, value: string) => void;
   onHover?: (id?: string) => void;
   onSelect?: (id?: string) => void;
-  onDrop?: (id: string, dropPosition: DropPosition) => void;
+  onDrop?: (id: string, toId: string, dropPosition: DropPosition) => void;
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const TreeNodeOriginal = ({
@@ -91,7 +91,7 @@ const TreeNodeOriginal = ({
 
   useEffect(() => {
     clientRect.current = ref.current?.getBoundingClientRect();
-  }, []);
+  }, [dragHovered]);
 
   const handleDragStart = useCallback(
     (e: DragEvent) => {
@@ -119,15 +119,15 @@ const TreeNodeOriginal = ({
       return;
     }
 
-    const offsetY = e.clientY - clientRect.current.top - clientRect.current.height / 2;
-    const offsetX = e.clientX - clientRect.current.left - treeNodePadding * 2;
+    const offsetYDelta = clientRect.current.height * 0.25;
+    const offsetY = e.clientY - clientRect.current.top;
     let newDropPosition: DropPosition;
-    if ((offsetX > 0 && !!parentNodeId) || id === parentNodeId) {
-      newDropPosition = 'inside';
-    } else if (offsetY > 0) {
+    if (offsetY < offsetYDelta) {
+      newDropPosition = 'top';
+    } else if (offsetY > clientRect.current.height - offsetYDelta) {
       newDropPosition = 'bottom';
     } else {
-      newDropPosition = 'top';
+      newDropPosition = 'inside';
     }
 
     if (nodeHoveredId !== id || dropPosition !== newDropPosition) {
@@ -152,12 +152,12 @@ const TreeNodeOriginal = ({
   const handleDrop = (e: DragEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    const { dropPosition } = getDragMetadata?.() ?? ({} as DragMetadata);
+    const { nodeId, dropPosition } = getDragMetadata?.() ?? ({} as DragMetadata);
     setDragHovered(false);
     setDragAllowed(true);
     setDropPosition(undefined);
     resetDragMetadata?.();
-    onDrop?.(id, dropPosition as DropPosition);
+    onDrop?.(nodeId as string, id, dropPosition as DropPosition);
   };
 
   const handleMouseLeave = useCallback(
@@ -216,6 +216,7 @@ const TreeNodeOriginal = ({
 
   return (
     <div
+      ref={ref}
       className={classNameTheme.item}
       data-id={id}
       onClick={handleClickSelect}
@@ -231,9 +232,11 @@ const TreeNodeOriginal = ({
     >
       <div className="w-full flex gap-2" style={{ paddingLeft: `${paddingRight}px` }}>
         {iconChildren}
-        <div ref={ref} className="flex relative grow basis-0 overflow-hidden">
+        <div className="flex relative grow basis-0 overflow-hidden">
           <Contenteditable
-            className={classNames(classNameTheme.containerEditable, { 'opacity-30': dragHovered })}
+            className={classNames(classNameTheme.containerEditable, {
+              'opacity-30': dragHovered && dropPosition !== 'inside'
+            })}
             value={label}
             onChange={handleChange}
             openMode="doubleClick"

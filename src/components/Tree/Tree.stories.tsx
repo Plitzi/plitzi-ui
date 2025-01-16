@@ -7,6 +7,7 @@ import Tree from './Tree';
 
 // Types
 import type { TreeChangeState, TreeItem } from './Tree';
+import type { DropPosition } from './utils';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
@@ -74,6 +75,9 @@ export const Primary: Story = {
             break;
 
           case 'itemDragged':
+            updateArgs({
+              items: (data as { id: string; toId: string; dropPosition: DropPosition; items: TreeItem[] }).items
+            });
             break;
 
           default:

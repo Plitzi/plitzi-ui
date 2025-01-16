@@ -8,7 +8,14 @@ import useTheme from '@hooks/useTheme';
 
 // Relatives
 import TreeNode from './TreeNode';
-import { defaultDragMetadata, getFlatItems, hasParentSelected, setClosedMultiple, setOpenedMultiple } from './utils';
+import {
+  defaultDragMetadata,
+  getFlatItems,
+  hasParentSelected,
+  moveNode,
+  setClosedMultiple,
+  setOpenedMultiple
+} from './utils';
 
 // Types
 import type TreeStyles from './Tree.styles';
@@ -28,6 +35,7 @@ export type TreeChangeState =
   | { action: 'itemSelected'; data: string | undefined };
 
 export type TreeProps = {
+  testId?: string;
   itemsOpened?: { [key: string]: boolean };
   itemHovered?: string;
   itemSelected?: string;
@@ -38,6 +46,7 @@ export type TreeProps = {
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const Tree = ({
+  testId,
   className,
   items = [],
   itemsOpened,
@@ -153,14 +162,23 @@ const Tree = ({
   );
 
   const handleDrop = useCallback(
-    (id: string, dropPosition: DropPosition) => {
-      onChange?.('itemDragged', { id, dropPosition });
+    (id: string, toId: string, dropPosition: DropPosition) => {
+      const newItems = moveNode(id, toId, dropPosition, items, flatItems);
+      if (newItems) {
+        onChange?.('itemDragged', { id, dropPosition, items: newItems });
+      }
     },
-    [onChange]
+    [flatItems, items, onChange]
   );
 
   return (
-    <div className={className} tabIndex={-1} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <div
+      className={className}
+      tabIndex={-1}
+      data-testid={testId}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       {itemsFiltered.map(item => {
         const { id, label, level, parentId, icon } = item;
 

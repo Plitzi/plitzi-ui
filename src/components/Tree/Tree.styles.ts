@@ -87,18 +87,104 @@ export default {
     ],
     {
       variants: {
+        intent: {
+          primary: '',
+          secondary: ''
+        },
         dragAllowed: {
-          true: 'bg-primary-500 after:border-primary-500',
-          false: 'bg-red-500 after:border-red-500'
+          true: '',
+          false: ''
         },
         dropPosition: {
-          inside: 'top-1/2 -translate-y-1/2 left-6 after:-left-2',
+          inside: 'top-0 left-0 w-full h-full border-2 border-solid after:content-none',
           top: 'top-1 left-2 after:-left-2',
           bottom: 'bottom-1 left-2 after:-left-2 after:-bottom-1.5'
         }
       },
-      compoundVariants: [],
-      defaultVariants: {}
+      compoundVariants: [
+        // top - no error
+        {
+          dragAllowed: true,
+          intent: 'primary',
+          dropPosition: 'top',
+          className: 'bg-primary-500 after:border-primary-500'
+        },
+        {
+          dragAllowed: true,
+          intent: 'secondary',
+          dropPosition: 'top',
+          className: 'bg-secondary-500 after:border-secondary-500'
+        },
+        // top - error
+        {
+          dragAllowed: false,
+          intent: 'primary',
+          dropPosition: 'top',
+          className: 'bg-red-500 after:border-red-500'
+        },
+        {
+          dragAllowed: false,
+          intent: 'secondary',
+          dropPosition: 'top',
+          className: 'bg-red-500 after:border-red-500'
+        },
+        // bottom - no error
+        {
+          dragAllowed: true,
+          intent: 'primary',
+          dropPosition: 'bottom',
+          className: 'bg-primary-500 after:border-primary-500'
+        },
+        {
+          dragAllowed: true,
+          intent: 'secondary',
+          dropPosition: 'bottom',
+          className: 'bg-secondary-500 after:border-secondary-500'
+        },
+        // bottom - error
+        {
+          dragAllowed: false,
+          intent: 'primary',
+          dropPosition: 'bottom',
+          className: 'bg-red-500 after:border-red-500'
+        },
+        {
+          dragAllowed: false,
+          intent: 'secondary',
+          dropPosition: 'bottom',
+          className: 'bg-red-500 after:border-red-500'
+        },
+        // inside - no error
+        {
+          dragAllowed: true,
+          intent: 'primary',
+          dropPosition: 'inside',
+          className: 'bg-primary-500/20 border-primary-500'
+        },
+        {
+          dragAllowed: true,
+          intent: 'secondary',
+          dropPosition: 'inside',
+          className: 'bg-secondary-500/20 border-secondary-500'
+        },
+        // inside - error
+        {
+          dragAllowed: false,
+          intent: 'primary',
+          dropPosition: 'inside',
+          className: 'bg-red-500/20 border-red-500'
+        },
+        {
+          dragAllowed: false,
+          intent: 'secondary',
+          dropPosition: 'inside',
+          className: 'bg-red-500/20 border-red-500'
+        }
+      ],
+      defaultVariants: {
+        intent: 'primary',
+        dragAllowed: true
+      }
     }
   ),
   collapsableIcon: cva('w-4 flex items-center cursor-pointer')
