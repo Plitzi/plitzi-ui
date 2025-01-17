@@ -180,7 +180,7 @@ const Tree = ({
       onDragEnd={handleDragEnd}
     >
       {itemsFiltered.map(item => {
-        const { id, label, level, parentId, icon } = item;
+        const { id, label, level, parentId, icon = 'fa-solid fa-shapes' } = item;
 
         return (
           <TreeNode
