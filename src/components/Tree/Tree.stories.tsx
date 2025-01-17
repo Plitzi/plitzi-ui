@@ -71,7 +71,7 @@ export const Primary: Story = {
             break;
 
           case 'itemChanged':
-            updateArgs({ items: data as TreeItem[] });
+            updateArgs({ items: (data as { items: TreeItem[]; item: TreeItem }).items });
             break;
 
           case 'itemDragged':
@@ -80,16 +80,19 @@ export const Primary: Story = {
             });
             break;
 
+          case 'itemHovered':
+            updateArgs({ itemHovered: data as string });
+            break;
+
+          case 'itemSelected':
+            updateArgs({ itemSelected: data as string });
+            break;
+
           default:
         }
-        updateArgs({});
       },
       [updateArgs]
     );
-
-    const handleHover = useCallback((value?: string) => updateArgs({ itemHovered: value }), [updateArgs]);
-
-    const handleSelect = useCallback((value?: string) => updateArgs({ itemSelected: value }), [updateArgs]);
 
     return (
       <Tree
@@ -99,8 +102,6 @@ export const Primary: Story = {
         itemSelected={itemSelected}
         itemHovered={itemHovered}
         onChange={handleChange}
-        onHover={handleHover}
-        onSelect={handleSelect}
       />
     );
   }

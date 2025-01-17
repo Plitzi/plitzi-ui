@@ -1,5 +1,6 @@
 // Packages
 import { produce } from 'immer';
+import get from 'lodash/get';
 import set from 'lodash/set';
 import { DragEvent, useCallback, useEffect, useMemo, useRef } from 'react';
 
@@ -27,12 +28,12 @@ export type { TreeItem };
 
 export type TreeChangeState =
   | { action: 'itemsChange'; data: TreeItem[] }
-  | { action: 'itemChanged'; data: { items: TreeItem[]; item: TreeItem } }
   | { action: 'itemsOpened'; data: { [key: string]: boolean } }
+  | { action: 'itemChanged'; data: { items: TreeItem[]; item: TreeItem } }
   | { action: 'itemHovered'; data: string | undefined }
   | { action: 'itemDragged'; data: { id: string; toId: string; dropPosition: DropPosition; items: TreeItem[] } }
-  | { action: 'isDragging'; data: boolean }
-  | { action: 'itemSelected'; data: string | undefined };
+  | { action: 'itemSelected'; data: string | undefined }
+  | { action: 'isDragging'; data: boolean };
 
 export type TreeProps = {
   testId?: string;
@@ -41,8 +42,6 @@ export type TreeProps = {
   itemSelected?: string;
   items: TreeItem[];
   onChange?: (state: TreeChangeState['action'], data: TreeChangeState['data']) => void;
-  onHover?: (value?: string) => void;
-  onSelect?: (value?: string) => void;
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const Tree = ({
@@ -54,9 +53,7 @@ const Tree = ({
   itemSelected,
   intent,
   size,
-  onChange,
-  onHover,
-  onSelect
+  onChange
 }: TreeProps) => {
   className = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
     className,
@@ -84,14 +81,14 @@ const Tree = ({
         set(draft, `${node.path}.label`, label);
       });
 
-      onChange?.('itemChanged', newItems);
+      onChange?.('itemChanged', { items: newItems, item: get(newItems, node.path) as TreeItem });
     },
     [flatItems, items, onChange]
   );
 
-  const handleHover = useCallback((nodeId?: string) => onHover?.(nodeId), [onHover]);
+  const handleHover = useCallback((nodeId?: string) => onChange?.('itemHovered', nodeId), [onChange]);
 
-  const handleSelect = useCallback((nodeId?: string) => onSelect?.(nodeId), [onSelect]);
+  const handleSelect = useCallback((nodeId?: string) => onChange?.('itemSelected', nodeId), [onChange]);
 
   const setOpened = useCallback(
     (nodeId: string, opened: boolean) => {

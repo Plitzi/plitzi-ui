@@ -246,8 +246,8 @@ const TreeNodeOriginal = ({
         {actionsChildren}
         {isParent && (
           <div className={classNameTheme.collapsableIcon} onClick={handleClick}>
-            {!isOpen && <Icon icon="fa-solid fa-chevron-left" />}
-            {isOpen && <Icon icon="fa-solid fa-chevron-down" />}
+            {!isOpen && <Icon icon="fa-solid fa-chevron-left" intent="custom" />}
+            {isOpen && <Icon icon="fa-solid fa-chevron-down" intent="custom" />}
           </div>
         )}
       </div>
