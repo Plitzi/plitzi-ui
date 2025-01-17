@@ -42,6 +42,7 @@ export type TreeProps = {
   itemSelected?: string;
   items: TreeItem[];
   onChange?: (state: TreeChangeState['action'], data: TreeChangeState['data']) => void;
+  isDragAllowed?: (id: string, dropPosition: DropPosition, parentId?: string) => boolean;
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const Tree = ({
@@ -53,7 +54,8 @@ const Tree = ({
   itemSelected,
   intent,
   size,
-  onChange
+  onChange,
+  isDragAllowed
 }: TreeProps) => {
   className = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
     className,
@@ -197,10 +199,11 @@ const Tree = ({
             setDragMetadata={setDragMetadata}
             resetDragMetadata={resetDragMetadata}
             getDragMetadata={getDragMetadata}
-            onChange={handleItemChange}
             onHover={handleHover}
             onSelect={handleSelect}
             onDrop={handleDrop}
+            onChange={handleItemChange}
+            isDragAllowed={isDragAllowed}
           >
             {icon && typeof icon === 'string' && <TreeNode.Icon icon={icon} intent="custom" />}
             {icon && typeof icon !== 'string' && icon}

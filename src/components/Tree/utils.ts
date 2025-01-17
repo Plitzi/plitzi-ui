@@ -60,8 +60,11 @@ export const getFlatItems = (items: TreeItem[], level: number = 0, parentId: str
     }
 
     newItem.items = subItems.map(subItem => subItem.id);
-    path = `${path ? `${path}.` : ''}${i}.items`;
-    flatItems = { ...flatItems, [id]: newItem, ...getFlatItems(subItems, level + 1, id, path) };
+    flatItems = {
+      ...flatItems,
+      [id]: newItem,
+      ...getFlatItems(subItems, level + 1, id, `${path ? `${path}.` : ''}${i}.items`)
+    };
   });
 
   return flatItems;
@@ -160,8 +163,11 @@ export const moveNode = (
     }
 
     const parentFlatNode = flatItems[flatNode.parentId] as TreeFlatItem;
-    const node = get(draft, flatNode.path) as TreeItem;
-    const parentNode = get(draft, parentFlatNode.path) as TreeItem;
+    const node = get(draft, flatNode.path) as TreeItem | undefined;
+    const parentNode = get(draft, parentFlatNode.path) as TreeItem | undefined;
+    if (!node || !parentNode) {
+      return;
+    }
 
     // Swap positions
     const toParentFlatNode = flatItems[toFlatNode.parentId ? toFlatNode.parentId : toNodeId];

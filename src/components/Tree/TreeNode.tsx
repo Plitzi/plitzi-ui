@@ -35,7 +35,7 @@ export type TreeNodeProps = {
   setDragMetadata?: (metadata: DragMetadata) => void;
   getDragMetadata?: () => DragMetadata;
   resetDragMetadata?: () => void;
-  isDragAllowed?: (id: string, dropPosition: DropPosition) => boolean;
+  isDragAllowed?: (id: string, dropPosition: DropPosition, parentId?: string) => boolean;
   onChange?: (id: string, value: string) => void;
   onHover?: (id?: string) => void;
   onSelect?: (id?: string) => void;
@@ -119,12 +119,13 @@ const TreeNodeOriginal = ({
       return;
     }
 
-    const offsetYDelta = clientRect.current.height * 0.25;
+    const offsetDeltaY = clientRect.current.height * 0.25;
+    const noParentOffsetDeltaY = clientRect.current.height / 2;
     const offsetY = e.clientY - clientRect.current.top;
     let newDropPosition: DropPosition;
-    if (offsetY < offsetYDelta) {
+    if (offsetY < offsetDeltaY || (!isParent && offsetY < noParentOffsetDeltaY)) {
       newDropPosition = 'top';
-    } else if (offsetY > clientRect.current.height - offsetYDelta) {
+    } else if (offsetY > clientRect.current.height - offsetDeltaY || (!isParent && offsetY >= noParentOffsetDeltaY)) {
       newDropPosition = 'bottom';
     } else {
       newDropPosition = 'inside';
@@ -137,7 +138,7 @@ const TreeNodeOriginal = ({
     if (!dragHovered || dropPosition !== newDropPosition) {
       setDragHovered(true);
       setDropPosition(newDropPosition);
-      setDragAllowed(isDragAllowed?.(id, newDropPosition) ?? false);
+      setDragAllowed(isDragAllowed?.(id, newDropPosition, parentNodeId) ?? true);
     }
   };
 
@@ -149,16 +150,19 @@ const TreeNodeOriginal = ({
     }
   }, [dragHovered]);
 
-  const handleDrop = (e: DragEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const { nodeId, dropPosition } = getDragMetadata?.() ?? ({} as DragMetadata);
-    setDragHovered(false);
-    setDragAllowed(true);
-    setDropPosition(undefined);
-    resetDragMetadata?.();
-    onDrop?.(nodeId as string, id, dropPosition as DropPosition);
-  };
+  const handleDrop = useCallback(
+    (e: DragEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const { nodeId, dropPosition } = getDragMetadata?.() ?? ({} as DragMetadata);
+      setDragHovered(false);
+      setDragAllowed(true);
+      setDropPosition(undefined);
+      resetDragMetadata?.();
+      onDrop?.(nodeId as string, id, dropPosition as DropPosition);
+    },
+    [getDragMetadata, id, onDrop, resetDragMetadata]
+  );
 
   const handleMouseLeave = useCallback(
     (e: MouseEvent) => {
