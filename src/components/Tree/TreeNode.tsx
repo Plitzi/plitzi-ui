@@ -39,7 +39,7 @@ export type TreeNodeProps = {
   onChange?: (id: string, value: string) => void;
   onHover?: (id?: string) => void;
   onSelect?: (id?: string) => void;
-  onDrop?: (id: string, toId: string, dropPosition: DropPosition) => void;
+  onDrop?: (event: DragEvent, id: string, toId: string, dropPosition: DropPosition) => void;
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const TreeNodeOriginal = ({
@@ -159,7 +159,9 @@ const TreeNodeOriginal = ({
       setDragAllowed(true);
       setDropPosition(undefined);
       resetDragMetadata?.();
-      onDrop?.(nodeId as string, id, dropPosition as DropPosition);
+      if (nodeId !== id) {
+        onDrop?.(e, nodeId as string, id, dropPosition as DropPosition);
+      }
     },
     [getDragMetadata, id, onDrop, resetDragMetadata]
   );
