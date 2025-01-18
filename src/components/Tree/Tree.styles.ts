@@ -239,5 +239,19 @@ export default {
     defaultVariants: {
       isOpen: false
     }
+  }),
+  icon: cva('', {
+    variants: {
+      size: {
+        md: 'w-4 h-4',
+        sm: 'w-[14px] h-[14px]',
+        xs: 'w-3 h-3',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
   })
 };

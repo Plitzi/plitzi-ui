@@ -81,7 +81,7 @@ const TreeNodeOriginal = ({
   const [dropPosition, setDropPosition] = useState<DropPosition>();
   const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys, false>('Tree', {
     className,
-    componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon'],
+    componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon', 'icon'],
     variant: { intent, size, selected, hovered, parentSelected, dropPosition, dragAllowed, isOpen }
   });
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
@@ -215,13 +215,14 @@ const TreeNodeOriginal = ({
       if (child.type === Icon) {
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
           ...(child.props as IconProps),
+          className: classNames((child.props as IconProps).className, classNameTheme.icon),
           size
         });
       }
     });
 
     return components;
-  }, [children, size]);
+  }, [children, size, classNameTheme.icon]);
 
   const actionsChildren = useMemo(() => {
     if (!isValidElement(controls)) {

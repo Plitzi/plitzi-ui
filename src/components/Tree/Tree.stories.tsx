@@ -45,7 +45,11 @@ export const Primary: Story = {
         label: 'Page',
         icon: 'fa-solid fa-square',
         items: [
-          { id: '672a10680e69f90f255f81ed', label: 'Heading 1' },
+          {
+            id: '672a10680e69f90f255f81ed',
+            label: 'Heading 1',
+            icon: 'https://cdn.plitzi.com/resources/img/favicon.svg'
+          },
           { id: '672a9fb7d8a5a53321f3f52c', label: 'Heading 2' },
           {
             id: '678226237479ee7d61c55cc2',

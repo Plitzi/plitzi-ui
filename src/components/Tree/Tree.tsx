@@ -214,7 +214,14 @@ const Tree = ({
             onChange={handleItemChange}
             isDragAllowed={isDragAllowed}
           >
-            {icon && typeof icon === 'string' && <TreeNode.Icon icon={icon} intent="custom" size={size} />}
+            {icon && typeof icon === 'string' && !icon.startsWith('http') && (
+              <TreeNode.Icon icon={icon} intent="custom" size={size} />
+            )}
+            {icon && typeof icon === 'string' && icon.startsWith('http') && (
+              <TreeNode.Icon intent="custom" size={size}>
+                <img src={icon} />
+              </TreeNode.Icon>
+            )}
             {icon && typeof icon !== 'string' && icon}
           </TreeNode>
         );
