@@ -8,6 +8,7 @@ export const variantKeys = {
   selected: [true, false],
   parentSelected: [true, false],
   dragAllowed: [true, false],
+  isOpen: [true, false],
   dropPosition: ['top', 'bottom', 'inside']
 } as const;
 
@@ -227,5 +228,16 @@ export default {
       }
     }
   ),
-  collapsableIcon: cva('w-4 group-hover:flex hidden items-center cursor-pointer')
+  collapsableIcon: cva('w-4 items-center cursor-pointer', {
+    variants: {
+      isOpen: {
+        true: 'flex',
+        false: 'group-hover:flex hidden'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      isOpen: false
+    }
+  })
 };
