@@ -6,6 +6,7 @@ export const variantKeys = {
   size: ['md', 'sm', 'xs', 'custom'],
   hovered: [true, false],
   selected: [true, false],
+  parentSelected: [true, false],
   dragAllowed: [true, false],
   dropPosition: ['top', 'bottom', 'inside']
 } as const;
@@ -45,6 +46,10 @@ export default {
         true: '',
         false: ''
       },
+      parentSelected: {
+        true: '',
+        false: ''
+      },
       size: {
         md: 'px-4',
         sm: 'px-3',
@@ -53,6 +58,7 @@ export default {
       }
     },
     compoundVariants: [
+      // Hovered
       {
         hovered: true,
         selected: false,
@@ -65,6 +71,19 @@ export default {
         intent: 'secondary',
         className: 'bg-secondary-100 text-black'
       },
+      {
+        parentSelected: true,
+        selected: false,
+        intent: 'primary',
+        className: 'bg-primary-100 text-black'
+      },
+      {
+        parentSelected: true,
+        selected: false,
+        intent: 'secondary',
+        className: 'bg-secondary-100 text-black'
+      },
+      // Selected
       {
         selected: true,
         intent: 'primary',

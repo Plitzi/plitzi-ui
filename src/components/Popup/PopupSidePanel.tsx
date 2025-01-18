@@ -52,7 +52,7 @@ const PopupSidePanel = ({
 }: PopupSidePanelProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
     className,
-    componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
+    componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer', 'sidePanelContainerHeader'],
     variant: { placement: placementTabs, size }
   });
   const { placementPopup, popups, popupIds, popupActiveIds } = usePopup(placement);
@@ -183,7 +183,12 @@ const PopupSidePanel = ({
                 grow
                 className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
               >
-                <Accordion.Item.Header title={popup.settings.title} iconExpanded={null} iconCollapsed={null}>
+                <Accordion.Item.Header
+                  className={classNameTheme.sidePanelContainerHeader}
+                  title={popup.settings.title}
+                  iconExpanded={null}
+                  iconCollapsed={null}
+                >
                   {popup.settings.allowFloatingSide !== false && (
                     <Button
                       intent="custom"

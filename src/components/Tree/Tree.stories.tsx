@@ -26,8 +26,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const W = ({ hovered }: ItemControlsProps) => {
-  if (!hovered) {
+const W = ({ hovered, selected }: ItemControlsProps) => {
+  if (!hovered && !selected) {
     return undefined;
   }
 

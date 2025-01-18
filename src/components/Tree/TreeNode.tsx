@@ -22,6 +22,7 @@ export type ItemControlsProps = {
   id?: string;
   hovered?: boolean;
   selected?: boolean;
+  parentSelected?: boolean;
 } & { [key: string]: unknown };
 
 export type TreeNodeProps = {
@@ -34,6 +35,7 @@ export type TreeNodeProps = {
   isOpen?: boolean;
   isParent?: boolean;
   hovered?: boolean;
+  parentSelected?: boolean;
   selected?: boolean;
   canDragDrop?: boolean;
   label?: string;
@@ -58,6 +60,7 @@ const TreeNodeOriginal = ({
   isOpen = false,
   isParent = false,
   hovered = false,
+  parentSelected = false,
   selected = false,
   canDragDrop = true,
   label = '',
@@ -79,7 +82,7 @@ const TreeNodeOriginal = ({
   const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys, false>('Tree', {
     className,
     componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon'],
-    variant: { intent, size, selected, hovered, dropPosition, dragAllowed }
+    variant: { intent, size, selected, hovered, parentSelected, dropPosition, dragAllowed }
   });
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
   const ref = useRef<HTMLDivElement>(null);
@@ -231,9 +234,10 @@ const TreeNodeOriginal = ({
       ...(controls.props as ItemControlsProps),
       id,
       hovered,
-      selected
+      selected,
+      parentSelected
     });
-  }, [controls, hovered, id, selected, intent, size]);
+  }, [controls, hovered, parentSelected, id, selected, intent, size]);
 
   return (
     <div
