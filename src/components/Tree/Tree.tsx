@@ -205,6 +205,7 @@ const Tree = ({
             intent={intent}
             size={size}
             controls={itemControls}
+            icon={icon}
             setDragMetadata={setDragMetadata}
             resetDragMetadata={resetDragMetadata}
             getDragMetadata={getDragMetadata}
@@ -214,7 +215,7 @@ const Tree = ({
             onChange={handleItemChange}
             isDragAllowed={isDragAllowed}
           >
-            {icon && typeof icon === 'string' && !icon.startsWith('http') && (
+            {/* {icon && typeof icon === 'string' && !icon.startsWith('http') && (
               <TreeNode.Icon icon={icon} intent="custom" size={size} />
             )}
             {icon && typeof icon === 'string' && icon.startsWith('http') && (
@@ -222,7 +223,7 @@ const Tree = ({
                 <img src={icon} />
               </TreeNode.Icon>
             )}
-            {icon && typeof icon !== 'string' && icon}
+            {icon && typeof icon !== 'string' && icon} */}
           </TreeNode>
         );
       })}

@@ -1,6 +1,6 @@
 // Packages
 import { useArgs } from '@storybook/preview-api';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 // Relatives
 import Tree from './Tree';
@@ -108,6 +108,8 @@ export const Primary: Story = {
       [updateArgs]
     );
 
+    const controls = useMemo(() => <W />, []);
+
     return (
       <Tree
         {...args}
@@ -116,7 +118,7 @@ export const Primary: Story = {
         itemSelected={itemSelected}
         itemHovered={itemHovered}
         // controlsComponent={Tree.Controls}
-        itemControls={<W />}
+        itemControls={controls}
         onChange={handleChange}
       />
     );

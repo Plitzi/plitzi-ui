@@ -1,6 +1,6 @@
 // Packages
 import classNames from 'classnames';
-import { Children, cloneElement, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { cloneElement, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Alias
 import Contenteditable from '@components/ContentEditable';
@@ -26,9 +26,9 @@ export type ItemControlsProps = {
 } & { [key: string]: unknown };
 
 export type TreeNodeProps = {
-  children?: ReactNode;
   controls?: ReactNode;
   className?: string;
+  icon?: ReactNode;
   id?: string;
   parentNodeId?: string;
   level?: number;
@@ -51,8 +51,8 @@ export type TreeNodeProps = {
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const TreeNodeOriginal = ({
-  children,
   controls,
+  icon,
   className = '',
   id = '',
   parentNodeId = '',
@@ -205,24 +205,29 @@ const TreeNodeOriginal = ({
     [id, label, onChange]
   );
 
-  const { iconChildren } = useMemo(() => {
-    const components: { iconChildren?: ReactNode } = { iconChildren: undefined };
-    Children.forEach(children, child => {
-      if (!isValidElement(child)) {
-        return;
-      }
+  const iconChildren = useMemo(() => {
+    if (typeof icon === 'string' && !icon.startsWith('http')) {
+      return <TreeNode.Icon intent="custom" size={size} icon={icon} className={classNameTheme.icon} />;
+    }
 
-      if (child.type === Icon) {
-        components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
-          ...(child.props as IconProps),
-          className: classNames((child.props as IconProps).className, classNameTheme.icon),
-          size
-        });
-      }
+    if (typeof icon === 'string' && icon.startsWith('http')) {
+      return (
+        <TreeNode.Icon intent="custom" size={size} className={classNameTheme.icon}>
+          <img src={icon} />
+        </TreeNode.Icon>
+      );
+    }
+
+    if (!isValidElement(icon)) {
+      return undefined;
+    }
+
+    return cloneElement<IconProps>(icon as ReactElement<IconProps>, {
+      ...(icon.props as IconProps),
+      size,
+      className: classNames((icon.props as IconProps).className, classNameTheme.icon)
     });
-
-    return components;
-  }, [children, size, classNameTheme.icon]);
+  }, [icon, size, classNameTheme.icon]);
 
   const actionsChildren = useMemo(() => {
     if (!isValidElement(controls)) {
