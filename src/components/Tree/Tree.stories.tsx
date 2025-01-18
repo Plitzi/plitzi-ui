@@ -7,6 +7,7 @@ import Tree from './Tree';
 
 // Types
 import type { TreeChangeState, TreeItem } from './Tree';
+import type { ItemControlsProps } from './TreeNode';
 import type { DropPosition } from './utils';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -24,6 +25,14 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+const W = ({ hovered }: ItemControlsProps) => {
+  if (!hovered) {
+    return undefined;
+  }
+
+  return <div>Sad</div>;
+};
 
 export const Primary: Story = {
   args: {
@@ -101,6 +110,8 @@ export const Primary: Story = {
         itemsOpened={itemsOpened}
         itemSelected={itemSelected}
         itemHovered={itemHovered}
+        // controlsComponent={Tree.Controls}
+        itemControls={<W />}
         onChange={handleChange}
       />
     );

@@ -1,26 +1,30 @@
 // Packages
 import classNames from 'classnames';
-import { Children, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, cloneElement, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Alias
 import Contenteditable from '@components/ContentEditable';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
-import TreeNodeActions from './TreeNodeActions';
-
 // Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
 import type { DragMetadata, DropPosition } from './utils';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { DragEvent, MouseEvent, ReactNode } from 'react';
+import type { DragEvent, MouseEvent, ReactElement, ReactNode } from 'react';
 
 const treeNodePadding = 16;
 
+export type ItemControlsProps = {
+  id?: string;
+  hovered?: boolean;
+  selected?: boolean;
+} & { [key: string]: unknown };
+
 export type TreeNodeProps = {
   children?: ReactNode;
+  controls?: ReactNode;
   className?: string;
   id?: string;
   parentNodeId?: string;
@@ -44,6 +48,7 @@ export type TreeNodeProps = {
 
 const TreeNodeOriginal = ({
   children,
+  controls,
   className = '',
   id = '',
   parentNodeId = '',
@@ -200,25 +205,33 @@ const TreeNodeOriginal = ({
     paddingRight += 1;
   }
 
-  const { actionsChildren, iconChildren } = useMemo(() => {
-    const components: { actionsChildren?: ReactNode; iconChildren?: ReactNode } = {
-      actionsChildren: undefined,
-      iconChildren: undefined
-    };
+  const { iconChildren } = useMemo(() => {
+    const components: { iconChildren?: ReactNode } = { iconChildren: undefined };
     Children.forEach(children, child => {
       if (!isValidElement(child)) {
         return;
       }
 
-      if (child.type === TreeNodeActions) {
-        components.actionsChildren = child;
-      } else if (child.type === Icon) {
+      if (child.type === Icon) {
         components.iconChildren = child;
       }
     });
 
     return components;
   }, [children]);
+
+  const actionsChildren = useMemo(() => {
+    if (!isValidElement(controls)) {
+      return undefined;
+    }
+
+    return cloneElement<ItemControlsProps>(controls as ReactElement<ItemControlsProps>, {
+      id,
+      hovered,
+      selected,
+      ...(controls.props as ItemControlsProps)
+    });
+  }, [controls, hovered, id, selected]);
 
   return (
     <div
@@ -252,8 +265,8 @@ const TreeNodeOriginal = ({
         {actionsChildren}
         {isParent && (
           <div className={classNameTheme.collapsableIcon} onClick={handleClick}>
-            {!isOpen && <Icon icon="fa-solid fa-chevron-left" intent="custom" />}
-            {isOpen && <Icon icon="fa-solid fa-chevron-down" intent="custom" />}
+            {!isOpen && <Icon icon="fa-solid fa-chevron-left" intent="custom" size="xs" />}
+            {isOpen && <Icon icon="fa-solid fa-chevron-down" intent="custom" size="xs" />}
           </div>
         )}
       </div>
@@ -261,6 +274,6 @@ const TreeNodeOriginal = ({
   );
 };
 
-const TreeNode = Object.assign(memo(TreeNodeOriginal), { Icon, Actions: TreeNodeActions });
+const TreeNode = Object.assign(memo(TreeNodeOriginal), { Icon });
 
 export default TreeNode;

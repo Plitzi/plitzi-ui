@@ -187,5 +187,5 @@ export default {
       }
     }
   ),
-  collapsableIcon: cva('w-4 flex items-center cursor-pointer')
+  collapsableIcon: cva('w-4 group-hover:flex hidden items-center cursor-pointer')
 };

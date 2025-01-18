@@ -2,7 +2,7 @@
 import { produce } from 'immer';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { DragEvent, useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 // Alias
 import useTheme from '@hooks/useTheme';
@@ -21,10 +21,12 @@ import {
 // Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
+import type { ItemControlsProps } from './TreeNode';
 import type { DragMetadata, DropPosition, TreeFlatItem, TreeItem } from './utils';
 import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { DragEvent, ReactNode } from 'react';
 
-export type { TreeItem };
+export type { TreeItem, ItemControlsProps };
 
 export type TreeChangeState =
   | { action: 'itemsChange'; data: TreeItem[] }
@@ -39,6 +41,7 @@ export type TreeChangeState =
   | { action: 'isDragging'; data: boolean };
 
 export type TreeProps = {
+  itemControls?: ReactNode;
   testId?: string;
   itemsOpened?: { [key: string]: boolean };
   itemHovered?: string;
@@ -49,6 +52,7 @@ export type TreeProps = {
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const Tree = ({
+  itemControls,
   testId,
   className,
   items = [],
@@ -199,6 +203,7 @@ const Tree = ({
             selected={itemSelected === id}
             intent={intent}
             size={size}
+            controls={itemControls}
             setDragMetadata={setDragMetadata}
             resetDragMetadata={resetDragMetadata}
             getDragMetadata={getDragMetadata}
