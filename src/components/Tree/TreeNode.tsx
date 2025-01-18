@@ -7,14 +7,16 @@ import Contenteditable from '@components/ContentEditable';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
+// Relatives
+import { getPaddingLeft } from './utils';
+
 // Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
 import type { DragMetadata, DropPosition } from './utils';
+import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { DragEvent, MouseEvent, ReactElement, ReactNode } from 'react';
-
-const treeNodePadding = 16;
 
 export type ItemControlsProps = {
   id?: string;
@@ -200,11 +202,6 @@ const TreeNodeOriginal = ({
     [id, label, onChange]
   );
 
-  let paddingRight = level * treeNodePadding;
-  if (!isParent) {
-    paddingRight += 1;
-  }
-
   const { iconChildren } = useMemo(() => {
     const components: { iconChildren?: ReactNode } = { iconChildren: undefined };
     Children.forEach(children, child => {
@@ -213,12 +210,15 @@ const TreeNodeOriginal = ({
       }
 
       if (child.type === Icon) {
-        components.iconChildren = child;
+        components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
+          ...(child.props as IconProps),
+          size
+        });
       }
     });
 
     return components;
-  }, [children]);
+  }, [children, size]);
 
   const actionsChildren = useMemo(() => {
     if (!isValidElement(controls)) {
@@ -226,12 +226,14 @@ const TreeNodeOriginal = ({
     }
 
     return cloneElement<ItemControlsProps>(controls as ReactElement<ItemControlsProps>, {
+      intent,
+      size,
+      ...(controls.props as ItemControlsProps),
       id,
       hovered,
-      selected,
-      ...(controls.props as ItemControlsProps)
+      selected
     });
-  }, [controls, hovered, id, selected]);
+  }, [controls, hovered, id, selected, intent, size]);
 
   return (
     <div
@@ -249,13 +251,14 @@ const TreeNodeOriginal = ({
       onMouseLeave={handleMouseLeave}
       tabIndex={-1}
     >
-      <div className="w-full flex gap-2" style={{ paddingLeft: `${paddingRight}px` }}>
+      <div className="w-full flex items-center gap-2" style={{ paddingLeft: `${getPaddingLeft(level, size)}px` }}>
         {iconChildren}
         <div className="flex relative grow basis-0 overflow-hidden">
           <Contenteditable
             className={classNames(classNameTheme.containerEditable, {
               'opacity-30': dragHovered && dropPosition !== 'inside'
             })}
+            size={size}
             value={label}
             onChange={handleChange}
             openMode="doubleClick"

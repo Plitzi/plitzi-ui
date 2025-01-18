@@ -213,7 +213,7 @@ const Tree = ({
             onChange={handleItemChange}
             isDragAllowed={isDragAllowed}
           >
-            {icon && typeof icon === 'string' && <TreeNode.Icon icon={icon} intent="custom" />}
+            {icon && typeof icon === 'string' && <TreeNode.Icon icon={icon} intent="custom" size={size} />}
             {icon && typeof icon !== 'string' && icon}
           </TreeNode>
         );

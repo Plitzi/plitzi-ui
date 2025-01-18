@@ -30,6 +30,7 @@ const ContentEditable = ({
   exitOnEscape = true,
   updateMode = 'blur',
   openMode = 'click',
+  size,
   onChange,
   onEditOpen,
   onEditClose
@@ -37,7 +38,7 @@ const ContentEditable = ({
   className = useTheme<typeof ContentEditableStyles, typeof variantKeys>('ContentEditable', {
     className,
     componentKey: 'root',
-    variant: {}
+    variant: { size }
   });
 
   const contentEditableRef = useRef<HTMLDivElement>(null);

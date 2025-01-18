@@ -36,6 +36,7 @@ const W = ({ hovered }: ItemControlsProps) => {
 
 export const Primary: Story = {
   args: {
+    // size: 'sm',
     intent: 'secondary',
     itemSelected: '672a9fb8d8a5a53321f3f52c',
     items: [

@@ -31,7 +31,7 @@ export default {
       size: 'md'
     }
   }),
-  item: cva('tree_node cursor-pointer pr-4 pl-4 flex', {
+  item: cva('tree_node cursor-pointer flex', {
     variants: {
       intent: {
         primary: '',
@@ -44,6 +44,12 @@ export default {
       hovered: {
         true: '',
         false: ''
+      },
+      size: {
+        md: 'px-4',
+        sm: 'px-3',
+        xs: 'px-2',
+        custom: ''
       }
     },
     compoundVariants: [
@@ -72,14 +78,29 @@ export default {
     ],
     defaultVariants: {
       intent: 'primary',
+      size: 'md',
       selected: false,
       hovered: false
     }
   }),
-  containerEditable: cva([
-    'focus-visible:px-1 focus-visible:m-[1px] focus-visible:outline-dashed focus-visible:outline-1',
-    'truncate focus-visible:text-clip focus-visible:overflow-auto focus-visible:text-black focus-visible:outline-blue-500'
-  ]),
+  containerEditable: cva(
+    [
+      'focus-visible:outline-dashed focus-visible:outline-1 focus-visible:-outline-offset-[1px]',
+      'truncate focus-visible:text-clip focus-visible:overflow-auto focus-visible:text-black focus-visible:outline-primary-500'
+    ],
+    {
+      variants: {
+        size: {
+          md: 'focus-visible:px-1',
+          sm: 'focus-visible:px-0.5',
+          xs: '',
+          custom: ''
+        }
+      },
+      compoundVariants: [],
+      defaultVariants: {}
+    }
+  ),
   dropIndicator: cva(
     [
       'h-0.5 w-full p-0 absolute pointer-events-none',

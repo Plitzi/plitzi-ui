@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { isInViewport } from '@/helpers/utils';
 
 // Types
+import type { TreeProps } from './Tree';
 import type { ReactNode } from 'react';
 
 export type TreeItem = {
@@ -200,4 +201,16 @@ export const moveNode = (
   }
 
   return newItems;
+};
+
+export const getPaddingLeft = (level: number, size: TreeProps['size']) => {
+  switch (size) {
+    case 'sm':
+      return level * 12;
+    case 'xs':
+      return level * 8;
+    case 'md':
+    default:
+      return level * 16;
+  }
 };

@@ -1,14 +1,25 @@
 // Alias
 import cva from '@/helpers/cvaWrapper';
 
-export const variantKeys = {} as const;
+export const variantKeys = {
+  size: ['md', 'sm', 'xs', 'custom']
+} as const;
 
 export const STYLES_COMPONENT_NAME = 'ContentEditable';
 
 export default {
   root: cva('', {
-    variants: {},
+    variants: {
+      size: {
+        md: '',
+        sm: 'text-sm',
+        xs: 'text-xs',
+        custom: ''
+      }
+    },
     compoundVariants: [],
-    defaultVariants: {}
+    defaultVariants: {
+      size: 'md'
+    }
   })
 };
