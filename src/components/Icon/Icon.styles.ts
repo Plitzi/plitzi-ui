@@ -10,7 +10,8 @@ export const variantKeys = {
     'tertiary',
     'tertiaryActive',
     'disabled',
-    'error',
+    'danger',
+    'success',
     'custom'
   ],
   cursor: ['pointer', 'disabled', 'custom'],
@@ -30,7 +31,8 @@ export default {
         tertiary: 'hover:bg-grayviolet-200 text-gray-500',
         tertiaryActive: 'text-black',
         disabled: 'text-gray-400',
-        error: 'text-red-500 hover:text-red-400',
+        danger: 'text-red-500 hover:text-red-400',
+        success: 'text-green-500 hover:text-green-400',
         custom: ''
       },
       cursor: {

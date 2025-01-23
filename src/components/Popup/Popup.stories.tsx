@@ -1,5 +1,8 @@
 // Packages
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
+// Alias
+import Button from '@components/Button';
 
 // Relatives
 import Popup from './Popup';
@@ -325,6 +328,67 @@ export const NestedProvider: Story = {
       <div className="flex border border-solid border-gray-300">
         <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
           <div className="flex grow h-[500px] bg-gray-200"></div>
+        </PopupProvider>
+      </div>
+    );
+  }
+};
+
+const getPopups = (id: string) => {
+  return {
+    left: [
+      {
+        id: 'popup-1',
+        component: <div className="h-[600px] bg-red-300">Hello World 1 {id}</div>,
+        active: true,
+        settings: {
+          icon: <i className="fa-solid fa-sliders text-base" />,
+          title: 'Popup 1',
+          allowLeftSide: true,
+          allowRightSide: true,
+          resizeHandles: ['se'] as ResizeHandle[]
+        }
+      }
+    ],
+    right: [
+      {
+        id: 'popup-2',
+        component: <div className="h-[600px] bg-red-300">Hello World 2 {id}</div>,
+        active: false,
+        settings: {
+          icon: <i className="fa-solid fa-sliders text-base" />,
+          title: 'Popup 2',
+          allowLeftSide: true,
+          allowRightSide: true,
+          resizeHandles: ['se'] as ResizeHandle[]
+        }
+      }
+    ],
+    floating: []
+  };
+};
+
+export const DynamicPopups: Story = {
+  args: {},
+  render: function Render() {
+    const [id, setId] = useState('Hello');
+
+    const popups = useMemo(() => getPopups(id), [id]);
+
+    const handleClick = useCallback(() => {
+      if (id === 'Hello') {
+        setId('World');
+      } else {
+        setId('Hello');
+      }
+    }, [id]);
+
+    return (
+      <div className="flex border border-solid border-gray-300">
+        <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
+          <div className="flex grow h-[500px] bg-gray-200 items-center justify-center">
+            <Button onClick={handleClick}>Click Me</Button>
+          </div>
         </PopupProvider>
       </div>
     );

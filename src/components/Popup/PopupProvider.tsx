@@ -80,6 +80,7 @@ const PopupProvider = ({
       ...popupsRef.current.right.reduce((acum, popup) => ({ ...acum, [popup.id]: 'right' }), {}),
       ...popupsRef.current.floating.reduce((acum, popup) => ({ ...acum, [popup.id]: 'floating' }), {})
     };
+    setRerender(Date.now());
   }, [popups]);
 
   const addPopup = useCallback(
