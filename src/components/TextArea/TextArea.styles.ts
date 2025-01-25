@@ -11,7 +11,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'TextArea';
 
 export default {
-  input: cva('p-0 border-0 outline-none focus:ring-0', {
+  input: cva('p-0 border-0 outline-none focus:ring-0 w-full', {
     variants: {
       intent: {
         primary: '',
