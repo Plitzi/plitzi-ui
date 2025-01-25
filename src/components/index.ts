@@ -16,6 +16,7 @@ import Contenteditable from './ContentEditable';
 import Dummy from './Dummy';
 import ErrorMessage from './ErrorMessage';
 import Flex from './Flex';
+import Form from './Form';
 import Heading from './Heading';
 import Icon from './Icon';
 import IconGroup from './IconGroup';
@@ -33,6 +34,7 @@ import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 import Tree from './Tree';
 
+export * from './Form';
 export * from './Heading';
 export * from './Tree';
 export * from './ContentEditable';
@@ -68,6 +70,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Form,
   Heading,
   Tree,
   Contenteditable,
