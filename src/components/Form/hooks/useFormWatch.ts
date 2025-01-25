@@ -31,10 +31,10 @@ function useFormWatch<T extends FieldValues>(formRef: FormRef<T>, names: Path<T>
       return;
     }
 
-    const subscription = formRef.current.watch(() => {
+    const subscription = formRef.current.watch((_values, { name }) => {
       if (typeof names === 'string') {
         setValue(formRef.current?.getValues(names));
-      } else {
+      } else if (name && names.includes(name)) {
         setValue(formRef.current?.getValues(names));
       }
     });

@@ -40,22 +40,18 @@ export const Primary: Story = {
         }),
       []
     );
+    const initialValues = useMemo(() => ({ username: 'test', password: 'password', extra: '' }), []);
 
     type Schema = typeof watchFormSchema;
-
     const formRef = useRef<FormRefType<Schema>>(null);
-
     const watchUsername = useFormWatch(formRef, 'username');
     const watchPassword = useFormWatch(formRef, 'password');
     const watchArray = useFormWatch(formRef, ['username', 'password']);
-
     console.log(watchUsername, watchPassword, watchArray);
 
     const handleSubmit = useCallback(async (values: z.infer<Schema>) => {
       return Promise.resolve(values);
     }, []);
-
-    const initialValues = useMemo(() => ({ username: 'test', password: 'password' }), []);
 
     return (
       <Form {...args} initialValues={initialValues} schema={watchFormSchema} formRef={formRef} onSubmit={handleSubmit}>
