@@ -11,7 +11,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Sidebar';
 
 export default {
-  root: cva('flex flex-col gap-5 border-gray-200 bg-grayviolet-100 w-14 items-center overflow-y-auto flex-shrink-0', {
+  root: cva('flex flex-col gap-5 border-gray-200 bg-grayviolet-100 w-14 items-center overflow-y-auto shrink-0', {
     variants: {
       border: {
         solid: 'border-solid',
