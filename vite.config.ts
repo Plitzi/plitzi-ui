@@ -13,6 +13,8 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
+      // entryRoot: 'src',
+      // outDir: 'dist',
       rollupTypes: false,
       exclude: [
         '**/*.test.tsx',
