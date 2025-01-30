@@ -9,7 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Alert';
 
 export default {
-  root: cva('w-full flex relative rounded', {
+  root: cva('w-full flex relative rounded-sm', {
     variants: {
       intent: {
         default: '',

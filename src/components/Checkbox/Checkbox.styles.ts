@@ -33,9 +33,9 @@ export default {
           danger: 'text-red-400'
         },
         size: {
-          md: 'h-6 w-6 rounded',
-          sm: 'h-5 w-5 rounded',
-          xs: 'h-4 w-4 rounded-sm',
+          md: 'h-6 w-6 rounded-sm',
+          sm: 'h-5 w-5 rounded-sm',
+          xs: 'h-4 w-4 rounded-xs',
           custom: ''
         }
       },

@@ -61,8 +61,8 @@ export default {
       size: {
         lg: 'h-10 w-10 rounded-lg',
         md: 'h-8 w-8 rounded-lg',
-        sm: 'h-6 w-6 rounded',
-        xs: 'h-4 w-4 rounded-sm',
+        sm: 'h-6 w-6 rounded-sm',
+        xs: 'h-4 w-4 rounded-xs',
         custom: ''
       }
     },

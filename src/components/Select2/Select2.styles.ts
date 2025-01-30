@@ -44,7 +44,7 @@ export default {
   listMessage: cva('py-3 text-gray-500 flex items-center justify-center shrink-0'),
   listGroup: cva('not-last:border-b not-last:border-gray-300 not-last:pb-2 not-last:mb-2'),
   listGroupLabel: cva('pr-2 py-2 cursor-default select-none truncate font-bold text-gray-700'),
-  listItem: cva('my-0.5 shrink-0 transition duration-200 cursor-pointer select-none truncate rounded', {
+  listItem: cva('my-0.5 shrink-0 transition duration-200 cursor-pointer select-none truncate rounded-sm', {
     variants: {
       selected: {
         true: 'bg-blue-100 text-blue-500',

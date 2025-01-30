@@ -159,7 +159,7 @@ const ContainerNested = () => {
     <div className="flex h-full">
       <div className="grow">
         Hello World 3
-        <button className="px-2 py-1 rounded text-white bg-orange-400" onClick={handleClick}>
+        <button className="px-2 py-1 rounded-sm text-white bg-orange-400" onClick={handleClick}>
           Click Me
         </button>
       </div>
@@ -230,13 +230,13 @@ const Container = () => {
 
   return (
     <div className="flex gap-2">
-      <button className="px-2 py-1 rounded text-white bg-orange-400" onClick={handleClick}>
+      <button className="px-2 py-1 rounded-sm text-white bg-orange-400" onClick={handleClick}>
         Click Me
       </button>
-      <button className="px-2 py-1 rounded text-white bg-orange-400" onClick={handleClick2}>
+      <button className="px-2 py-1 rounded-sm text-white bg-orange-400" onClick={handleClick2}>
         Click Me 2
       </button>
-      <button className="px-2 py-1 rounded text-white bg-orange-400" onClick={handleClick3}>
+      <button className="px-2 py-1 rounded-sm text-white bg-orange-400" onClick={handleClick3}>
         Click Me 3
       </button>
     </div>

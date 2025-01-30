@@ -141,7 +141,7 @@ const Rule = ({
         />
         {direction === 'vertical' && (
           <>
-            <Button size={size} intent="danger" className="rounded" onClick={handleRemove}>
+            <Button size={size} intent="danger" className="rounded-sm" onClick={handleRemove}>
               X
             </Button>
             {allowDisableRules && (

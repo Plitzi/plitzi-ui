@@ -5,6 +5,7 @@
 import { rename } from 'fs/promises';
 import path, { resolve } from 'node:path';
 
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
@@ -12,6 +13,8 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     react(),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    tailwindcss(),
     dts({
       // entryRoot: 'src',
       // outDir: 'dist',

@@ -31,7 +31,7 @@ export default {
       size: 'md'
     }
   }),
-  ruleGroup: cva('flex flex-col p-2 border rounded relative', {
+  ruleGroup: cva('flex flex-col p-2 border rounded-sm relative', {
     variants: {
       intent: {
         primary: 'bg-primary-500/20 border-gray-400',
@@ -80,7 +80,7 @@ export default {
     }
   }),
   ruleGroupHeader: cva(''),
-  rule: cva('border p-1 rounded ml-4 not-first:mt-3 relative', {
+  rule: cva('border p-1 rounded-sm ml-4 not-first:mt-3 relative', {
     variants: {
       intent: {
         primary: 'border-gray-400',
@@ -92,7 +92,7 @@ export default {
       },
       showBranches: {
         true: [
-          'before:absolute before:border-l before:border-b before:last:rounded-bl before:-translate-x-1/2 before:translate-y-[-0%] before:left-[-4px] before:w-2 before:top-[-13px] before:h-[calc(50%_+_13px)]',
+          'before:absolute before:border-l before:border-b before:last:rounded-sm-bl before:-translate-x-1/2 before:translate-y-[-0%] before:left-[-4px] before:w-2 before:top-[-13px] before:h-[calc(50%_+_13px)]',
           'after:absolute after:border-l after:-translate-x-1/2 after:translate-y-[calc(50%_+_3px)] after:left-[-4px] after:w-2 last:after:border-none'
         ],
         false: ''
