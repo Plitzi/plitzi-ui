@@ -4,13 +4,13 @@
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["function", "if", "each", "include", "mixin", "return", "warn", "use"]
+        "ignoreAtRules": ["function", "if", "each", "include", "mixin", "return", "warn", "use", "config"]
       }
     ],
     "scss/at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["function", "if", "each", "include", "mixin", "return", "warn", "use"]
+        "ignoreAtRules": ["function", "if", "each", "include", "mixin", "return", "warn", "use", "config"]
       }
     ],
     "scss/dollar-variable-pattern": "$",
