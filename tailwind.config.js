@@ -1,6 +1,4 @@
 // Packages
-import colors from 'tailwindcss/colors';
-import defaultTheme from 'tailwindcss/defaultTheme';
 import plugin from 'tailwindcss/plugin';
 import { join } from 'path';
 
@@ -19,21 +17,6 @@ export default {
     }
   },
   plugins: [
-    require('@tailwindcss/forms'),
-    plugin(function ({ addVariant, e }) {
-      addVariant('not-first', ({ modifySelectors, separator }) => {
-        modifySelectors(({ className }) => {
-          return `.${e(`not-first${separator}${className}`)}:not(:first-child)`;
-        });
-      });
-    }),
-    plugin(function ({ addVariant, e }) {
-      addVariant('not-last', ({ modifySelectors, separator }) => {
-        modifySelectors(({ className }) => {
-          return `.${e(`not-last${separator}${className}`)}:not(:last-child)`;
-        });
-      });
-    }),
     plugin(({ addVariant, theme }) => {
       const groups = theme('groups') || [];
 

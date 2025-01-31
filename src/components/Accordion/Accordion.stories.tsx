@@ -55,7 +55,7 @@ export const Primary: Story = {
             </Flex>
           </Accordion.Item.Content>
         </Accordion.Item>
-        <Accordion.Item className="not-first:border-t not-first:border-solid not-first:border-gray-300">
+        <Accordion.Item className="[&:not(:first-child)]:border-t [&:not(:first-child)]:border-solid [&:not(:first-child)]:border-gray-300">
           <Accordion.Item.Header title="Item 2" isWarning>
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>

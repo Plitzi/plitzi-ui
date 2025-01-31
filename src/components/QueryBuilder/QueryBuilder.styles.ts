@@ -80,7 +80,7 @@ export default {
     }
   }),
   ruleGroupHeader: cva(''),
-  rule: cva('border p-1 rounded-sm ml-4 not-first:mt-3 relative', {
+  rule: cva('border p-1 rounded-sm ml-4 [&:not(:first-child)]:mt-3 relative', {
     variants: {
       intent: {
         primary: 'border-gray-400',

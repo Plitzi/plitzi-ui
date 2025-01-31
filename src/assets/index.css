@@ -5,3 +5,5 @@
 @import 'tailwindcss/utilities.css';
 
 @config '../../tailwind.config.js';
+
+@plugin '@tailwindcss/forms';

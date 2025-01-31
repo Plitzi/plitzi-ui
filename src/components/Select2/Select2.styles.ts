@@ -42,7 +42,9 @@ export default {
   searchInput: cva('mx-2.5 mt-2.5'),
   list: cva('p-2.5 max-h-[400px]'),
   listMessage: cva('py-3 text-gray-500 flex items-center justify-center shrink-0'),
-  listGroup: cva('not-last:border-b not-last:border-gray-300 not-last:pb-2 not-last:mb-2'),
+  listGroup: cva(
+    '[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-300 [&:not(:last-child)]:pb-2 not-last:mb-2'
+  ),
   listGroupLabel: cva('pr-2 py-2 cursor-default select-none truncate font-bold text-gray-700'),
   listItem: cva('my-0.5 shrink-0 transition duration-200 cursor-pointer select-none truncate rounded-sm', {
     variants: {
