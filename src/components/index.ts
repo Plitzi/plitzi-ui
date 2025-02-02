@@ -34,6 +34,7 @@ import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 import Tree from './Tree';
 
+export * from './Cache';
 export * from './Form';
 export * from './Heading';
 export * from './Tree';
