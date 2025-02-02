@@ -17,14 +17,14 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/plitzi"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "main": "dist/src/index.cjs",
+  "module": "dist/src/index.mjs",
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": "./dist/src/index.mjs",
+      "require": "./dist/src/index.cjs"
     },
     "./tailwind.config": "./tailwind.config.js",
     "./style.css": "./dist/plitzi-ui.css",
@@ -34,7 +34,7 @@
       "require": "./dist/src/tailwind/*"
     },
     "./icons": {
-      "types": "./dist/src/icons/*/index.d.ts",
+      "types": "./dist/src/icons/index.d.ts",
       "import": "./dist/src/icons/index.mjs",
       "require": "./dist/src/icons/index.cjs"
     },
@@ -44,7 +44,7 @@
       "require": "./dist/src/icons/*"
     },
     "./hooks": {
-      "types": "./dist/src/hooks/*/index.d.ts",
+      "types": "./dist/src/hooks/index.d.ts",
       "import": "./dist/src/hooks/index.mjs",
       "require": "./dist/src/hooks/index.cjs"
     },
@@ -54,13 +54,14 @@
       "require": "./dist/src/hooks/*"
     },
     "./components": {
-      "types": "./dist/src/components/*/index.d.ts",
+      "types": "./dist/src/components/index.d.ts",
       "import": "./dist/src/components/index.mjs",
       "require": "./dist/src/components/index.cjs"
     },
     "./components/*": {
       "types": "./dist/src/components/*/index.d.ts",
-      "import": "./dist/src/components/*"
+      "import": "./dist/src/components/*",
+      "require": "./dist/src/components/*"
     },
     "./*": {
       "types": "./dist/src/components/*/index.d.ts",
@@ -69,7 +70,7 @@
     }
   },
   "sideEffects": [
-    "**/*.scss"
+    "*.scss"
   ],
   "dependencies": {
     "@codemirror/autocomplete": "^6.18.4",
