@@ -13,7 +13,6 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     react(),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     tailwindcss(),
     dts({
       // entryRoot: 'src',
