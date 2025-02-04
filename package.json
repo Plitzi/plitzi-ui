@@ -40,8 +40,8 @@
     },
     "./icons/*": {
       "types": "./dist/src/icons/*/index.d.ts",
-      "import": "./dist/src/icons/*",
-      "require": "./dist/src/icons/*"
+      "import": "./dist/src/icons/*/index.es",
+      "require": "./dist/src/icons/*/index.cjs"
     },
     "./hooks": {
       "types": "./dist/src/hooks/index.d.ts",
@@ -50,8 +50,8 @@
     },
     "./hooks/*": {
       "types": "./dist/src/hooks/*/index.d.ts",
-      "import": "./dist/src/hooks/*",
-      "require": "./dist/src/hooks/*"
+      "import": "./dist/src/hooks/*/index.es",
+      "require": "./dist/src/hooks/*/index.cjs"
     },
     "./components": {
       "types": "./dist/src/components/index.d.ts",
@@ -60,13 +60,13 @@
     },
     "./components/*": {
       "types": "./dist/src/components/*/index.d.ts",
-      "import": "./dist/src/components/*",
-      "require": "./dist/src/components/*"
+      "import": "./dist/src/components/*/index.es",
+      "require": "./dist/src/components/*/index.cjs"
     },
     "./*": {
       "types": "./dist/src/components/*/index.d.ts",
-      "import": "./dist/src/components/*",
-      "require": "./dist/src/components/*"
+      "import": "./dist/src/components/*/index.es",
+      "require": "./dist/src/components/*/index.cjs"
     }
   },
   "sideEffects": [

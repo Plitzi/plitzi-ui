@@ -69,7 +69,7 @@ export default defineConfig({
       formats: ['es', 'cjs']
     },
     rollupOptions: {
-      // treeshake: false,
+      treeshake: false,
       external: [
         'react',
         'react-dom',
