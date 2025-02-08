@@ -11,6 +11,7 @@ import ContainerFloating from './ContainerFloating';
 import ContainerFrame from './ContainerFrame';
 import ContainerResizable from './ContainerResizable';
 import ContainerRoot from './ContainerRoot';
+import ContainerTabs from './ContainerTabs';
 import ContainerWindow from './ContainerWindow';
 import Contenteditable from './ContentEditable';
 import Dummy from './Dummy';
@@ -34,6 +35,7 @@ import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 import Tree from './Tree';
 
+export * from './ContainerTabs';
 export * from './Cache';
 export * from './Form';
 export * from './Heading';
@@ -71,6 +73,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  ContainerTabs,
   Form,
   Heading,
   Tree,

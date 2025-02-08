@@ -20,9 +20,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type RuleValue = Date | string | number | boolean | undefined | null | object;
 
-export type QueryBuilderParams = {
-  [key: string]: RuleValue;
-};
+export type QueryBuilderParams = Record<string, RuleValue>;
 
 export type Combinator = 'and' | 'or';
 
@@ -86,7 +84,7 @@ export type Field = {
 
 export type QueryBuilderProps = {
   query?: RuleGroup;
-  fields?: { [key: string]: Field };
+  fields?: Record<string, Field>;
   showBranches?: boolean;
   allowDisableRules?: boolean;
   allowSubGroups?: boolean;

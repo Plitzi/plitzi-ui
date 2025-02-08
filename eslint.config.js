@@ -36,6 +36,7 @@ export default tsEslint.config({
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
+    '@typescript-eslint/consistent-type-imports': 'warn',
     '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'no-var': 'error',
