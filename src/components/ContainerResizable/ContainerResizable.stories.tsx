@@ -35,3 +35,23 @@ export const Primary: Story = {
     </div>
   )
 };
+
+export const North: Story = {
+  args: {},
+  render: args => (
+    <div className="flex flex-col gap-4 h-[500px]">
+      <div className="grow">Content Outside</div>
+      <ContainerResizable
+        className="w-full"
+        minConstraintsY={200}
+        maxConstraintsY={500}
+        height={200}
+        resizeHandles={['n']}
+        autoGrow={false}
+        {...args}
+      >
+        <div>Content Inside</div>
+      </ContainerResizable>
+    </div>
+  )
+};
