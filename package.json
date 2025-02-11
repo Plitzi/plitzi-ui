@@ -27,7 +27,7 @@
       "require": "./dist/src/index.cjs"
     },
     "./tailwind.config": "./tailwind.config.js",
-    "./style.css": "./dist/plitzi-ui.css",
+    "./style.css": "./dist/src/plitzi-ui.css",
     "./tailwind/*": {
       "types": "./dist/src/tailwind/*/index.d.ts",
       "import": "./dist/src/tailwind/*",

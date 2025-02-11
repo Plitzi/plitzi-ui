@@ -2,7 +2,6 @@
 /// <reference types="vitest" />
 
 // Packages
-import { rename } from 'fs/promises';
 import path, { resolve } from 'node:path';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -10,46 +9,56 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
-export default defineConfig({
+// Types
+import type { ConfigEnv } from 'vite';
+
+const importedPackages = new Set<string>();
+
+export default defineConfig((env: ConfigEnv) => ({
   plugins: [
     react(),
     tailwindcss(),
     dts({
       // entryRoot: 'src',
-      // outDir: 'dist',
+      outDir: 'dist',
       rollupTypes: false,
       exclude: [
         '**/*.test.tsx',
         '**/*.stories.ts',
         '**/*.stories.tsx',
-        'vite.config.mts'
+        'vite.config.ts'
         // 'setupTests.ts',
         // 'node_modules'
       ],
       tsconfigPath: './tsconfig.app.json'
     }),
     {
-      name: 'rename-node-modules',
-      apply(_, { command }) {
-        return command === 'build';
-      },
-      closeBundle: async () => {
-        try {
-          await rename('./dist/node_modules', './dist/vendor');
-          console.log('Renamed "node_modules" folder to "vendor".');
-        } catch (error) {
-          console.error('Failed renaming "node_modules" folder to "vendor":', error);
-        }
+      name: 'debug-resolve',
+      resolveId(/* source, importer */) {
+        // console.log(`[VITE RESOLVE] Trying to resolve: ${source} from ${importer}`);
+        return null; // Allow vite keep resolving
       }
     },
     {
-      name: 'rewrite-node-modules-imports',
-      generateBundle(_, bundle) {
-        for (const file of Object.values(bundle)) {
-          if (file.type === 'chunk') {
-            file.code = file.code.replace(/node_modules\//g, 'vendor/');
-          }
+      name: 'externalize-and-log',
+      enforce: 'pre',
+      resolveId(source, importer) {
+        if (!importer || env.command === 'serve') {
+          // Ignore main entries or runtime
+          return null;
         }
+
+        // Mark as external modules or sub-modules from node_modules
+        if (!source.startsWith('.') && !path.isAbsolute(source)) {
+          importedPackages.add(source);
+
+          return { id: source, external: true };
+        }
+
+        return null;
+      },
+      buildEnd() {
+        console.log('Packages imported:', Array.from(importedPackages));
       }
     }
   ],
@@ -63,24 +72,15 @@ export default defineConfig({
   },
   css: { preprocessorOptions: { scss: { api: 'modern-compiler' } } },
   build: {
+    outDir: 'dist/src',
     lib: {
       entry: [resolve(__dirname, './src/index.ts')],
       name: 'plitzi-ui',
-      formats: ['es', 'cjs']
+      formats: ['es'] // , 'cjs'
     },
     rollupOptions: {
       treeshake: false,
-      external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        'lodash/get',
-        'lodash/omit',
-        'lodash/debounce',
-        'lodash/set',
-        'classnames',
-        'moment'
-      ],
+      external: [],
       output: {
         exports: 'named',
         preserveModules: true, // Keep module structure for tree-shaking
@@ -111,4 +111,4 @@ export default defineConfig({
     },
     reporters: ['default']
   }
-});
+}));
