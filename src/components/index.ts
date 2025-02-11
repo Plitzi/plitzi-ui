@@ -15,6 +15,7 @@ import ContainerTabs from './ContainerTabs';
 import ContainerWindow from './ContainerWindow';
 import Contenteditable from './ContentEditable';
 import Dummy from './Dummy';
+import ErrorBoundary from './ErrorBoundary';
 import ErrorMessage from './ErrorMessage';
 import Flex from './Flex';
 import Form from './Form';
@@ -35,6 +36,7 @@ import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 import Tree from './Tree';
 
+export * from './ErrorBoundary';
 export * from './ContainerTabs';
 export * from './Cache';
 export * from './Form';
@@ -73,6 +75,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  ErrorBoundary,
   ContainerTabs,
   Form,
   Heading,
