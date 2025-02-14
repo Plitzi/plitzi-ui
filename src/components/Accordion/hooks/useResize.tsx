@@ -1,5 +1,8 @@
 // Packages
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+// Types
+import type { RefObject } from 'react';
 
 export type UseResizeProps = {
   panels: { size: number; minSize: number }[];

@@ -3,9 +3,10 @@ import { useArgs } from '@storybook/preview-api';
 
 // Relatives
 import { defaultCombinators, defaultOperators, defaultValidator } from './helpers/QueryBuilderContants';
-import QueryBuilder, { RuleGroup } from './QueryBuilder';
+import QueryBuilder from './QueryBuilder';
 
 // Types
+import type { RuleGroup } from './QueryBuilder';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

@@ -6,8 +6,6 @@ import useTheme from '@hooks/useTheme';
 import type CheckboxStyles from './Checkbox.styles';
 import type { variantKeys } from './Checkbox.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-
-// Types
 import type { Ref, InputHTMLAttributes } from 'react';
 
 export type CheckboxProps = {

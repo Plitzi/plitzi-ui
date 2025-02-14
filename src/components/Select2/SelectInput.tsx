@@ -4,12 +4,12 @@ import { useCallback, useEffect, useRef } from 'react';
 
 // Alias
 import Input from '@components/Input';
-import InputStyles from '@components/Input/Input.styles';
 import useTheme from '@hooks/useTheme';
 
 // Types
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
+import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { KeyboardEvent } from 'react';
 

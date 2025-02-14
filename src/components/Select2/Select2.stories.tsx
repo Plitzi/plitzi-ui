@@ -3,9 +3,10 @@ import { useArgs } from '@storybook/preview-api';
 import { useMemo } from 'react';
 
 // Relatives
-import Select2, { Option } from './Select2';
+import Select2 from './Select2';
 
 // Types
+import type { Option } from './Select2';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

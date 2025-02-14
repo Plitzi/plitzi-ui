@@ -1,8 +1,11 @@
 // Packages
-import { ReactNode, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 // Relatives
 import ContainerRootContext from './ContainerRootContext';
+
+// Types
+import type { ReactNode } from 'react';
 
 export type ContainerRootProviderProps = { rootDOM?: HTMLElement | null; children?: ReactNode };
 

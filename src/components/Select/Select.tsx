@@ -7,11 +7,12 @@ import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
-import SelectOption, { SelectOptionProps } from './SelectOption';
+import SelectOption from './SelectOption';
 
 // Types
 import type SelectStyles from './Select.styles';
 import type { variantKeys } from './Select.styles';
+import type { SelectOptionProps } from './SelectOption';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

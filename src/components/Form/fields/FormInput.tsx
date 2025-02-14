@@ -1,6 +1,6 @@
 // Packages
 import { useMemo } from 'react';
-import { Controller, ControllerProps, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 // Alias
 import Input from '@components/Input';
@@ -8,7 +8,7 @@ import Input from '@components/Input';
 // Types
 import type { BaseFormType } from '../Form';
 import type { InputProps } from '@components/Input';
-import type { FieldValues } from 'react-hook-form';
+import type { FieldValues, ControllerProps } from 'react-hook-form';
 
 export type FormInputProps<T extends FieldValues> = InputProps & BaseFormType<T> & { label: string };
 

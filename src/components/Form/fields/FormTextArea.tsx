@@ -1,6 +1,6 @@
 // Packages
 import { useMemo } from 'react';
-import { Controller, ControllerProps, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 // Alias
 import TextArea from '@components/TextArea';
@@ -8,7 +8,7 @@ import TextArea from '@components/TextArea';
 // Types
 import type { BaseFormType } from '../Form';
 import type { TextAreaProps } from '@components/TextArea';
-import type { FieldValues } from 'react-hook-form';
+import type { FieldValues, ControllerProps } from 'react-hook-form';
 
 export type FormTextAreaProps<T extends FieldValues> = TextAreaProps & BaseFormType<T> & { label: string };
 

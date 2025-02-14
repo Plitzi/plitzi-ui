@@ -3,7 +3,6 @@ import { useCallback, useMemo } from 'react';
 
 // Alias
 import Button from '@components/Button';
-import { ResizeHandle } from '@components/ContainerResizable';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
@@ -13,6 +12,7 @@ import { LIMIT_MODE_WINDOW } from '../ContainerDraggable/ContainerDraggable';
 // Types
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
+import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ReactNode } from 'react';
 
