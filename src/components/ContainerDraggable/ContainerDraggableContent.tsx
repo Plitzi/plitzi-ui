@@ -1,19 +1,16 @@
-// Packages
 import { useCallback } from 'react';
 
-// Alias
 import ContainerResizable from '@components/ContainerResizable';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type ContainerDraggableStyles from './ContainerDraggable.styles';
 import type { variantKeys } from './ContainerDraggable.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode, Ref } from 'react';
+import type { ReactNode, RefObject } from 'react';
 
 export type ContainerDraggableContentProps = {
-  ref: Ref<HTMLDivElement>;
+  ref: RefObject<HTMLDivElement>;
   children: ReactNode;
   allowResize: boolean;
   resizeHandles: ResizeHandle[];

@@ -1,8 +1,6 @@
-// Alias
 import DynamicComponent from '@/helpers/DynamicComponent';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type HeadingStyles from './Heading.styles';
 import type { variantKeys } from './Heading.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

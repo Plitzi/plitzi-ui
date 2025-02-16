@@ -1,7 +1,5 @@
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type ErrorMessageStyles from './ErrorMessage.styles';
 import type { variantKeys } from './ErrorMessage.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

@@ -1,7 +1,5 @@
-// Packages
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
-// Alias
 import Flex from '@components/Flex';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
@@ -9,7 +7,6 @@ import useTheme from '@hooks/useTheme';
 // Relatives
 import IconSeparator from './IconSeparator';
 
-// Types
 import type IconGroupStyles from './IconGroup.styles';
 import type { variantKeys } from './IconGroup.styles';
 import type { IconSeparatorProps } from './IconSeparator';

@@ -1,10 +1,8 @@
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import Tab from './Tab';
 
-// Types
 import type ContainerTabsStyles from './ContainerTabs.styles';
 import type { variantKeys } from './ContainerTabs.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

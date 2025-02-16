@@ -1,7 +1,5 @@
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type ContainerCollapsableStyles from './ContainerCollapsable.styles';
 import type { variantKeys } from './ContainerCollapsable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

@@ -1,10 +1,8 @@
-// Packages
 import { useArgs } from '@storybook/preview-api';
 
 // Relatives
 import ContentEditable from './ContentEditable';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

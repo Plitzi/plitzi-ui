@@ -1,14 +1,11 @@
-// Packages
 import classNames from 'classnames';
 
-// Alias
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import ListItem from './ListItem';
 
-// Types
 import type { Option, OptionGroup, Select2Props } from './Select2';
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';

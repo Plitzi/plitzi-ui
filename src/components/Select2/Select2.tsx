@@ -1,8 +1,6 @@
-// Packages
 import classNames from 'classnames';
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
-// Alias
 import ContainerFloating from '@components/ContainerFloating';
 import Flex from '@components/Flex';
 import Icon from '@components/Icon';
@@ -15,12 +13,11 @@ import ListItem from './ListItem';
 import SelectInput from './SelectInput';
 import SelectList from './SelectList';
 
-// Types
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent, Ref } from 'react';
+import type { MouseEvent, RefObject } from 'react';
 
 const optionsDefault: Option[] = [];
 
@@ -39,7 +36,7 @@ export type OptionGroup = {
 };
 
 export type Select2Props = {
-  ref?: Ref<HTMLDivElement | null>;
+  ref?: RefObject<HTMLDivElement | null>;
   className?: string;
   value?: Exclude<Option, OptionGroup> | string;
   options?: Option[] | Promise<Option[]>;

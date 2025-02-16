@@ -1,7 +1,5 @@
-// Packages
 import { useCallback, useMemo, useState } from 'react';
 
-// Alias
 import Button from '@components/Button';
 
 // Relatives
@@ -11,7 +9,6 @@ import PopupSidebar from './PopupSidebar';
 import PopupSidePanel from './PopupSidePanel';
 import usePopup from './usePopup';
 
-// Types
 import type { Popups } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { Meta, StoryObj } from '@storybook/react';

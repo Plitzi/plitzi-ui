@@ -1,7 +1,5 @@
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type { variantKeys } from './Accordion.styles';
 import type AccordionStyles from './Accordion.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

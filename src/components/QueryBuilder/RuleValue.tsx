@@ -1,14 +1,11 @@
-// Packages
 import get from 'lodash/get';
 import { useCallback, useMemo, useState } from 'react';
 
-// Alias
 import Checkbox from '@components/Checkbox';
 import Input from '@components/Input';
 import Select from '@components/Select';
 // import useTheme from '@hooks/useTheme';
 
-// Types
 import type { Field, RuleValue } from './QueryBuilder';
 import type QueryBuilderStyles from './QueryBuilder.styles';
 import type { variantKeys } from './QueryBuilder.styles';

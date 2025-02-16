@@ -1,11 +1,8 @@
-// Packages
 import classNames from 'classnames';
 
-// Alias
 import DynamicComponent from '@/helpers/DynamicComponent';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type TextStyles from './Text.styles';
 import type { variantKeys } from './Text.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

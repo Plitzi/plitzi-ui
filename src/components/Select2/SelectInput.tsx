@@ -1,17 +1,14 @@
-// Packages
 import classNames from 'classnames';
 import { useCallback, useEffect, useRef } from 'react';
 
-// Alias
 import Input from '@components/Input';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { KeyboardEvent } from 'react';
+import type { KeyboardEvent, RefObject } from 'react';
 
 type SelectInputProps = {
   className?: string;
@@ -40,10 +37,10 @@ const SelectInput = ({
     componentKey: 'searchInput',
     variant: { size }
   });
-  const ref = useRef<HTMLInputElement>(null);
+  const ref = useRef<HTMLInputElement>(undefined) as RefObject<HTMLInputElement>;
 
   useEffect(() => {
-    if (ref.current && autoFocus) {
+    if (autoFocus) {
       ref.current.focus();
     }
   }, [autoFocus]);

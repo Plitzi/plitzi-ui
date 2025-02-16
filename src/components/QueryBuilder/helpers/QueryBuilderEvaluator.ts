@@ -1,4 +1,3 @@
-// Packages
 import get from 'lodash/get';
 import set from 'lodash/set';
 import moment from 'moment';
@@ -6,7 +5,6 @@ import moment from 'moment';
 // Relatives
 import { isDate, isNumeric, isRuleGroup } from './QueryBuilderHelper';
 
-// Types
 import type { Rule, RuleGroup, RuleValue } from '../QueryBuilder';
 
 type NestedBoolean = boolean | NestedBoolean[];

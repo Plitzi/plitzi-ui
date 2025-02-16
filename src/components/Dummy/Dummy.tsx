@@ -1,7 +1,5 @@
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type DummyStyles from './Dummy.styles';
 import type { variantKeys } from './Dummy.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

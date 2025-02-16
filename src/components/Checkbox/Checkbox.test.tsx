@@ -1,8 +1,6 @@
-// Packages
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-// Alias
 import ThemeProvider from '@components/ThemeProvider';
 
 // Relatives

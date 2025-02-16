@@ -1,10 +1,7 @@
-// Packages
 import classNames from 'classnames';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type AlertStyles from './Alert.styles';
 import type { variantKeys } from './Alert.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

@@ -1,7 +1,6 @@
 // Relatives
 import Flex from './Flex';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

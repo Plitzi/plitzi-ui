@@ -1,7 +1,5 @@
-// Packages
 import { Component } from 'react';
 
-// Types
 import type { ErrorInfo, ReactNode } from 'react';
 
 export type ErrorBoundaryProps = {

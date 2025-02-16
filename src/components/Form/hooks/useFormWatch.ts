@@ -1,7 +1,5 @@
-// Packages
 import { useEffect, useState } from 'react';
 
-// Types
 import type { RefObject } from 'react';
 import type { FieldPathValue, FieldPathValues, FieldValues, Path, UseFormReturn } from 'react-hook-form';
 

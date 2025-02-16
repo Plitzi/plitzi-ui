@@ -1,7 +1,5 @@
-// Packages
 import { use } from 'react';
 
-// Alias
 import ContainerRootContext from './ContainerRootContext';
 
 const useContainerRoot = () => {

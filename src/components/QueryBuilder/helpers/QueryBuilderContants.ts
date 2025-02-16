@@ -1,4 +1,3 @@
-// Types
 import type { Operator } from '../QueryBuilder';
 
 export const defaultOperators: { value: Operator; label: string }[] = [

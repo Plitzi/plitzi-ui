@@ -1,4 +1,3 @@
-// Packages
 import { closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap } from '@codemirror/autocomplete';
 import { history, defaultKeymap, historyKeymap } from '@codemirror/commands';
 import {
@@ -25,7 +24,6 @@ import {
   keymap
 } from '@codemirror/view';
 
-// Types
 import type { KeyBinding } from '@codemirror/view';
 
 export type BasicSetupOptions = {

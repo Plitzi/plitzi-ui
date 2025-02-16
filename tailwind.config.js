@@ -1,4 +1,3 @@
-// Packages
 import plugin from 'tailwindcss/plugin';
 import { join } from 'path';
 

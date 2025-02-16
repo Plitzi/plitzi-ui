@@ -1,10 +1,8 @@
-// Packages
 import { useEffect, useRef, useState } from 'react';
 
 // Relatives
 import ContainerRootProvider from './ContainerRootProvider';
 
-// Types
 import type { ReactNode } from 'react';
 
 export type ContainerRootProps = { className?: string; children?: ReactNode; ssrMode?: boolean };

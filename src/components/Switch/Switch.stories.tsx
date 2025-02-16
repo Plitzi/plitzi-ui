@@ -1,10 +1,8 @@
-// Packages
 import { useArgs } from '@storybook/preview-api';
 
 // Relatives
 import Switch from './Switch';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

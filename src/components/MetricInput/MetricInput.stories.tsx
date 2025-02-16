@@ -1,10 +1,8 @@
-// Packages
 import { useState } from 'react';
 
 // Relatives
 import MetricInput from './MetricInput';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

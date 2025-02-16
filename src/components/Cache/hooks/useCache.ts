@@ -1,13 +1,10 @@
-// Packages
 import { produce } from 'immer';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { useCallback, use, useMemo, useState } from 'react';
 
-// Alias
 import CacheContext from '../CacheContext';
 
-// Types
 import type { CacheContextValue } from '../CacheContext';
 
 export type UseCacheProps = {

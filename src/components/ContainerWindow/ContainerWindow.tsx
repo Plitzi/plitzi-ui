@@ -1,11 +1,8 @@
-// Packages
 import { useEffect, useMemo, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-// Alias
 import useContainerRoot from '@components/ContainerRoot/useContainerRoot';
 
-// Types
 import type { ReactNode, ReactPortal } from 'react';
 
 export type ContainerWindowProps = {

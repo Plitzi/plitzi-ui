@@ -1,14 +1,11 @@
-// Packages
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { use, useMemo } from 'react';
 
-// Alias
 import cva from '@/helpers/cvaWrapper';
 import { emptyObject } from '@/helpers/utils';
 import ThemeContext from '@components/ThemeProvider/ThemeContext';
 
-// Types
 import type { cvaFunction } from '@/helpers/cvaWrapper';
 
 export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunction<T>;

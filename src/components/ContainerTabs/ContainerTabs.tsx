@@ -1,14 +1,11 @@
-// Packages
 import { Children, useCallback, useMemo, useState, cloneElement, isValidElement } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import TabContent from './TabContent';
 import Tabs from './Tabs';
 
-// Types
 import type ContainerTabsStyles from './ContainerTabs.styles';
 import type { variantKeys } from './ContainerTabs.styles';
 import type { TabContentProps } from './TabContent';

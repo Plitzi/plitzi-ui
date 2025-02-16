@@ -1,10 +1,8 @@
-// Packages
 import { useMemo } from 'react';
 
 // Relatives
 import SidebarContext from './SidebarContext';
 
-// Types
 import type { SidebarContextValue } from './SidebarContext';
 import type { ReactNode } from 'react';
 

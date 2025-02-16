@@ -2,7 +2,6 @@
 import formatterMongoDB from './formatters/formatterMongoDB';
 import formatterSql from './formatters/formatterSql';
 
-// Types
 import type { RuleGroup } from '../QueryBuilder';
 
 const QueryBuilderFormatter = (query?: RuleGroup, to = 'sql', granulated = false, params = {}) => {

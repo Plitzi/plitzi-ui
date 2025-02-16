@@ -1,4 +1,3 @@
-// Alias
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {

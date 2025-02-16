@@ -1,7 +1,5 @@
-// Packages
 import { useCallback, use } from 'react';
 
-// Alias
 import Button from '@components/Button';
 import Flex from '@components/Flex';
 import Switch from '@components/Switch';
@@ -12,7 +10,6 @@ import Select from '../Select';
 import QueryBuilderContext from './QueryBuilderContext';
 import Rule from './Rule';
 
-// Types
 import type { Rule as TRule, RuleGroup, Combinator } from './QueryBuilder';
 import type QueryBuilderStyles from './QueryBuilder.styles';
 import type { variantKeys } from './QueryBuilder.styles';

@@ -1,10 +1,8 @@
-// Alias
 import Flex from '@components/Flex';
 
 // Relatives
 import IconGroup from './IconGroup';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

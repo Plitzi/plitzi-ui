@@ -1,7 +1,5 @@
-// Packages
 import { cloneElement, isValidElement, memo, useCallback, useMemo } from 'react';
 
-// Alias
 import { emptyArray } from '@/helpers/utils';
 import Sidebar from '@components/Sidebar';
 import SidebarIcon from '@components/Sidebar/SidebarIcon';
@@ -10,7 +8,6 @@ import useTheme from '@hooks/useTheme';
 // Relatives
 import usePopup from './usePopup';
 
-// Types
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
 import type { IconProps } from '@components/Icon';

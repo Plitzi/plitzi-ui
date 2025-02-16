@@ -1,7 +1,6 @@
 // Relatives
 import Select from './Select';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

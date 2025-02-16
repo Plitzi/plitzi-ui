@@ -1,14 +1,11 @@
-// Packages
 import { useMemo } from 'react';
 
-// Alias
 import { emptyObject } from '@/helpers/utils';
 import { paletteColors, tokenColors } from '@/tailwind/colors';
 
 // Relatives
 import ThemeContext from './ThemeContext';
 
-// Types
 import type { ReactNode } from 'react';
 
 export type ThemeProviderProps = {

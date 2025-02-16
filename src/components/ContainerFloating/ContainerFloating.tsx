@@ -1,4 +1,3 @@
-// Packages
 import classNames from 'classnames';
 import {
   Children,
@@ -11,21 +10,19 @@ import {
   useImperativeHandle
 } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import ContainerFloatingContainer from './ContainerFloatingContainer';
 import ContainerFloatingContent from './ContainerFloatingContent';
 
-// Types
 import type ContainerFloatingStyles from './ContainerFloating.styles';
 import type { variantKeys } from './ContainerFloating.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { KeyboardEvent, ReactNode, Ref } from 'react';
+import type { KeyboardEvent, ReactNode, RefObject } from 'react';
 
 export type ContainerFloatingProps = {
-  ref?: Ref<HTMLDivElement | null>;
+  ref?: RefObject<HTMLDivElement | null>;
   children?: ReactNode;
   width?: number;
   height?: number;

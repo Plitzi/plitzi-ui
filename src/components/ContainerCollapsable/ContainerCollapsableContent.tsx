@@ -1,8 +1,6 @@
-// Alias
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type ContainerCollapsableStyles from './ContainerCollapsable.styles';
 import type { variantKeys } from './ContainerCollapsable.styles';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';

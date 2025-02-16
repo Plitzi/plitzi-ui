@@ -1,8 +1,6 @@
-// Packages
 import classNames from 'classnames';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
-// Alias
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
@@ -10,10 +8,10 @@ import type ButtonStyles from './Button.styles';
 import type { variantKeys } from './Button.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactElement, ReactNode, Ref, ButtonHTMLAttributes, JSX } from 'react';
+import type { ReactElement, ReactNode, ButtonHTMLAttributes, JSX, RefObject } from 'react';
 
 export type ButtonProps = {
-  ref?: Ref<HTMLButtonElement>;
+  ref?: RefObject<HTMLButtonElement>;
   children?: ReactNode;
   testId?: string;
   iconPlacement?: 'before' | 'after' | 'both' | 'none';

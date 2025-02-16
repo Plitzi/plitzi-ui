@@ -1,7 +1,5 @@
-// Packages
 import { createElement } from 'react';
 
-// Types
 import type { ReactNode, JSX } from 'react';
 
 export type DynamicComponentProps = {

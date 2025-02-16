@@ -1,7 +1,5 @@
-// Packages
 import { useMemo } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives

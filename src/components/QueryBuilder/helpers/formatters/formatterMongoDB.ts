@@ -1,10 +1,8 @@
-// Packages
 import get from 'lodash/get';
 
 // Relatives
 import { isDate, isNumeric } from '../QueryBuilderHelper';
 
-// Types
 import type { QueryBuilderParams, Rule, RuleGroup } from '../../QueryBuilder';
 
 const formatBasic = (rule: Rule) => {

@@ -1,7 +1,5 @@
-// Packages
 import { useCallback, useMemo } from 'react';
 
-// Alias
 import Button from '@components/Button';
 import useTheme from '@hooks/useTheme';
 
@@ -9,7 +7,6 @@ import useTheme from '@hooks/useTheme';
 import ContainerDraggable from '../ContainerDraggable';
 import { LIMIT_MODE_WINDOW } from '../ContainerDraggable/ContainerDraggable';
 
-// Types
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';

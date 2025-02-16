@@ -1,7 +1,5 @@
-// Packages
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-// Alias
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
@@ -10,13 +8,12 @@ import AccordionItem from './AccordionItem';
 import AccordionProvider from './AccordionProvider';
 import useResize from './hooks/useResize';
 
-// Types
 import type { variantKeys } from './Accordion.styles';
 import type AccordionStyles from './Accordion.styles';
 import type { AccordionItemProps } from './AccordionItem';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent, ReactElement, ReactNode } from 'react';
+import type { MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 type AccordionItemId = Exclude<AccordionItemProps['id'], undefined>;
 
@@ -50,7 +47,7 @@ const Accordion = ({
   size,
   onChange
 }: AccordionProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(undefined) as RefObject<HTMLDivElement>;
   const [itemSelected, setItemSelected] = useState<AccordionItemId[]>(() => {
     const items = value.length > 0 ? value : defaultValue;
     if (multi) {

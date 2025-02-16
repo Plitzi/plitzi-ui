@@ -1,7 +1,5 @@
-// Packages
 import * as cvaModule from 'class-variance-authority';
 
-// Types
 import type { ClassProp, ClassValue, StringToBoolean } from 'class-variance-authority/types';
 
 export type ConfigSchema = Record<string, Record<string, ClassValue>>;

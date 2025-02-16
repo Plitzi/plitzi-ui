@@ -1,7 +1,6 @@
 // Relatives
 import CodeMirror from './CodeMirror';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

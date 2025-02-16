@@ -1,10 +1,8 @@
-// Packages
 import classNames from 'classnames';
 import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
-// Alias
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
 // Relatives
@@ -12,7 +10,6 @@ import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './Pop
 import PopupFloatingArea from './PopupFloatingArea';
 import PopupSidePanel from './PopupSidePanel';
 
-// Types
 import type { PopupPlacement, PopupSettings } from './Popup';
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';

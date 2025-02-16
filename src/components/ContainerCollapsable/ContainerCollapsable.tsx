@@ -1,7 +1,5 @@
-// Packages
 import { Children, cloneElement, isValidElement, useCallback, useMemo, useState } from 'react';
 
-// Alias
 import Flex from '@components/Flex';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
@@ -10,7 +8,6 @@ import useTheme from '@hooks/useTheme';
 import ContainerCollapsableContent from './ContainerCollapsableContent';
 import ContainerCollapsableHeader from './ContainerCollapsableHeader';
 
-// Types
 import type ContainerCollapsableStyles from './ContainerCollapsable.styles';
 import type { variantKeys } from './ContainerCollapsable.styles';
 import type { ContainerCollapsableHeaderProps } from './ContainerCollapsableHeader';

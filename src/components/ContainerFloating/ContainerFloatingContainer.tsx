@@ -1,9 +1,6 @@
-// Alias
-
 // Relatives
 import Card from '../Card';
 
-// Types
 import type { CardProps } from '@components/Card';
 import type { ReactNode } from 'react';
 

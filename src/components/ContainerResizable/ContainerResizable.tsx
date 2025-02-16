@@ -1,24 +1,21 @@
-// Packages
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import ContainerResizableStyles from './ContainerResizable.styles';
 import { snapToGrid } from './utils';
 
-// Types
 import type { variantKeys } from './ContainerResizable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, HTMLAttributes, MouseEventHandler, ReactNode, Ref } from 'react';
+import type { CSSProperties, HTMLAttributes, MouseEventHandler, ReactNode, RefObject } from 'react';
 
 export type ResizeHandle = 'se' | 's' | 'e' | 'n' | 'w' | 'nw' | 'sw' | 'ne';
 
 export type ContainerResizableProps = {
-  ref?: Ref<HTMLDivElement | null>;
+  ref?: RefObject<HTMLDivElement | null>;
   parentElement?: HTMLElement | null;
   hoverMode?: boolean;
   autoGrow?: boolean;

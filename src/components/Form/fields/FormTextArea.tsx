@@ -1,13 +1,11 @@
-// Packages
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-// Alias
 import TextArea from '@components/TextArea';
 
-// Types
 import type { BaseFormType } from '../Form';
 import type { TextAreaProps } from '@components/TextArea';
+import type { RefObject } from 'react';
 import type { FieldValues, ControllerProps } from 'react-hook-form';
 
 export type FormTextAreaProps<T extends FieldValues> = TextAreaProps & BaseFormType<T> & { label: string };
@@ -20,7 +18,7 @@ const FormTextArea = <T extends FieldValues>(props: FormTextAreaProps<T>) => {
       ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
         <TextArea
           {...props}
-          ref={ref}
+          ref={ref as unknown as RefObject<HTMLTextAreaElement>}
           size="md"
           value={value}
           name={name}

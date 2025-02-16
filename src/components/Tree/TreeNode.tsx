@@ -1,8 +1,6 @@
-// Packages
 import classNames from 'classnames';
 import { cloneElement, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-// Alias
 import Contenteditable from '@components/ContentEditable';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
@@ -10,7 +8,6 @@ import useTheme from '@hooks/useTheme';
 // Relatives
 import { getPaddingLeft } from './utils';
 
-// Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
 import type { DragMetadata, DropPosition } from './utils';

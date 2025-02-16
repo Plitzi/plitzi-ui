@@ -1,14 +1,12 @@
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type FlexStyles from './Flex.styles';
 import type { variantKeys } from './Flex.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { HTMLAttributes, ReactNode, Ref } from 'react';
+import type { HTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type FlexProps = {
-  ref?: Ref<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement>;
   children?: ReactNode;
   testId?: string;
 } & HTMLAttributes<HTMLDivElement> &

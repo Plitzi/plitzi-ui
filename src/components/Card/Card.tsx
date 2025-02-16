@@ -1,14 +1,12 @@
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type CardStyles from './Card.styles';
 import type { variantKeys } from './Card.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { HTMLAttributes, ReactNode, Ref } from 'react';
+import type { HTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type CardProps = {
-  ref?: Ref<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement>;
   children?: ReactNode;
 } & HTMLAttributes<HTMLDivElement> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys>;

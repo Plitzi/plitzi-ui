@@ -1,8 +1,6 @@
-// Packages
 import get from 'lodash/get';
 import { useCallback, use, useMemo } from 'react';
 
-// Alias
 import Button from '@components/Button';
 import Flex from '@components/Flex';
 import Select2 from '@components/Select2';
@@ -15,7 +13,6 @@ import QueryBuilderContext from './QueryBuilderContext';
 import RuleOperator from './RuleOperator';
 import RuleValue from './RuleValue';
 
-// Types
 import type { Operator, RuleValue as TRuleValue } from './QueryBuilder';
 import type QueryBuilderStyles from './QueryBuilder.styles';
 import type { variantKeys } from './QueryBuilder.styles';

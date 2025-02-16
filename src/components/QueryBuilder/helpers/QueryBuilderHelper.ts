@@ -1,7 +1,5 @@
-// Packages
 import moment from 'moment';
 
-// Types
 import type { Rule, RuleGroup } from '../QueryBuilder';
 
 export const isDate = (value: unknown): value is Date =>

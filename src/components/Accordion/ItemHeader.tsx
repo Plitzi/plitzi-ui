@@ -1,12 +1,9 @@
-// Packages
 import classNames from 'classnames';
 
-// Alias
 import Flex from '@components/Flex';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type { variantKeys } from './Accordion.styles';
 import type AccordionStyles from './Accordion.styles';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';

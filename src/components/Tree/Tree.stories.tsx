@@ -1,11 +1,9 @@
-// Packages
 import { useArgs } from '@storybook/preview-api';
 import { useCallback, useMemo } from 'react';
 
 // Relatives
 import Tree from './Tree';
 
-// Types
 import type { TreeChangeState, TreeItem } from './Tree';
 import type { ItemControlsProps } from './TreeNode';
 import type { DropPosition } from './utils';

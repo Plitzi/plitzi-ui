@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 
-// Packages
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
@@ -23,7 +22,6 @@ import QueryBuilderEvaluator, {
 import QueryBuilderFormatter from './helpers/QueryBuilderFormatter';
 import QueryBuilder from './QueryBuilder';
 
-// Types
 import type { RuleGroup } from './QueryBuilder';
 
 describe('QueryBuilder', () => {

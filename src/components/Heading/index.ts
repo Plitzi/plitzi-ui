@@ -1,4 +1,3 @@
-// Packages
 import Heading from './Heading';
 
 export * from './Heading';

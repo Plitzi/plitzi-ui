@@ -1,7 +1,5 @@
-// Packages
 import { Children, cloneElement, isValidElement, useContext, useEffect, useMemo, useRef } from 'react';
 
-// Alias
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
@@ -10,14 +8,13 @@ import AccordionContext from './AccordionContext';
 import ItemContent from './ItemContent';
 import ItemHeader from './ItemHeader';
 
-// Types
 import type { variantKeys } from './Accordion.styles';
 import type AccordionStyles from './Accordion.styles';
 import type { ItemContentProps } from './ItemContent';
 import type { ItemHeaderProps } from './ItemHeader';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent, ReactElement, ReactNode } from 'react';
+import type { MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type AccordionItemProps = {
   children?: ReactNode;
@@ -47,7 +44,7 @@ const AccordionItem = ({
   size,
   onClick
 }: AccordionItemProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(undefined) as RefObject<HTMLDivElement>;
   const { onUnloadItem } = useContext(AccordionContext);
   const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys, false>('Accordion', {
     componentKey: ['item', 'itemDivider'],
@@ -94,7 +91,7 @@ const AccordionItem = ({
   }, [children, intent, size, isOpen, testId, id, onClick, grow]);
 
   useEffect(() => {
-    if (!isOpen && ref.current && ref.current.style.flexBasis) {
+    if (!isOpen && ref.current.style.flexBasis) {
       ref.current.style.flexBasis = '';
     }
   }, [isOpen]);

@@ -1,15 +1,12 @@
-// Packages
 import { expect, within, userEvent, waitFor } from '@storybook/test';
 import { useState } from 'react';
 
-// Alias
 import Button from '@components/Button';
 import Flex from '@components/Flex';
 
 // Relatives
 import Accordion from './Accordion';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const DESIGN_URL =

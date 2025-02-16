@@ -1,14 +1,11 @@
-// Packages
 import { use, useCallback } from 'react';
 
-// Alias
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import SidebarContext from './SidebarContext';
 
-// Types
 import type SidebarStyles from './Sidebar.styles';
 import type { variantKeys } from './Sidebar.styles';
 import type { IconProps } from '@components/Icon';

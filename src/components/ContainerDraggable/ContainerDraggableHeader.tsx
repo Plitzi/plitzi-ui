@@ -1,13 +1,10 @@
-// Packages
 import classNames from 'classnames';
 import { useCallback } from 'react';
 
-// Alias
 import Button from '@components/Button';
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type ContainerDraggableStyles from './ContainerDraggable.styles';
 import type { variantKeys } from './ContainerDraggable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

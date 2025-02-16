@@ -1,4 +1,3 @@
-// Packages
 import { produce } from 'immer';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -11,7 +10,6 @@ import { getQueryMap } from './helpers/QueryBuilderHelper';
 import QueryBuilderContext from './QueryBuilderContext';
 import { emptyObject } from '../../helpers/utils';
 
-// Types
 import type { QueryMapNode } from './helpers/QueryBuilderHelper';
 import type { Combinator, Field, Operator, QueryBuilderProps, Rule, RuleGroup, RuleValue } from './QueryBuilder';
 import type { ReactNode } from 'react';

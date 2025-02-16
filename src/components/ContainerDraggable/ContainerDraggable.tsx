@@ -1,9 +1,7 @@
-// Packages
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-// Alias
 import Card from '@components/Card';
 import ContainerWindow from '@components/ContainerWindow';
 import useTheme from '@hooks/useTheme';
@@ -12,12 +10,11 @@ import useTheme from '@hooks/useTheme';
 import ContainerDraggableContent from './ContainerDraggableContent';
 import ContainerDraggableHeader from './ContainerDraggableHeader';
 
-// Types
 import type ContainerDraggableStyles from './ContainerDraggable.styles';
 import type { variantKeys } from './ContainerDraggable.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, ReactNode, RefObject } from 'react';
 
 export const LIMIT_MODE_PARENT = 'parent';
 export const LIMIT_MODE_WINDOW = 'window';
@@ -78,8 +75,8 @@ const ContainerDraggable = ({
     variant: { intent, size, collapsed }
   });
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const elementRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(undefined) as RefObject<HTMLDivElement>;
+  const elementRef = useRef<HTMLDivElement>(undefined) as RefObject<HTMLDivElement>;
   const unmounted = useRef(false);
   const xRef = useRef(x);
   const yRef = useRef(y);
@@ -102,11 +99,7 @@ const ContainerDraggable = ({
 
   const callbackRefresh = useCallback(() => {
     if (!unmounted.current) {
-      const rect = elementRef.current?.getBoundingClientRect();
-      if (!rect) {
-        return;
-      }
-
+      const rect = elementRef.current.getBoundingClientRect();
       let newX = xRef.current;
       let newY = yRef.current;
       if (rect.x + rect.width > window.innerWidth) {
@@ -147,11 +140,7 @@ const ContainerDraggable = ({
       e.stopPropagation();
       e.preventDefault();
       if (dragging) {
-        const rect = elementRef.current?.getBoundingClientRect();
-        if (!rect) {
-          return;
-        }
-
+        const rect = elementRef.current.getBoundingClientRect();
         let newX = offsetX + e.clientX - TX;
         let newY = offsetY + e.clientY - TY;
         if (newX + rect.width > containerRect.width && limitMode !== LIMIT_MODE_NONE) {
@@ -168,11 +157,8 @@ const ContainerDraggable = ({
 
         xRef.current = newX;
         yRef.current = newY;
-
-        if (elementRef.current) {
-          elementRef.current.style.left = `${newX}px`;
-          elementRef.current.style.top = `${newY}px`;
-        }
+        elementRef.current.style.left = `${newX}px`;
+        elementRef.current.style.top = `${newY}px`;
       }
     },
     [TX, TY, containerRect.height, containerRect.width, dragging, limitMode, offsetX, offsetY]
@@ -214,12 +200,12 @@ const ContainerDraggable = ({
   const handleMouseDown = (e: MouseEvent | React.MouseEvent) => {
     let rect;
     if (limitMode === LIMIT_MODE_PARENT) {
-      if (!elementRef.current || !elementRef.current.parentNode) {
+      if (!elementRef.current.parentNode) {
         rect = { height: window.innerHeight, width: window.innerWidth };
       }
 
       // rect = elementRef.current?.parentNode?.getBoundingClientRect();
-      rect = (elementRef.current?.parentNode as HTMLElement).getBoundingClientRect();
+      rect = (elementRef.current.parentNode as HTMLElement).getBoundingClientRect();
     } else {
       rect = { height: window.innerHeight, width: window.innerWidth };
     }
@@ -248,11 +234,7 @@ const ContainerDraggable = ({
       }
 
       if (dragging) {
-        const rect = elementRef.current?.getBoundingClientRect();
-        if (!rect) {
-          return;
-        }
-
+        const rect = elementRef.current.getBoundingClientRect();
         const { clientX, clientY } = e.touches[0];
         let newX = offsetX + clientX - TX;
         let newY = offsetY + clientY - TY;
@@ -270,11 +252,8 @@ const ContainerDraggable = ({
 
         xRef.current = newX;
         yRef.current = newY;
-
-        if (elementRef.current) {
-          elementRef.current.style.left = `${newX}px`;
-          elementRef.current.style.top = `${newY}px`;
-        }
+        elementRef.current.style.left = `${newX}px`;
+        elementRef.current.style.top = `${newY}px`;
       }
     },
     [TX, TY, dragging, offsetX, offsetY]

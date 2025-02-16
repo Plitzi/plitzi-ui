@@ -1,10 +1,8 @@
-// Packages
 import { useMemo } from 'react';
 
 // Relatives
 import AccordionContext from './AccordionContext';
 
-// Types
 import type { AccordionContextValue } from './AccordionContext';
 import type { ReactNode } from 'react';
 

@@ -1,15 +1,12 @@
-// Packages
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import * as Inputs from './fields';
 
-// Types
 import type FormStyles from './Form.styles';
 import type { variantKeys } from './Form.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

@@ -1,10 +1,8 @@
-// Packages
 import { useState } from 'react';
 
 // Relatives
 import ContainerFloating from './ContainerFloating';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

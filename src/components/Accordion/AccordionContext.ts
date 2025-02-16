@@ -1,7 +1,5 @@
-// Packages
 import { createContext } from 'react';
 
-// Types
 import type { AccordionItemProps } from './AccordionItem';
 import type { RefObject } from 'react';
 

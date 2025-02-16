@@ -1,7 +1,6 @@
 // Relatives
 import Heading from './Heading';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

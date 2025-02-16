@@ -1,7 +1,6 @@
 // Relatives
 import Dummy from './Dummy';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

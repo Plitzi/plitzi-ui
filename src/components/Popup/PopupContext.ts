@@ -1,7 +1,5 @@
-// Packages
 import { createContext } from 'react';
 
-// Types
 import type { PopupPlacement, PopupSettings } from './Popup';
 import type { PopupInstance } from './PopupProvider';
 import type { ContainerDraggableProps } from '@components/ContainerDraggable';

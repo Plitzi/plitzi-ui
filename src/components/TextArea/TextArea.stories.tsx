@@ -1,10 +1,8 @@
-// Packages
 import { useState } from 'react';
 
 // Relatives
 import TextArea from './TextArea';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

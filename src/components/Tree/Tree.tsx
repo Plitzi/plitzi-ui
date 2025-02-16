@@ -1,10 +1,8 @@
-// Packages
 import { produce } from 'immer';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
@@ -18,7 +16,6 @@ import {
   setOpenedMultiple
 } from './utils';
 
-// Types
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
 import type { ItemControlsProps } from './TreeNode';

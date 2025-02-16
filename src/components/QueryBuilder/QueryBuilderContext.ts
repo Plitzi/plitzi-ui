@@ -1,7 +1,5 @@
-// Packages
 import { createContext } from 'react';
 
-// Types
 import type { Combinator, Field, Operator, Rule, RuleGroup, RuleValue } from './QueryBuilder';
 
 export type QueryBuilderContextValue = {

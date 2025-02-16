@@ -1,7 +1,5 @@
-// Packages
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
-// Alias
 import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
@@ -9,17 +7,16 @@ import useTheme from '@hooks/useTheme';
 // Relatives
 import SelectOption from './SelectOption';
 
-// Types
 import type SelectStyles from './Select.styles';
 import type { variantKeys } from './Select.styles';
 import type { SelectOptionProps } from './SelectOption';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, ReactNode, Ref, SelectHTMLAttributes, JSX, HTMLAttributes } from 'react';
+import type { ChangeEvent, ReactNode, RefObject, SelectHTMLAttributes, JSX, HTMLAttributes } from 'react';
 
 export type SelectProps = {
-  ref?: Ref<HTMLSelectElement>;
+  ref?: RefObject<HTMLSelectElement>;
   children?: ReactNode;
   label?: string;
   placeholder?: string;

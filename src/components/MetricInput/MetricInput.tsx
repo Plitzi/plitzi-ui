@@ -1,21 +1,18 @@
-// Packages
 import classNames from 'classnames';
 import get from 'lodash/get';
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
-// Alias
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type MetricInputStyles from './MetricInput.styles';
 import type { variantKeys } from './MetricInput.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, ReactElement, ReactNode, Ref } from 'react';
+import type { ChangeEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type MetricInputProps = {
-  ref?: Ref<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement>;
   children?: ReactNode;
   placeholder?: string;
   loading?: boolean;

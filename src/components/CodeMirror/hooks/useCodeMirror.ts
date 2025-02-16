@@ -1,4 +1,3 @@
-// Packages
 import { EditorState, StateEffect } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView, placeholder } from '@codemirror/view';
@@ -7,11 +6,10 @@ import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 // Relatives
 import { basicSetup } from '../helpers/BasicSetup';
 
-// Types
 import type { BasicSetupOptions } from '../helpers/BasicSetup';
 import type { Extension } from '@codemirror/state';
 import type { ViewUpdate } from '@codemirror/view';
-import type { Ref } from 'react';
+import type { RefObject } from 'react';
 
 export type StyleSpec = {
   [propOrSelector: string]: string | number | StyleSpec | null;
@@ -20,7 +18,7 @@ export type StyleSpec = {
 export type UseCodeMirrorProps = {
   extensions: Extension[];
   theme: 'light' | 'dark' | 'none';
-  ref?: Ref<HTMLElement>;
+  ref?: RefObject<HTMLElement>;
   editable?: boolean;
   multiline?: boolean;
   readOnly?: boolean;

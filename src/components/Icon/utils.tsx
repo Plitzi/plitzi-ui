@@ -1,4 +1,3 @@
-// Types
 import type { IconProps } from './Icon';
 
 const getIntent = (

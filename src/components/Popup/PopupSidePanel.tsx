@@ -1,7 +1,5 @@
-// Packages
 import { use, useMemo, useState, useCallback, memo } from 'react';
 
-// Alias
 import { arrayDifference, emptyArray } from '@/helpers/utils';
 import Accordion from '@components/Accordion';
 import Button from '@components/Button';
@@ -14,7 +12,6 @@ import useTheme from '@hooks/useTheme';
 import PopupSidebar from './PopupSidebar';
 import usePopup from './usePopup';
 
-// Types
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';

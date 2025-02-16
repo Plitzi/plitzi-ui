@@ -1,11 +1,9 @@
-// Alias
 import Flex from '@components/Flex';
 import DesktopWithMobile from '@icons/DesktopWithMobile';
 
 // Relatives
 import Icon from './Icon';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

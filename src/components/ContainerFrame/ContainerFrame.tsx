@@ -1,19 +1,16 @@
-// Packages
 import { Children, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import FrameContent from './FrameContent';
 import { emptyObject } from '../../helpers/utils';
 
-// Types
 import type ContainerFrameStyles from './ContainerFrame.styles';
 import type { variantKeys } from './ContainerFrame.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, ReactNode, Ref } from 'react';
+import type { CSSProperties, ReactNode, RefObject } from 'react';
 
 export type Asset = {
   type: string;
@@ -21,7 +18,7 @@ export type Asset = {
 };
 
 export type ContainerFrameProps = {
-  ref: Ref<HTMLIFrameElement>;
+  ref: RefObject<HTMLIFrameElement>;
   ssrMode?: boolean;
   id?: string;
   css?: string;

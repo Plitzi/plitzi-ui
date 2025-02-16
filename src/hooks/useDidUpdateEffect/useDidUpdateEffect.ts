@@ -1,7 +1,5 @@
-// Packages
 import { useEffect, useRef } from 'react';
 
-// Types
 import type { DependencyList, EffectCallback } from 'react';
 
 export type UpdateEffectCallback = EffectCallback | ((prevDependencies: DependencyList) => void);

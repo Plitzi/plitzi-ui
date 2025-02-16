@@ -1,7 +1,5 @@
-// Packages
 import { useEffect } from 'react';
 
-// Types
 import type { ReactNode } from 'react';
 
 export type FrameContentProps = {

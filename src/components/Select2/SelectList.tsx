@@ -1,7 +1,5 @@
-// Packages
 import classNames from 'classnames';
 
-// Alias
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
@@ -10,7 +8,6 @@ import { isOptionGroup } from './helpers/utils';
 import ListGroup from './ListGroup';
 import ListItem from './ListItem';
 
-// Types
 import type { Option, Select2Props } from './Select2';
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';

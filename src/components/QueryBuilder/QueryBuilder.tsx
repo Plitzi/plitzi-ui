@@ -1,9 +1,7 @@
-// Packages
 import get from 'lodash/get';
 import { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
-// Alias
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
@@ -13,7 +11,6 @@ import { defaultCombinators } from './helpers/QueryBuilderContants';
 import QueryBuilderProvider from './QueryBuilderProvider';
 import { emptyObject } from '../../helpers/utils';
 
-// Types
 import type QueryBuilderStyles from './QueryBuilder.styles';
 import type { variantKeys } from './QueryBuilder.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

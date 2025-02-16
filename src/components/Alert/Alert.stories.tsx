@@ -1,7 +1,6 @@
 // Relatives
 import Alert from './Alert';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

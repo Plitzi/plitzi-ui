@@ -1,20 +1,17 @@
-// Packages
 import omit from 'lodash/omit';
 import { useCallback } from 'react';
 
-// Alias
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type TextAreaStyles from './TextArea.styles';
 import type { variantKeys } from './TextArea.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, InputHTMLAttributes, Ref } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, RefObject } from 'react';
 
 export type TextAreaProps = {
-  ref?: Ref<HTMLTextAreaElement>;
+  ref?: RefObject<HTMLTextAreaElement>;
   label?: string;
   placeholder?: string;
   loading?: boolean;

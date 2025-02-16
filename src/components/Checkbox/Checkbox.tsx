@@ -1,15 +1,13 @@
-// Alias
 import Label from '@components/Label';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type CheckboxStyles from './Checkbox.styles';
 import type { variantKeys } from './Checkbox.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { Ref, InputHTMLAttributes } from 'react';
+import type { RefObject, InputHTMLAttributes } from 'react';
 
 export type CheckboxProps = {
-  ref?: Ref<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement>;
   label?: string;
   error?: boolean;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &

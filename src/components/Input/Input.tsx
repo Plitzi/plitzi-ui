@@ -1,22 +1,19 @@
-// Packages
 import { useCallback } from 'react';
 
-// Alias
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import InputContainer from './InputContainer';
 
-// Types
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, InputHTMLAttributes, ReactNode, Ref, JSX } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject, JSX } from 'react';
 
 export type InputProps = {
-  ref?: Ref<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement>;
   children?: ReactNode;
   placeholder?: string;
   loading?: boolean;

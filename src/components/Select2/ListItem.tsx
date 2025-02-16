@@ -1,11 +1,8 @@
-// Packages
 import classNames from 'classnames';
 import { useCallback } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type { Option, OptionGroup, Select2Props } from './Select2';
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';

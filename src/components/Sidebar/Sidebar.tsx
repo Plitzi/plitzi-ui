@@ -1,7 +1,5 @@
-// Packages
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
@@ -9,7 +7,6 @@ import SidebarIcon from './SidebarIcon';
 import SidebarProvider from './SidebarProvider';
 import SidebarSeparator from './SidebarSeparator';
 
-// Types
 import type SidebarStyles from './Sidebar.styles';
 import type { variantKeys } from './Sidebar.styles';
 import type { SidebarIconProps } from './SidebarIcon';

@@ -1,15 +1,12 @@
-// Packages
 import { useCallback, useMemo, useRef } from 'react';
 import { z } from 'zod';
 
-// Alias
 import Button from '@components/Button';
 
 // Relatives
 import Form from './Form';
 import useFormWatch from './hooks/useFormWatch';
 
-// Types
 import type { FormRefType } from './Form';
 import type { Meta, StoryObj } from '@storybook/react';
 

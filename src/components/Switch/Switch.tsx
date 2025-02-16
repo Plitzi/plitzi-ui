@@ -1,18 +1,15 @@
-// Packages
 import classNames from 'classnames';
 
-// Alias
 import Label from '@components/Label';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type SwitchyStyles from './Switch.styles';
 import type { variantKeys } from './Switch.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, ReactNode, Ref } from 'react';
+import type { ChangeEvent, ReactNode, RefObject } from 'react';
 
 export type SwitchProps = {
-  ref?: Ref<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement>;
   children?: ReactNode;
   value?: string;
   checked?: boolean;

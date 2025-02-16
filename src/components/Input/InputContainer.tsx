@@ -1,14 +1,11 @@
-// Packages
 import classNames from 'classnames';
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
-// Alias
 import ErrorMessage from '@components/ErrorMessage';
 import Icon from '@components/Icon';
 import Label from '@components/Label';
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';

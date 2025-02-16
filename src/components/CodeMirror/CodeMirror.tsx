@@ -1,4 +1,3 @@
-// Packages
 import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
 import { indentWithTab } from '@codemirror/commands';
 import { css, cssLanguage } from '@codemirror/lang-css';
@@ -9,25 +8,23 @@ import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import { useCallback, useMemo, useRef } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
 // Relatives
 import useCodeMirror from './hooks/useCodeMirror';
 
-// Types
 import type CodeMirrorStyles from './CodeMirror.styles';
 import type { variantKeys } from './CodeMirror.styles';
 import type { Completion, CompletionContext, CompletionSource } from '@codemirror/autocomplete';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { KeyboardEvent, Ref } from 'react';
+import type { KeyboardEvent, RefObject } from 'react';
 
 export type AutoComplete = string | { type: 'token' | 'css-token' | 'custom-token'; value: string; detail?: string };
 
 const autoCompleteDefault: AutoComplete[] = [];
 
 export type CodeMirrorProps = {
-  ref?: Ref<HTMLElement>;
+  ref?: RefObject<HTMLElement>;
   value?: string;
   mode?: 'css' | 'js' | 'json' | 'text' | 'html';
   theme?: 'light' | 'dark' | 'none';

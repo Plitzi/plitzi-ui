@@ -1,10 +1,7 @@
-// Packages
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-// Alias
 import useTheme from '@hooks/useTheme';
 
-// Types
 import type ContentEditableStyles from './ContentEditable.styles';
 import type { variantKeys } from './ContentEditable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';

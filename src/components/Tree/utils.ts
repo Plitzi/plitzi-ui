@@ -1,11 +1,8 @@
-// Packages
 import { produce } from 'immer';
 import get from 'lodash/get';
 
-// Alias
 import { isInViewport } from '@/helpers/utils';
 
-// Types
 import type { TreeProps } from './Tree';
 import type { ReactNode } from 'react';
 

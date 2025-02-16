@@ -1,10 +1,8 @@
-// Packages
 import { useArgs } from '@storybook/preview-api';
 
 // Relatives
 import Sidebar from './Sidebar';
 
-// Types
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

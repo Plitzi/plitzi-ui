@@ -1,7 +1,5 @@
-// Packages
 import { memo, use } from 'react';
 
-// Alias
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
 
 // Relatives
