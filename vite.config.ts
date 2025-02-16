@@ -77,41 +77,25 @@ export default defineConfig((env: ConfigEnv) => ({
     outDir: 'dist/src',
     lib: {
       entry: [resolve(__dirname, './src/index.ts')],
-      name: 'plitzi-ui'
+      name: 'plitzi-ui',
+      formats: ['es'] // , 'cjs'
     },
     rollupOptions: {
       treeshake: false,
       external: [],
-      output: [
-        // {
-        //   format: 'cjs',
-        //   exports: 'named',
-        //   preserveModules: true, // Keep module structure for tree-shaking
-        //   // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
-        //   entryFileNames: '[name].[format]',
-        //   chunkFileNames: '[name].[format]',
-        //   assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
-        //   globals: {
-        //     react: 'React',
-        //     'react-dom': 'ReactDOM',
-        //     'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
-        //   }
-        // },
-        {
-          format: 'es',
-          exports: 'named',
-          preserveModules: true, // Keep module structure for tree-shaking
-          // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
-          entryFileNames: '[name].mjs',
-          chunkFileNames: '[name].mjs',
-          assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
-          globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-            'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
-          }
+      output: {
+        exports: 'named',
+        preserveModules: true, // Keep module structure for tree-shaking
+        // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
+        entryFileNames: '[name].[format]',
+        chunkFileNames: '[name].[format]',
+        assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+          'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
         }
-      ]
+      }
     },
     sourcemap: false,
     emptyOutDir: true

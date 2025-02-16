@@ -18,12 +18,12 @@
     "registry": "https://npm.pkg.github.com/plitzi"
   },
   "main": "dist/src/index.cjs",
-  "module": "dist/src/index.mjs",
+  "module": "dist/src/index.es",
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
-      "import": "./dist/src/index.mjs"
+      "import": "./dist/src/index.es"
     },
     "./tailwind.config": "./tailwind.config.js",
     "./style.css": "./dist/src/plitzi-ui.css",
@@ -33,7 +33,7 @@
     },
     "./icons": {
       "types": "./dist/src/icons/index.d.ts",
-      "import": "./dist/src/icons/index.mjs"
+      "import": "./dist/src/icons/index.es"
     },
     "./icons/*": {
       "types": "./dist/src/icons/*/index.d.ts",
@@ -41,7 +41,7 @@
     },
     "./hooks": {
       "types": "./dist/src/hooks/index.d.ts",
-      "import": "./dist/src/hooks/index.mjs"
+      "import": "./dist/src/hooks/index.es"
     },
     "./hooks/*": {
       "types": "./dist/src/hooks/*/index.d.ts",
