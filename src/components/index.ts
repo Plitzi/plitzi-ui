@@ -24,6 +24,7 @@ import Icon from './Icon';
 import IconGroup from './IconGroup';
 import Input from './Input';
 import Label from './Label';
+import Markdown from './Markdown';
 import MetricInput from './MetricInput';
 import Popup from './Popup';
 import QueryBuilder from './QueryBuilder';
@@ -36,6 +37,7 @@ import TextArea from './TextArea';
 import ThemeProvider from './ThemeProvider';
 import Tree from './Tree';
 
+export * from './Markdown';
 export * from './ErrorBoundary';
 export * from './ContainerTabs';
 export * from './Cache';
@@ -75,6 +77,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Markdown,
   ErrorBoundary,
   ContainerTabs,
   Form,
