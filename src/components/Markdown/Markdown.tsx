@@ -31,38 +31,39 @@ const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers 
   });
 
   return (
-    <ReactMarkdown
-      className={classNames('markdown', className)}
-      remarkPlugins={remarkPlugins}
-      rehypePlugins={rehypePlugins}
-      components={{
-        code(props) {
-          const { children, className, ...rest } = props;
-          const match = /language-(\w+)/.exec(className || '');
-          if (match) {
+    <div className={classNames('markdown', className)}>
+      <ReactMarkdown
+        remarkPlugins={remarkPlugins}
+        rehypePlugins={rehypePlugins}
+        components={{
+          code(props) {
+            const { children, className, ...rest } = props;
+            const match = /language-(\w+)/.exec(className || '');
+            if (match) {
+              return (
+                <SyntaxHighlighter
+                  {...(omit(rest, ['node']) as SyntaxHighlighterProps)}
+                  PreTag="div"
+                  language={match[1]}
+                  style={vscDarkPlus as { [key: string]: CSSProperties }}
+                  wrapLines={wrapLines}
+                  showLineNumbers={showLineNumbers}
+                  children={String(children as string).replace(/\n$/, '')}
+                />
+              );
+            }
+
             return (
-              <SyntaxHighlighter
-                {...(omit(rest, ['node']) as SyntaxHighlighterProps)}
-                PreTag="div"
-                language={match[1]}
-                style={vscDarkPlus as { [key: string]: CSSProperties }}
-                wrapLines={wrapLines}
-                showLineNumbers={showLineNumbers}
-                children={String(children as string).replace(/\n$/, '')}
-              />
+              <code {...rest} className={className}>
+                {children}
+              </code>
             );
           }
-
-          return (
-            <code {...rest} className={className}>
-              {children}
-            </code>
-          );
-        }
-      }}
-    >
-      {children}
-    </ReactMarkdown>
+        }}
+      >
+        {children}
+      </ReactMarkdown>
+    </div>
   );
 };
 
