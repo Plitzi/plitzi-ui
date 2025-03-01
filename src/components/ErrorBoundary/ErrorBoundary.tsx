@@ -6,13 +6,13 @@ export type ErrorBoundaryProps = {
   children?: ReactNode;
 };
 
-class ErrorBoundary extends Component {
-  props: ErrorBoundaryProps = {};
-  state: { hasError: boolean } = { hasError: false };
+export type ErrorBoundaryState = {
+  hasError: boolean;
+};
 
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-
     this.state = { hasError: false };
   }
 
