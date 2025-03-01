@@ -76,7 +76,7 @@ export default defineConfig((env: ConfigEnv) => ({
     lib: {
       entry: [resolve(__dirname, './src/index.ts')],
       name: 'plitzi-ui',
-      formats: ['es', 'cjs'] // , 'cjs'
+      formats: ['es', 'cjs']
     },
     rollupOptions: {
       treeshake: false,

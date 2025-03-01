@@ -4,7 +4,7 @@ import { use, useMemo } from 'react';
 
 import cva from '@/helpers/cvaWrapper';
 import { emptyObject } from '@/helpers/utils';
-import ThemeContext from '@components/ThemeProvider/ThemeContext';
+import { ThemeContext } from '@components/Provider/providers/ThemeProvider';
 
 import type { cvaFunction } from '@/helpers/cvaWrapper';
 

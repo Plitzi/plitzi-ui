@@ -27,6 +27,7 @@ import Label from './Label';
 import Markdown from './Markdown';
 import MetricInput from './MetricInput';
 import Popup from './Popup';
+import Provider from './Provider';
 import QueryBuilder from './QueryBuilder';
 import Select from './Select';
 import Select2 from './Select2';
@@ -34,7 +35,6 @@ import Sidebar from './Sidebar';
 import Switch from './Switch';
 import Text from './Text';
 import TextArea from './TextArea';
-import ThemeProvider from './ThemeProvider';
 import Tree from './Tree';
 
 export * from './Markdown';
@@ -67,7 +67,7 @@ export * from './Alert';
 export * from './Button';
 export * from './Input';
 export * from './MetricInput';
-export * from './ThemeProvider';
+export * from './Provider';
 export * from './TextArea';
 export * from './Label';
 export * from './Icon';
@@ -100,7 +100,7 @@ export {
   Button,
   Input,
   MetricInput,
-  ThemeProvider,
+  Provider,
   TextArea,
   Label,
   ErrorMessage,

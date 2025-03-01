@@ -1,12 +1,34 @@
-import { useMemo } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useMemo } from 'react';
 
 import { emptyObject } from '@/helpers/utils';
 import { paletteColors, tokenColors } from '@/tailwind/colors';
 
-// Relatives
-import ThemeContext from './ThemeContext';
-
 import type { ReactNode } from 'react';
+
+export type ThemeContextValue = {
+  theme: {
+    components: {
+      [componentName: string]: unknown;
+    };
+    colors: {
+      [key: string]: string;
+    };
+    sizes: {
+      [key: string]: string;
+    };
+  };
+};
+
+const ThemeDefault = {
+  theme: {
+    components: {},
+    colors: {},
+    sizes: {}
+  }
+};
+
+export const ThemeContext = createContext<ThemeContextValue>(ThemeDefault);
 
 export type ThemeProviderProps = {
   children: ReactNode;
