@@ -44,7 +44,7 @@ export type ThemeProviderProps = {
 };
 
 const defaultThemeModules = import.meta.glob<{ default: unknown; STYLES_COMPONENT_NAME?: string }>(
-  '../../**/*.styles.ts',
+  '@components/**/*.styles.ts',
   { eager: true }
 );
 

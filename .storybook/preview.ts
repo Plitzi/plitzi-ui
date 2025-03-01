@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 
 // Relatives
-import ThemeProvider from '../src/components/ThemeProvider';
+import Provider from '../src/components/Provider';
 
 import type { Preview } from '@storybook/react';
 
@@ -17,7 +17,7 @@ const preview: Preview = {
       }
     }
   },
-  decorators: [Story => createElement(ThemeProvider, { children: createElement(Story) })]
+  decorators: [Story => createElement(Provider, { children: createElement(Story) })]
 };
 
 export default preview;
