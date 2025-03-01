@@ -121,7 +121,7 @@ jobs:
       - name: Yarn Build
         run: yarn build:prod
 
-      - name: Yarn Publish
-        run: yarn npm publish
+      - name: NPM Publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
