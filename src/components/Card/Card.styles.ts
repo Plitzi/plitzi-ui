@@ -19,7 +19,7 @@ export default {
       size: {},
       shadow: {
         normal: 'shadow-[0_7px_14px_0_rgba(65,69,88,0.1),0_3px_6px_0_rgba(0,0,0,0.07)]',
-        dark: 'shadow-[rgba(43,53,86,0.3)_0px_0px_10px_0px]',
+        dark: 'shadow-[0px_0px_10px_0px_rgba(43,53,86,0.3)]',
         custom: ''
       },
       rounded: {
