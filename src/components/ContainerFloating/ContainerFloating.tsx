@@ -1,239 +1,143 @@
-import classNames from 'classnames';
 import {
   Children,
   isValidElement,
-  useEffect,
   useMemo,
   useRef,
   useState,
   useCallback,
-  useImperativeHandle
+  useImperativeHandle,
+  cloneElement,
+  useEffect
 } from 'react';
 
-import useTheme from '@hooks/useTheme';
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
-// Relatives
 import ContainerFloatingContainer from './ContainerFloatingContainer';
 import ContainerFloatingContent from './ContainerFloatingContent';
+import ContainerFloatingContext from './ContainerFloatingContext';
+import ContainerFloatingTrigger from './ContainerFloatingTrigger';
 
 import type ContainerFloatingStyles from './ContainerFloating.styles';
 import type { variantKeys } from './ContainerFloating.styles';
+import type { ContainerFloatingContentProps } from './ContainerFloatingContent';
+import type { ContainerFloatingContextValue } from './ContainerFloatingContext';
+import type { ContainerFloatingTriggerProps } from './ContainerFloatingTrigger';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { KeyboardEvent, ReactNode, RefObject } from 'react';
+import type { ReactElement, ReactNode, RefObject } from 'react';
 
 export type ContainerFloatingProps = {
-  ref?: RefObject<HTMLDivElement | null>;
+  ref?: RefObject<HTMLDivElement>;
   children?: ReactNode;
-  width?: number;
-  height?: number;
-  autoWidth?: boolean;
-  autoHeight?: boolean;
   containerTopOffset?: number;
   containerLeftOffset?: number;
-  backgroundDisabled?: boolean;
   closeOnClick?: boolean;
-  popupOpened?: boolean;
-  onContainerVisible?: (visible: boolean) => void;
-  onCloseValidate?: (e: Event) => boolean;
+  open?: boolean;
+  testId?: string;
+  container?: Element | DocumentFragment;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;
 
 const ContainerFloating = ({
   ref,
   children,
-  className = '',
-  width,
-  height,
-  autoWidth = false,
-  autoHeight = false,
-  containerTopOffset = 5,
+  containerTopOffset = 0,
   containerLeftOffset = 0,
-  backgroundDisabled = false,
   closeOnClick = true,
-  popupOpened = false,
+  open: openProp,
   disabled = false,
-  intent,
-  onContainerVisible,
-  onCloseValidate
+  testId,
+  placement,
+  container
 }: ContainerFloatingProps) => {
-  const [containerVisible, setContainerVisible] = useState(popupOpened);
-  const [parameters, setParameters] = useState<{ top?: number; left?: number; width?: number; height?: number }>({});
-  const classNameTheme = useTheme<typeof ContainerFloatingStyles, typeof variantKeys, false>('ContainerFloating', {
-    className,
-    componentKey: ['root', 'backgroundContainer', 'content', 'container'],
-    variant: { intent, disabled, visible: containerVisible && !!parameters }
-  });
-  const rectContainer = useRef<HTMLDivElement | null>(null);
-  const refContent = useRef<HTMLDivElement | null>(null);
-  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => rectContainer.current, []);
+  const [open, setOpen] = useState(openProp ?? false);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, []);
 
-  const calculatePosition = useCallback(
-    (rectParent: DOMRect, rectContent: DOMRect, w?: number, h?: number, _autoWidth?: boolean, autoHeight?: boolean) => {
-      if (!w) {
-        w = rectContent.width;
-      }
-
-      if (!h) {
-        h = rectContent.height;
-      }
-
-      let top = rectParent.top + rectParent.height + containerTopOffset;
-      if (top + h > window.innerHeight && rectParent.top - h - containerTopOffset > 0) {
-        // if bottom dont have enough space, render top
-        top = rectParent.top - h - containerTopOffset;
-      } else if (top + h > window.innerHeight) {
-        // cant go top due that is too big, but same for bottom so we need to resize it
-        h = window.innerHeight - top - containerTopOffset;
-      } else if (top + h < window.innerHeight && autoHeight) {
-        h = undefined;
-      }
-
-      let left = rectParent.left + containerLeftOffset;
-      if (left + w > window.innerWidth) {
-        left = rectParent.left - w + rectParent.width - containerLeftOffset;
-      }
-
-      return { top, left, width: w, height: h };
-    },
-    [containerLeftOffset, containerTopOffset]
+  const handleClickTrigger = useCallback(
+    () => !disabled && openProp === undefined && setOpen(state => !state),
+    [disabled, openProp]
   );
 
-  const processParameters = useCallback(() => {
-    if (rectContainer.current && refContent.current) {
-      const rectParent = rectContainer.current.getBoundingClientRect();
-      const rectContent = refContent.current.getBoundingClientRect();
-      const finalWidth = autoWidth ? rectParent.width : width;
-      const finalHeight = autoHeight ? rectContent.height : height;
-      const parameters = calculatePosition(rectParent, rectContent, finalWidth, finalHeight, autoWidth, autoHeight);
-      setParameters(parameters);
-    }
-  }, [autoHeight, autoWidth, calculatePosition, height, width]);
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => {
+      if (!open || !triggerRef.current || openProp !== undefined) {
+        return;
+      }
 
-  const { container, content } = useMemo(() => {
-    const components: { container?: ReactNode; content?: ReactNode } = {};
+      if (
+        !triggerRef.current.contains(e.target as Node) &&
+        (!(e.target as HTMLElement).closest('.container-floating') || closeOnClick)
+      ) {
+        setOpen(false);
+      }
+    },
+    [open, closeOnClick, openProp]
+  );
+
+  const { trigger, content } = useMemo(() => {
+    const components: { trigger?: ReactNode; content?: ReactNode } = {};
     Children.forEach(children, child => {
       if (!isValidElement(child)) {
         return;
       }
 
-      if (child.type === ContainerFloatingContainer) {
-        components.container = child;
+      if (child.type === ContainerFloatingTrigger) {
+        const childProps = child.props as ContainerFloatingTriggerProps;
+        components.trigger = cloneElement<ContainerFloatingTriggerProps>(
+          child as ReactElement<ContainerFloatingTriggerProps>,
+          { testId, ...childProps, ref: triggerRef as RefObject<HTMLDivElement>, onClick: handleClickTrigger }
+        );
       } else if (child.type === ContainerFloatingContent) {
-        components.content = child;
+        const childProps = child.props as ContainerFloatingContentProps;
+        components.content = cloneElement<ContainerFloatingContentProps>(
+          child as ReactElement<ContainerFloatingContentProps>,
+          { testId, ...childProps }
+        );
       }
     });
 
     return components;
-  }, [children]);
-
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (!container || (containerVisible && !closeOnClick) || disabled) {
-        return;
-      }
-
-      if (!containerVisible && rectContainer.current && refContent.current && container) {
-        processParameters();
-      } else if (containerVisible) {
-        setParameters({});
-      }
-
-      setContainerVisible(!containerVisible);
-      onContainerVisible?.(!containerVisible);
-    },
-    [container, containerVisible, closeOnClick, disabled, processParameters, onContainerVisible]
-  );
-
-  const handleClickClose = useCallback(
-    (e: React.MouseEvent | MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      setContainerVisible(false);
-      onContainerVisible?.(false);
-      setParameters({});
-    },
-    [setContainerVisible, onContainerVisible, setParameters]
-  );
-
-  const handleClickContainer = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (disabled || !onCloseValidate?.(e.nativeEvent) || !closeOnClick) {
-        return;
-      }
-
-      setContainerVisible(false);
-      onContainerVisible?.(false);
-      setParameters({});
-    },
-    [onCloseValidate, closeOnClick, setContainerVisible, onContainerVisible, disabled]
-  );
-
-  const handleClickDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (!containerVisible || (e.key !== 'Enter' && e.key !== 'Escape')) {
-        return;
-      }
-
-      if (disabled || !onCloseValidate?.(e.nativeEvent) || !closeOnClick) {
-        return;
-      }
-
-      setContainerVisible(false);
-      onContainerVisible?.(false);
-      setParameters({});
-    },
-    [containerVisible, onCloseValidate, closeOnClick, disabled, onContainerVisible]
-  );
+  }, [children, handleClickTrigger, testId]);
 
   useEffect(() => {
-    if (disabled || !containerVisible) {
-      return undefined;
+    if (!open) {
+      return;
     }
 
-    window.addEventListener('click', handleClickClose, false);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      window.removeEventListener('click', handleClickClose, false);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [containerVisible, disabled, handleClickClose]);
+  }, [handleClickOutside, open]);
 
-  useEffect(() => {
-    if (!containerVisible && popupOpened) {
-      processParameters();
-      setContainerVisible(true);
-    } else {
-      setContainerVisible(false);
-      setParameters({});
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [popupOpened, processParameters]);
+  useDidUpdateEffect(() => {
+    setOpen(openProp ?? false);
+  }, [openProp]);
+
+  const containerFloatingContextValue = useMemo<ContainerFloatingContextValue>(
+    () => ({
+      open,
+      placement,
+      triggerRef: triggerRef as RefObject<HTMLDivElement>,
+      container,
+      containerTopOffset,
+      containerLeftOffset
+    }),
+    [open, placement, container, containerTopOffset, containerLeftOffset]
+  );
 
   return (
-    <div ref={rectContainer} className={classNameTheme.root}>
-      <div className={classNameTheme.content} onClick={handleClick}>
-        {content}
-      </div>
-      {containerVisible && backgroundDisabled && (
-        <div className={classNameTheme.backgroundContainer} onClick={handleClickClose} />
-      )}
-      <div
-        ref={refContent}
-        className={classNames('dropdown-container__root', classNameTheme.container)}
-        style={parameters}
-        onClick={handleClickContainer}
-        onKeyDown={handleClickDown}
-      >
-        {container}
-      </div>
-    </div>
+    <>
+      {trigger}
+      <ContainerFloatingContext value={containerFloatingContextValue}>
+        <ContainerFloatingContainer>{content}</ContainerFloatingContainer>
+      </ContainerFloatingContext>
+    </>
   );
 };
 
-ContainerFloating.Content = ContainerFloatingContent;
+ContainerFloating.Trigger = ContainerFloatingTrigger;
 
-ContainerFloating.Container = ContainerFloatingContainer;
+ContainerFloating.Content = ContainerFloatingContent;
 
 export default ContainerFloating;

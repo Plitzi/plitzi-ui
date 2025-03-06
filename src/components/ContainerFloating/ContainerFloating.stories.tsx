@@ -1,6 +1,7 @@
-import { useState } from 'react';
 
-// Relatives
+
+import Flex from '@components/Flex';
+
 import ContainerFloating from './ContainerFloating';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -23,37 +24,29 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {},
   render: args => (
-    <div className="w-40 h-40 border border-gray-300">
-      <ContainerFloating {...args} className="w-full" backgroundDisabled closeOnClick={false}>
-        <ContainerFloating.Content>Test</ContainerFloating.Content>
-        <ContainerFloating.Container>Test 2</ContainerFloating.Container>
-      </ContainerFloating>
+    <div className="w-[400px] h-[400px] border border-gray-400">
+      <Flex className="h-full" direction="column" justify="between">
+        <Flex justify="between">
+          <ContainerFloating {...args} placement="bottom-left" className="w-full">
+            <ContainerFloating.Trigger>Test</ContainerFloating.Trigger>
+            <ContainerFloating.Content>Content Test 2</ContainerFloating.Content>
+          </ContainerFloating>
+          <ContainerFloating {...args} placement="bottom-right" className="w-full">
+            <ContainerFloating.Trigger>Test</ContainerFloating.Trigger>
+            <ContainerFloating.Content>Content Test 2</ContainerFloating.Content>
+          </ContainerFloating>
+        </Flex>
+        <Flex justify="between">
+          <ContainerFloating {...args} placement="top-left" className="w-full">
+            <ContainerFloating.Trigger>Test</ContainerFloating.Trigger>
+            <ContainerFloating.Content>Content Test 2</ContainerFloating.Content>
+          </ContainerFloating>
+          <ContainerFloating {...args} placement="top-right" className="w-full">
+            <ContainerFloating.Trigger>Test</ContainerFloating.Trigger>
+            <ContainerFloating.Content>Content Test 2</ContainerFloating.Content>
+          </ContainerFloating>
+        </Flex>
+      </Flex>
     </div>
   )
-};
-
-export const Manual: Story = {
-  args: {},
-  render: function Render(args) {
-    const [open, setOpen] = useState(false);
-
-    return (
-      <div className="w-40 h-40 border border-gray-300">
-        <button type="button" onClick={() => setOpen(state => !state)}>
-          Click Me
-        </button>
-        <ContainerFloating
-          {...args}
-          className="w-full"
-          backgroundDisabled
-          disabled
-          popupOpened={open}
-          onContainerVisible={visible => setOpen(visible)}
-        >
-          <ContainerFloating.Content>Test</ContainerFloating.Content>
-          <ContainerFloating.Container>Test 2</ContainerFloating.Container>
-        </ContainerFloating>
-      </div>
-    );
-  }
 };

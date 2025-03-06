@@ -3,27 +3,27 @@ import useTheme from '@hooks/useTheme';
 import type ContainerFloatingStyles from './ContainerFloating.styles';
 import type { variantKeys } from './ContainerFloating.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode, RefObject } from 'react';
+import type { MouseEvent, ReactNode, RefObject } from 'react';
 
-export type ContainerFloatingContentProps = {
-  ref?: RefObject<HTMLDivElement>;
+export type ContainerFloatingTriggerProps = {
   children?: ReactNode;
-  className?: string;
+  ref?: RefObject<HTMLDivElement>;
   testId?: string;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;
 
-const ContainerFloatingContent = ({ ref, children, className, placement, testId }: ContainerFloatingContentProps) => {
+const ContainerFloatingTrigger = ({ children, className, testId, ref, onClick }: ContainerFloatingTriggerProps) => {
   className = useTheme<typeof ContainerFloatingStyles, typeof variantKeys>('ContainerFloating', {
     className,
-    componentKey: 'content',
-    variant: { placement }
+    componentKey: 'trigger',
+    variant: {}
   });
 
   return (
-    <div ref={ref} className={className} data-testid={testId ? `${testId}-content` : undefined}>
+    <div ref={ref} className={className} onClick={onClick} data-testid={testId ? `${testId}-trigger` : undefined}>
       {children}
     </div>
   );
 };
 
-export default ContainerFloatingContent;
+export default ContainerFloatingTrigger;
