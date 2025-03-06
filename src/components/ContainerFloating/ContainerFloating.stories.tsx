@@ -1,5 +1,3 @@
-
-
 import Flex from '@components/Flex';
 
 import ContainerFloating from './ContainerFloating';
