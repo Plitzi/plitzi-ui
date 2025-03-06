@@ -17,6 +17,7 @@ export type IconProps = {
   active?: boolean;
   disabled?: boolean;
   title?: string;
+  testId?: string;
 } & HTMLAttributes<HTMLElement> &
   useThemeSharedProps<typeof IconStyles, typeof variantKeys>;
 
@@ -28,6 +29,7 @@ const Icon = ({
   icon,
   active = false,
   disabled = false,
+  testId,
   intent,
   size,
   cursor,
@@ -68,7 +70,7 @@ const Icon = ({
     return iconChildren;
   }
 
-  return <i {...props} title={title} className={classNames(icon, className)} />;
+  return <i {...props} title={title} data-testid={testId} className={classNames(icon, className)} />;
 };
 
 export default Icon;

@@ -14,7 +14,6 @@ import type { CSSProperties, ReactNode, RefObject } from 'react';
 
 type ContainerFloatingContainerProps = {
   ref?: RefObject<HTMLDivElement>;
-  className?: string;
   children: ReactNode;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, Omit<typeof variantKeys, 'placement'>>;
 

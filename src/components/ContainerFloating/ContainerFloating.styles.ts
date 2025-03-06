@@ -10,22 +10,10 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'ContainerFloating';
 
 export default {
-  root: cva('flex', {
+  root: cva('', {
     variants: {},
     compoundVariants: [],
     defaultVariants: {}
-  }),
-  backgroundContainer: cva('top-0 bottom-0 left-0 right-0 z-50 fixed', {
-    variants: {
-      intent: {
-        dropdown: 'bg-black opacity-40',
-        custom: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'dropdown'
-    }
   }),
   trigger: cva('cursor-pointer'),
   content: cva('flex items-center w-full h-full', {
