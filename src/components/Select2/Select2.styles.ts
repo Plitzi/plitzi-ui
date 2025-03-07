@@ -39,7 +39,7 @@ export default {
   }),
   placeholder: cva('text-gray-500'),
   searchInput: cva('mx-2.5 mt-2.5'),
-  list: cva('p-2.5 max-h-[400px]'),
+  list: cva('p-2.5 max-h-[400px] overflow-y-auto'),
   listMessage: cva('py-3 text-gray-500 flex items-center justify-center shrink-0'),
   listGroup: cva(
     '[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-300 [&:not(:last-child)]:pb-2 not-last:mb-2'

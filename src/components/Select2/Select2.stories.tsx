@@ -43,6 +43,12 @@ export const BasicUsage: Story = {
         label: 'Group 2',
         options: [
           { value: 'hello2', label: 'Hello 2' },
+          { value: 'world', label: 'World' },
+          { value: 'world', label: 'World' },
+          { value: 'world', label: 'World' },
+          { value: 'world', label: 'World' },
+          { value: 'world', label: 'World' },
+          { value: 'world', label: 'World' },
           { value: 'world', label: 'World' }
         ]
       }
