@@ -29,7 +29,7 @@ type GenericChildProps = Omit<{ [key: string]: unknown }, 'key' | 'testId'> & { 
 const MenuItem = ({ className, children, value, disabled, testId, onSelect }: MenuItemProps) => {
   const classNameTheme = useTheme<typeof MenuListStyles, typeof variantKeys, false>('MenuList', {
     className,
-    componentKey: ['menuItem', 'container'],
+    componentKey: ['menuItem', 'container', 'icon'],
     variant: { disabled }
   });
   const ref = useRef<HTMLDivElement>(null);
@@ -131,7 +131,7 @@ const MenuItem = ({ className, children, value, disabled, testId, onSelect }: Me
               {subMenu}
             </MenuListContainer>
           </MenuListContext>
-          <Icon intent="custom" icon="fa-solid fa-fachevron-right" />
+          <Icon className={classNameTheme.icon} intent="custom" icon="fa-solid fa-chevron-right" />
         </>
       )}
     </div>

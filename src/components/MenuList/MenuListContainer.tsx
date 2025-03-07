@@ -48,6 +48,7 @@ const MenuListContainer = ({ className, children, open = false, asSubMenu = fals
     setPlacement(currentPlacement);
     const deltaX = 0;
     const deltaY = 4;
+    const subDeltaX = 4;
 
     let top = 0,
       left = 0;
@@ -55,30 +56,30 @@ const MenuListContainer = ({ className, children, open = false, asSubMenu = fals
       top = rect.top - deltaY;
       left = rect.left + deltaX;
       if (asSubMenu && parentMenuRect) {
-        top = parentMenuRect.top + parentMenuRect.height + deltaY;
-        left = parentMenuRect.left + parentMenuRect.width + deltaX;
+        top = parentMenuRect.top + parentMenuRect.height;
+        left = parentMenuRect.left + parentMenuRect.width + deltaX + subDeltaX;
       }
     } else if (currentPlacement === 'top-right') {
       top = rect.top - deltaY;
       left = rect.left - containerRect.width + rect.width - deltaX;
       if (asSubMenu && parentMenuRect) {
-        top = parentMenuRect.top + parentMenuRect.height + deltaY;
-        left = parentMenuRect.left + deltaX;
+        top = parentMenuRect.top + parentMenuRect.height;
+        left = parentMenuRect.left + deltaX - subDeltaX;
       }
     } else if (currentPlacement === 'bottom-left') {
       top = rect.bottom + deltaY;
       left = rect.left + deltaX;
       if (asSubMenu && parentMenuRect) {
-        top = parentMenuRect.top + deltaY;
-        left = parentMenuRect.left + parentMenuRect.width + deltaX;
+        top = parentMenuRect.top;
+        left = parentMenuRect.left + parentMenuRect.width + deltaX + subDeltaX;
       }
     } else {
       // bottom-right
       top = rect.bottom + deltaY;
       left = rect.left - containerRect.width + rect.width - deltaX;
       if (asSubMenu && parentMenuRect) {
-        top = parentMenuRect.top + deltaY;
-        left = parentMenuRect.left + deltaX;
+        top = parentMenuRect.top;
+        left = parentMenuRect.left + deltaX - subDeltaX;
       }
     }
 
