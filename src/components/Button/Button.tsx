@@ -65,6 +65,7 @@ const Button = ({
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
           className: classNames(classNameTheme.icon, childProps.className),
           size,
+          testId: testId ? `${testId}-icon` : undefined,
           ...childProps,
           intent: childProps.intent ?? 'custom'
         });
@@ -74,7 +75,7 @@ const Button = ({
     });
 
     return components;
-  }, [children, classNameTheme.icon, size]);
+  }, [children, classNameTheme.icon, size, testId]);
 
   return (
     <button

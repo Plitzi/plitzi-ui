@@ -25,6 +25,7 @@ import IconGroup from './IconGroup';
 import Input from './Input';
 import Label from './Label';
 import Markdown from './Markdown';
+import MenuList from './MenuList';
 import MetricInput from './MetricInput';
 import Popup from './Popup';
 import Provider from './Provider';
@@ -37,6 +38,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
 
+export * from './MenuList';
 export * from './Markdown';
 export * from './ErrorBoundary';
 export * from './ContainerTabs';
@@ -77,6 +79,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  MenuList,
   Markdown,
   ErrorBoundary,
   ContainerTabs,
