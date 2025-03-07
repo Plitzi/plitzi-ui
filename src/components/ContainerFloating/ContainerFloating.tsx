@@ -34,6 +34,8 @@ export type ContainerFloatingProps = {
   open?: boolean;
   testId?: string;
   container?: Element | DocumentFragment;
+  onOpenChange?: (open: boolean) => void;
+  onCloseValidate?: (e: Event) => boolean;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;
 
 const ContainerFloating = ({
@@ -46,7 +48,9 @@ const ContainerFloating = ({
   disabled = false,
   testId,
   placement,
-  container
+  container,
+  onOpenChange,
+  onCloseValidate
 }: ContainerFloatingProps) => {
   const [open, setOpen] = useState(openProp ?? false);
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -65,12 +69,13 @@ const ContainerFloating = ({
 
       if (
         !triggerRef.current.contains(e.target as Node) &&
-        (!(e.target as HTMLElement).closest('.container-floating') || closeOnClick)
+        (!(e.target as HTMLElement).closest('.container-floating') || closeOnClick) &&
+        (!onCloseValidate || onCloseValidate(e))
       ) {
         setOpen(false);
       }
     },
-    [open, closeOnClick, openProp]
+    [open, closeOnClick, openProp, onCloseValidate]
   );
 
   const { trigger, content } = useMemo(() => {
@@ -84,13 +89,18 @@ const ContainerFloating = ({
         const childProps = child.props as ContainerFloatingTriggerProps;
         components.trigger = cloneElement<ContainerFloatingTriggerProps>(
           child as ReactElement<ContainerFloatingTriggerProps>,
-          { testId, ...childProps, ref: triggerRef as RefObject<HTMLDivElement>, onClick: handleClickTrigger }
+          {
+            testId: testId ? `${testId}-trigger` : undefined,
+            onClick: handleClickTrigger,
+            ...childProps,
+            ref: triggerRef as RefObject<HTMLDivElement>
+          }
         );
       } else if (child.type === ContainerFloatingContent) {
         const childProps = child.props as ContainerFloatingContentProps;
         components.content = cloneElement<ContainerFloatingContentProps>(
           child as ReactElement<ContainerFloatingContentProps>,
-          { testId, ...childProps }
+          { testId: testId ? `${testId}-content` : undefined, ...childProps }
         );
       }
     });
@@ -116,21 +126,22 @@ const ContainerFloating = ({
 
   const containerFloatingContextValue = useMemo<ContainerFloatingContextValue>(
     () => ({
-      open,
       placement,
       triggerRef: triggerRef as RefObject<HTMLDivElement>,
       container,
       containerTopOffset,
       containerLeftOffset
     }),
-    [open, placement, container, containerTopOffset, containerLeftOffset]
+    [placement, container, containerTopOffset, containerLeftOffset]
   );
 
   return (
     <>
       {trigger}
       <ContainerFloatingContext value={containerFloatingContextValue}>
-        <ContainerFloatingContainer>{content}</ContainerFloatingContainer>
+        <ContainerFloatingContainer open={open} onOpenChange={onOpenChange}>
+          {content}
+        </ContainerFloatingContainer>
       </ContainerFloatingContext>
     </>
   );

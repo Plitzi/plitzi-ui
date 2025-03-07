@@ -20,19 +20,19 @@ describe('ContainerFloating', () => {
     fireEvent.click(component.container.firstChild);
 
     component = render(
-      <ContainerFloating width={280} closeOnClick={false}>
+      <ContainerFloating closeOnClick={false}>
         Invalid Child
         <div>Valid Child</div>
-        <ContainerFloating.Content>
+        <ContainerFloating.Trigger>
           <span>Hello World</span>
-        </ContainerFloating.Content>
-        <ContainerFloating.Container className="p-4">
+        </ContainerFloating.Trigger>
+        <ContainerFloating.Content className="p-4">
           <ul>
             <li>
               <span>Option 1</span>
             </li>
           </ul>
-        </ContainerFloating.Container>
+        </ContainerFloating.Content>
       </ContainerFloating>
     );
     if (!component.container.firstChild) {

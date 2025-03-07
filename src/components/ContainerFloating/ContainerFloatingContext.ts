@@ -6,7 +6,6 @@ import type { RefObject } from 'react';
 export type ContainerFloatingContextValue = {
   triggerRef?: RefObject<HTMLDivElement>;
   container?: Element | DocumentFragment;
-  open?: boolean;
   placement?: ContainerFloatingProps['placement'];
   containerTopOffset?: number;
   containerLeftOffset?: number;

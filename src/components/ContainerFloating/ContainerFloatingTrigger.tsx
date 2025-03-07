@@ -20,7 +20,7 @@ const ContainerFloatingTrigger = ({ children, className, testId, ref, onClick }:
   });
 
   return (
-    <div ref={ref} className={className} onClick={onClick} data-testid={testId ? `${testId}-trigger` : undefined}>
+    <div ref={ref} className={className} onClick={onClick} data-testid={testId}>
       {children}
     </div>
   );

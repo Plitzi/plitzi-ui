@@ -17,7 +17,7 @@ import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent, RefObject } from 'react';
+import type { RefObject } from 'react';
 
 const optionsDefault: Option[] = [];
 
@@ -46,7 +46,7 @@ export type Select2Props = {
   allowCreateOptions?: boolean;
   isSearchable?: boolean;
   clearable?: boolean;
-  menuIsOpen?: boolean;
+  open?: boolean;
   searchAutoFocus?: boolean;
   onChange?: (value?: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
@@ -63,7 +63,7 @@ const Select2 = ({
   allowCreateOptions = false,
   isSearchable = true,
   clearable = true,
-  menuIsOpen = false,
+  open: openProp = false,
   searchAutoFocus = true,
   onChange
 }: Select2Props) => {
@@ -72,10 +72,11 @@ const Select2 = ({
     componentKey: ['inputContainer', 'placeholder', 'listMessage'],
     variant: { size }
   });
+  const [open, setOpen] = useState(openProp);
   const [loading, setLoading] = useState(options instanceof Promise);
   const [optionsLoaded, setOptionsLoaded] = useState(() => (!loading && Array.isArray(options) ? options : []));
   const [optionsCustom, setOptionsCustom] = useState<Option[]>([]);
-  const refDropdown = useRef<HTMLDivElement | null>(null);
+  const refDropdown = useRef<HTMLDivElement>(null);
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => refDropdown.current, []);
   const optionSelected = useMemo(() => {
     if (typeof value === 'string') {
@@ -101,26 +102,19 @@ const Select2 = ({
     return value;
   }, [allowCreateOptions, optionsLoaded, value]);
   const [search, setSearch] = useState('');
-  const [containerVisible, setContainerVisible] = useState(false);
 
   const handleSearch = useCallback(
     (value: string) => {
-      if (!containerVisible && refDropdown.current) {
-        setContainerVisible(true);
+      if (!open && refDropdown.current) {
         refDropdown.current.click();
       }
 
       setSearch(value);
     },
-    [setSearch, containerVisible]
+    [setSearch, open]
   );
 
-  const handleContainerVisible = useCallback((isVisible: boolean) => {
-    setContainerVisible(isVisible);
-    if (!isVisible) {
-      setSearch('');
-    }
-  }, []);
+  const handleContainerVisible = useCallback((open: boolean) => !open && setSearch(''), []);
 
   const handleChange = useCallback(
     (newValue?: Exclude<Option, OptionGroup>) => {
@@ -130,6 +124,7 @@ const Select2 = ({
 
       onChange?.(newValue);
       setSearch('');
+      setOpen(false);
     },
     [onChange, disabled]
   );
@@ -196,39 +191,44 @@ const Select2 = ({
     return result;
   }, [optionsLoaded, optionsCustom, search]);
 
-  const handleClosePopupValidator = useCallback((e: Event) => {
-    if (!e.target) {
-      return false;
-    }
-
-    if ((e.target as HTMLElement).classList.contains('select2__search-input') && e.type !== 'click') {
-      return true;
-    }
-
-    return (e.target as HTMLElement).classList.contains('select2__list-item');
-  }, []);
-
   const handleClickClear = useCallback(
-    (e: MouseEvent) => {
+    (e: React.MouseEvent) => {
       e.stopPropagation();
       onChange?.(undefined);
     },
     [onChange]
   );
 
+  const handleClickTrigger = useCallback(() => !disabled && !loading && setOpen(state => !state), [disabled, loading]);
+
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => !(e.target as HTMLElement).closest('.container-floating') && setOpen(false),
+    []
+  );
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [handleClickOutside, open]);
+
+  const { width } = refDropdown.current?.getBoundingClientRect() ?? { width: 'auto' };
+
   return (
     <ContainerFloating
-      ref={refDropdown}
-      containerTopOffset={8}
+      ref={refDropdown as RefObject<HTMLDivElement>}
+      containerTopOffset={error ? -26 : 0}
       containerLeftOffset={0}
-      autoWidth
-      autoHeight
-      onContainerVisible={handleContainerVisible}
-      popupOpened={menuIsOpen}
-      disabled={disabled || loading}
-      onCloseValidate={handleClosePopupValidator}
+      onOpenChange={handleContainerVisible}
+      open={open}
     >
-      <ContainerFloating.Content className="w-full">
+      <ContainerFloating.Trigger className="w-full" onClick={handleClickTrigger}>
         <InputContainer
           size={size}
           clearable={clearable}
@@ -249,13 +249,13 @@ const Select2 = ({
             >
               {optionSelected?.label ?? placeholder}
             </div>
-            {!containerVisible && <Icon icon="fa-solid fa-chevron-down" />}
-            {containerVisible && <Icon icon="fa-solid fa-chevron-up" />}
+            {!open && <Icon icon="fa-solid fa-chevron-down" />}
+            {open && <Icon icon="fa-solid fa-chevron-up" />}
           </Flex>
         </InputContainer>
-      </ContainerFloating.Content>
-      <ContainerFloating.Container className="w-full" shadow="dark">
-        {!loading && isSearchable && containerVisible && (
+      </ContainerFloating.Trigger>
+      <ContainerFloating.Content className="flex flex-col w-full" style={{ width }}>
+        {!loading && isSearchable && open && (
           <SelectInput
             size={size}
             value={search}
@@ -282,7 +282,7 @@ const Select2 = ({
         )}
         {loading && <div className={classNameTheme.listMessage}>Loading...</div>}
         {!loading && optionsFiltered.length === 0 && <div className={classNameTheme.listMessage}>No Options</div>}
-      </ContainerFloating.Container>
+      </ContainerFloating.Content>
     </ContainerFloating>
   );
 };

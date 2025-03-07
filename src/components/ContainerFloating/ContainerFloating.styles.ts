@@ -3,7 +3,6 @@ import cva from '@/helpers/cvaWrapper';
 export const variantKeys = {
   intent: ['dropdown', 'custom'],
   disabled: [true, false],
-  visible: [true, false],
   placement: ['top-left', 'top-right', 'bottom-left', 'bottom-right']
 } as const;
 
@@ -16,10 +15,10 @@ export default {
     defaultVariants: {}
   }),
   trigger: cva('cursor-pointer'),
-  content: cva('flex items-center w-full h-full', {
+  content: cva('flex w-full h-full', {
     variants: {
       intent: {
-        dropdown: 'bg-black text-white',
+        dropdown: 'bg-white shadow-[0_7px_14px_0_rgba(65,69,88,0.1),0_3px_6px_0_rgba(0,0,0,0.07)] rounded-lg',
         custom: ''
       },
       disabled: {
@@ -35,10 +34,6 @@ export default {
   }),
   container: cva('fixed z-[801]', {
     variants: {
-      // visible: {
-      //   true: 'flex',
-      //   false: 'invisible'
-      // }
       placement: {
         'top-left': '-translate-y-full',
         'top-right': '-translate-y-full',
@@ -48,7 +43,6 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      // visible: false
       placement: 'bottom-left'
     }
   })

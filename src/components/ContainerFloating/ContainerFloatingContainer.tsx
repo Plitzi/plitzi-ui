@@ -15,11 +15,18 @@ import type { CSSProperties, ReactNode, RefObject } from 'react';
 type ContainerFloatingContainerProps = {
   ref?: RefObject<HTMLDivElement>;
   children: ReactNode;
+  open: boolean;
+  onOpenChange?: (open: boolean) => void;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, Omit<typeof variantKeys, 'placement'>>;
 
-const ContainerFloatingContainer = ({ ref, className, children }: ContainerFloatingContainerProps) => {
+const ContainerFloatingContainer = ({
+  ref,
+  className,
+  children,
+  open,
+  onOpenChange
+}: ContainerFloatingContainerProps) => {
   const {
-    open,
     container,
     triggerRef,
     placement: placementProp,
@@ -96,7 +103,9 @@ const ContainerFloatingContainer = ({ ref, className, children }: ContainerFloat
     if (open) {
       updatePosition();
     }
-  }, [open, updatePosition]);
+
+    onOpenChange?.(open);
+  }, [open, updatePosition, onOpenChange]);
 
   const containerStyle: CSSProperties = useMemo(() => ({ top: position.top, left: position.left }), [position]);
 

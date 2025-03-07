@@ -3,16 +3,24 @@ import useTheme from '@hooks/useTheme';
 import type ContainerFloatingStyles from './ContainerFloating.styles';
 import type { variantKeys } from './ContainerFloating.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode, RefObject } from 'react';
+import type { HTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type ContainerFloatingContentProps = {
   ref?: RefObject<HTMLDivElement>;
   children?: ReactNode;
   className?: string;
   testId?: string;
-} & useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;
+} & HTMLAttributes<HTMLDivElement> &
+  useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;
 
-const ContainerFloatingContent = ({ ref, children, className, placement, testId }: ContainerFloatingContentProps) => {
+const ContainerFloatingContent = ({
+  ref,
+  children,
+  className,
+  placement,
+  testId,
+  ...props
+}: ContainerFloatingContentProps) => {
   className = useTheme<typeof ContainerFloatingStyles, typeof variantKeys>('ContainerFloating', {
     className,
     componentKey: 'content',
@@ -20,7 +28,7 @@ const ContainerFloatingContent = ({ ref, children, className, placement, testId 
   });
 
   return (
-    <div ref={ref} className={className} data-testid={testId ? `${testId}-content` : undefined}>
+    <div {...props} ref={ref} className={className} data-testid={testId}>
       {children}
     </div>
   );
