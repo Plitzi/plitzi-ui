@@ -17,10 +17,6 @@ export default {
   trigger: cva('cursor-pointer'),
   container: cva('fixed z-[801]', {
     variants: {
-      // visible: {
-      //   true: 'flex',
-      //   false: 'invisible'
-      // }
       placement: {
         'top-left': '-translate-y-full',
         'top-right': '-translate-y-full',
@@ -30,7 +26,6 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      // visible: false
       placement: 'bottom-left'
     }
   }),
