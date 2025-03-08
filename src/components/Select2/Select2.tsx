@@ -17,7 +17,7 @@ import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { RefObject } from 'react';
+import type { CSSProperties, RefObject } from 'react';
 
 const optionsDefault: Option[] = [];
 
@@ -233,7 +233,15 @@ const Select2 = ({
     };
   }, [handleClickOutside, open]);
 
-  const { width } = refDropdown.current?.getBoundingClientRect() ?? { width: 'auto' };
+  const style = useMemo<CSSProperties>(
+    () => {
+      const { width } = refDropdown.current?.getBoundingClientRect() ?? { width: undefined };
+
+      return { width };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [refDropdown.current]
+  );
 
   return (
     <ContainerFloating
@@ -269,7 +277,7 @@ const Select2 = ({
           </Flex>
         </InputContainer>
       </ContainerFloating.Trigger>
-      <ContainerFloating.Content className="flex flex-col w-full" style={{ width }}>
+      <ContainerFloating.Content className="flex flex-col w-full" style={style}>
         {!loading && isSearchable && open && (
           <SelectInput
             size={size}
