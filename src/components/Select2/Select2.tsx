@@ -199,10 +199,25 @@ const Select2 = ({
     [onChange]
   );
 
-  const handleClickTrigger = useCallback(() => !disabled && !loading && setOpen(state => !state), [disabled, loading]);
+  const handleClickTrigger = useCallback(
+    (e: React.MouseEvent) => {
+      if (disabled || loading) {
+        return;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      setOpen(state => !state);
+    },
+    [disabled, loading]
+  );
 
   const handleClickOutside = useCallback(
-    (e: MouseEvent) => !(e.target as HTMLElement).closest('.container-floating') && setOpen(false),
+    (e: MouseEvent) =>
+      !(e.target as HTMLElement).closest('.container-floating') &&
+      !refDropdown.current?.contains(e.target as HTMLElement) &&
+      setOpen(false),
     []
   );
 
