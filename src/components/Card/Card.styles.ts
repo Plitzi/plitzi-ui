@@ -1,8 +1,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['white'],
-  size: [],
+  intent: ['white', 'modal'],
   shadow: ['normal', 'dark', 'custom'],
   rounded: ['none', 'md'],
   overflow: ['none', 'hidden']
@@ -14,17 +13,17 @@ export default {
   root: cva('', {
     variants: {
       intent: {
-        white: 'bg-white'
+        white: 'bg-white',
+        modal: 'bg-white min-w-[350px]'
       },
-      size: {},
       shadow: {
         normal: 'shadow-[0_7px_14px_0_rgba(65,69,88,0.1),0_3px_6px_0_rgba(0,0,0,0.07)]',
         dark: 'shadow-[0px_0px_10px_0px_rgba(43,53,86,0.3)]',
         custom: ''
       },
       rounded: {
-        none: '',
-        md: 'rounded-md'
+        md: 'rounded-md',
+        none: ''
       },
       overflow: {
         none: '',
@@ -37,6 +36,43 @@ export default {
       shadow: 'normal',
       rounded: 'md',
       overflow: 'hidden'
+    }
+  }),
+  header: cva('', {
+    variants: {
+      intent: {
+        white: '',
+        modal: 'p-4 border-b border-solid border-gray-200'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'white'
+    }
+  }),
+  headerCloseButton: cva('cursor-pointer'),
+  body: cva('', {
+    variants: {
+      intent: {
+        white: '',
+        modal: 'p-4'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'white'
+    }
+  }),
+  footer: cva('', {
+    variants: {
+      intent: {
+        white: '',
+        modal: 'p-4 border-t border-solid border-gray-200'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'white'
     }
   })
 };
