@@ -1,4 +1,3 @@
-// Relatives
 import Variable from './Variable';
 
 export * from './Variable';

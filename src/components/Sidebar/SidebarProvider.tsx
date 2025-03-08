@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-// Relatives
 import SidebarContext from './SidebarContext';
 
 import type { SidebarContextValue } from './SidebarContext';

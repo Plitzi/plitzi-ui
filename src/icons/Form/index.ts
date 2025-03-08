@@ -1,4 +1,3 @@
-// Relatives
 import Form from './Form';
 
 export * from './Form';

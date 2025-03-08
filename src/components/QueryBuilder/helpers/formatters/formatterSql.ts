@@ -1,6 +1,5 @@
 import get from 'lodash/get';
 
-// Relatives
 import { isDate, isNumeric } from '../QueryBuilderHelper';
 
 import type { QueryBuilderParams, Rule, RuleGroup } from '../../QueryBuilder';

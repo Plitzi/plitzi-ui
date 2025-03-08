@@ -1,4 +1,3 @@
-// Relatives
 import Alert from './Alert';
 
 export * from './Alert';

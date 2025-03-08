@@ -1,6 +1,5 @@
 import Flex from '@components/Flex';
 
-// Relatives
 import IconGroup from './IconGroup';
 
 import type { Meta, StoryObj } from '@storybook/react';

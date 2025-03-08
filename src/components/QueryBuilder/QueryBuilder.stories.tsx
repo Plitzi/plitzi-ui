@@ -1,6 +1,5 @@
 import { useArgs } from '@storybook/preview-api';
 
-// Relatives
 import { defaultCombinators, defaultOperators, defaultValidator } from './helpers/QueryBuilderContants';
 import QueryBuilder from './QueryBuilder';
 

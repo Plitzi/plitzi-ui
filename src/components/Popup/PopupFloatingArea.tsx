@@ -2,7 +2,6 @@ import { memo, use } from 'react';
 
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
 
-// Relatives
 import Popup from './Popup';
 import usePopup from './usePopup';
 

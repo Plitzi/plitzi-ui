@@ -1,4 +1,3 @@
-// Relatives
 import Select from './Select';
 
 export * from './Select';

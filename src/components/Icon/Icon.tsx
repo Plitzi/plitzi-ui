@@ -3,7 +3,6 @@ import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import { getIntent } from './utils';
 
 import type IconStyles from './Icon.styles';

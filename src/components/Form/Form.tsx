@@ -4,7 +4,6 @@ import { useForm, FormProvider } from 'react-hook-form';
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import * as Inputs from './fields';
 
 import type FormStyles from './Form.styles';

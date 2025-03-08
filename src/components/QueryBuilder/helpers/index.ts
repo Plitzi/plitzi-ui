@@ -1,4 +1,3 @@
-// Relatives
 import QueryBuilderEvaluator from './QueryBuilderEvaluator';
 import QueryBuilderFormatter from './QueryBuilderFormatter';
 

@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import Select from '../Select';
 import { defaultOperators } from './helpers/QueryBuilderContants';
 

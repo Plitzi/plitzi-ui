@@ -4,7 +4,6 @@ import Flex from '@components/Flex';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import IconSeparator from './IconSeparator';
 
 import type IconGroupStyles from './IconGroup.styles';

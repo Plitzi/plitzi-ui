@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle 
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import ContainerResizableStyles from './ContainerResizable.styles';
 import { snapToGrid } from './utils';
 

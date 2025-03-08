@@ -1,4 +1,3 @@
-// Relatives
 import CodeMirror from './CodeMirror';
 
 export * from './CodeMirror';

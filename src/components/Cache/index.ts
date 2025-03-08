@@ -1,4 +1,3 @@
-// Relatives
 import CacheContext from './CacheContext';
 import CacheProvider from './CacheProvider';
 import useCache from './hooks/useCache';

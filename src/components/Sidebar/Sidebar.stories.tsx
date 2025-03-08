@@ -1,6 +1,5 @@
 import { useArgs } from '@storybook/preview-api';
 
-// Relatives
 import Sidebar from './Sidebar';
 
 import type { Meta, StoryObj } from '@storybook/react';

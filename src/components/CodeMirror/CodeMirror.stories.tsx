@@ -1,4 +1,3 @@
-// Relatives
 import CodeMirror from './CodeMirror';
 
 import type { Meta, StoryObj } from '@storybook/react';

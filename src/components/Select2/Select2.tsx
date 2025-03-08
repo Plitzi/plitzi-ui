@@ -8,7 +8,6 @@ import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import { isOptionGroup } from './helpers/utils';
 import ListItem from './ListItem';
 import SelectInput from './SelectInput';
@@ -69,7 +68,11 @@ const Select2 = ({
     variant: { size }
   });
   const [loading, setLoading] = useState(options instanceof Promise);
-  const [open, setOpen, handleClickTrigger, triggerRef] = useFloating({ open: openProp, disabled, loading });
+  const [open, setOpen, handleClickTrigger, triggerRef, triggerRect] = useFloating({
+    open: openProp,
+    disabled,
+    loading
+  });
   const [optionsLoaded, setOptionsLoaded] = useState(() => (!loading && Array.isArray(options) ? options : []));
   const [optionsCustom, setOptionsCustom] = useState<Option[]>([]);
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
@@ -194,15 +197,7 @@ const Select2 = ({
     [onChange]
   );
 
-  const style = useMemo<CSSProperties>(
-    () => {
-      const { width } = triggerRef.current?.getBoundingClientRect() ?? { width: undefined };
-
-      return { width };
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [triggerRef.current]
-  );
+  const style = useMemo<CSSProperties>(() => ({ width: triggerRect?.width }), [triggerRect]);
 
   return (
     <ContainerFloating

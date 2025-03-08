@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-// Relatives
 import AccordionContext from './AccordionContext';
 
 import type { AccordionContextValue } from './AccordionContext';

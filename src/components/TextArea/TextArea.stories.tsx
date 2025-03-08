@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-// Relatives
 import TextArea from './TextArea';
 
 import type { Meta, StoryObj } from '@storybook/react';

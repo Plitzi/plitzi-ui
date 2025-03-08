@@ -3,7 +3,6 @@ import { Children, cloneElement, isValidElement, useCallback, useEffect, useMemo
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import AccordionItem from './AccordionItem';
 import AccordionProvider from './AccordionProvider';
 import useResize from './hooks/useResize';

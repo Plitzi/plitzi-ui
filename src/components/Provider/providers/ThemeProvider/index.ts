@@ -1,4 +1,3 @@
-// Relatives
 import ThemeProvider from './ThemeProvider';
 
 export * from './ThemeProvider';

@@ -1,4 +1,3 @@
-// Relatives
 import PageOverview from './PageOverview';
 
 export * from './PageOverview';

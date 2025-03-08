@@ -1,4 +1,3 @@
-// Relatives
 import ContainerTabs from './ContainerTabs';
 
 import type { Meta, StoryObj } from '@storybook/react';

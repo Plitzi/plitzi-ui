@@ -1,4 +1,3 @@
-// Relatives
 import ContainerWindow from './ContainerWindow';
 
 export * from './ContainerWindow';

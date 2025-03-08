@@ -5,7 +5,6 @@ import Flex from '@components/Flex';
 import Switch from '@components/Switch';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import Select from '../Select';
 import QueryBuilderContext from './QueryBuilderContext';
 import Rule from './Rule';

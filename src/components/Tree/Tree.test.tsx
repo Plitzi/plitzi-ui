@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-// Relatives
 import Tree from './Tree';
 import { getFlatItems, moveNode } from './utils';
 

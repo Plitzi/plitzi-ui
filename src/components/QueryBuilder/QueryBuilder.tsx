@@ -5,7 +5,6 @@ import { v4 as uuid } from 'uuid';
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import GroupRules from './GroupRules';
 import { defaultCombinators } from './helpers/QueryBuilderContants';
 import QueryBuilderProvider from './QueryBuilderProvider';

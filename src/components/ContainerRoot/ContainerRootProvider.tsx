@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 
-// Relatives
 import ContainerRootContext from './ContainerRootContext';
 
 import type { ReactNode } from 'react';

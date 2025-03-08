@@ -1,4 +1,3 @@
-// Relatives
 import * as components from './components';
 import * as hooks from './hooks';
 import * as icons from './icons';

@@ -1,4 +1,3 @@
-// Relatives
 import Popup from './Popup';
 import PopupProvider from './PopupProvider';
 import usePopup from './usePopup';

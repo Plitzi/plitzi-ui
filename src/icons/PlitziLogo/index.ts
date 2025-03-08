@@ -1,4 +1,3 @@
-// Relatives
 import PlitziLogo from './PlitziLogo';
 
 export * from './PlitziLogo';

@@ -1,4 +1,3 @@
-// Relatives
 import formatterMongoDB from './formatterMongoDB';
 import formatterSql from './formatterSql';
 

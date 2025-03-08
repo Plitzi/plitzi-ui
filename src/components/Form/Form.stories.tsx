@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import Button from '@components/Button';
 
-// Relatives
 import Form from './Form';
 import useFormWatch from './hooks/useFormWatch';
 

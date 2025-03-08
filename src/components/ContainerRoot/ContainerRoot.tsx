@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-// Relatives
 import ContainerRootProvider from './ContainerRootProvider';
 
 import type { ReactNode } from 'react';

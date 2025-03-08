@@ -1,4 +1,3 @@
-// Relatives
 import ContainerRoot from './ContainerRoot';
 
 export * from './ContainerRoot';

@@ -1,7 +1,6 @@
 import { useArgs } from '@storybook/preview-api';
 import { useMemo } from 'react';
 
-// Relatives
 import Select2 from './Select2';
 
 import type { Option } from './Select2';

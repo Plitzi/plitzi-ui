@@ -1,4 +1,3 @@
-// Relatives
 import useDidUpdateEffect from './useDidUpdateEffect';
 import useStorage from './useStorage';
 import useTheme from './useTheme';

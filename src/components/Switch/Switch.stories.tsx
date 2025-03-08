@@ -1,6 +1,5 @@
 import { useArgs } from '@storybook/preview-api';
 
-// Relatives
 import Switch from './Switch';
 
 import type { Meta, StoryObj } from '@storybook/react';

@@ -3,7 +3,6 @@ import { Children, cloneElement, isValidElement, useContext, useEffect, useMemo,
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import AccordionContext from './AccordionContext';
 import ItemContent from './ItemContent';
 import ItemHeader from './ItemHeader';

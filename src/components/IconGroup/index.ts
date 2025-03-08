@@ -1,4 +1,3 @@
-// Relatives
 import IconGroup from './IconGroup';
 
 export * from './IconGroup';

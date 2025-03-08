@@ -1,4 +1,3 @@
-// Relatives
 import ContainerResizable from './ContainerResizable';
 
 import type { Meta, StoryObj } from '@storybook/react';

@@ -7,7 +7,6 @@ import Select2 from '@components/Select2';
 import Switch from '@components/Switch';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import { defaultOperators } from './helpers/QueryBuilderContants';
 import QueryBuilderContext from './QueryBuilderContext';
 import RuleOperator from './RuleOperator';

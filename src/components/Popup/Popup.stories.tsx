@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react';
 
 import Button from '@components/Button';
 
-// Relatives
 import Popup from './Popup';
 import PopupProvider from './PopupProvider';
 import PopupSidebar from './PopupSidebar';

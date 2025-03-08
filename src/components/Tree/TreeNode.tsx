@@ -5,7 +5,6 @@ import Contenteditable from '@components/ContentEditable';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import { getPaddingLeft } from './utils';
 
 import type TreeStyles from './Tree.styles';

@@ -5,7 +5,6 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
-// Relatives
 import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
 import PopupFloatingArea from './PopupFloatingArea';
 import PopupSidePanel from './PopupSidePanel';

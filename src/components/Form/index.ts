@@ -1,4 +1,3 @@
-// Relatives
 import * as fields from './fields';
 import Form from './Form';
 import * as hooks from './hooks';

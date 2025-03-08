@@ -1,6 +1,5 @@
 import { createElement } from 'react';
 
-// Relatives
 import Provider from '../src/components/Provider';
 
 import type { Preview } from '@storybook/react';

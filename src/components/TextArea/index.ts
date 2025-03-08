@@ -1,4 +1,3 @@
-// Relatives
 import TextArea from './TextArea';
 
 export * from './TextArea';

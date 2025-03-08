@@ -1,7 +1,6 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-// Relatives
 import ContainerFloating from './ContainerFloating';
 
 describe('ContainerFloating', () => {

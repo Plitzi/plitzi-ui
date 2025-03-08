@@ -1,4 +1,3 @@
-// Relatives
 import ContainerTabs from './ContainerTabs';
 import Tab from './Tab';
 import TabContent from './TabContent';

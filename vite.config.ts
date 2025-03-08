@@ -74,7 +74,7 @@ export default defineConfig((env: ConfigEnv) => ({
   build: {
     outDir: 'dist/src',
     lib: {
-      entry: [resolve(__dirname, './src/index.ts')],
+      entry: [resolve(__dirname, './src/index.ts'), resolve(__dirname, './src/components/ContainerFloating/index.ts')],
       name: 'plitzi-ui',
       formats: ['es', 'cjs']
     },

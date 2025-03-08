@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-// Relatives
 import Accordion from './Accordion';
 
 describe('Accordion tests', () => {

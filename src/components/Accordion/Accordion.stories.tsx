@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Button from '@components/Button';
 import Flex from '@components/Flex';
 
-// Relatives
 import Accordion from './Accordion';
 
 import type { Meta, StoryObj } from '@storybook/react';

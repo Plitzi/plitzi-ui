@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, afterEach, expect, vi } from 'vitest';
 
-// Relatives
 import CodeMirror from './CodeMirror';
 
 describe('CodeMirror', () => {

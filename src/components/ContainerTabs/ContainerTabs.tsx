@@ -2,7 +2,6 @@ import { Children, useCallback, useMemo, useState, cloneElement, isValidElement 
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import TabContent from './TabContent';
 import Tabs from './Tabs';
 

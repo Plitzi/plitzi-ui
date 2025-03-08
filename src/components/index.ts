@@ -1,4 +1,3 @@
-// Relatives
 import Accordion from './Accordion';
 import Alert from './Alert';
 import Button from './Button';

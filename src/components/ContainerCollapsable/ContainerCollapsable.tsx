@@ -4,7 +4,6 @@ import Flex from '@components/Flex';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import ContainerCollapsableContent from './ContainerCollapsableContent';
 import ContainerCollapsableHeader from './ContainerCollapsableHeader';
 

@@ -2,7 +2,6 @@ import { Children, cloneElement, isValidElement, useCallback, useMemo } from 're
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import SidebarIcon from './SidebarIcon';
 import SidebarProvider from './SidebarProvider';
 import SidebarSeparator from './SidebarSeparator';

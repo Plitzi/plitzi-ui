@@ -1,4 +1,3 @@
-// Relatives
 import ContainerFloating from './ContainerFloating';
 import { useFloating } from './hooks';
 

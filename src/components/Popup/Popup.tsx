@@ -3,7 +3,6 @@ import { useCallback, useMemo } from 'react';
 import Button from '@components/Button';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import ContainerDraggable from '../ContainerDraggable';
 import { LIMIT_MODE_WINDOW } from '../ContainerDraggable/ContainerDraggable';
 

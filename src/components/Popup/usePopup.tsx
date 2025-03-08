@@ -1,6 +1,5 @@
 import { use } from 'react';
 
-// Relatives
 import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
 
 import type { PopupPlacement } from './Popup';

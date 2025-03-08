@@ -1,4 +1,3 @@
-// Relatives
 import Text from './Text';
 
 export * from './Text';

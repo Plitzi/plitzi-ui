@@ -3,7 +3,6 @@ import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView, placeholder } from '@codemirror/view';
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 
-// Relatives
 import { basicSetup } from '../helpers/BasicSetup';
 
 import type { BasicSetupOptions } from '../helpers/BasicSetup';

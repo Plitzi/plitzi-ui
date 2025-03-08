@@ -3,7 +3,6 @@ import { useCallback } from 'react';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import InputContainer from './InputContainer';
 
 import type InputStyles from './Input.styles';

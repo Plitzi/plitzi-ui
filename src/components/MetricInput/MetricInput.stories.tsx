@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-// Relatives
 import MetricInput from './MetricInput';
 
 import type { Meta, StoryObj } from '@storybook/react';

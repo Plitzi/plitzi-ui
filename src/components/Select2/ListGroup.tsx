@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import ListItem from './ListItem';
 
 import type { Option, OptionGroup, Select2Props } from './Select2';

@@ -1,4 +1,3 @@
-// Relatives
 import ErrorMessage from './ErrorMessage';
 
 export * from './ErrorMessage';

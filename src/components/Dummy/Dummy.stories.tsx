@@ -1,4 +1,3 @@
-// Relatives
 import Dummy from './Dummy';
 
 import type { Meta, StoryObj } from '@storybook/react';

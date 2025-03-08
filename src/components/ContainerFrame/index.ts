@@ -1,4 +1,3 @@
-// Relatives
 import ContainerFrame from './ContainerFrame';
 
 export * from './ContainerFrame';

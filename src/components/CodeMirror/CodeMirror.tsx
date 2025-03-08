@@ -10,7 +10,6 @@ import { useCallback, useMemo, useRef } from 'react';
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import useCodeMirror from './hooks/useCodeMirror';
 
 import type CodeMirrorStyles from './CodeMirror.styles';

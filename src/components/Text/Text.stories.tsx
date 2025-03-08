@@ -1,4 +1,3 @@
-// Relatives
 import Text from './Text';
 
 import type { Meta, StoryObj } from '@storybook/react';

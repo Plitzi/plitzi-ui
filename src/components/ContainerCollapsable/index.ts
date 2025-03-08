@@ -1,4 +1,3 @@
-// Relatives
 import ContainerCollapsable from './ContainerCollapsable';
 
 export * from './ContainerCollapsable';

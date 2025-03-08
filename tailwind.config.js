@@ -1,7 +1,6 @@
 import plugin from 'tailwindcss/plugin';
 import { join } from 'path';
 
-// Relatives
 import colorsUI from './src/tailwind/colors';
 
 export default {

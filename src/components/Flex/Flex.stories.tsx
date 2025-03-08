@@ -1,4 +1,3 @@
-// Relatives
 import Flex from './Flex';
 
 import type { Meta, StoryObj } from '@storybook/react';

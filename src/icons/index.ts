@@ -1,4 +1,3 @@
-// Relatives
 import BorderBlack from './BorderBlack';
 import BorderWhite from './BorderWhite';
 import DesktopWithMobile from './DesktopWithMobile';

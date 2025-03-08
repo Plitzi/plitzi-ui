@@ -4,7 +4,6 @@ import set from 'lodash/set';
 import { useCallback, useMemo, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
 
-// Relatives
 import { defaultCombinators } from './helpers/QueryBuilderContants';
 import { getQueryMap } from './helpers/QueryBuilderHelper';
 import QueryBuilderContext from './QueryBuilderContext';

@@ -1,6 +1,5 @@
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import Tab from './Tab';
 
 import type ContainerTabsStyles from './ContainerTabs.styles';

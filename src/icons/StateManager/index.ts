@@ -1,4 +1,3 @@
-// Relatives
 import StateManager from './StateManager';
 
 export * from './StateManager';

@@ -3,7 +3,6 @@ import { describe, it, expect } from 'vitest';
 
 import Provider from '@components/Provider';
 
-// Relatives
 import Switch from './Switch';
 
 describe('Switch Tests', () => {

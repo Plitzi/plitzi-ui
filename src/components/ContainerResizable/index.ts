@@ -1,4 +1,3 @@
-// Relatives
 import ContainerResizable from './ContainerResizable';
 
 export * from './ContainerResizable';

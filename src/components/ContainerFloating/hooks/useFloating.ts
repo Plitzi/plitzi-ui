@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
@@ -17,7 +17,8 @@ export type UseFloatingReturn = [
   boolean,
   Dispatch<SetStateAction<boolean>>,
   (e: React.MouseEvent) => void,
-  RefObject<HTMLDivElement | null>
+  RefObject<HTMLDivElement | null>,
+  DOMRect | undefined
 ];
 
 const useFloating = ({
@@ -78,7 +79,13 @@ const useFloating = ({
     setOpen(openProp ?? false);
   }, [openProp]);
 
-  return [open, setOpen, handleClickTrigger, triggerRef];
+  const triggerRect = useMemo<DOMRect | undefined>(
+    () => triggerRef.current?.getBoundingClientRect(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [triggerRef.current]
+  );
+
+  return [open, setOpen, handleClickTrigger, triggerRef, triggerRect];
 };
 
 export default useFloating;

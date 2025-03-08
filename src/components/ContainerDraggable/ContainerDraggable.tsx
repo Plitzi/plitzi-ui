@@ -6,7 +6,6 @@ import Card from '@components/Card';
 import ContainerWindow from '@components/ContainerWindow';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import ContainerDraggableContent from './ContainerDraggableContent';
 import ContainerDraggableHeader from './ContainerDraggableHeader';
 

@@ -1,4 +1,3 @@
-// Relatives
 import ContainerCollapsable from './ContainerCollapsable';
 
 import type { Meta, StoryObj } from '@storybook/react';

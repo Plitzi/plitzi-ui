@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import FrameContent from './FrameContent';
 import { emptyObject } from '../../helpers/utils';
 

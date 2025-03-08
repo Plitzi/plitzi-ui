@@ -1,4 +1,3 @@
-// Relatives
 import Contenteditable from './ContentEditable';
 
 export * from './ContentEditable';

@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import TreeNode from './TreeNode';
 import {
   defaultDragMetadata,

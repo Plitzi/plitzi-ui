@@ -4,7 +4,6 @@ import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import SelectOption from './SelectOption';
 
 import type SelectStyles from './Select.styles';

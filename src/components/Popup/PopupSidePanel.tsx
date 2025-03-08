@@ -8,7 +8,6 @@ import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
-// Relatives
 import PopupSidebar from './PopupSidebar';
 import usePopup from './usePopup';
 
