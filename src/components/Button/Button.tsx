@@ -60,7 +60,7 @@ const Button = ({
         return;
       }
 
-      if (child.type === Icon || child.type === 'i') {
+      if (child.type === Icon) {
         const childProps = child.props as IconProps;
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
           className: classNames(classNameTheme.icon, childProps.className),
@@ -69,6 +69,18 @@ const Button = ({
           ...childProps,
           intent: childProps.intent ?? 'custom'
         });
+      } else if (child.type === 'i') {
+        const childProps = child.props as IconProps;
+        components.iconChildren = cloneElement<IconProps & { 'data-testid'?: string }>(
+          child as ReactElement<IconProps>,
+          {
+            className: classNames(classNameTheme.icon, childProps.className),
+            size,
+            'data-testid': testId ? `${testId}-icon` : undefined,
+            ...childProps,
+            intent: childProps.intent ?? 'custom'
+          }
+        );
       } else {
         components.contentChildren = child;
       }

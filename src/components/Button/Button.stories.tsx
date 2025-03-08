@@ -26,6 +26,7 @@ export const Primary: Story = {
         Button
       </Button>
       <Button {...args} size="sm">
+        <i className="fa-regular fa-hand-pointer" />
         Button
       </Button>
       <Button {...args} size="xs">
