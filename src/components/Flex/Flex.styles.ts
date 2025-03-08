@@ -1,6 +1,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
+  alignItems: ['start', 'end', 'center', 'baseline', 'stretch'],
   direction: ['column', 'row', 'row-reverse', 'col-reverse'],
   wrap: ['wrap', 'nowrap', 'wrap-reverse'],
   items: ['start', 'end', 'center', 'baseline', 'stretch'],
@@ -204,10 +205,18 @@ export default {
       shrink: {
         1: 'flex-shrink',
         0: ''
+      },
+      alignItems: {
+        start: 'items-start',
+        end: 'items-end',
+        center: 'items-center',
+        baseline: 'items-baseline',
+        stretch: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
+      alignItems: 'stretch',
       direction: 'row',
       wrap: 'nowrap',
       justify: 'start',

@@ -50,10 +50,12 @@ export const Primary: Story = {
 
     return (
       <Form {...args} form={form} onSubmit={handleSubmit}>
-        <Form.Input name="username" label="Username" />
-        <Form.Input name="password" label="Password" />
-        <Form.Input name="extra" label="Extra" />
-        <Button type="submit">Submit</Button>
+        <Form.Body>
+          <Form.Input name="username" label="Username" />
+          <Form.Input name="password" label="Password" />
+          <Form.Input name="extra" label="Extra" />
+          <Button type="submit">Submit</Button>
+        </Form.Body>
       </Form>
     );
   }

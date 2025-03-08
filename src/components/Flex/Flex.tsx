@@ -24,13 +24,14 @@ const Flex = ({
   justify,
   grow,
   basis,
+  alignItems,
   shrink,
   ...props
 }: FlexProps) => {
   className = useTheme<typeof FlexStyles, typeof variantKeys>('Flex', {
     className,
     componentKey: 'root',
-    variant: { direction, wrap, items, gap, justify, grow, basis, shrink }
+    variant: { direction, wrap, items, gap, justify, grow, basis, shrink, alignItems }
   });
 
   return (
