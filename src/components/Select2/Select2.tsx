@@ -1,7 +1,8 @@
 import classNames from 'classnames';
-import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 
 import ContainerFloating from '@components/ContainerFloating';
+import useFloating from '@components/ContainerFloating/hooks/useFloating';
 import Flex from '@components/Flex';
 import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
@@ -22,12 +23,7 @@ import type { CSSProperties, RefObject } from 'react';
 const optionsDefault: Option[] = [];
 
 export type Option =
-  | ({
-      label: string;
-      value: string;
-    } & {
-      [key in Exclude<string, 'options' | 'label' | 'value'>]?: unknown;
-    })
+  | ({ label: string; value: string } & { [key in Exclude<string, 'options' | 'label' | 'value'>]?: unknown })
   | OptionGroup;
 
 export type OptionGroup = {
@@ -72,12 +68,11 @@ const Select2 = ({
     componentKey: ['inputContainer', 'placeholder', 'listMessage'],
     variant: { size }
   });
-  const [open, setOpen] = useState(openProp);
   const [loading, setLoading] = useState(options instanceof Promise);
+  const [open, setOpen, handleClickTrigger, triggerRef] = useFloating({ open: openProp, disabled, loading });
   const [optionsLoaded, setOptionsLoaded] = useState(() => (!loading && Array.isArray(options) ? options : []));
   const [optionsCustom, setOptionsCustom] = useState<Option[]>([]);
-  const refDropdown = useRef<HTMLDivElement>(null);
-  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => refDropdown.current, []);
+  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
   const optionSelected = useMemo(() => {
     if (typeof value === 'string') {
       const option = optionsLoaded.find(op => {
@@ -105,13 +100,13 @@ const Select2 = ({
 
   const handleSearch = useCallback(
     (value: string) => {
-      if (!open && refDropdown.current) {
-        refDropdown.current.click();
+      if (!open && triggerRef.current) {
+        triggerRef.current.click();
       }
 
       setSearch(value);
     },
-    [setSearch, open]
+    [setSearch, open, triggerRef]
   );
 
   const handleContainerVisible = useCallback((open: boolean) => !open && setSearch(''), []);
@@ -126,7 +121,7 @@ const Select2 = ({
       setSearch('');
       setOpen(false);
     },
-    [onChange, disabled]
+    [onChange, disabled, setOpen]
   );
 
   const loadOptions = useCallback(async () => {
@@ -199,53 +194,19 @@ const Select2 = ({
     [onChange]
   );
 
-  const handleClickTrigger = useCallback(
-    (e: React.MouseEvent) => {
-      if (disabled || loading) {
-        return;
-      }
-
-      e.stopPropagation();
-      e.preventDefault();
-
-      setOpen(state => !state);
-    },
-    [disabled, loading]
-  );
-
-  const handleClickOutside = useCallback(
-    (e: MouseEvent) =>
-      !(e.target as HTMLElement).closest('.container-floating') &&
-      !refDropdown.current?.contains(e.target as HTMLElement) &&
-      setOpen(false),
-    []
-  );
-
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [handleClickOutside, open]);
-
   const style = useMemo<CSSProperties>(
     () => {
-      const { width } = refDropdown.current?.getBoundingClientRect() ?? { width: undefined };
+      const { width } = triggerRef.current?.getBoundingClientRect() ?? { width: undefined };
 
       return { width };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [refDropdown.current]
+    [triggerRef.current]
   );
 
   return (
     <ContainerFloating
-      ref={refDropdown as RefObject<HTMLDivElement>}
+      ref={triggerRef as RefObject<HTMLDivElement>}
       containerTopOffset={error ? -26 : 0}
       containerLeftOffset={0}
       onOpenChange={handleContainerVisible}

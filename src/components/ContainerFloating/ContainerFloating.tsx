@@ -1,21 +1,10 @@
-import {
-  Children,
-  isValidElement,
-  useMemo,
-  useRef,
-  useState,
-  useCallback,
-  useImperativeHandle,
-  cloneElement,
-  useEffect
-} from 'react';
-
-import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
+import { Children, isValidElement, useMemo, useImperativeHandle, cloneElement } from 'react';
 
 import ContainerFloatingContainer from './ContainerFloatingContainer';
 import ContainerFloatingContent from './ContainerFloatingContent';
 import ContainerFloatingContext from './ContainerFloatingContext';
 import ContainerFloatingTrigger from './ContainerFloatingTrigger';
+import useFloating from './hooks/useFloating';
 
 import type ContainerFloatingStyles from './ContainerFloating.styles';
 import type { variantKeys } from './ContainerFloating.styles';
@@ -33,6 +22,7 @@ export type ContainerFloatingProps = {
   closeOnClick?: boolean;
   open?: boolean;
   testId?: string;
+  loading?: boolean;
   container?: Element | DocumentFragment;
   onOpenChange?: (open: boolean) => void;
   onCloseValidate?: (e: Event) => boolean;
@@ -46,37 +36,22 @@ const ContainerFloating = ({
   closeOnClick = true,
   open: openProp,
   disabled = false,
+  loading = false,
   testId,
   placement,
   container,
   onOpenChange,
   onCloseValidate
 }: ContainerFloatingProps) => {
-  const [open, setOpen] = useState(openProp ?? false);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, []);
-
-  const handleClickTrigger = useCallback(
-    () => !disabled && openProp === undefined && setOpen(state => !state),
-    [disabled, openProp]
-  );
-
-  const handleClickOutside = useCallback(
-    (e: MouseEvent) => {
-      if (!open || !triggerRef.current || openProp !== undefined) {
-        return;
-      }
-
-      if (
-        !triggerRef.current.contains(e.target as Node) &&
-        (!(e.target as HTMLElement).closest('.container-floating') || closeOnClick) &&
-        (!onCloseValidate || onCloseValidate(e))
-      ) {
-        setOpen(false);
-      }
-    },
-    [open, closeOnClick, openProp, onCloseValidate]
-  );
+  const [open, , handleClickTrigger, triggerRef] = useFloating({
+    open: openProp,
+    loading,
+    disabled,
+    closeOnClick,
+    openOnClick: openProp === undefined,
+    onCloseValidate
+  });
+  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
 
   const { trigger, content } = useMemo(() => {
     const components: { trigger?: ReactNode; content?: ReactNode } = {};
@@ -106,23 +81,7 @@ const ContainerFloating = ({
     });
 
     return components;
-  }, [children, handleClickTrigger, testId]);
-
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [handleClickOutside, open]);
-
-  useDidUpdateEffect(() => {
-    setOpen(openProp ?? false);
-  }, [openProp]);
+  }, [children, handleClickTrigger, testId, triggerRef]);
 
   const containerFloatingContextValue = useMemo<ContainerFloatingContextValue>(
     () => ({
@@ -132,7 +91,7 @@ const ContainerFloating = ({
       containerTopOffset,
       containerLeftOffset
     }),
-    [placement, container, containerTopOffset, containerLeftOffset]
+    [placement, triggerRef, container, containerTopOffset, containerLeftOffset]
   );
 
   return (
