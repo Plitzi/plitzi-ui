@@ -82,7 +82,7 @@ const useFloating = ({
   const triggerRect = useMemo<DOMRect | undefined>(
     () => triggerRef.current?.getBoundingClientRect(),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [triggerRef.current]
+    [triggerRef.current, open]
   );
 
   return [open, setOpen, handleClickTrigger, triggerRef, triggerRect];
