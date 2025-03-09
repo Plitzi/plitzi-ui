@@ -1,11 +1,11 @@
 import { useCallback, useId, useState } from 'react';
 
 export type UseDisclosureProps<T = unknown> = {
+  id?: string;
   open?: boolean;
   defaultOpen?: boolean;
+  onOpen?: () => void;
   onClose?: ((value?: T) => boolean | Promise<boolean>) | ((value?: T) => void | Promise<void>);
-  onOpen?: () => void | Promise<void>;
-  id?: string;
 };
 
 export type UseDisclosureReturn<T = unknown> = [
@@ -46,7 +46,7 @@ const useDisclosure = <T = unknown>({
       setOpen(true);
     }
 
-    void onOpenProp?.();
+    onOpenProp?.();
   }, [openProp, onOpenProp]);
 
   const onToggle = useCallback(() => (open ? onClose() : onOpen()), [open, onOpen, onClose]);
