@@ -15,8 +15,7 @@ export type ModalProps = {
   id?: string;
   container?: Element | DocumentFragment;
   open?: boolean;
-  // as?: 'dialog' | 'modal'; // @todo: support dialog behaviours
-  onClose?: () => void;
+  onClose?: () => void | Promise<void>;
 } & useThemeSharedProps<typeof ModalStyles, typeof variantKeys>;
 
 const Modal = ({ ref, className, children, id: idProp, container, open, onClose }: ModalProps) => {
@@ -33,8 +32,8 @@ const Modal = ({ ref, className, children, id: idProp, container, open, onClose 
 
   return createPortal(
     <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root}>
-      <div className={classNameTheme.background} onClick={onClose} />
-      <Card className={classNameTheme.card} intent="modal" closeable onClose={onClose}>
+      <div className={classNameTheme.background} onClick={void onClose} />
+      <Card className={classNameTheme.card} intent="modal" closeable onClose={void onClose}>
         {children}
       </Card>
     </div>,

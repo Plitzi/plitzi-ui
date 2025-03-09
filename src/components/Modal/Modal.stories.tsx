@@ -64,7 +64,7 @@ export const Dialog: Story = {
     return (
       <Flex>
         <Button onClick={onOpen}>Click Me</Button>
-        <Modal {...args} onClose={void onClose} id={id} open={open}>
+        <Modal {...args} onClose={onClose} id={id} open={open}>
           <Modal.Header>
             <Modal.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Modal.HeaderIcon>
             Title
