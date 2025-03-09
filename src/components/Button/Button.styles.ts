@@ -27,7 +27,7 @@ export default {
       },
       disabled: {
         true: 'disabled:bg-gray-300 disabled:text-gray-400 disabled:hover:bg-gray-300 disabled:cursor-not-allowed',
-        false: ''
+        false: 'cursor-pointer'
       },
       aspect: {
         square: 'aspect-square',

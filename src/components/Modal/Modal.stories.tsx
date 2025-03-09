@@ -35,14 +35,14 @@ export const Primary: Story = {
     return (
       <Flex>
         <Button onClick={onOpen}>Click Me</Button>
-        <Modal {...args} onClose={onClose} id={id} open={open}>
+        <Modal {...args} onClose={void onClose} id={id} open={open}>
           <Modal.Header>
             <Modal.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Modal.HeaderIcon>
             Title
           </Modal.Header>
           <Modal.Body>Fancy Content Here</Modal.Body>
           <Modal.Footer>
-            <Button onClick={onClose}>Close</Button>
+            <Button onClick={void onClose}>Close</Button>
           </Modal.Footer>
         </Modal>
       </Flex>
@@ -55,6 +55,8 @@ export const Dialog: Story = {
   render: function Render(args) {
     const handleClose = useCallback((value?: unknown) => {
       console.log('closing...', value);
+
+      // return false; // if we need to keep the modal open
     }, []);
 
     const [id, open, onOpen, onClose] = useDisclosure<{ test: string }>({ onClose: handleClose });
@@ -62,14 +64,14 @@ export const Dialog: Story = {
     return (
       <Flex>
         <Button onClick={onOpen}>Click Me</Button>
-        <Modal {...args} onClose={onClose} id={id} open={open}>
+        <Modal {...args} onClose={void onClose} id={id} open={open}>
           <Modal.Header>
             <Modal.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Modal.HeaderIcon>
             Title
           </Modal.Header>
           <Modal.Body>Fancy Content Here</Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => onClose({ test: 'abc' })}>Close</Button>
+            <Button onClick={() => void onClose({ test: 'abc' })}>Close</Button>
           </Modal.Footer>
         </Modal>
       </Flex>

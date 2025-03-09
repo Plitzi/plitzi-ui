@@ -304,36 +304,38 @@ const ContainerDraggable = ({
       ref={elementRef}
       style={style}
     >
-      <ContainerDraggableHeader
-        intent={intent}
-        size={size}
-        collapsed={collapsed}
-        icon={icon}
-        title={title}
-        allowExternal={allowExternal}
-        allowClose={allowClose}
-        customActions={customActions}
-        setCollapsed={setCollapsed}
-        setExternalWindow={setExternalWindow}
-        onClose={onClose}
-        onCollapse={onCollapse}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-      />
-      <ContainerDraggableContent
-        ref={containerRef}
-        collapsed={collapsed}
-        onFocus={onFocus}
-        allowResize={allowResize}
-        resizeHandles={resizeHandles}
-        minConstraintsX={minConstraintsX}
-        minConstraintsY={minConstraintsY}
-        width={width}
-        height={height - titleHeight}
-        parentElement={parentElement}
-      >
-        {children}
-      </ContainerDraggableContent>
+      <Card.Body>
+        <ContainerDraggableHeader
+          intent={intent}
+          size={size}
+          collapsed={collapsed}
+          icon={icon}
+          title={title}
+          allowExternal={allowExternal}
+          allowClose={allowClose}
+          customActions={customActions}
+          setCollapsed={setCollapsed}
+          setExternalWindow={setExternalWindow}
+          onClose={onClose}
+          onCollapse={onCollapse}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+        />
+        <ContainerDraggableContent
+          ref={containerRef}
+          collapsed={collapsed}
+          onFocus={onFocus}
+          allowResize={allowResize}
+          resizeHandles={resizeHandles}
+          minConstraintsX={minConstraintsX}
+          minConstraintsY={minConstraintsY}
+          width={width}
+          height={height - titleHeight}
+          parentElement={parentElement}
+        >
+          {children}
+        </ContainerDraggableContent>
+      </Card.Body>
     </Card>
   );
 };

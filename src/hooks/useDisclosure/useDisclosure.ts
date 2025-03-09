@@ -3,9 +3,8 @@ import { useCallback, useId, useState } from 'react';
 export type UseDisclosureProps<T = unknown> = {
   open?: boolean;
   defaultOpen?: boolean;
-  onClose?: (value?: T) => void;
-  onSubmit?: () => void;
-  onOpen?: () => void;
+  onClose?: ((value?: T) => boolean | Promise<boolean>) | ((value?: T) => void | Promise<void>);
+  onOpen?: () => void | Promise<void>;
   id?: string;
 };
 
@@ -13,7 +12,7 @@ export type UseDisclosureReturn<T = unknown> = [
   id: string,
   open: boolean,
   onOpen: () => void,
-  onClose: (value?: T) => void,
+  onClose: (value?: T) => Promise<void>,
   onToggle: () => void
 ];
 
@@ -29,12 +28,15 @@ const useDisclosure = <T = unknown>({
   const id = idProp ?? `disclosure-${uid}`;
 
   const onClose = useCallback(
-    (value?: T) => {
+    async (value?: T) => {
+      const response = await onCloseProp?.(value);
+      if (response === false) {
+        return;
+      }
+
       if (openProp === undefined) {
         setOpen(false);
       }
-
-      onCloseProp?.(value);
     },
     [openProp, onCloseProp]
   );
@@ -44,7 +46,7 @@ const useDisclosure = <T = unknown>({
       setOpen(true);
     }
 
-    onOpenProp?.();
+    void onOpenProp?.();
   }, [openProp, onOpenProp]);
 
   const onToggle = useCallback(() => (open ? onClose() : onOpen()), [open, onOpen, onClose]);
