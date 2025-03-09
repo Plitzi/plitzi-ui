@@ -26,6 +26,7 @@ import Label from './Label';
 import Markdown from './Markdown';
 import MenuList from './MenuList';
 import MetricInput from './MetricInput';
+import Modal from './Modal';
 import Popup from './Popup';
 import Provider from './Provider';
 import QueryBuilder from './QueryBuilder';
@@ -37,6 +38,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
 
+export * from './Modal';
 export * from './MenuList';
 export * from './Markdown';
 export * from './ErrorBoundary';
@@ -78,6 +80,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Modal,
   MenuList,
   Markdown,
   ErrorBoundary,
