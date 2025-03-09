@@ -35,8 +35,8 @@ export const Primary: Story = {
     return (
       <Flex>
         <Button onClick={onOpen}>Click Me</Button>
-        <Modal {...args} id={id} open={open}>
-          <Modal.Header closeable onClose={onClose}>
+        <Modal {...args} onClose={onClose} id={id} open={open}>
+          <Modal.Header>
             <Modal.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Modal.HeaderIcon>
             Title
           </Modal.Header>

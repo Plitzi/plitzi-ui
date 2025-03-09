@@ -19,10 +19,24 @@ export type CardProps = {
   ref?: RefObject<HTMLDivElement>;
   children?: ReactNode;
   testId?: string;
+  closeable?: boolean;
+  onClose?: () => void;
 } & HTMLAttributes<HTMLDivElement> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys>;
 
-const Card = ({ ref, className, children, testId, intent, shadow, rounded, overflow, ...otherProps }: CardProps) => {
+const Card = ({
+  ref,
+  className,
+  children,
+  testId,
+  closeable,
+  onClose,
+  intent,
+  shadow,
+  rounded,
+  overflow,
+  ...otherProps
+}: CardProps) => {
   className = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: 'root',
@@ -48,6 +62,8 @@ const Card = ({ ref, className, children, testId, intent, shadow, rounded, overf
           shadow,
           rounded,
           overflow,
+          closeable,
+          onClose,
           ...(child.props as CardHeaderProps)
         });
       } else if (child.type === CardBody) {
@@ -72,7 +88,7 @@ const Card = ({ ref, className, children, testId, intent, shadow, rounded, overf
     });
 
     return components;
-  }, [children, testId, intent, shadow, rounded, overflow]);
+  }, [children, testId, intent, shadow, rounded, overflow, closeable, onClose]);
 
   return (
     <div ref={ref} {...otherProps} className={className}>

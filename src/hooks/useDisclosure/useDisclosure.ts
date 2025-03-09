@@ -32,16 +32,16 @@ const useDisclosure = ({
       setOpen(false);
     }
 
-    onOpenProp?.();
-  }, [openProp, onOpenProp]);
+    onCloseProp?.();
+  }, [openProp, onCloseProp]);
 
   const onOpen = useCallback(() => {
     if (openProp === undefined) {
       setOpen(true);
     }
 
-    onCloseProp?.();
-  }, [openProp, onCloseProp]);
+    onOpenProp?.();
+  }, [openProp, onOpenProp]);
 
   const onToggle = useCallback(() => (open ? onClose() : onOpen()), [open, onOpen, onClose]);
 

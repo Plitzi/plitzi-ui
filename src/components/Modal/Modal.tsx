@@ -34,7 +34,7 @@ const Modal = ({ ref, className, children, id: idProp, container, open, onClose 
   return createPortal(
     <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root}>
       <div className={classNameTheme.background} onClick={onClose} />
-      <Card className={classNameTheme.card} intent="modal">
+      <Card className={classNameTheme.card} intent="modal" closeable onClose={onClose}>
         {children}
       </Card>
     </div>,
