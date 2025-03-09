@@ -1,39 +1,43 @@
 import { useCallback, useId, useState } from 'react';
 
-export type UseDisclosureProps = {
+export type UseDisclosureProps<T = unknown> = {
   open?: boolean;
   defaultOpen?: boolean;
-  onClose?: () => void;
+  onClose?: (value?: T) => void;
+  onSubmit?: () => void;
   onOpen?: () => void;
   id?: string;
 };
 
-export type UseDisclosureReturn = [
+export type UseDisclosureReturn<T = unknown> = [
   id: string,
   open: boolean,
   onOpen: () => void,
-  onClose: () => void,
+  onClose: (value?: T) => void,
   onToggle: () => void
 ];
 
-const useDisclosure = ({
+const useDisclosure = <T = unknown>({
   onClose: onCloseProp,
   onOpen: onOpenProp,
   open: openProp,
   defaultOpen,
   id: idProp
-}: UseDisclosureProps = {}): UseDisclosureReturn => {
+}: UseDisclosureProps<T> = {}): UseDisclosureReturn<T> => {
   const [open, setOpen] = useState(openProp ?? defaultOpen ?? false);
   const uid = useId();
   const id = idProp ?? `disclosure-${uid}`;
 
-  const onClose = useCallback(() => {
-    if (openProp === undefined) {
-      setOpen(false);
-    }
+  const onClose = useCallback(
+    (value?: T) => {
+      if (openProp === undefined) {
+        setOpen(false);
+      }
 
-    onCloseProp?.();
-  }, [openProp, onCloseProp]);
+      onCloseProp?.(value);
+    },
+    [openProp, onCloseProp]
+  );
 
   const onOpen = useCallback(() => {
     if (openProp === undefined) {
