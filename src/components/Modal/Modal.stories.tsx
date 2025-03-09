@@ -35,14 +35,14 @@ export const Primary: Story = {
     return (
       <Flex>
         <Button onClick={onOpen}>Click Me</Button>
-        <Modal {...args} onClose={void onClose} id={id} open={open}>
+        <Modal {...args} onClose={onClose} id={id} open={open}>
           <Modal.Header>
             <Modal.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Modal.HeaderIcon>
             Title
           </Modal.Header>
           <Modal.Body>Fancy Content Here</Modal.Body>
           <Modal.Footer>
-            <Button onClick={void onClose}>Close</Button>
+            <Button onClick={() => void onClose()}>Close</Button>
           </Modal.Footer>
         </Modal>
       </Flex>

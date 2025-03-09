@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useCallback, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import Card from '@components/Card';
@@ -26,14 +26,16 @@ const Modal = ({ ref, className, children, id: idProp, container, open, onClose 
   });
   const id = useId();
 
+  const handleClose = useCallback(() => void onClose?.(), [onClose]);
+
   if (!open) {
     return undefined;
   }
 
   return createPortal(
     <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root}>
-      <div className={classNameTheme.background} onClick={void onClose} />
-      <Card className={classNameTheme.card} intent="modal" closeable onClose={void onClose}>
+      <div className={classNameTheme.background} onClick={handleClose} />
+      <Card className={classNameTheme.card} intent="modal" closeable onClose={handleClose}>
         {children}
       </Card>
     </div>,

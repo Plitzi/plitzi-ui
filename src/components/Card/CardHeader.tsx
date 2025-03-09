@@ -9,13 +9,13 @@ import type { variantKeys } from './Card.styles';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactElement, ReactNode } from 'react';
 
 export type CardHeaderProps = {
   children?: ReactNode;
   testId?: string;
   closeable?: boolean;
-  onClose?: () => void;
+  onClose?: (e: MouseEvent) => void;
 } & HTMLAttributes<HTMLDivElement> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys & typeof variantKeysFlex>;
 

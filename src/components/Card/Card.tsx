@@ -13,14 +13,14 @@ import type { CardBodyProps } from './CardBody';
 import type { CardFooterProps } from './CardFooter';
 import type { CardHeaderProps } from './CardHeader';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { HTMLAttributes, ReactElement, ReactNode, RefObject } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type CardProps = {
   ref?: RefObject<HTMLDivElement>;
   children?: ReactNode;
   testId?: string;
   closeable?: boolean;
-  onClose?: () => void;
+  onClose?: (e: MouseEvent) => void;
 } & HTMLAttributes<HTMLDivElement> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys>;
 
