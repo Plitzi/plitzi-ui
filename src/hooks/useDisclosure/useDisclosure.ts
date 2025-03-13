@@ -1,57 +1,66 @@
 import { useCallback, useId, useState } from 'react';
 
-export type UseDisclosureProps<T = unknown> = {
+export type UseDisclosureProps<TValue = unknown, TState = unknown> = {
   id?: string;
   open?: boolean;
   defaultOpen?: boolean;
-  onOpen?: () => void;
-  onClose?: ((value?: T) => boolean | Promise<boolean>) | ((value?: T) => void | Promise<void>);
+  onOpen?: (initialState?: TState) => void;
+  onClose?:
+    | ((value?: TValue, state?: TState) => boolean | Promise<boolean>)
+    | ((value?: TValue, state?: TState) => void | Promise<void>);
 };
 
-export type UseDisclosureReturn<T = unknown> = [
+export type UseDisclosureReturn<TValue = unknown, TState = unknown> = [
   id: string,
   open: boolean,
-  onOpen: () => void,
-  onClose: (value?: T) => Promise<void>,
-  onToggle: () => void
+  onOpen: (initialState?: TState) => void,
+  onClose: (value?: TValue) => Promise<void>,
+  onToggle: () => void,
+  state: TState
 ];
 
-const useDisclosure = <T = unknown>({
+const useDisclosure = <TValue = unknown, TState = unknown>({
   onClose: onCloseProp,
   onOpen: onOpenProp,
   open: openProp,
   defaultOpen,
   id: idProp
-}: UseDisclosureProps<T> = {}): UseDisclosureReturn<T> => {
+}: UseDisclosureProps<TValue, TState> = {}): UseDisclosureReturn<TValue, TState> => {
   const [open, setOpen] = useState(openProp ?? defaultOpen ?? false);
+  const [state, setState] = useState<TState>(undefined as TState);
   const uid = useId();
   const id = idProp ?? `disclosure-${uid}`;
 
   const onClose = useCallback(
-    async (value?: T) => {
-      const response = await onCloseProp?.(value);
+    async (value?: TValue) => {
+      const response = await onCloseProp?.(value, state);
       if (response === false) {
         return;
       }
 
+      setState(undefined as TState);
       if (openProp === undefined) {
         setOpen(false);
       }
     },
-    [openProp, onCloseProp]
+    [openProp, onCloseProp, state]
   );
 
-  const onOpen = useCallback(() => {
-    if (openProp === undefined) {
-      setOpen(true);
-    }
+  const onOpen = useCallback(
+    (initialState?: TState) => {
+      if (openProp === undefined) {
+        setOpen(true);
+      }
 
-    onOpenProp?.();
-  }, [openProp, onOpenProp]);
+      onOpenProp?.(initialState);
+      setState(initialState as TState);
+    },
+    [openProp, onOpenProp]
+  );
 
   const onToggle = useCallback(() => (open ? onClose() : onOpen()), [open, onOpen, onClose]);
 
-  return [id, open, onOpen, onClose, onToggle];
+  return [id, open, onOpen, onClose, onToggle, state];
 };
 
 export default useDisclosure;
