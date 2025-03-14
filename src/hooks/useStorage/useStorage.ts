@@ -1,16 +1,26 @@
 import { produce } from 'immer';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 import { storageProxy } from './useStorageHelper';
 
-function useLocalStorage<T extends object>(
-  key: string,
+function useLocalStorage<T = unknown>(
+  keyProp: string,
   initialValue: T,
-  metadata: { path?: string; mode: 'localStorage' | 'sessionStorage' } = { mode: 'localStorage', path: '' }
+  mode: 'localStorage' | 'sessionStorage' = 'localStorage'
 ) {
-  const { path, mode } = metadata;
+  const [key, path] = useMemo(() => {
+    if (keyProp.includes('.')) {
+      const keyParts = keyProp.split('.').filter(Boolean);
+      const keyRoot = keyParts.shift();
+
+      return [keyRoot as string, keyParts.join('.')];
+    }
+
+    return [keyProp, ''];
+  }, [keyProp]);
+
   const storageRef = useRef(mode === 'localStorage' ? storageProxy(localStorage) : storageProxy(sessionStorage));
   storageRef.current = mode === 'localStorage' ? storageProxy(localStorage) : storageProxy(sessionStorage);
 
@@ -31,13 +41,15 @@ function useLocalStorage<T extends object>(
   useEffect(() => {
     try {
       const storedValue = storageRef.current.getItem(key);
-      const newState = produce(storedValue ? JSON.parse(storedValue) : {}, (draft: T) => {
-        if (path) {
+      let newState;
+      if (!path) {
+        newState = value;
+      } else {
+        newState = produce(storedValue ? JSON.parse(storedValue) : {}, (draft: object) => {
           set(draft, path, value);
-        } else {
-          Object.assign(draft, value);
-        }
-      });
+        });
+      }
+
       storageRef.current.setItem(key, JSON.stringify(newState));
     } catch {
       // Nothing here
@@ -89,7 +101,7 @@ function useLocalStorage<T extends object>(
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('localstorage-changed', handleCustomStorageChange as EventListener);
     };
-  }, [key, path, initialValue, handleStorageChange, handleCustomStorageChange]);
+  }, [handleStorageChange, handleCustomStorageChange]);
 
   return [value, setValue] as const;
 }
