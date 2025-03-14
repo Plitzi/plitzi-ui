@@ -21,8 +21,8 @@ export default {
           'hover:bg-primary-200 hover:text-black',
           'focus:bg-primary-200 focus:text-black'
         ],
-        secondary: ['hover:border-black hover:text-black', 'focus:bg-primary-200 focus:text-black'],
-        danger: ['border-transparent bg-red-500 text-white', 'hover:bg-danger-200 hover:text-black'],
+        secondary: 'border-gray-300 hover:border-black hover:text-black focus:bg-primary-200 focus:text-black',
+        danger: 'border-transparent bg-red-500 text-white hover:bg-red-600',
         custom: ''
       },
       disabled: {

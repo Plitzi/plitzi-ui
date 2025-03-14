@@ -38,5 +38,38 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   args: { intent: 'secondary' },
-  render: args => <Button {...args} />
+  render: args => (
+    <div className="flex flex-col gap-4 items-center justify-center">
+      <Button {...args} size="md">
+        <Button.Icon icon="fa-solid fa-check" />
+        Button
+      </Button>
+      <Button {...args} size="sm">
+        <i className="fa-regular fa-hand-pointer" />
+        Button
+      </Button>
+      <Button {...args} size="xs">
+        Button
+      </Button>
+    </div>
+  )
+};
+
+export const Danger: Story = {
+  args: { intent: 'danger' },
+  render: args => (
+    <div className="flex flex-col gap-4 items-center justify-center">
+      <Button {...args} size="md">
+        <Button.Icon icon="fa-solid fa-check" />
+        Button
+      </Button>
+      <Button {...args} size="sm">
+        <i className="fa-regular fa-hand-pointer" />
+        Button
+      </Button>
+      <Button {...args} size="xs">
+        Button
+      </Button>
+    </div>
+  )
 };
