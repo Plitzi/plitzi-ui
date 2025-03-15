@@ -40,18 +40,17 @@ function useLocalStorage<T = unknown>(
 
   useEffect(() => {
     try {
-      const storedValue = storageRef.current.getItem(key);
-      let newState;
-      if (!path) {
-        newState = value;
-      } else {
+      let newState: unknown = value;
+      if (path) {
+        const storedValue = storageRef.current.getItem(key);
         newState = produce(storedValue ? JSON.parse(storedValue) : {}, (draft: object) => {
           set(draft, path, value);
         });
       }
 
       storageRef.current.setItem(key, JSON.stringify(newState));
-    } catch {
+    } catch (err) {
+      console.log((err as Error).message);
       // Nothing here
     }
   }, [key, path, value]);

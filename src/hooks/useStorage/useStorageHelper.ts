@@ -17,7 +17,7 @@ const triggerEvent = (key: string, oldValue: string | null, newValue: string | n
 };
 
 export const storageProxy = (storage: Storage) => {
-  return new Proxy(storage, {
+  return new Proxy<Storage>(storage, {
     get(target, prop: string, receiver) {
       if (prop === 'setItem') {
         return (key: string, value: string) => {
@@ -35,8 +35,12 @@ export const storageProxy = (storage: Storage) => {
         };
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return Reflect.get(target, prop, receiver);
+      const value = Reflect.get(target, prop, receiver) as unknown;
+      if (typeof value === 'function') {
+        return (value as (...args: unknown[]) => unknown).bind(target);
+      }
+
+      return value;
     }
   });
 };
