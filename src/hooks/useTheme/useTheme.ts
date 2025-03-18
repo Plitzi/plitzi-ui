@@ -6,23 +6,18 @@ import cva from '@/helpers/cvaWrapper';
 import { emptyObject } from '@/helpers/utils';
 import { ThemeContext } from '@components/Provider/providers/ThemeProvider';
 
-import type { cvaFunction } from '@/helpers/cvaWrapper';
-
-export type themeCvaFunction<T> = (props?: { [key: string]: string }) => cvaFunction<T>;
-
 type ThemeSlot = { [key: string]: object };
 type ThemeClassName<T> = { [K in keyof T]?: string } | string;
 type VariantKeys = { [key: string]: readonly (string | number | boolean)[] };
 type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
 
-export type useThemeResponse<TSlot extends ThemeSlot, TisString = true> = TisString extends false
-  ? { [key in keyof TSlot]: string }
-  : string;
+export type useThemeSharedProps<T extends ThemeSlot, K extends VariantKeys> = {
+  className?: ThemeClassName<{ [K in keyof T]?: string }>;
+} & ThemeVariantKey<K>;
 
-export type useThemeProps<TSlot extends ThemeSlot, T extends VariantKeys> = {
-  className?: ThemeClassName<TSlot>;
-  componentKey: [keyof TSlot][number] | [keyof TSlot][number][];
-  variant?: ThemeVariantKey<T>;
+type BaseUseThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
+  className?: ThemeClassName<T>;
+  variant?: ThemeVariantKey<K>;
   defaultStyle?: {
     base?: string | string[];
     variants?: Record<string, unknown>;
@@ -31,22 +26,34 @@ export type useThemeProps<TSlot extends ThemeSlot, T extends VariantKeys> = {
   };
 };
 
-export type useThemeSharedProps<TSlot extends ThemeSlot, TVariantKeys extends VariantKeys> = {
-  className?: ThemeClassName<TSlot>;
-} & ThemeVariantKey<TVariantKeys>;
+export type useThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
+  componentKey: [keyof T][number] | [keyof T][number][];
+} & BaseUseThemeProps<T, K>;
 
-const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, TisString = true>(
+function useTheme<T extends ThemeSlot, K extends VariantKeys>(
   componentName: string,
-  { componentKey, className, variant = emptyObject, defaultStyle = emptyObject }: useThemeProps<TSlots, TVariantKeys>
-) => {
+  props: {
+    componentKey: [keyof T][number];
+  } & BaseUseThemeProps<T, K>
+): string;
+
+function useTheme<T extends ThemeSlot, K extends VariantKeys>(
+  componentName: string,
+  props: {
+    componentKey: [keyof T][number][];
+  } & BaseUseThemeProps<T, K>
+): { [key in keyof T]: string };
+
+function useTheme<T extends ThemeSlot, K extends VariantKeys>(
+  componentName: string,
+  { componentKey, className, variant = emptyObject, defaultStyle = emptyObject }: useThemeProps<T, K>
+) {
   const { theme } = use(ThemeContext);
   const { base = '', variants = emptyObject, defaultVariants = emptyObject, compoundVariants } = defaultStyle;
   const defaultStyleCVA = useMemo(
     () => cva(base, { variants, compoundVariants, defaultVariants }),
     [base, variants, defaultVariants, compoundVariants]
   );
-
-  componentKey = componentKey as string | string[];
 
   return useMemo(() => {
     if (typeof componentKey === 'string') {
@@ -84,11 +91,7 @@ const useTheme = <TSlots extends ThemeSlot, TVariantKeys extends VariantKeys, Ti
     }
 
     return '';
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme, componentName, componentKey.length, className, variant, defaultStyleCVA]) as useThemeResponse<
-    TSlots,
-    TisString
-  >;
-};
+  }, [theme, componentName, componentKey, className, variant, defaultStyleCVA]);
+}
 
 export default useTheme;

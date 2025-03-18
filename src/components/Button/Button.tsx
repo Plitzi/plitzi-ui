@@ -38,7 +38,7 @@ const Button = ({
   aspect,
   ...buttonProps
 }: ButtonProps) => {
-  const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys, false>('Button', {
+  const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys>('Button', {
     className,
     componentKey: ['root', 'icon'],
     variant: { intent, size, border, justify, items, disabled, aspect }

@@ -59,7 +59,7 @@ const ContainerResizable = ({
   onChange,
   ...props
 }: ContainerResizableProps) => {
-  const classNameTheme = useTheme<typeof ContainerResizableStyles, typeof variantKeys, false>('ContainerResizable', {
+  const classNameTheme = useTheme<typeof ContainerResizableStyles, typeof variantKeys>('ContainerResizable', {
     className,
     componentKey: ['root', 'rootInternal'],
     variant: {}

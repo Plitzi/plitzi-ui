@@ -46,14 +46,11 @@ const ItemHeader = ({
   size,
   onClick
 }: ItemHeaderProps) => {
-  const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex, false>(
-    'Accordion',
-    {
-      componentKey: ['itemHeader', 'itemHeaderIcon', 'itemHeaderIconError', 'itemHeaderSlot', 'itemHeaderIconWarning'],
-      className,
-      variant: { intent, size }
-    }
-  );
+  const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>('Accordion', {
+    componentKey: ['itemHeader', 'itemHeaderIcon', 'itemHeaderIconError', 'itemHeaderSlot', 'itemHeaderIconWarning'],
+    className,
+    variant: { intent, size }
+  });
 
   return (
     <Flex

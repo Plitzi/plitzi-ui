@@ -28,21 +28,18 @@ const ContainerCollapsableHeader = ({
   placement = 'left',
   onClick
 }: ContainerCollapsableHeaderProps) => {
-  const classNameTheme = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys, false>(
-    'ContainerCollapsable',
-    {
-      className,
-      componentKey: [
-        'header',
-        'headerContainer',
-        'headerTitle',
-        'headerIconContainer',
-        'headerSlot',
-        'headerSlotContainer'
-      ],
-      variant: {}
-    }
-  );
+  const classNameTheme = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys>('ContainerCollapsable', {
+    className,
+    componentKey: [
+      'header',
+      'headerContainer',
+      'headerTitle',
+      'headerIconContainer',
+      'headerSlot',
+      'headerSlotContainer'
+    ],
+    variant: {}
+  });
 
   return (
     <div className={classNameTheme.header} onClick={onClick}>

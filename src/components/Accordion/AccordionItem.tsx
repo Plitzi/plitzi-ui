@@ -45,7 +45,7 @@ const AccordionItem = ({
 }: AccordionItemProps) => {
   const ref = useRef<HTMLDivElement>(undefined) as RefObject<HTMLDivElement>;
   const { onUnloadItem } = useContext(AccordionContext);
-  const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys, false>('Accordion', {
+  const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: ['item', 'itemDivider'],
     className,
     variant: { intent, size }

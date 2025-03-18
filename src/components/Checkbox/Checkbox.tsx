@@ -14,7 +14,7 @@ export type CheckboxProps = {
   useThemeSharedProps<typeof CheckboxStyles, typeof variantKeys>;
 
 const Checkbox = ({ ref, className = '', label = '', error = false, size, intent, ...inputProps }: CheckboxProps) => {
-  const classNameTheme = useTheme<typeof CheckboxStyles, typeof variantKeys, false>('Checkbox', {
+  const classNameTheme = useTheme<typeof CheckboxStyles, typeof variantKeys>('Checkbox', {
     className,
     componentKey: ['root', 'input'],
     variant: { intent: error ? 'danger' : intent, size }

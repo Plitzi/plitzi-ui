@@ -60,7 +60,7 @@ const Popup = ({
   onFocus,
   removePopup
 }: PopupProps) => {
-  const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys, false>('Popup', {
+  const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
     componentKey: ['root', 'btn'],
     variant: {}

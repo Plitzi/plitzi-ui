@@ -37,7 +37,7 @@ const CardHeader = ({
   gap = 2,
   ...props
 }: CardHeaderProps) => {
-  const classNameTheme = useTheme<typeof CardStyles, typeof variantKeys, false>('Card', {
+  const classNameTheme = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: ['header', 'headerCloseButton'],
     variant: { intent, shadow, rounded, overflow }

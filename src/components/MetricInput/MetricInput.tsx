@@ -42,7 +42,7 @@ const MetricInput = ({
   onChange,
   ...inputProps
 }: MetricInputProps) => {
-  const classNameTheme = useTheme<typeof MetricInputStyles, typeof variantKeys, false>('MetricInput', {
+  const classNameTheme = useTheme<typeof MetricInputStyles, typeof variantKeys>('MetricInput', {
     className,
     componentKey: ['root', 'input', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'units'],
     variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }

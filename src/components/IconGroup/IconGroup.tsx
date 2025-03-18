@@ -31,7 +31,7 @@ const IconGroup = ({
   justify = 'between',
   gap = 2
 }: IconGroupProps) => {
-  const classNameTheme = useTheme<typeof IconGroupStyles, typeof variantKeys, false>('IconGroup', {
+  const classNameTheme = useTheme<typeof IconGroupStyles, typeof variantKeys>('IconGroup', {
     className,
     componentKey: ['root', 'icon', 'separator'],
     variant: { intent, size, direction }

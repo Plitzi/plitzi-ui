@@ -75,7 +75,7 @@ const TreeNodeOriginal = ({
   const [dragHovered, setDragHovered] = useState(false);
   const [dragAllowed, setDragAllowed] = useState(true);
   const [dropPosition, setDropPosition] = useState<DropPosition>();
-  const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys, false>('Tree', {
+  const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
     className,
     componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon', 'icon'],
     variant: { intent, size, selected, hovered, parentSelected, dropPosition, dragAllowed, isOpen }

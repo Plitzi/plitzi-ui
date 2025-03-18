@@ -18,7 +18,7 @@ export type ListGroupProps = {
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
 const ListGroup = ({ className, options, label = '', value = '', size, onChange }: ListGroupProps) => {
-  const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys, false>('Select2', {
+  const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['listGroup', 'listGroupLabel'],
     variant: { size }

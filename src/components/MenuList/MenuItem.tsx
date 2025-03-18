@@ -27,7 +27,7 @@ export type MenuItemProps = {
 type GenericChildProps = Omit<{ [key: string]: unknown }, 'key' | 'testId'> & { key?: number; testId?: string };
 
 const MenuItem = ({ className, children, value, disabled, testId, onSelect }: MenuItemProps) => {
-  const classNameTheme = useTheme<typeof MenuListStyles, typeof variantKeys, false>('MenuList', {
+  const classNameTheme = useTheme<typeof MenuListStyles, typeof variantKeys>('MenuList', {
     className,
     componentKey: ['menuItem', 'container', 'icon'],
     variant: { disabled }

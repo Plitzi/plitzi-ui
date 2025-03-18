@@ -43,7 +43,7 @@ const Rule = ({
 }: RuleProps) => {
   const { fields, update, updateRuleOperator, updateRuleValue, updateEnabled, remove, allowDisableRules, error } =
     use(QueryBuilderContext);
-  const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
+  const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys>('QueryBuilder', {
     className,
     componentKey: ['rule', 'ruleField', 'ruleOperator'],
     variant: { size, showBranches, direction, error, intent }

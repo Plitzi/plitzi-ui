@@ -39,7 +39,7 @@ const TextArea = ({
   onChange,
   ...textareaProps
 }: TextAreaProps) => {
-  const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys, false>('TextArea', {
+  const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys>('TextArea', {
     className: className && typeof className === 'object' ? className.input : '',
     componentKey: ['input', 'inputContainer', 'iconFloatingContainer'],
     variant: { intent, size, disabled, error: !!error }

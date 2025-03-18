@@ -19,7 +19,7 @@ export type ModalProps = {
 } & useThemeSharedProps<typeof ModalStyles, typeof variantKeys>;
 
 const Modal = ({ ref, className, children, id: idProp, container, open, onClose }: ModalProps) => {
-  const classNameTheme = useTheme<typeof ModalStyles, typeof variantKeys, false>('Modal', {
+  const classNameTheme = useTheme<typeof ModalStyles, typeof variantKeys>('Modal', {
     className,
     componentKey: ['root', 'background', 'card'],
     variant: {}

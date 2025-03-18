@@ -28,7 +28,7 @@ const Switch = ({
   onChange,
   ...inputProps
 }: SwitchProps) => {
-  const classNameTheme = useTheme<typeof SwitchyStyles, typeof variantKeys, false>('Switch', {
+  const classNameTheme = useTheme<typeof SwitchyStyles, typeof variantKeys>('Switch', {
     className,
     componentKey: ['root', 'switch', 'slider'],
     variant: { intent, size }

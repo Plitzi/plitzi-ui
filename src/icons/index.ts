@@ -47,6 +47,20 @@ import DisplayGrid from './DisplayGrid';
 import DisplayInline from './DisplayInline';
 import DisplayInlineBlock from './DisplayInlineBlock';
 import Form from './Form';
+import JustifyContentCenterColumn from './JustifyContentCenterColumn';
+import JustifyContentCenterRow from './JustifyContentCenterRow';
+import JustifyContentEndColumn from './JustifyContentEndColumn';
+import JustifyContentEndColumnReverse from './JustifyContentEndColumnReverse';
+import JustifyContentEndRow from './JustifyContentEndRow';
+import JustifyContentEndRowReverse from './JustifyContentEndRowReverse';
+import JustifyContentSpaceAroundColumn from './JustifyContentSpaceAroundColumn';
+import JustifyContentSpaceAroundRow from './JustifyContentSpaceAroundRow';
+import JustifyContentSpaceBetweenColumn from './JustifyContentSpaceBetweenColumn';
+import JustifyContentSpaceBetweenRow from './JustifyContentSpaceBetweenRow';
+import JustifyContentStartColumn from './JustifyContentStartColumn';
+import JustifyContentStartColumnReverse from './JustifyContentStartColumnReverse';
+import JustifyContentStartRow from './JustifyContentStartRow';
+import JustifyContentStartRowReverse from './JustifyContentStartRowReverse';
 import ListCircles from './ListCircles';
 import ListDots from './ListDots';
 import ListLetters from './ListLetters';
@@ -59,6 +73,20 @@ import StateManager from './StateManager';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './JustifyContentCenterColumn';
+export * from './JustifyContentCenterRow';
+export * from './JustifyContentEndColumn';
+export * from './JustifyContentEndColumnReverse';
+export * from './JustifyContentEndRow';
+export * from './JustifyContentEndRowReverse';
+export * from './JustifyContentSpaceAroundColumn';
+export * from './JustifyContentSpaceAroundRow';
+export * from './JustifyContentSpaceBetweenColumn';
+export * from './JustifyContentSpaceBetweenRow';
+export * from './JustifyContentStartColumn';
+export * from './JustifyContentStartColumnReverse';
+export * from './JustifyContentStartRow';
+export * from './JustifyContentStartRowReverse';
 export * from './AlignContentCenterColumn';
 export * from './AlignContentCenterRow';
 export * from './AlignContentEndColumn';
@@ -121,6 +149,20 @@ export * from './StateManager';
 export * from './Form';
 
 export {
+  JustifyContentCenterColumn,
+  JustifyContentCenterRow,
+  JustifyContentEndColumn,
+  JustifyContentEndColumnReverse,
+  JustifyContentEndRow,
+  JustifyContentEndRowReverse,
+  JustifyContentSpaceAroundColumn,
+  JustifyContentSpaceAroundRow,
+  JustifyContentSpaceBetweenColumn,
+  JustifyContentSpaceBetweenRow,
+  JustifyContentStartColumn,
+  JustifyContentStartColumnReverse,
+  JustifyContentStartRow,
+  JustifyContentStartRowReverse,
   AlignContentCenterColumn,
   AlignContentCenterRow,
   AlignContentEndColumn,

@@ -41,7 +41,7 @@ const InputContainer = ({
   value,
   onClear
 }: InputContainerProps) => {
-  const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys, false>('Input', {
+  const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys>('Input', {
     className,
     componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear'],
     variant: {

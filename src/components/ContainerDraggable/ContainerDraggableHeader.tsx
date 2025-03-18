@@ -41,7 +41,7 @@ const ContainerDraggableHeader = ({
   onMouseDown,
   onTouchStart
 }: ContainerDraggableHeaderProps) => {
-  const classNameTheme = useTheme<typeof ContainerDraggableStyles, typeof variantKeys, false>('ContainerDraggable', {
+  const classNameTheme = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
     className,
     componentKey: ['header', 'headerLabel', 'btn'],
     variant: { intent, size, collapsed }

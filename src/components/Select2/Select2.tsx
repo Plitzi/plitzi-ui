@@ -62,7 +62,7 @@ const Select2 = ({
   searchAutoFocus = true,
   onChange
 }: Select2Props) => {
-  const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys, false>('Select2', {
+  const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['inputContainer', 'placeholder', 'listMessage'],
     variant: { size }
