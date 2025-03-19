@@ -4,12 +4,13 @@ import { createContext, useMemo } from 'react';
 import { emptyObject } from '@/helpers/utils';
 import { paletteColors, tokenColors } from '@/tailwind/colors';
 
+import type { cva } from 'class-variance-authority';
 import type { ReactNode } from 'react';
 
 export type ThemeContextValue = {
   theme: {
     components: {
-      [componentName: string]: unknown;
+      [componentName: string]: Record<string, ReturnType<typeof cva>>;
     };
     colors: {
       [key: string]: string;

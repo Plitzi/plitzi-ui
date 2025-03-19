@@ -1,10 +1,11 @@
 import get from 'lodash/get';
+import isString from 'lodash/isString';
 import set from 'lodash/set';
 import { use, useMemo } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-import cva from '@/helpers/cvaWrapper';
-import { emptyObject } from '@/helpers/utils';
 import { ThemeContext } from '@components/Provider/providers/ThemeProvider';
+import useValueMemo from '@hooks/useValueMemo';
 
 type ThemeSlot = { [key: string]: object };
 type ThemeClassName<T> = { [K in keyof T]?: string } | string;
@@ -18,12 +19,6 @@ export type useThemeSharedProps<T extends ThemeSlot, K extends VariantKeys> = {
 type BaseUseThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
   className?: ThemeClassName<T>;
   variant?: ThemeVariantKey<K>;
-  defaultStyle?: {
-    base?: string | string[];
-    variants?: Record<string, unknown>;
-    defaultVariants?: object;
-    compoundVariants?: object[];
-  };
 };
 
 export type useThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
@@ -46,44 +41,41 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
 
 function useTheme<T extends ThemeSlot, K extends VariantKeys>(
   componentName: string,
-  { componentKey, className, variant = emptyObject, defaultStyle = emptyObject }: useThemeProps<T, K>
+  { componentKey, className, variant }: useThemeProps<T, K>
 ) {
   const { theme } = use(ThemeContext);
-  const { base = '', variants = emptyObject, defaultVariants = emptyObject, compoundVariants } = defaultStyle;
-  const defaultStyleCVA = useMemo(
-    () => cva(base, { variants, compoundVariants, defaultVariants }),
-    [base, variants, defaultVariants, compoundVariants]
-  );
+  className = useValueMemo(className);
 
   return useMemo(() => {
     if (typeof componentKey === 'string') {
-      let callback = defaultStyleCVA;
-      callback = get(theme, `components.${componentName}.${componentKey}`, defaultStyleCVA);
-      if (typeof callback !== 'function') {
+      const componentCva = get(theme.components[componentName], componentKey);
+      if (typeof componentCva !== 'function') {
         return className ?? '';
       }
 
-      return callback({ ...variant, className });
+      return twMerge(componentCva({ ...variant, className }));
     }
 
     if (Array.isArray(componentKey)) {
       const classNameObj = {};
-      componentKey.forEach((compKey, i) => {
-        compKey = compKey as string;
-        const callback = get(theme, `components.${componentName}.${String(compKey)}`, defaultStyleCVA);
-        let value;
-        if (typeof callback === 'function' && typeof className === 'object') {
-          value = callback({ ...variant, className: get(className, compKey, '') });
-        } else if (typeof callback === 'function' && typeof className === 'string' && i === 0) {
-          value = callback({ ...variant, className });
-        } else if (typeof callback === 'function') {
-          value = callback(variant);
+      componentKey.filter(isString).forEach((key, i) => {
+        const componentCva = get(theme.components[componentName], key);
+        if (typeof componentCva !== 'function') {
+          return;
         }
 
-        if (compKey.split('.').length > 1) {
-          set(classNameObj, compKey.split('.').slice(1).join('.'), value);
+        let classNameValue;
+        if (typeof className === 'object') {
+          classNameValue = get(className, key);
+        } else if (typeof className === 'string' && i === 0) {
+          classNameValue = className;
+        }
+
+        const value = twMerge(componentCva({ ...variant, className: classNameValue }));
+        if (key.split('.').length > 1) {
+          set(classNameObj, key.split('.').slice(1).join('.'), value);
         } else {
-          set(classNameObj, compKey, value);
+          set(classNameObj, key, value);
         }
       });
 
@@ -91,7 +83,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
     }
 
     return '';
-  }, [theme, componentName, componentKey, className, variant, defaultStyleCVA]);
+  }, [componentKey, theme.components, componentName, variant, className]);
 }
 
 export default useTheme;
