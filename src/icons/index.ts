@@ -46,6 +46,9 @@ import DisplayFlex from './DisplayFlex';
 import DisplayGrid from './DisplayGrid';
 import DisplayInline from './DisplayInline';
 import DisplayInlineBlock from './DisplayInlineBlock';
+import FlexGrowRow from './FlexGrowRow';
+import FlexNoneRow from './FlexNoneRow';
+import FlexShrinkRow from './FlexShrinkRow';
 import Form from './Form';
 import JustifyContentCenterColumn from './JustifyContentCenterColumn';
 import JustifyContentCenterRow from './JustifyContentCenterRow';
@@ -73,6 +76,9 @@ import StateManager from './StateManager';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './FlexGrowRow';
+export * from './FlexNoneRow';
+export * from './FlexShrinkRow';
 export * from './JustifyContentCenterColumn';
 export * from './JustifyContentCenterRow';
 export * from './JustifyContentEndColumn';
@@ -149,6 +155,9 @@ export * from './StateManager';
 export * from './Form';
 
 export {
+  FlexGrowRow,
+  FlexNoneRow,
+  FlexShrinkRow,
   JustifyContentCenterColumn,
   JustifyContentCenterRow,
   JustifyContentEndColumn,
