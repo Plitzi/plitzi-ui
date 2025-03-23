@@ -80,11 +80,17 @@ import PaddingRight from './PaddingRight';
 import PaddingTop from './PaddingTop';
 import PageOverview from './PageOverview';
 import PlitziLogo from './PlitziLogo';
+import PositionAbsolute from './PositionAbsolute';
+import PositionFixed from './PositionFixed';
+import PositionRelative from './PositionRelative';
 import SizeOverflowScroll from './SizeOverflowScroll';
 import StateManager from './StateManager';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './PositionAbsolute';
+export * from './PositionFixed';
+export * from './PositionRelative';
 export * from './SizeOverflowScroll';
 export * from './MarginBottom';
 export * from './MarginLeft';
@@ -173,6 +179,9 @@ export * from './StateManager';
 export * from './Form';
 
 export {
+  PositionAbsolute,
+  PositionFixed,
+  PositionRelative,
   SizeOverflowScroll,
   MarginBottom,
   MarginLeft,
