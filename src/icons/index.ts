@@ -70,12 +70,28 @@ import ListLetters from './ListLetters';
 import ListNumbers from './ListNumbers';
 import ListRoman from './ListRoman';
 import ListSquares from './ListSquares';
+import MarginBottom from './MarginBottom';
+import MarginLeft from './MarginLeft';
+import MarginRight from './MarginRight';
+import MarginTop from './MarginTop';
+import PaddingBottom from './PaddingBottom';
+import PaddingLeft from './PaddingLeft';
+import PaddingRight from './PaddingRight';
+import PaddingTop from './PaddingTop';
 import PageOverview from './PageOverview';
 import PlitziLogo from './PlitziLogo';
 import StateManager from './StateManager';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './MarginBottom';
+export * from './MarginLeft';
+export * from './MarginRight';
+export * from './MarginTop';
+export * from './PaddingBottom';
+export * from './PaddingLeft';
+export * from './PaddingRight';
+export * from './PaddingTop';
 export * from './FlexGrowRow';
 export * from './FlexNoneRow';
 export * from './FlexShrinkRow';
@@ -155,6 +171,14 @@ export * from './StateManager';
 export * from './Form';
 
 export {
+  MarginBottom,
+  MarginLeft,
+  MarginRight,
+  MarginTop,
+  PaddingBottom,
+  PaddingLeft,
+  PaddingRight,
+  PaddingTop,
   FlexGrowRow,
   FlexNoneRow,
   FlexShrinkRow,
