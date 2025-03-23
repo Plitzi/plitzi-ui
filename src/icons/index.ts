@@ -80,10 +80,12 @@ import PaddingRight from './PaddingRight';
 import PaddingTop from './PaddingTop';
 import PageOverview from './PageOverview';
 import PlitziLogo from './PlitziLogo';
+import SizeOverflowScroll from './SizeOverflowScroll';
 import StateManager from './StateManager';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './SizeOverflowScroll';
 export * from './MarginBottom';
 export * from './MarginLeft';
 export * from './MarginRight';
@@ -171,6 +173,7 @@ export * from './StateManager';
 export * from './Form';
 
 export {
+  SizeOverflowScroll,
   MarginBottom,
   MarginLeft,
   MarginRight,
