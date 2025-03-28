@@ -21,7 +21,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    prefix: '$'
+    prefix: '$',
+    units: [
+      { value: 'rem', label: 'Rem' },
+      { value: 'px', label: 'Px' },
+      { value: '%', label: '%' },
+      { value: 'auto', label: '-' }
+    ]
   },
   render: args => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -82,10 +88,10 @@ export const Metrics: Story = {
         <MetricInput {...args} size="md" value={value} onChange={handleChange}>
           <MetricInput.Icon icon="fa-solid fa-check" />
         </MetricInput>
-        <MetricInput {...args} size="sm">
+        <MetricInput {...args} size="sm" value={value} onChange={handleChange}>
           <MetricInput.Icon icon="fa-solid fa-check" />
         </MetricInput>
-        <MetricInput {...args} size="xs">
+        <MetricInput {...args} size="xs" value={value} onChange={handleChange}>
           <MetricInput.Icon icon="fa-solid fa-check" />
         </MetricInput>
       </div>

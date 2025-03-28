@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
 import Icon from '@components/Icon';
+import MenuList from '@components/MenuList';
 import useTheme from '@hooks/useTheme';
 
 import type MetricInputStyles from './MetricInput.styles';
@@ -16,7 +17,6 @@ export type MetricInputProps = {
   children?: ReactNode;
   placeholder?: string;
   loading?: boolean;
-  disabled?: boolean;
   error?: boolean;
   prefix?: string;
   units?: { value: string; label: string }[];
@@ -29,7 +29,7 @@ const MetricInput = ({
   ref,
   children,
   className = '',
-  placeholder = 'Text',
+  placeholder = 'Placeholder',
   loading = false,
   disabled = false,
   error = false,
@@ -44,12 +44,12 @@ const MetricInput = ({
 }: MetricInputProps) => {
   const classNameTheme = useTheme<typeof MetricInputStyles, typeof variantKeys>('MetricInput', {
     className,
-    componentKey: ['root', 'input', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'units'],
-    variant: { intent: disabled ? 'disabled' : error ? 'error' : intent, size }
+    componentKey: ['root', 'input', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'units', 'divider'],
+    variant: { intent: error ? 'error' : intent, size, disabled }
   });
 
   const unitsFinal = useMemo(() => {
-    if (!units.find(unit => unit.value === '')) {
+    if (!units.find(unit => unit.value === '' || unit.label === '-')) {
       return [...units, { label: '-', value: '' }];
     }
 
@@ -92,16 +92,7 @@ const MetricInput = ({
     [unit, unitsRegex, onChange]
   );
 
-  const handleChangeUnit = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      if (val) {
-        onChange?.(`${val}${e.target.value}`);
-      } else {
-        onChange?.('');
-      }
-    },
-    [val, onChange]
-  );
+  const handleChangeUnit = useCallback((unit?: string) => onChange?.(val ? `${val}${unit}` : ''), [val, onChange]);
 
   const { iconChildren } = useMemo(() => {
     const components = {
@@ -128,7 +119,12 @@ const MetricInput = ({
   return (
     <div className={classNameTheme.root}>
       <div className={classNameTheme.inputContainer}>
-        {iconChildren}
+        {iconChildren && (
+          <>
+            {iconChildren}
+            <div className={classNameTheme.divider} />
+          </>
+        )}
         {prefix && <div>{prefix}</div>}
         <input
           ref={ref}
@@ -146,15 +142,17 @@ const MetricInput = ({
             {loading && <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />}
           </div>
         )}
-        {unitsFinal.length > 0 && (
-          <select className={classNameTheme.units} value={unit} onChange={handleChangeUnit}>
+        <div className={classNameTheme.divider} />
+        <MenuList onSelect={handleChangeUnit} disabled={disabled}>
+          <MenuList.Trigger className={classNameTheme.units}>{unit ? unit : '-'}</MenuList.Trigger>
+          <MenuList.Menu>
             {unitsFinal.map((unit, i) => (
-              <option key={i} value={unit.value}>
+              <MenuList.Item key={i} value={unit.value}>
                 {unit.label}
-              </option>
+              </MenuList.Item>
             ))}
-          </select>
-        )}
+          </MenuList.Menu>
+        </MenuList>
       </div>
     </div>
   );

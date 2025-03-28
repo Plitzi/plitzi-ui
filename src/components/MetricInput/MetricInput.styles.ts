@@ -1,8 +1,9 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'error', 'disabled'],
-  size: ['xs', 'sm', 'md']
+  intent: ['default', 'error'],
+  size: ['xs', 'sm', 'md'],
+  disabled: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'MetricInput';
@@ -12,8 +13,11 @@ export default {
     variants: {
       intent: {
         default: 'border-gray-200',
-        error: '',
-        disabled: 'text-gray-400'
+        error: ''
+      },
+      disabled: {
+        true: 'text-gray-400 cursor-not-allowed',
+        false: ''
       },
       size: {
         md: 'text-base',
@@ -24,20 +28,20 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'md'
+      size: 'md',
+      disabled: false
     }
   }),
-  inputContainer: cva('flex items-center border rounded-lg relative', {
+  inputContainer: cva('flex items-center border relative', {
     variants: {
       intent: {
         default: 'border-gray-200',
-        error: 'border-red-600',
-        disabled: 'cursor-not-allowed'
+        error: 'border-red-600'
       },
       size: {
-        md: 'py-2.5 px-4 gap-2',
-        sm: 'py-1.5 px-2 gap-1.5',
-        xs: 'py-1 px-1 gap-1'
+        md: 'py-2 px-2.5 gap-2 rounded-lg',
+        sm: 'py-1.5 px-2 gap-1.5 rounded',
+        xs: 'py-1 px-1.5 gap-1 rounded-sm'
       }
     },
     compoundVariants: [],
@@ -46,12 +50,15 @@ export default {
       size: 'md'
     }
   }),
-  input: cva('p-0 border-0 outline-none focus:ring-0 basis-0 grow min-w-0', {
+  input: cva('p-0 outline-none focus:ring-0 basis-0 grow min-w-0', {
     variants: {
       intent: {
         default: '',
-        error: '',
-        disabled: 'cursor-not-allowed'
+        error: ''
+      },
+      disabled: {
+        true: 'cursor-not-allowed',
+        false: ''
       },
       size: {
         md: 'text-base',
@@ -78,34 +85,33 @@ export default {
     ],
     defaultVariants: {
       intent: 'default',
-      size: 'md'
+      size: 'md',
+      disabled: false
     }
   }),
-  units: cva(
-    [
-      'border-l-1 border-gray-400 py-0 pr-0 border-y-0 border-r-0 bg-none text-center select-none cursor-pointer',
-      'focus:outline-0 focus:ring-0 focus:border-gray-400 focus:shadow-none'
-    ],
-    {
-      variants: {
-        intent: {
-          default: '',
-          error: '',
-          disabled: 'cursor-not-allowed'
-        },
-        size: {
-          md: 'pl-2 text-base min-w-10',
-          sm: 'pl-1.5 text-sm min-w-8',
-          xs: 'pl-1 text-xs min-w-7'
-        }
+  units: cva('select-none text-center', {
+    variants: {
+      intent: {
+        default: '',
+        error: ''
       },
-      compoundVariants: [],
-      defaultVariants: {
-        intent: 'default',
-        size: 'md'
+      disabled: {
+        true: 'cursor-not-allowed',
+        false: 'cursor-pointer'
+      },
+      size: {
+        md: 'text-base min-w-9',
+        sm: 'text-sm min-w-8',
+        xs: 'text-xs min-w-7'
       }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'default',
+      size: 'md',
+      disabled: false
     }
-  ),
+  }),
   iconFloatingContainer: cva('flex absolute top-1/2 -translate-y-1/2', {
     variants: {
       intent: {
@@ -123,22 +129,22 @@ export default {
       size: 'md'
     }
   }),
-  icon: cva('border-r border-gray-400 shrink-0', {
+  icon: cva('shrink-0', {
     variants: {
       intent: {
         default: '',
         error: 'text-red-600'
       },
       size: {
-        md: 'pr-2',
-        sm: 'pr-1.5',
-        xs: 'pr-1'
+        // md: 'pr-2',
+        // sm: 'pr-1.5',
+        // xs: 'pr-1'
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
-      size: 'md'
+      intent: 'default'
+      // size: 'md'
     }
   }),
   iconError: cva('', {
@@ -175,5 +181,6 @@ export default {
       intent: 'default',
       size: 'md'
     }
-  })
+  }),
+  divider: cva('w-px bg-gray-300 self-stretch shrink-0')
 };
