@@ -40,6 +40,9 @@ import AlignSelfStretchRow from './AlignSelfStretchRow';
 import ArrowReverse from './ArrowReverse';
 import BorderBlack from './BorderBlack';
 import BorderWhite from './BorderWhite';
+import ClearBoth from './ClearBoth';
+import ClearLeft from './ClearLeft';
+import ClearRight from './ClearRight';
 import DesktopWithMobile from './DesktopWithMobile';
 import DisplayBlock from './DisplayBlock';
 import DisplayFlex from './DisplayFlex';
@@ -49,6 +52,8 @@ import DisplayInlineBlock from './DisplayInlineBlock';
 import FlexGrowRow from './FlexGrowRow';
 import FlexNoneRow from './FlexNoneRow';
 import FlexShrinkRow from './FlexShrinkRow';
+import FloatLeft from './FloatLeft';
+import FloatRight from './FloatRight';
 import Form from './Form';
 import JustifyContentCenterColumn from './JustifyContentCenterColumn';
 import JustifyContentCenterRow from './JustifyContentCenterRow';
@@ -81,13 +86,36 @@ import PaddingTop from './PaddingTop';
 import PageOverview from './PageOverview';
 import PlitziLogo from './PlitziLogo';
 import PositionAbsolute from './PositionAbsolute';
+import PositionAll from './PositionAll';
+import PositionBottom from './PositionBottom';
+import PositionBottomLeft from './PositionBottomLeft';
+import PositionBottomRight from './PositionBottomRight';
 import PositionFixed from './PositionFixed';
+import PositionLeft from './PositionLeft';
 import PositionRelative from './PositionRelative';
+import PositionRight from './PositionRight';
+import PositionTop from './PositionTop';
+import PositionTopLeft from './PositionTopLeft';
+import PositionTopRight from './PositionTopRight';
 import SizeOverflowScroll from './SizeOverflowScroll';
 import StateManager from './StateManager';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './PositionAll';
+export * from './PositionBottom';
+export * from './PositionBottomLeft';
+export * from './PositionBottomRight';
+export * from './PositionLeft';
+export * from './PositionRight';
+export * from './PositionTop';
+export * from './PositionTopLeft';
+export * from './PositionTopRight';
+export * from './FloatLeft';
+export * from './FloatRight';
+export * from './ClearBoth';
+export * from './ClearLeft';
+export * from './ClearRight';
 export * from './PositionAbsolute';
 export * from './PositionFixed';
 export * from './PositionRelative';
@@ -179,6 +207,20 @@ export * from './StateManager';
 export * from './Form';
 
 export {
+  PositionAll,
+  PositionBottom,
+  PositionBottomLeft,
+  PositionBottomRight,
+  PositionLeft,
+  PositionRight,
+  PositionTop,
+  PositionTopLeft,
+  PositionTopRight,
+  FloatLeft,
+  FloatRight,
+  ClearBoth,
+  ClearLeft,
+  ClearRight,
   PositionAbsolute,
   PositionFixed,
   PositionRelative,
