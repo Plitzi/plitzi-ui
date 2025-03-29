@@ -6,7 +6,7 @@ import Icon from '@components/Icon';
 import MenuList from '@components/MenuList';
 import useTheme from '@hooks/useTheme';
 
-import { generateAllowedWordsRegex, generateMetricRegex } from './utils';
+import { generateMetricRegex, generateRegexFromWord } from './utils';
 
 import type MetricInputStyles from './MetricInput.styles';
 import type { variantKeys } from './MetricInput.styles';
@@ -59,36 +59,35 @@ const MetricInput = ({
 
     return unitsProp;
   }, [unitsProp]);
-  const allowedWordRegex = useMemo<RegExp | undefined>(() => generateAllowedWordsRegex(allowedWords), [allowedWords]);
-  const unitsRegex = useMemo(() => generateMetricRegex(unitsProp, allowedWordRegex), [allowedWordRegex, unitsProp]);
+  const allowedWordRegex = useMemo(() => generateRegexFromWord(allowedWords), [allowedWords]);
+  const unitsRegex = useMemo(() => generateMetricRegex(units, allowedWords), [allowedWords, units]);
 
-  const [value, unit, hasAllowedWord] = useMemo(() => {
-    const match = unitsRegex.exec(valueProp);
-    const hasAllowedWord = !!allowedWordRegex?.exec(valueProp);
-    const unit = get(match, 'groups.unit', get(units, '0.value', ''));
-    const amount = get(match, 'groups.amount', '');
-    if (amount === '') {
-      return ['', hasAllowedWord ? '' : unit];
-    }
+  const getValueParts = useCallback(
+    (value: string): [string, string, boolean] => {
+      const match = unitsRegex.exec(value);
+      const unit = get(match, 'groups.unit', get(units, '0.value', ''));
+      const amount = get(match, 'groups.amount', '');
+      const hasAllowedWord = allowedWordRegex?.exec(value) ? true : false;
 
-    return [amount, hasAllowedWord ? '' : unit, hasAllowedWord];
-  }, [valueProp, units, unitsRegex, allowedWordRegex]);
+      return [amount, hasAllowedWord ? '' : unit, hasAllowedWord];
+    },
+    [allowedWordRegex, units, unitsRegex]
+  );
+
+  const [value, unit, hasAllowedWord] = useMemo(() => getValueParts(valueProp), [getValueParts, valueProp]);
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const hasAllowedWord = !!allowedWordRegex?.exec(e.target.value);
-      let newValue = e.target.value;
-      if (e.target.value && unit && !hasAllowedWord) {
-        newValue = `${e.target.value}${unit}`;
-      }
-
-      if (newValue && !unitsRegex.exec(newValue)) {
+      const [newValue, , newHasAllowedWord] = getValueParts(e.target.value);
+      const newUnit = !newHasAllowedWord && hasAllowedWord ? get(units, '0.value', '') : unit;
+      const finalValue = newValue && newUnit && !newHasAllowedWord ? `${newValue}${newUnit}` : newValue;
+      if ((finalValue && !unitsRegex.exec(finalValue)) || value === newValue) {
         return;
       }
 
-      onChange?.(newValue);
+      onChange?.(finalValue);
     },
-    [allowedWordRegex, unit, unitsRegex, onChange]
+    [getValueParts, unit, hasAllowedWord, unitsRegex, value, onChange, units]
   );
 
   const handleChangeUnit = useCallback(

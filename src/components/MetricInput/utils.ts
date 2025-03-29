@@ -1,4 +1,8 @@
-export const generateRegexFromWord = (words: string | string[], asSubRegex = false): RegExp => {
+export const generateRegexFromWord = (words?: string | string[], asSubRegex = false): RegExp | undefined => {
+  if (!words) {
+    return undefined;
+  }
+
   if (typeof words === 'string') {
     words = [words];
   }
@@ -28,13 +32,12 @@ export const generateRegexFromWord = (words: string | string[], asSubRegex = fal
   return new RegExp(`(${fragments.join('|')})`);
 };
 
-export const generateAllowedWordsRegex = (words: string[] = []) =>
-  words.length > 0 ? generateRegexFromWord(words, true) : undefined;
-
-export const generateMetricRegex = (units: { value: string; label: string }[], allowedWordRegex?: RegExp) => {
+export const generateMetricRegex = (units: { value: string; label: string }[], allowedWords?: string[]) => {
+  const allowedWordsRegex =
+    allowedWords && allowedWords.length > 0 ? generateRegexFromWord(allowedWords, true) : undefined;
   let amountRegex = '(?<amount>[0-9]+(\\.|\\.[0-9]+|))';
-  if (allowedWordRegex) {
-    amountRegex = `(?<amount>([0-9]+(\\.|\\.[0-9]+|)|${allowedWordRegex.source}))`;
+  if (allowedWordsRegex) {
+    amountRegex = `(?<amount>([0-9]+(\\.|\\.[0-9]+|)|${allowedWordsRegex.source}))`;
   }
 
   if (units.length > 0) {
