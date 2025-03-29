@@ -41,11 +41,11 @@ describe('generateRegexFromWord', () => {
       const regex = generateRegexFromWord(word);
 
       valid.forEach(str => {
-        expect(regex.test(str)).toBe(true);
+        expect(regex?.test(str)).toBe(true);
       });
 
       invalid.forEach(str => {
-        expect(regex.test(str)).toBe(false);
+        expect(regex?.test(str)).toBe(false);
       });
     });
   });

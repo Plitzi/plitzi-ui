@@ -32,7 +32,7 @@ const MetricInput = ({
   ref,
   children,
   className = '',
-  placeholder = 'Placeholder',
+  placeholder = '',
   loading = false,
   disabled = false,
   error = false,
