@@ -81,7 +81,11 @@ const MetricInput = ({
       const [newValue, , newHasAllowedWord] = getValueParts(e.target.value);
       const newUnit = !newHasAllowedWord && hasAllowedWord ? get(units, '0.value', '') : unit;
       const finalValue = newValue && newUnit && !newHasAllowedWord ? `${newValue}${newUnit}` : newValue;
-      if ((finalValue && !unitsRegex.exec(finalValue)) || value === newValue) {
+      if (
+        value === newValue ||
+        (e.target.value.length > value.length && !newValue) || // newValue is invalid, skip
+        (finalValue && !unitsRegex.exec(finalValue))
+      ) {
         return;
       }
 
