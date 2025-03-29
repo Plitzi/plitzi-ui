@@ -25,8 +25,8 @@ export const Primary: Story = {
     units: [
       { value: 'rem', label: 'Rem' },
       { value: 'px', label: 'Px' },
-      { value: '%', label: '%' },
-      { value: '', label: '-' }
+      { value: '%', label: '%' }
+      // { value: '', label: '-' }
     ],
     allowedWords: ['auto', 'nice']
   },

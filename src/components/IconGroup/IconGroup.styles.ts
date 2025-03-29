@@ -9,7 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'IconGroup';
 
 export default {
-  root: cva('rounded-lg bg-grayviolet-200', {
+  root: cva('bg-grayviolet-200', {
     variants: {
       intent: {
         primary: '',
@@ -18,19 +18,19 @@ export default {
         custom: ''
       },
       size: {
-        xs: 'px-1.5 py-1',
-        sm: 'px-2 py-1.5',
-        md: 'px-2.5 py-2',
-        lg: 'px-2.5 py-2',
-        xl: 'px-2.5 py-2',
-        '2xl': 'px-3 py-2',
-        '3xl': 'px-3 py-2',
-        '4xl': 'px-3 py-2',
-        '5xl': 'px-3 py-2',
-        '6xl': 'px-3 py-2',
-        '7xl': 'px-3 py-2',
-        '8xl': 'px-3 py-2',
-        '9xl': 'px-3 py-2',
+        xs: 'px-1.5 py-1 rounded-sm',
+        sm: 'px-2 py-1.5 rounded',
+        md: 'px-2.5 py-2 rounded-lg',
+        lg: 'px-2.5 py-2 rounded-lg',
+        xl: 'px-2.5 py-2 rounded-lg',
+        '2xl': 'px-3 py-2 rounded-lg',
+        '3xl': 'px-3 py-2 rounded-lg',
+        '4xl': 'px-3 py-2 rounded-lg',
+        '5xl': 'px-3 py-2 rounded-lg',
+        '6xl': 'px-3 py-2 rounded-lg',
+        '7xl': 'px-3 py-2 rounded-lg',
+        '8xl': 'px-3 py-2 rounded-lg',
+        '9xl': 'px-3 py-2 rounded-lg',
         custom: ''
       }
     },
