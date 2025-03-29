@@ -26,8 +26,9 @@ export const Primary: Story = {
       { value: 'rem', label: 'Rem' },
       { value: 'px', label: 'Px' },
       { value: '%', label: '%' },
-      { value: 'auto', label: '-' }
-    ]
+      { value: '', label: '-' }
+    ],
+    allowedWords: ['auto', 'nice']
   },
   render: args => {
     // eslint-disable-next-line react-hooks/rules-of-hooks

@@ -6,6 +6,8 @@ import Icon from '@components/Icon';
 import MenuList from '@components/MenuList';
 import useTheme from '@hooks/useTheme';
 
+import { generateAllowedWordsRegex, generateMetricRegex } from './utils';
+
 import type MetricInputStyles from './MetricInput.styles';
 import type { variantKeys } from './MetricInput.styles';
 import type { IconProps } from '@components/Icon';
@@ -22,6 +24,7 @@ export type MetricInputProps = {
   units?: { value: string; label: string }[];
   type?: 'text';
   value?: string;
+  allowedWords?: string[];
   onChange?: (value: string) => void;
 } & useThemeSharedProps<typeof MetricInputStyles, typeof variantKeys>;
 
@@ -34,11 +37,12 @@ const MetricInput = ({
   disabled = false,
   error = false,
   prefix = '',
-  units = [],
+  units: unitsProp = [],
   type = 'text',
   size,
   intent = 'default',
-  value = '',
+  value: valueProp = '',
+  allowedWords,
   onChange,
   ...inputProps
 }: MetricInputProps) => {
@@ -48,39 +52,34 @@ const MetricInput = ({
     variant: { intent: error ? 'error' : intent, size, disabled }
   });
 
-  const unitsFinal = useMemo(() => {
-    if (!units.find(unit => unit.value === '' || unit.label === '-')) {
-      return [...units, { label: '-', value: '' }];
+  const units = useMemo(() => {
+    if (!unitsProp.find(unit => unit.value === '' || unit.label === '-')) {
+      return [...unitsProp, { label: '-', value: '' }];
     }
 
-    return units;
-  }, [units]);
+    return unitsProp;
+  }, [unitsProp]);
+  const allowedWordRegex = useMemo<RegExp | undefined>(() => generateAllowedWordsRegex(allowedWords), [allowedWords]);
+  const unitsRegex = useMemo(() => generateMetricRegex(unitsProp, allowedWordRegex), [allowedWordRegex, unitsProp]);
 
-  const unitsRegex = useMemo(() => {
-    const amountRegex = '(?<amount>[0-9]+(\\.|\\.[0-9]+|))';
-    const unitRegex = `(?<unit>${unitsFinal.map(unit => unit.value).join('|')})`;
-
-    return new RegExp(`^${amountRegex}${unitRegex}$`, 'im');
-  }, [unitsFinal]);
-
-  const [val, unit] = useMemo(() => {
-    const match = unitsRegex.exec(value);
-    const unit = get(match, 'groups.unit', get(unitsFinal, '0.value', ''));
+  const [value, unit, hasAllowedWord] = useMemo(() => {
+    const match = unitsRegex.exec(valueProp);
+    const hasAllowedWord = !!allowedWordRegex?.exec(valueProp);
+    const unit = get(match, 'groups.unit', get(units, '0.value', ''));
     const amount = get(match, 'groups.amount', '');
     if (amount === '') {
-      return ['', unit];
+      return ['', hasAllowedWord ? '' : unit];
     }
 
-    return [amount, unit];
-  }, [value, unitsFinal, unitsRegex]);
+    return [amount, hasAllowedWord ? '' : unit, hasAllowedWord];
+  }, [valueProp, units, unitsRegex, allowedWordRegex]);
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      let newValue = '';
-      if (e.target.value && unit) {
+      const hasAllowedWord = !!allowedWordRegex?.exec(e.target.value);
+      let newValue = e.target.value;
+      if (e.target.value && unit && !hasAllowedWord) {
         newValue = `${e.target.value}${unit}`;
-      } else {
-        newValue = e.target.value;
       }
 
       if (newValue && !unitsRegex.exec(newValue)) {
@@ -89,10 +88,13 @@ const MetricInput = ({
 
       onChange?.(newValue);
     },
-    [unit, unitsRegex, onChange]
+    [allowedWordRegex, unit, unitsRegex, onChange]
   );
 
-  const handleChangeUnit = useCallback((unit?: string) => onChange?.(val ? `${val}${unit}` : ''), [val, onChange]);
+  const handleChangeUnit = useCallback(
+    (unit?: string) => onChange?.(value && !hasAllowedWord ? `${value}${unit}` : ''),
+    [hasAllowedWord, onChange, value]
+  );
 
   const { iconChildren } = useMemo(() => {
     const components = {
@@ -132,7 +134,7 @@ const MetricInput = ({
           placeholder={placeholder}
           className={classNameTheme.input}
           disabled={disabled}
-          value={val}
+          value={value}
           onChange={handleChange}
           {...(inputProps as React.JSX.IntrinsicElements['input'])}
         />
@@ -146,7 +148,7 @@ const MetricInput = ({
         <MenuList onSelect={handleChangeUnit} disabled={disabled}>
           <MenuList.Trigger className={classNameTheme.units}>{unit ? unit : '-'}</MenuList.Trigger>
           <MenuList.Menu>
-            {unitsFinal.map((unit, i) => (
+            {units.map((unit, i) => (
               <MenuList.Item key={i} value={unit.value}>
                 {unit.label}
               </MenuList.Item>
