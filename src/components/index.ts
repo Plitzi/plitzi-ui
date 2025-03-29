@@ -4,6 +4,7 @@ import Button from './Button';
 import Card from './Card';
 import Checkbox from './Checkbox';
 import CodeMirror from './CodeMirror';
+import ColorPicker from './ColorPicker';
 import ContainerCollapsable from './ContainerCollapsable';
 import ContainerDraggable from './ContainerDraggable';
 import ContainerFloating from './ContainerFloating';
@@ -38,6 +39,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
 
+export * from './ColorPicker';
 export * from './Modal';
 export * from './MenuList';
 export * from './Markdown';
@@ -80,6 +82,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  ColorPicker,
   Modal,
   MenuList,
   Markdown,

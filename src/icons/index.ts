@@ -99,6 +99,7 @@ import PositionTopLeft from './PositionTopLeft';
 import PositionTopRight from './PositionTopRight';
 import SizeOverflowScroll from './SizeOverflowScroll';
 import StateManager from './StateManager';
+import TextDecorationOverline from './TextDecorationOverline';
 import Variable from './Variable';
 import XMark from './XMark';
 
@@ -205,8 +206,10 @@ export * from './BorderWhite';
 export * from './Variable';
 export * from './StateManager';
 export * from './Form';
+export * from './TextDecorationOverline';
 
 export {
+  TextDecorationOverline,
   PositionAll,
   PositionBottom,
   PositionBottomLeft,

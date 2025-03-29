@@ -25,9 +25,9 @@ export default {
         false: ''
       },
       size: {
-        md: 'text-base pl-2 pr-8 bg-[length:24px_24px] bg-[right_0_center] rounded-lg',
-        sm: 'text-sm pl-1.5 pr-6 bg-[length:20px_20px] bg-[right_0_center] rounded',
-        xs: 'text-xs pl-1 pr-4 bg-[length:16px_16px] bg-[right_0_center] rounded-sm',
+        md: 'text-base pl-2 pr-8',
+        sm: 'text-sm pl-1.5 pr-6',
+        xs: 'text-xs pl-1 pr-4',
         custom: ''
       }
     },
