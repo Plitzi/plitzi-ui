@@ -100,9 +100,13 @@ import PositionTopRight from './PositionTopRight';
 import SizeOverflowScroll from './SizeOverflowScroll';
 import StateManager from './StateManager';
 import TextDecorationOverline from './TextDecorationOverline';
+import TextDirectionLtr from './TextDirectionLtr';
+import TextDirectionRtl from './TextDirectionRtl';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './TextDirectionLtr';
+export * from './TextDirectionRtl';
 export * from './PositionAll';
 export * from './PositionBottom';
 export * from './PositionBottomLeft';
@@ -209,6 +213,8 @@ export * from './Form';
 export * from './TextDecorationOverline';
 
 export {
+  TextDirectionLtr,
+  TextDirectionRtl,
   TextDecorationOverline,
   PositionAll,
   PositionBottom,
