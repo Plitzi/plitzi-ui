@@ -38,6 +38,9 @@ import AlignSelfEndRow from './AlignSelfEndRow';
 import AlignSelfStartRow from './AlignSelfStartRow';
 import AlignSelfStretchRow from './AlignSelfStretchRow';
 import ArrowReverse from './ArrowReverse';
+import BackgroundTileX from './BackgroundTileX';
+import BackgroundTileXY from './BackgroundTileXY';
+import BackgroundTileY from './BackgroundTileY';
 import BorderBlack from './BorderBlack';
 import BorderPlacementBottom from './BorderPlacementBottom';
 import BorderPlacementCenter from './BorderPlacementCenter';
@@ -113,6 +116,9 @@ import TextDirectionRtl from './TextDirectionRtl';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './BackgroundTileX';
+export * from './BackgroundTileXY';
+export * from './BackgroundTileY';
 export * from './BorderStyleDashed';
 export * from './BorderStyleDotted';
 export * from './BorderStyleSolid';
@@ -229,6 +235,9 @@ export * from './Form';
 export * from './TextDecorationOverline';
 
 export {
+  BackgroundTileX,
+  BackgroundTileXY,
+  BackgroundTileY,
   BorderStyleDashed,
   BorderStyleDotted,
   BorderStyleSolid,
