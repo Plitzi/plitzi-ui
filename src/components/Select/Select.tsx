@@ -64,7 +64,7 @@ const Select = ({
         return;
       }
 
-      if (child.type === SelectOption || child.type === 'option') {
+      if (child.type === SelectOption || child.type === 'option' || child.type === 'optgroup') {
         components.optionsChildren.push(
           cloneElement<typeof child.props>(child, {
             ...(child.props as SelectOptionProps | HTMLAttributes<HTMLOptionElement>),

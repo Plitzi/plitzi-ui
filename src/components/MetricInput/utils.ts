@@ -48,3 +48,5 @@ export const generateMetricRegex = (units: { value: string; label: string }[], a
 
   return new RegExp(`^${amountRegex}$`, 'im');
 };
+
+export const countDecimals = (value: number) => (value % 1 === 0 ? 0 : value.toString().split('.')[1].length || 0);

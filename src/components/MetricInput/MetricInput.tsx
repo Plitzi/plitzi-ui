@@ -6,13 +6,13 @@ import Icon from '@components/Icon';
 import MenuList from '@components/MenuList';
 import useTheme from '@hooks/useTheme';
 
-import { generateMetricRegex, generateRegexFromWord } from './utils';
+import { countDecimals, generateMetricRegex, generateRegexFromWord } from './utils';
 
 import type MetricInputStyles from './MetricInput.styles';
 import type { variantKeys } from './MetricInput.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, ReactElement, ReactNode, RefObject } from 'react';
+import type { ChangeEvent, KeyboardEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type MetricInputProps = {
   ref?: RefObject<HTMLInputElement>;
@@ -23,6 +23,9 @@ export type MetricInputProps = {
   prefix?: string;
   units?: { value: string; label: string }[];
   type?: 'text';
+  step?: number;
+  min?: number;
+  max?: number;
   value?: string;
   allowedWords?: string[];
   onChange?: (value: string) => void;
@@ -43,6 +46,9 @@ const MetricInput = ({
   intent = 'default',
   value: valueProp = '',
   allowedWords,
+  step = 1,
+  min = 0,
+  max = Infinity,
   onChange,
   ...inputProps
 }: MetricInputProps) => {
@@ -79,6 +85,10 @@ const MetricInput = ({
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const [newValue, , newHasAllowedWord] = getValueParts(e.target.value);
+      if (!Number.isNaN(newValue) && (Number(newValue) < min || (max !== Infinity && Number(newValue) > max))) {
+        return;
+      }
+
       const newUnit = !newHasAllowedWord && hasAllowedWord ? get(units, '0.value', '') : unit;
       const finalValue = newValue && newUnit && !newHasAllowedWord ? `${newValue}${newUnit}` : newValue;
       if (
@@ -91,12 +101,46 @@ const MetricInput = ({
 
       onChange?.(finalValue);
     },
-    [getValueParts, unit, hasAllowedWord, unitsRegex, value, onChange, units]
+    [getValueParts, hasAllowedWord, units, unit, value, unitsRegex, min, max, onChange]
   );
 
   const handleChangeUnit = useCallback(
     (unit?: string) => onChange?.(value && !hasAllowedWord ? `${value}${unit}` : ''),
     [hasAllowedWord, onChange, value]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
+        return;
+      }
+
+      let newValue = Number(value);
+      switch (e.key) {
+        case 'ArrowUp':
+          if (newValue + step <= max || max === Infinity) {
+            newValue = Number((newValue + step).toFixed(countDecimals(step)));
+          }
+
+          break;
+        case 'ArrowDown':
+          if (newValue - step >= min && newValue - step >= 0) {
+            newValue = Number((newValue - step).toFixed(countDecimals(step)));
+          }
+
+          break;
+        default:
+      }
+
+      if (Number.isNaN(newValue)) {
+        newValue = min;
+      }
+
+      if (value !== `${newValue}`) {
+        onChange?.(unit ? `${newValue}${unit}` : `${newValue}${get(units, '0.value', '')}`);
+      }
+    },
+    [value, step, max, min, onChange, unit, units]
   );
 
   const { iconChildren } = useMemo(() => {
@@ -139,6 +183,7 @@ const MetricInput = ({
           disabled={disabled}
           value={value}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           {...(inputProps as React.JSX.IntrinsicElements['input'])}
         />
         {(error || loading) && (
