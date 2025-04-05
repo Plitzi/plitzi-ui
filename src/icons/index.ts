@@ -39,6 +39,14 @@ import AlignSelfStartRow from './AlignSelfStartRow';
 import AlignSelfStretchRow from './AlignSelfStretchRow';
 import ArrowReverse from './ArrowReverse';
 import BorderBlack from './BorderBlack';
+import BorderPlacementBottom from './BorderPlacementBottom';
+import BorderPlacementCenter from './BorderPlacementCenter';
+import BorderPlacementLeft from './BorderPlacementLeft';
+import BorderPlacementRight from './BorderPlacementRight';
+import BorderPlacementTop from './BorderPlacementTop';
+import BorderStyleDashed from './BorderStyleDashed';
+import BorderStyleDotted from './BorderStyleDotted';
+import BorderStyleSolid from './BorderStyleSolid';
 import BorderWhite from './BorderWhite';
 import ClearBoth from './ClearBoth';
 import ClearLeft from './ClearLeft';
@@ -105,6 +113,14 @@ import TextDirectionRtl from './TextDirectionRtl';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './BorderStyleDashed';
+export * from './BorderStyleDotted';
+export * from './BorderStyleSolid';
+export * from './BorderPlacementBottom';
+export * from './BorderPlacementCenter';
+export * from './BorderPlacementLeft';
+export * from './BorderPlacementRight';
+export * from './BorderPlacementTop';
 export * from './TextDirectionLtr';
 export * from './TextDirectionRtl';
 export * from './PositionAll';
@@ -213,6 +229,14 @@ export * from './Form';
 export * from './TextDecorationOverline';
 
 export {
+  BorderStyleDashed,
+  BorderStyleDotted,
+  BorderStyleSolid,
+  BorderPlacementBottom,
+  BorderPlacementCenter,
+  BorderPlacementLeft,
+  BorderPlacementRight,
+  BorderPlacementTop,
   TextDirectionLtr,
   TextDirectionRtl,
   TextDecorationOverline,

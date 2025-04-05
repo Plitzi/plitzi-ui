@@ -25,8 +25,8 @@ export default {
       intent: {
         primary: 'hover:text-primary-200',
         primaryActive: 'text-primary-500',
-        secondary: 'hover:text-primary-200',
-        secondaryActive: 'text-primary-500',
+        secondary: 'hover:text-secondary-200',
+        secondaryActive: 'text-secondary-500',
         tertiary: 'hover:bg-grayviolet-200 text-gray-500',
         tertiaryActive: 'text-black',
         disabled: 'text-gray-400',

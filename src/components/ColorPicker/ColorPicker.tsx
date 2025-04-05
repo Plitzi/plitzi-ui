@@ -128,7 +128,7 @@ const ColorPicker = ({
             <div className="h-full grow basis-0" style={{ backgroundColor: pureColor }} />
             <div className="h-full grow basis-0" style={{ backgroundColor: isValid ? color : '' }} />
           </ContainerFloating.Trigger>
-          <ContainerFloating.Content>
+          <ContainerFloating.Content className="z-[802]">
             <SketchPicker color={color} onChange={handlePickerChange} onChangeComplete={handlePickerChangeComplete} />
           </ContainerFloating.Content>
         </ContainerFloating>
