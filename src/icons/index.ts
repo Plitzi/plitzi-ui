@@ -60,6 +60,7 @@ import DisplayFlex from './DisplayFlex';
 import DisplayGrid from './DisplayGrid';
 import DisplayInline from './DisplayInline';
 import DisplayInlineBlock from './DisplayInlineBlock';
+import EffectsTransitionEase from './EffectsTransitionEase';
 import FlexGrowRow from './FlexGrowRow';
 import FlexNoneRow from './FlexNoneRow';
 import FlexShrinkRow from './FlexShrinkRow';
@@ -116,6 +117,7 @@ import TextDirectionRtl from './TextDirectionRtl';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './EffectsTransitionEase';
 export * from './BackgroundTileX';
 export * from './BackgroundTileXY';
 export * from './BackgroundTileY';
@@ -235,6 +237,7 @@ export * from './Form';
 export * from './TextDecorationOverline';
 
 export {
+  EffectsTransitionEase,
   BackgroundTileX,
   BackgroundTileXY,
   BackgroundTileY,

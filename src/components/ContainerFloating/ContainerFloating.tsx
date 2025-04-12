@@ -1,4 +1,4 @@
-import { Children, isValidElement, useMemo, useImperativeHandle, cloneElement } from 'react';
+import { Children, isValidElement, useMemo, useImperativeHandle, cloneElement, useRef } from 'react';
 
 import ContainerFloatingContainer from './ContainerFloatingContainer';
 import ContainerFloatingContent from './ContainerFloatingContent';
@@ -43,7 +43,9 @@ const ContainerFloating = ({
   onOpenChange,
   onCloseValidate
 }: ContainerFloatingProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [open, , handleClickTrigger, triggerRef] = useFloating({
+    ref: containerRef,
     open: openProp,
     loading,
     disabled,
@@ -98,7 +100,7 @@ const ContainerFloating = ({
     <>
       {trigger}
       <ContainerFloatingContext value={containerFloatingContextValue}>
-        <ContainerFloatingContainer open={open} onOpenChange={onOpenChange}>
+        <ContainerFloatingContainer ref={containerRef} open={open} onOpenChange={onOpenChange}>
           {content}
         </ContainerFloatingContainer>
       </ContainerFloatingContext>

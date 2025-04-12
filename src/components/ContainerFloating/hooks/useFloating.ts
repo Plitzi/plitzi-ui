@@ -5,6 +5,7 @@ import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 
 export type UseFloatingProps = {
+  ref?: RefObject<HTMLDivElement | null>;
   open?: boolean;
   disabled?: boolean;
   loading?: boolean;
@@ -21,7 +22,22 @@ export type UseFloatingReturn = [
   DOMRect | undefined
 ];
 
+type Handler = (e: MouseEvent) => void;
+let handlers: Handler[] = [];
+const registerClickOutsideHandler = (callback: Handler) => {
+  handlers.push(callback);
+
+  return () => {
+    handlers = handlers.filter(handler => handler !== callback);
+  };
+};
+
+if (typeof window !== 'undefined') {
+  document.addEventListener('click', (e: MouseEvent) => handlers[handlers.length - 1]?.(e), true);
+}
+
 const useFloating = ({
+  ref,
   open: openProp,
   disabled = false,
   loading = false,
@@ -39,14 +55,17 @@ const useFloating = ({
       }
 
       if (
-        (!(e.target as HTMLElement).closest('.container-floating') || closeOnClick) &&
+        (!ref?.current?.contains(e.target as HTMLElement) || closeOnClick) &&
         !triggerRef.current.contains(e.target as HTMLElement) &&
         (!onCloseValidate || onCloseValidate(e))
       ) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        e.preventDefault();
         setOpen(false);
       }
     },
-    [closeOnClick, onCloseValidate, open, openProp]
+    [closeOnClick, onCloseValidate, open, openProp, ref]
   );
 
   const handleClickTrigger = useCallback(
@@ -68,10 +87,10 @@ const useFloating = ({
       return;
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    const unregister = registerClickOutsideHandler(handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      unregister();
     };
   }, [handleClickOutside, open]);
 

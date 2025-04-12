@@ -13,7 +13,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 
 type ContainerFloatingContainerProps = {
-  ref?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement | null>;
   children: ReactNode;
   open: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -113,7 +113,7 @@ const ContainerFloatingContainer = ({
     <div
       ref={containerRef}
       style={containerStyle}
-      className={classNames('container-floating', className, {
+      className={classNames(className, {
         'opacity-0 pointer-events-none': position.top === undefined || position.left === undefined || !open
       })}
     >

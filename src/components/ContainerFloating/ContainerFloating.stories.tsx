@@ -25,9 +25,15 @@ export const Primary: Story = {
     <div className="w-[400px] h-[400px] border border-gray-400">
       <Flex className="h-full" direction="column" justify="between">
         <Flex justify="between">
-          <ContainerFloating {...args} placement="bottom-left" className="w-full">
+          <ContainerFloating {...args} placement="bottom-left" className="w-full" closeOnClick={false}>
             <ContainerFloating.Trigger>Test</ContainerFloating.Trigger>
-            <ContainerFloating.Content>Content Test 2</ContainerFloating.Content>
+            <ContainerFloating.Content className="flex gap-2">
+              Content Test 2
+              <ContainerFloating {...args} placement="bottom-left" className="w-full" closeOnClick={false}>
+                <ContainerFloating.Trigger className="border border-red-500">Test</ContainerFloating.Trigger>
+                <ContainerFloating.Content>Content Test 2</ContainerFloating.Content>
+              </ContainerFloating>
+            </ContainerFloating.Content>
           </ContainerFloating>
           <ContainerFloating {...args} placement="bottom-right" className="w-full">
             <ContainerFloating.Trigger>Test</ContainerFloating.Trigger>
@@ -45,6 +51,7 @@ export const Primary: Story = {
           </ContainerFloating>
         </Flex>
       </Flex>
+      <button onClick={() => console.log('damn')}>Click Me</button>
     </div>
   )
 };
