@@ -53,6 +53,10 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
         return className ?? '';
       }
 
+      if (className && typeof className === 'object') {
+        return twMerge(componentCva({ ...variant, className: get(className, componentKey, '') }));
+      }
+
       return twMerge(componentCva({ ...variant, className }));
     }
 

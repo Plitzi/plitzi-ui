@@ -62,4 +62,17 @@ describe('useTheme', () => {
     );
     expect(result.current).toEqual('text-red-500');
   });
+
+  it('componentKey string and className as object', () => {
+    const { result } = renderHook(
+      () =>
+        useTheme<typeof dummyStyles, typeof dummyVariantKeys>('Dummy', {
+          className: { root: 'text-red-500' },
+          componentKey: 'root',
+          variant: { intent: 'danger' }
+        }),
+      { wrapper: ThemeProvider }
+    );
+    expect(result.current).toEqual('text-red-500');
+  });
 });
