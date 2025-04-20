@@ -51,7 +51,6 @@ export const Primary: Story = {
           </ContainerFloating>
         </Flex>
       </Flex>
-      <button onClick={() => console.log('damn')}>Click Me</button>
     </div>
   )
 };

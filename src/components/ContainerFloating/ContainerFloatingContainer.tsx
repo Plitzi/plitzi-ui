@@ -31,7 +31,8 @@ const ContainerFloatingContainer = ({
     triggerRef,
     placement: placementProp,
     containerTopOffset,
-    containerLeftOffset
+    containerLeftOffset,
+    setOpen
   } = use(ContainerFloatingContext);
   const [placement, setPlacement] = useState(placementProp);
   className = useTheme<typeof ContainerFloatingStyles, typeof variantKeys>('ContainerFloating', {
@@ -107,18 +108,23 @@ const ContainerFloatingContainer = ({
     onOpenChange?.(open);
   }, [open, updatePosition, onOpenChange]);
 
+  const handleClickClose = useCallback(() => setOpen(false), [setOpen]);
+
   const containerStyle: CSSProperties = useMemo(() => ({ top: position.top, left: position.left }), [position]);
 
   return createPortal(
-    <div
-      ref={containerRef}
-      style={containerStyle}
-      className={classNames(className, {
-        'opacity-0 pointer-events-none': position.top === undefined || position.left === undefined || !open
-      })}
-    >
-      {children}
-    </div>,
+    <>
+      <div
+        ref={containerRef}
+        style={containerStyle}
+        className={classNames(className, {
+          'opacity-0 pointer-events-none': position.top === undefined || position.left === undefined || !open
+        })}
+      >
+        {children}
+      </div>
+      {open && <div className="absolute top-0 bottom-0 left-0 right-0" onClick={handleClickClose} />}
+    </>,
     container ?? document.body
   );
 };

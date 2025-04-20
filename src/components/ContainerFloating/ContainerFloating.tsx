@@ -25,7 +25,6 @@ export type ContainerFloatingProps = {
   loading?: boolean;
   container?: Element | DocumentFragment;
   onOpenChange?: (open: boolean) => void;
-  onCloseValidate?: (e: Event) => boolean;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;
 
 const ContainerFloating = ({
@@ -33,25 +32,19 @@ const ContainerFloating = ({
   children,
   containerTopOffset = 0,
   containerLeftOffset = 0,
-  closeOnClick = true,
   open: openProp,
   disabled = false,
   loading = false,
   testId,
   placement,
   container,
-  onOpenChange,
-  onCloseValidate
+  onOpenChange
 }: ContainerFloatingProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [open, , handleClickTrigger, triggerRef] = useFloating({
-    ref: containerRef,
+  const [open, setOpen, handleClickTrigger, triggerRef] = useFloating({
     open: openProp,
     loading,
-    disabled,
-    closeOnClick,
-    openOnClick: openProp === undefined,
-    onCloseValidate
+    disabled
   });
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
 
@@ -91,9 +84,10 @@ const ContainerFloating = ({
       triggerRef: triggerRef as RefObject<HTMLDivElement>,
       container,
       containerTopOffset,
-      containerLeftOffset
+      containerLeftOffset,
+      setOpen
     }),
-    [placement, triggerRef, container, containerTopOffset, containerLeftOffset]
+    [placement, triggerRef, container, containerTopOffset, containerLeftOffset, setOpen]
   );
 
   return (
