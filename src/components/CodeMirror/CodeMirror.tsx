@@ -22,6 +22,8 @@ export type AutoComplete = string | { type: 'token' | 'css-token' | 'custom-toke
 
 const autoCompleteDefault: AutoComplete[] = [];
 
+export { EditorState, Transaction };
+
 export type CodeMirrorProps = {
   ref?: RefObject<HTMLElement>;
   value?: string;
