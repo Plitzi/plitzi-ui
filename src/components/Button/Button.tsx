@@ -18,7 +18,7 @@ export type ButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-} & ButtonHTMLAttributes<HTMLButtonElement> &
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'content'> &
   useThemeSharedProps<typeof ButtonStyles, typeof variantKeys>;
 
 const Button = ({

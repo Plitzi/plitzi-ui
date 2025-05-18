@@ -102,10 +102,14 @@ export const ConditionalItems: Story = {
     return (
       <Flex gap={8} direction="column">
         <Flex gap={2}>
-          <Button content="Show 2 and 4" disabled={visible} onClick={() => setVisible(true)} testId="btn-1" />
-          <Button content="Hide 2 and 4" disabled={!visible} onClick={() => setVisible(false)} testId="btn-2" />
+          <Button disabled={visible} onClick={() => setVisible(true)} testId="btn-1">
+            Show 2 and 4
+          </Button>
+          <Button disabled={!visible} onClick={() => setVisible(false)} testId="btn-2">
+            Hide 2 and 4
+          </Button>
         </Flex>
-        <Accordion {...args} multi defaultValue={['fancy', '1']} testId="testAccordion">
+        <Accordion {...args} multi defaultValue={['fancy', '1']} testId="testAccordion" alwaysOpen={false}>
           <Accordion.Item id="fancy">
             <Accordion.Item.Header title="Item 1">
               <div className="border border-white px-2 py-1">Header Slot</div>
