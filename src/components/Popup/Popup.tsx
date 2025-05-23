@@ -90,7 +90,6 @@ const Popup = ({
           border="none"
           className={classNameTheme.btn}
           title="Left Sidebar"
-          content=""
           onClick={handleClickEmbedLeft}
         >
           <Button.Icon icon="fa-solid fa-angles-left" />
@@ -107,7 +106,6 @@ const Popup = ({
           border="none"
           className={classNameTheme.btn}
           title="Right Sidebar"
-          content=""
           onClick={handleClickEmbedRight}
         >
           <Button.Icon icon="fa-solid fa-angles-right" />

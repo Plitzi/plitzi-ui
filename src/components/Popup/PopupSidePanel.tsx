@@ -192,7 +192,6 @@ const PopupSidePanel = ({
                       border="none"
                       className={classNameTheme.btn}
                       title="Floating Popup"
-                      content=""
                       onClick={handleClickFloating(popup.id)}
                     >
                       <Button.Icon icon="fas fa-window-restore" />
@@ -204,7 +203,6 @@ const PopupSidePanel = ({
                     border="none"
                     className={classNameTheme.btn}
                     title="Hide"
-                    content=""
                     onClick={handleClickCollapse(popup.id)}
                   >
                     <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />

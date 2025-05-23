@@ -16,7 +16,7 @@ import type CodeMirrorStyles from './CodeMirror.styles';
 import type { variantKeys } from './CodeMirror.styles';
 import type { Completion, CompletionContext, CompletionSource } from '@codemirror/autocomplete';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { KeyboardEvent, RefObject } from 'react';
+import type { FocusEvent, KeyboardEvent, RefObject } from 'react';
 
 export type AutoComplete = string | { type: 'token' | 'css-token' | 'custom-token'; value: string; detail?: string };
 
@@ -35,6 +35,7 @@ export type CodeMirrorProps = {
   readOnly?: boolean;
   placeholder?: string;
   onChange?: (value: string) => void;
+  onBlur?: (e: FocusEvent) => void;
   getReadOnlyRanges?: (state: EditorState) => { from: number | null; to: number | null }[];
 } & useThemeSharedProps<typeof CodeMirrorStyles, typeof variantKeys>;
 
@@ -46,6 +47,7 @@ const CodeMirror = ({
   theme = 'light',
   autoComplete = autoCompleteDefault,
   onChange,
+  onBlur,
   lineWrapping = false,
   multiline = true,
   readOnly = false,
@@ -73,7 +75,7 @@ const CodeMirror = ({
 
         const rangesBeforeTransaction = getRanges.current(tr.startState);
         const rangesAfterTransaction = getRanges.current(tr.state);
-        let block: boolean = false;
+        let block = false;
         if (tr.docChanged && !tr.annotation(Transaction.remote) && tr.scrollIntoView) {
           rangesBeforeTransaction.forEach((beforeTransition, i) => {
             const { from: bFrom, to: bTo } = beforeTransition;
@@ -93,6 +95,10 @@ const CodeMirror = ({
               block = true;
             }
           });
+
+          if (block as boolean) {
+            return [];
+          }
         }
 
         return tr;
@@ -182,7 +188,7 @@ const CodeMirror = ({
     e.stopPropagation();
   }, []);
 
-  return <div className={className} ref={editorRef} onKeyDown={handleKeyDown} />;
+  return <div className={className} ref={editorRef} onKeyDown={handleKeyDown} onBlur={onBlur} />;
 };
 
 export default CodeMirror;

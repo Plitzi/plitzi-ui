@@ -84,7 +84,6 @@ const ContainerDraggableHeader = ({
           items={collapsed ? 'center' : 'end'}
           className={classNames('', classNameTheme.btn)}
           title="Collapse / Expand"
-          content=""
           onClick={handleClickCollapse}
         >
           <Button.Icon icon={collapsed ? 'far fa-window-maximize' : 'fas fa-minus'} />
@@ -96,7 +95,6 @@ const ContainerDraggableHeader = ({
             border="none"
             className={classNameTheme.btn}
             title="External Window"
-            content=""
             onClick={handleClickExternal}
           >
             <Button.Icon icon="fas fa-window-restore" />
@@ -109,7 +107,6 @@ const ContainerDraggableHeader = ({
             border="none"
             className={classNames(' text-red-400 hover:text-red-500', classNameTheme.btn)}
             title="Close"
-            content=""
             onClick={handleClickClose}
           >
             <Button.Icon icon="fas fa-times" />
