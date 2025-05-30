@@ -55,6 +55,14 @@
       "types": "./dist/src/components/*/index.d.ts",
       "import": "./dist/src/components/*"
     },
+    "./utils": {
+      "types": "./dist/src/utils/index.d.ts",
+      "import": "./dist/src/utils/index.es"
+    },
+    "./utils/*": {
+      "types": "./dist/src/utils/*/index.d.ts",
+      "import": "./dist/src/utils/*"
+    },
     "./*": {
       "types": "./dist/src/components/*/index.d.ts",
       "import": "./dist/src/components/*"

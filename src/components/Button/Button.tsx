@@ -18,6 +18,7 @@ export type ButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  title?: string;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'content'> &
   useThemeSharedProps<typeof ButtonStyles, typeof variantKeys>;
 

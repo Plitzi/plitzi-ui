@@ -135,7 +135,14 @@ const useCodeMirror = ({
         setView(undefined);
       }
     };
-  }, [element, myExtensions, value]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [element, myExtensions]);
+
+  useEffect(() => {
+    if (view?.state.doc.toString() !== value) {
+      view?.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: value || '' } });
+    }
+  }, [value, view]);
 
   useEffect(() => {
     if (view) {

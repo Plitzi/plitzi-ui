@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import CodeMirror from './CodeMirror';
 
@@ -88,19 +88,23 @@ export const WithReadOnlyFilters: Story = {
     value: '.heading-Rj3E {\n  color: var(--fancyVariable);\n}\n\n.heading-8ig {\n  color: var(--rawVariable1);\n}'
   },
   render: function Render(args) {
+    const [, setReRender] = useState(false);
     const getReadOnlyRanges = useCallback((targetState: EditorState) => {
-      // @ts-expect-error eslint-disable-next-line
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      const content = targetState.doc.text.reduce(
+      const content = (targetState.doc as unknown as { text: string[] }).text.reduce(
         (acum: string, line: string) => `${acum}${acum ? '\n' : ''}${line}`,
         ''
-      ) as string;
+      );
 
-      console.log('getReadOnlyRanges', content, getReadOnlyRangesFromContent(content));
+      // console.log('getReadOnlyRanges', content, getReadOnlyRangesFromContent(content));
 
       return getReadOnlyRangesFromContent(content);
     }, []);
 
-    return <CodeMirror {...args} getReadOnlyRanges={getReadOnlyRanges} />;
+    const handleBlur = useCallback(() => {
+      console.log('Blur event triggered');
+      setReRender(state => !state);
+    }, []);
+
+    return <CodeMirror {...args} getReadOnlyRanges={getReadOnlyRanges} onBlur={handleBlur} />;
   }
 };

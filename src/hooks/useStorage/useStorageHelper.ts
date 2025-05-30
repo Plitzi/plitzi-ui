@@ -23,7 +23,9 @@ export const storageProxy = (storage: Storage) => {
         return (key: string, value: string) => {
           const oldValue = target.getItem(key);
           target.setItem.call(target, key, value);
-          triggerEvent(key, oldValue, value);
+          if (oldValue !== value) {
+            triggerEvent(key, oldValue, value);
+          }
         };
       }
 
@@ -31,7 +33,9 @@ export const storageProxy = (storage: Storage) => {
         return (key: string) => {
           const oldValue = target.getItem(key);
           target.removeItem.call(target, key);
-          triggerEvent(key, oldValue, null);
+          if (oldValue !== null) {
+            triggerEvent(key, oldValue, null);
+          }
         };
       }
 

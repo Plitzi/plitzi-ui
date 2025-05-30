@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
-import deepEqual from '@/helpers/deepEqual';
+import deepEqual from '@/utils/deepEqual';
 
-import type { DeepEqualMetadata } from '@/helpers/deepEqual';
+import type { DeepEqualMetadata } from '@/utils/deepEqual';
 
 const useValueMemo = <T = unknown>(value: T, mode: 'soft' | 'hard' = 'soft', metadata: DeepEqualMetadata = {}): T => {
   const valueRef = useRef<T>(value);
