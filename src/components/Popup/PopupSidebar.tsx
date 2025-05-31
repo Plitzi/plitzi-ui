@@ -91,7 +91,7 @@ const PopupSidebar = ({
       canEmpty={canEmpty}
       multi={multi}
       className={className}
-      placement={placement as Partial<SidebarProps['placement']>}
+      placement={placement}
       border={border}
       padding={padding}
     >

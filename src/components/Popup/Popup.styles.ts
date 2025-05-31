@@ -49,6 +49,6 @@ export default {
       placement: 'right'
     }
   }),
-  sidePanelContainerHeader: cva('border-b border-gray-200 border-soli mx-1.5 px-0'),
+  sidePanelContainerHeader: cva('border-b border-gray-300 border-solid mx-1.5 px-0'),
   sidebar: cva('')
 };
