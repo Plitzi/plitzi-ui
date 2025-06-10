@@ -1,7 +1,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'danger'],
+  intent: ['default', 'danger', 'secondary'],
   size: ['lg', 'md', 'sm', 'xs', 'custom'],
   rounded: [true, false]
 } as const;
@@ -56,7 +56,9 @@ export default {
     {
       variants: {
         intent: {
-          primary: 'bg-gray-300 peer-checked:bg-primary-500'
+          primary: 'bg-gray-300 peer-checked:bg-primary-500',
+          secondary: 'bg-gray-300 peer-checked:bg-secondary-500',
+          danger: 'bg-gray-300 peer-checked:bg-danger-500'
         },
         size: {
           lg: 'before:w-5 before:h-5 peer-checked:before:translate-x-[20px]',
