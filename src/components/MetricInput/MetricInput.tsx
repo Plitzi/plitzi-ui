@@ -105,7 +105,21 @@ const MetricInput = ({
   );
 
   const handleChangeUnit = useCallback(
-    (unit?: string) => onChange?.(value && !hasAllowedWord ? `${value}${unit}` : ''),
+    (unit?: string) => {
+      if (value && !hasAllowedWord) {
+        onChange?.(`${value}${unit}`);
+
+        return;
+      }
+
+      if (!value) {
+        onChange?.(`0${unit}`);
+
+        return;
+      }
+
+      onChange?.('');
+    },
     [hasAllowedWord, onChange, value]
   );
 

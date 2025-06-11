@@ -96,6 +96,7 @@ import PaddingLeft from './PaddingLeft';
 import PaddingRight from './PaddingRight';
 import PaddingTop from './PaddingTop';
 import PageOverview from './PageOverview';
+import PageOverviewZoom from './PageOverviewZoom';
 import PlitziLogo from './PlitziLogo';
 import PositionAbsolute from './PositionAbsolute';
 import PositionAll from './PositionAll';
@@ -117,6 +118,7 @@ import TextDirectionRtl from './TextDirectionRtl';
 import Variable from './Variable';
 import XMark from './XMark';
 
+export * from './PageOverviewZoom';
 export * from './EffectsTransitionEase';
 export * from './BackgroundTileX';
 export * from './BackgroundTileXY';
@@ -237,6 +239,7 @@ export * from './Form';
 export * from './TextDecorationOverline';
 
 export {
+  PageOverviewZoom,
   EffectsTransitionEase,
   BackgroundTileX,
   BackgroundTileXY,
