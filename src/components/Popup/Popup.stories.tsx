@@ -139,8 +139,8 @@ const ContainerNested = () => {
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if (!existsPopup?.('stateManager')) {
-      addPopup?.('stateManager', <div>Hello World</div>, {
+    if (!existsPopup('stateManager')) {
+      addPopup('stateManager', <div>Hello World</div>, {
         icon: <i className="fa-solid fa-sliders text-base" />,
         title: 'State Manager',
         allowLeftSide: true,
@@ -178,8 +178,8 @@ const Container = () => {
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if (!existsPopup?.('stateManager')) {
-      addPopup?.('stateManager', <div>Hello World</div>, {
+    if (!existsPopup('stateManager')) {
+      addPopup('stateManager', <div>Hello World</div>, {
         icon: <i className="fa-solid fa-sliders text-base" />,
         title: 'State Manager',
         allowLeftSide: true,
@@ -192,8 +192,8 @@ const Container = () => {
 
   const handleClick2 = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if (!existsPopup?.('stateManager2')) {
-      addPopup?.('stateManager2', <div>Hello World 2</div>, {
+    if (!existsPopup('stateManager2')) {
+      addPopup('stateManager2', <div>Hello World 2</div>, {
         icon: <i className="fa-solid fa-sliders text-base" />,
         title: 'State Manager 2',
         allowLeftSide: true,
@@ -206,8 +206,8 @@ const Container = () => {
 
   const handleClick3 = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if (!existsPopup?.('stateManager3')) {
-      addPopup?.(
+    if (!existsPopup('stateManager3')) {
+      addPopup(
         'stateManager3',
         <PopupProvider renderLeftPopup={false} renderRightPopup={false} renderFloatingPopup={false}>
           <ContainerNested />

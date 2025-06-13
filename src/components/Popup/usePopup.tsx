@@ -16,7 +16,7 @@ const usePopup = (placement?: PopupPlacement): PopupContextValue => {
     context = use(PopupContextFloating);
   }
 
-  if (!context) {
+  if (!(context as PopupContextValue | undefined)) {
     throw new Error('PopupContext value is undefined. Make sure you use the PopupProvider before using the hook.');
   }
 
