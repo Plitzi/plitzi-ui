@@ -10,11 +10,11 @@ export type PopupContextValue = {
   popupIds: string[];
   popupActiveIds: string[];
   limitMode?: ContainerDraggableProps['limitMode'];
-  addPopup?: (id: string, component: ReactNode, settings?: PopupSettings) => void;
-  focusPopup?: (popupId: string, sort?: number) => void;
-  placementPopup?: (popupId: string, placement: PopupPlacement) => void;
-  existsPopup?: (popupId: string) => boolean;
-  removePopup?: (popupId: string) => void;
+  addPopup: (id: string, component: ReactNode, settings?: PopupSettings) => void;
+  focusPopup: (popupId: string, sort?: number) => void;
+  placementPopup: (popupId: string, placement: PopupPlacement) => void;
+  existsPopup: (popupId: string) => boolean;
+  removePopup: (popupId: string) => void;
 };
 
 const popupDefaultValue = {
@@ -22,17 +22,17 @@ const popupDefaultValue = {
   popupIds: [],
   popupActiveIds: [],
   limitMode: 'window' as const,
-  addPopup: undefined,
-  focusPopup: undefined,
-  placementPopup: undefined,
-  existsPopup: undefined,
-  removePopup: undefined
-};
+  addPopup: () => {},
+  focusPopup: () => {},
+  placementPopup: () => {},
+  existsPopup: () => false,
+  removePopup: () => {}
+} as PopupContextValue;
 
-const PopupContextFloating = createContext<PopupContextValue | undefined>(popupDefaultValue);
+const PopupContextFloating = createContext<PopupContextValue>(popupDefaultValue);
 
-const PopupContextLeft = createContext<PopupContextValue | undefined>(popupDefaultValue);
+const PopupContextLeft = createContext<PopupContextValue>(popupDefaultValue);
 
-const PopupContextRight = createContext<PopupContextValue | undefined>(popupDefaultValue);
+const PopupContextRight = createContext<PopupContextValue>(popupDefaultValue);
 
 export { PopupContextFloating, PopupContextLeft, PopupContextRight };

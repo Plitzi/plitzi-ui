@@ -5,7 +5,7 @@ import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './Pop
 import type { PopupPlacement } from './Popup';
 import type { PopupContextValue } from './PopupContext';
 
-const usePopup = (placement: PopupPlacement): PopupContextValue => {
+const usePopup = (placement?: PopupPlacement): PopupContextValue => {
   let context;
   if (placement === 'left') {
     context = use(PopupContextLeft);

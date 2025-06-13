@@ -55,7 +55,7 @@ const PopupProvider = ({
   multi = false,
   canHide = true,
   popups,
-  limitMode,
+  limitMode = 'window' as const,
   size,
   onChange
 }: PopupProviderProps) => {
