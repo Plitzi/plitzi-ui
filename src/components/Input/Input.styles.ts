@@ -13,7 +13,7 @@ export default {
   root: cva('flex flex-col', {
     variants: {
       intent: {
-        primary: 'border-gray-200',
+        primary: '',
         custom: ''
       },
       disabled: {

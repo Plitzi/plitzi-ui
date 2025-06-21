@@ -8,7 +8,7 @@ import type TextAreaStyles from './TextArea.styles';
 import type { variantKeys } from './TextArea.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, InputHTMLAttributes, RefObject } from 'react';
+import type { ChangeEvent, RefObject, TextareaHTMLAttributes } from 'react';
 
 export type TextAreaProps = {
   ref?: RefObject<HTMLTextAreaElement>;
@@ -20,7 +20,7 @@ export type TextAreaProps = {
   value?: string;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
-} & Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
+} & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
   Omit<useThemeSharedProps<typeof TextAreaStyles, typeof variantKeys>, 'error'>;
 
 const TextArea = ({

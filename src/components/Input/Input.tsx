@@ -21,7 +21,7 @@ export type InputProps = {
   label?: string;
   prefix?: string;
   type?: 'text' | 'number';
-  value?: string;
+  value?: string | number;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &

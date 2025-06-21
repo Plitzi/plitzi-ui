@@ -34,6 +34,7 @@ export type Select2Props = {
   ref?: RefObject<HTMLDivElement | null>;
   className?: string;
   value?: Exclude<Option, OptionGroup> | string;
+  label?: string;
   options?: Option[] | Promise<Option[]>;
   placeholder?: string;
   disabled?: boolean;
@@ -52,6 +53,7 @@ const Select2 = ({
   value,
   options = optionsDefault,
   placeholder = 'Select...',
+  label = '',
   size = 'md',
   disabled = false,
   error = false,
@@ -212,6 +214,7 @@ const Select2 = ({
           size={size}
           clearable={clearable}
           disabled={disabled}
+          label={label}
           error={error}
           loading={loading}
           onClear={handleClickClear}
