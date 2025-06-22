@@ -11,7 +11,17 @@ const meta = {
   //   layout: 'centered'
   // }
   tags: ['autodocs'],
-  argTypes: {},
+  argTypes: {
+    size: {
+      control: { type: 'select' },
+      options: ['xs', 'sm', 'md'],
+      description: 'Size of the input',
+      table: {
+        type: { summary: 'xs | sm | md' },
+        defaultValue: { summary: 'md' }
+      }
+    }
+  },
   args: {}
 } satisfies Meta<typeof KVInput>;
 

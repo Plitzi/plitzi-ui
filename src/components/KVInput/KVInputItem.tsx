@@ -131,6 +131,7 @@ const KVInputItem = ({
           disabled={disabled}
           required
           error={errors?.valueKey}
+          placeholder="Key"
           onChange={handleChangeKey}
         />
         <Input
@@ -143,6 +144,7 @@ const KVInputItem = ({
           value={tempValue}
           disabled={disabled}
           required
+          placeholder="Value"
           error={errors?.value}
           onChange={handleChangeValue}
         />
@@ -152,24 +154,24 @@ const KVInputItem = ({
           <Button
             className="rounded bg-green-500 hover:bg-green-400 text-white"
             intent="custom"
-            size="sm"
+            size={size}
             title="Save"
             onClick={handleClickSave}
           >
             <i className="fa-solid fa-check" />
           </Button>
-          <Button className="rounded" intent="danger" title="Cancel" size="sm" onClick={handleClickCancel}>
+          <Button className="rounded" intent="danger" title="Cancel" size={size} onClick={handleClickCancel}>
             <i className="fa-solid fa-xmark" />
           </Button>
         </>
       )}
       {!isNewRecord && !hasChanges && !disabled && (
-        <Button className="rounded" intent="danger" title="Remove" size="sm" onClick={handleClickRemove}>
+        <Button className="rounded" intent="danger" title="Remove" size={size} onClick={handleClickRemove}>
           <i className="fa-solid fa-trash" />
         </Button>
       )}
       {isNewRecord && !hasChanges && !disabled && (
-        <Button className="rounded" intent="primary" title="Add" size="sm" onClick={handleClickSave}>
+        <Button className="rounded" intent="primary" title="Add" size={size} onClick={handleClickSave}>
           <i className="fa-solid fa-plus" />
         </Button>
       )}
