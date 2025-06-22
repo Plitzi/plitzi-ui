@@ -27,7 +27,7 @@ export default {
       size: {
         md: 'text-base pl-2 pr-8',
         sm: 'text-sm pl-1.5 pr-6',
-        xs: 'text-xs pl-1 pr-4',
+        xs: 'text-xs pl-1 pr-6',
         custom: ''
       }
     },

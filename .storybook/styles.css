@@ -7,6 +7,7 @@
 @import 'tailwindcss/utilities.css';
 
 @config '../tailwind.config.js';
+@plugin '@tailwindcss/forms';
 
 .lato-regular {
   font-family: 'Lato', serif;
