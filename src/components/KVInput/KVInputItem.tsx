@@ -29,7 +29,7 @@ const KVInputItem = ({
   value = '',
   disabled = false,
   isNewRecord = false,
-  size = 'sm',
+  size = 'md',
   onChange,
   onRemove
 }: KVInputItemProps) => {
