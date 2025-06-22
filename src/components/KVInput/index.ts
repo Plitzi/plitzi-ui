@@ -1,4 +1,5 @@
-// Relatives
-import KVEditor from './KVEditor';
+import KVInput from './KVInput';
 
-export default KVEditor;
+export * from './KVInput';
+
+export default KVInput;
