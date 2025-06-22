@@ -23,6 +23,7 @@ import Heading from './Heading';
 import Icon from './Icon';
 import IconGroup from './IconGroup';
 import Input from './Input';
+import KVInput from './KVInput';
 import Label from './Label';
 import Markdown from './Markdown';
 import MenuList from './MenuList';
@@ -39,6 +40,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
 
+export * from './KVInput';
 export * from './ColorPicker';
 export * from './Modal';
 export * from './MenuList';
@@ -82,6 +84,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  KVInput,
   ColorPicker,
   Modal,
   MenuList,
