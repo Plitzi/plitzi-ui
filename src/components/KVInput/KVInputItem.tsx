@@ -1,13 +1,13 @@
 import omit from 'lodash/omit';
 import { useCallback, useMemo, useState } from 'react';
 
+import Button from '@components/Button';
+import Input from '@components/Input';
 import useTheme from '@hooks/useTheme';
-
-import Button from '../Button';
-import Input from '../Input';
 
 import type KVInputStyles from './KVInput.styles';
 import type { variantKeys } from './KVInput.styles';
+import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type KVInputItemProps = {
@@ -21,7 +21,7 @@ export type KVInputItemProps = {
     partialValue: string
   ) => { success: boolean; errors?: { [key: string]: string } };
   onRemove?: (key: string) => void;
-} & useThemeSharedProps<typeof KVInputStyles, typeof variantKeys>;
+} & useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
 
 const KVInputItem = ({
   className,
@@ -33,10 +33,10 @@ const KVInputItem = ({
   onChange,
   onRemove
 }: KVInputItemProps) => {
-  const classNameTheme = useTheme<typeof KVInputStyles, typeof variantKeys>('KVInput', {
+  const classNameTheme = useTheme<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>(['Input', 'KVInput'], {
     className,
-    componentKey: ['item', 'input'],
-    variant: { size }
+    componentKey: ['item', 'input', 'rootInputContainer', 'rootInput'],
+    variants: { size }
   });
   const [tempValueKey, setTempValueKey] = useState(valueKey);
   const [tempValue, setTempValue] = useState(value);
@@ -122,7 +122,11 @@ const KVInputItem = ({
       <div className="flex grow basis-0 gap-1">
         <Input
           size={size}
-          className={classNameTheme.input}
+          className={{
+            ...classNameTheme,
+            root: classNameTheme.rootInput,
+            inputContainer: classNameTheme.rootInputContainer
+          }}
           value={tempValueKey}
           disabled={disabled}
           required
@@ -131,7 +135,11 @@ const KVInputItem = ({
         />
         <Input
           size={size}
-          className={classNameTheme.input}
+          className={{
+            ...classNameTheme,
+            root: classNameTheme.rootInput,
+            inputContainer: classNameTheme.rootInputContainer
+          }}
           value={tempValue}
           disabled={disabled}
           required

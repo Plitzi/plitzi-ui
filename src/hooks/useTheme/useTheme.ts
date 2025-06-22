@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import { ThemeContext } from '@components/Provider/providers/ThemeProvider';
 import useValueMemo from '@hooks/useValueMemo';
 
-type ThemeSlot = { [key: string]: object };
+type ThemeSlot = Record<string, object>;
 type ThemeClassName<T> = { [K in keyof T]?: string } | string;
 type VariantKeys = { [key: string]: readonly (string | number | boolean)[] };
 type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
@@ -21,41 +21,37 @@ type BaseUseThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
   variants?: ThemeVariantKey<K>;
 };
 
-export type useThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
-  componentKey: [keyof T][number] | [keyof T][number][];
-} & BaseUseThemeProps<T, K>;
-
 function useTheme<T extends ThemeSlot, K extends VariantKeys>(
   componentName: string | string[],
   props: {
-    componentKey: [keyof T][number];
+    componentKey: keyof T;
   } & BaseUseThemeProps<T, K>
 ): string;
 
 function useTheme<T extends ThemeSlot, K extends VariantKeys>(
   componentName: string | string[],
   props: {
-    componentKey: [keyof T][number][];
+    componentKey?: (keyof T)[];
   } & BaseUseThemeProps<T, K>
-): { [key in keyof T]: string };
+): { [K in [keyof T][number]]: string };
 
 function useTheme<T extends ThemeSlot, K extends VariantKeys>(
   componentName: string | string[],
-  { componentKey, className, variants }: useThemeProps<T, K>
+  { componentKey, className, variants }: { componentKey?: keyof T | readonly (keyof T)[] } & BaseUseThemeProps<T, K>
 ) {
   const { theme } = use(ThemeContext);
   componentName = useValueMemo(componentName);
   className = useValueMemo(className);
 
   const getClasses = useCallback(
-    (componentKey: string, variants: ThemeVariantKey<K> = {}, className: string = '') => {
+    (key: string, variants: ThemeVariantKey<K> = {}, className: string = '') => {
       variants = { ...variants, className };
       if (typeof componentName === 'string') {
-        return get(theme.components[componentName], componentKey, undefined)?.(variants) ?? className;
+        return get(theme.components[componentName], key, undefined)?.(variants) ?? className;
       }
 
       const classes = componentName
-        .map(compName => get(theme.components[compName], componentKey, undefined)?.(variants))
+        .map(compName => get(theme.components[compName], key, undefined)?.(variants))
         .filter(Boolean)
         .join(' ');
 
@@ -64,8 +60,24 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
     [theme.components, componentName]
   );
 
+  componentKey = useMemo(() => {
+    if (typeof componentKey !== 'undefined') {
+      return componentKey;
+    }
+
+    if (componentName && typeof componentName === 'string') {
+      return Object.keys(theme.components[componentName]);
+    }
+
+    if (Array.isArray(componentName) && componentName.length > 0) {
+      return componentName.map(name => Object.keys(theme.components[name])).flat();
+    }
+
+    return undefined;
+  }, [componentKey, componentName, theme.components]);
+
   return useMemo(() => {
-    if (typeof componentKey === 'string') {
+    if (componentKey && typeof componentKey === 'string') {
       if (className && typeof className === 'object') {
         return twMerge(getClasses(componentKey, variants, get(className, componentKey, '')));
       }
@@ -73,7 +85,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
       return twMerge(getClasses(componentKey, variants, className));
     }
 
-    if (Array.isArray(componentKey)) {
+    if (componentKey && Array.isArray(componentKey)) {
       const classNameObj = {};
       componentKey.filter(isString).forEach((key, i) => {
         let classNameValue;

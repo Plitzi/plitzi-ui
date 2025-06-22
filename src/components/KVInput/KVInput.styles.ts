@@ -9,12 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'KVInput';
 
 export default {
-  root: cva('flex flex-col', {
-    variants: {},
-    compoundVariants: [],
-    defaultVariants: {}
-  }),
-  item: cva('flex gap-1 border border-gray-300 p-1 [&:not(:first-child)]:border-t-0', {
+  item: cva('w-full flex gap-1 border border-gray-300 p-1 [&:not(:first-child)]:border-t-0', {
     variants: {
       size: {
         md: 'first:rounded-t-lg last:rounded-b-lg',
@@ -26,5 +21,7 @@ export default {
     compoundVariants: [],
     defaultVariants: {}
   }),
-  input: cva('w-full')
+  inputContainer: cva('p-0 border-none'),
+  rootInputContainer: cva(''),
+  rootInput: cva('w-full')
 };

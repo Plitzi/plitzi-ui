@@ -1,24 +1,27 @@
 import { useCallback } from 'react';
 
+import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
 import KVInputItem from './KVInputItem';
 
 import type KVInputStyles from './KVInput.styles';
 import type { variantKeys } from './KVInput.styles';
+import type InputStyles from '@components/Input/Input.styles';
+import type { InputContainerProps } from '@components/Input/InputContainer';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type KVInputProps = {
   value?: [string, string][];
   disabled?: boolean;
   onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
-} & useThemeSharedProps<typeof KVInputStyles, typeof variantKeys>;
+} & Pick<InputContainerProps, 'label' | 'error'> &
+  useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
 
-const KVInput = ({ className, size, value = [], disabled = false, onChange }: KVInputProps) => {
-  const classNameTheme = useTheme<typeof KVInputStyles, typeof variantKeys>('KVInput', {
+const KVInput = ({ className, size, value = [], disabled = false, label, error, onChange }: KVInputProps) => {
+  const classNameTheme = useTheme<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>(['Input', 'KVInput'], {
     className,
-    componentKey: ['root'],
-    variant: {}
+    variants: { size }
   });
 
   const handleChange = useCallback(
@@ -68,28 +71,32 @@ const KVInput = ({ className, size, value = [], disabled = false, onChange }: KV
   );
 
   return (
-    <div className={classNameTheme.root}>
-      {value.map(([key, itemValue], i) => (
-        <KVInputItem
-          className={typeof className === 'string' ? className : className?.input}
-          key={`${i}-${key}-${itemValue}`}
-          valueKey={key}
-          value={itemValue}
-          disabled={disabled}
-          size={size}
-          onChange={handleChange}
-          onRemove={handleRemove}
-        />
-      ))}
-      {!disabled && (
-        <KVInputItem
-          className={typeof className === 'string' ? className : className?.input}
-          onChange={handleChange}
-          onRemove={handleRemove}
-          isNewRecord
-        />
-      )}
-    </div>
+    <InputContainer
+      className={classNameTheme}
+      label={label}
+      value={value}
+      disabled={disabled}
+      error={error}
+      size={size}
+    >
+      <div className="w-full flex flex-col">
+        {value.map(([key, itemValue], i) => (
+          <KVInputItem
+            className={className}
+            key={`${i}-${key}-${itemValue}`}
+            valueKey={key}
+            value={itemValue}
+            disabled={disabled}
+            size={size}
+            onChange={handleChange}
+            onRemove={handleRemove}
+          />
+        ))}
+        {!disabled && (
+          <KVInputItem className={className} onChange={handleChange} onRemove={handleRemove} size={size} isNewRecord />
+        )}
+      </div>
+    </InputContainer>
   );
 };
 
