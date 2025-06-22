@@ -10,7 +10,7 @@ const IconSeparator = ({ className, intent, size, direction }: IconSeparatorProp
   className = useTheme<typeof IconGroupStyles, typeof variantKeys>('IconGroup', {
     className,
     componentKey: 'separator',
-    variant: { intent, size, direction }
+    variants: { intent, size, direction }
   });
 
   return <div className={className} />;

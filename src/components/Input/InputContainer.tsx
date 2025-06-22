@@ -13,7 +13,7 @@ import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
 
-type InputContainerProps = {
+export type InputContainerProps = {
   label?: string;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   disabled?: boolean;
@@ -44,7 +44,7 @@ const InputContainer = ({
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys>('Input', {
     className,
     componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear'],
-    variant: {
+    variants: {
       intent,
       size,
       disabled: disabled || loading,

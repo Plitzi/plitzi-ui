@@ -49,7 +49,7 @@ const PopupSidePanel = ({
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
     componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer', 'sidePanelContainerHeader'],
-    variant: { placement: placementTabs, size }
+    variants: { placement: placementTabs, size }
   });
   const { placementPopup, popups, popupIds, popupActiveIds } = usePopup(placement);
   const [popupsActive, setPopupsActive] = useState(() => {

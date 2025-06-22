@@ -21,8 +21,7 @@ export type MenuProps = {
 const Menu = ({ ref, className, children, testId, onSelect }: MenuProps) => {
   className = useTheme<typeof MenuListStyles, typeof variantKeys>('MenuList', {
     className,
-    componentKey: 'menu',
-    variant: {}
+    componentKey: 'menu'
   });
 
   const { items } = useMemo(() => {

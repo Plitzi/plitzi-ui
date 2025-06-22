@@ -47,7 +47,7 @@ const Select = ({
   const classNameTheme = useTheme<typeof SelectStyles, typeof variantKeys>('Select', {
     className: className && typeof className === 'object' ? className.input : '',
     componentKey: 'input',
-    variant: { intent, size, error: !!error, disabled }
+    variants: { intent, size, error: !!error, disabled }
   });
 
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => onChange?.(e.target.value), [onChange]);

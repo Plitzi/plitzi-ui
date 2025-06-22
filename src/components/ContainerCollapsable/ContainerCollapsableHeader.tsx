@@ -37,8 +37,7 @@ const ContainerCollapsableHeader = ({
       'headerIconContainer',
       'headerSlot',
       'headerSlotContainer'
-    ],
-    variant: {}
+    ]
   });
 
   return (

@@ -18,7 +18,7 @@ const Tab = ({ className, label = 'Tab Name', active, index = 0, onSelect }: Tab
   className = useTheme<typeof ContainerTabsStyles, typeof variantKeys>('ContainerTabs', {
     className,
     componentKey: 'tab',
-    variant: { active }
+    variants: { active }
   });
 
   const handleClick = useCallback(() => onSelect?.(index), [index, onSelect]);

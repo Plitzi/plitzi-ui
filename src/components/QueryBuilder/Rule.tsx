@@ -46,7 +46,7 @@ const Rule = ({
   const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys>('QueryBuilder', {
     className,
     componentKey: ['rule', 'ruleField', 'ruleOperator'],
-    variant: { size, showBranches, direction, error, intent }
+    variants: { size, showBranches, direction, error, intent }
   });
   const fieldsOptions = useMemo(() => {
     const fieldsAux = Object.values(fields).reduce<Array<Option | OptionGroup>>((acum, field) => {

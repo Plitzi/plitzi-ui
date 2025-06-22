@@ -15,8 +15,7 @@ export type MenuListTriggerProps = {
 const MenuListTrigger = ({ children, className, testId, ref, onClick }: MenuListTriggerProps) => {
   className = useTheme<typeof MenuListStyles, typeof variantKeys>('MenuList', {
     className,
-    componentKey: 'trigger',
-    variant: {}
+    componentKey: 'trigger'
   });
 
   return (

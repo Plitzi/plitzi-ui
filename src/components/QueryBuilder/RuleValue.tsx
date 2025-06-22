@@ -42,7 +42,7 @@ const RuleValue = ({
   // const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys, false>('QueryBuilder', {
   //   className,
   //   componentKey: ['button', 'ruleGroup'],
-  //   variant: { size, showBranches, mainGroup }
+  //   variants: { size, showBranches, mainGroup }
   // });
   const [errorInternal, setErrorInternal] = useState<string | boolean | undefined>(error);
 

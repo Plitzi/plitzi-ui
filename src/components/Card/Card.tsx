@@ -40,7 +40,7 @@ const Card = ({
   className = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: 'root',
-    variant: { intent, shadow, rounded, overflow }
+    variants: { intent, shadow, rounded, overflow }
   });
 
   const { header, body, footer } = useMemo(() => {

@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import set from 'lodash/set';
-import { use, useMemo } from 'react';
+import { use, useCallback, useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { ThemeContext } from '@components/Provider/providers/ThemeProvider';
@@ -18,7 +18,7 @@ export type useThemeSharedProps<T extends ThemeSlot, K extends VariantKeys> = {
 
 type BaseUseThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
   className?: ThemeClassName<T>;
-  variant?: ThemeVariantKey<K>;
+  variants?: ThemeVariantKey<K>;
 };
 
 export type useThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
@@ -26,48 +26,56 @@ export type useThemeProps<T extends ThemeSlot, K extends VariantKeys> = {
 } & BaseUseThemeProps<T, K>;
 
 function useTheme<T extends ThemeSlot, K extends VariantKeys>(
-  componentName: string,
+  componentName: string | string[],
   props: {
     componentKey: [keyof T][number];
   } & BaseUseThemeProps<T, K>
 ): string;
 
 function useTheme<T extends ThemeSlot, K extends VariantKeys>(
-  componentName: string,
+  componentName: string | string[],
   props: {
     componentKey: [keyof T][number][];
   } & BaseUseThemeProps<T, K>
 ): { [key in keyof T]: string };
 
 function useTheme<T extends ThemeSlot, K extends VariantKeys>(
-  componentName: string,
-  { componentKey, className, variant }: useThemeProps<T, K>
+  componentName: string | string[],
+  { componentKey, className, variants }: useThemeProps<T, K>
 ) {
   const { theme } = use(ThemeContext);
+  componentName = useValueMemo(componentName);
   className = useValueMemo(className);
+
+  const getClasses = useCallback(
+    (componentKey: string, variants: ThemeVariantKey<K> = {}, className: string = '') => {
+      variants = { ...variants, className };
+      if (typeof componentName === 'string') {
+        return get(theme.components[componentName], componentKey, undefined)?.(variants) ?? className;
+      }
+
+      const classes = componentName
+        .map(compName => get(theme.components[compName], componentKey, undefined)?.(variants))
+        .filter(Boolean)
+        .join(' ');
+
+      return classes ? classes : className;
+    },
+    [theme.components, componentName]
+  );
 
   return useMemo(() => {
     if (typeof componentKey === 'string') {
-      const componentCva = get(theme.components[componentName], componentKey);
-      if (typeof componentCva !== 'function') {
-        return className ?? '';
-      }
-
       if (className && typeof className === 'object') {
-        return twMerge(componentCva({ ...variant, className: get(className, componentKey, '') }));
+        return twMerge(getClasses(componentKey, variants, get(className, componentKey, '')));
       }
 
-      return twMerge(componentCva({ ...variant, className }));
+      return twMerge(getClasses(componentKey, variants, className));
     }
 
     if (Array.isArray(componentKey)) {
       const classNameObj = {};
       componentKey.filter(isString).forEach((key, i) => {
-        const componentCva = get(theme.components[componentName], key);
-        if (typeof componentCva !== 'function') {
-          return;
-        }
-
         let classNameValue;
         if (typeof className === 'object') {
           classNameValue = get(className, key);
@@ -75,7 +83,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
           classNameValue = className;
         }
 
-        const value = twMerge(componentCva({ ...variant, className: classNameValue }));
+        const value = twMerge(getClasses(key, variants, classNameValue));
         if (key.split('.').length > 1) {
           set(classNameObj, key.split('.').slice(1).join('.'), value);
         } else {
@@ -87,7 +95,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
     }
 
     return '';
-  }, [componentKey, theme.components, componentName, variant, className]);
+  }, [componentKey, className, getClasses, variants]);
 }
 
 export default useTheme;

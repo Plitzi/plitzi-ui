@@ -48,7 +48,7 @@ const AccordionItem = ({
   const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: ['item', 'itemDivider'],
     className,
-    variant: { intent, size }
+    variants: { intent, size }
   });
 
   useEffect(() => {

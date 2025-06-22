@@ -57,7 +57,7 @@ const ColorPicker = ({
   const classNameTheme = useTheme<typeof ColorPickerStyles, typeof variantKeys>('ColorPicker', {
     className,
     componentKey: ['inputColorContainer', 'input', 'divider', 'colorContainer', 'alpha'],
-    variant: { intent, size }
+    variants: { intent, size }
   });
   const [color, setColor] = useState(value);
   const parsedColor = useMemo(() => tinycolor(color), [color]);

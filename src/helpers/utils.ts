@@ -45,3 +45,6 @@ export const isInViewport = (el?: HTMLElement) => {
 // Type Guard to check if the value is a function
 export const isFunction = <T = unknown>(value: T | ((state: T) => T)): value is (prevState: T) => T =>
   typeof value === 'function';
+
+export const isString = <T = unknown>(value: T | ((state: T) => T)): value is (prevState: T) => T =>
+  typeof value === 'string';

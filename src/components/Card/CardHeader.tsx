@@ -40,7 +40,7 @@ const CardHeader = ({
   const classNameTheme = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: ['header', 'headerCloseButton'],
-    variant: { intent, shadow, rounded, overflow }
+    variants: { intent, shadow, rounded, overflow }
   });
 
   const { icon, content } = useMemo(() => {

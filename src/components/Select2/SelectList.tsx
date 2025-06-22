@@ -24,7 +24,7 @@ const SelectList = ({ className = '', options = optionsDefault, value = '', size
   className = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: 'list',
-    variant: { size }
+    variants: { size }
   });
 
   return (

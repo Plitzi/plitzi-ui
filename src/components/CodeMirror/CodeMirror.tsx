@@ -56,8 +56,7 @@ const CodeMirror = ({
 }: CodeMirrorProps) => {
   className = useTheme<typeof CodeMirrorStyles, typeof variantKeys>('CodeMirror', {
     className,
-    componentKey: 'root',
-    variant: {}
+    componentKey: 'root'
   });
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
   const styleMemo = useMemo(() => ({ height: '100%' }), []);

@@ -71,7 +71,7 @@ const ContainerDraggable = ({
   className = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
     className,
     componentKey: 'root',
-    variant: { intent, size, collapsed }
+    variants: { intent, size, collapsed }
   });
 
   const containerRef = useRef<HTMLDivElement>(undefined) as RefObject<HTMLDivElement>;

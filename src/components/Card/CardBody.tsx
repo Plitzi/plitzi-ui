@@ -29,7 +29,7 @@ const CardBody = ({
   className = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: 'body',
-    variant: { intent, shadow, rounded, overflow }
+    variants: { intent, shadow, rounded, overflow }
   });
 
   return (

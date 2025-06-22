@@ -32,7 +32,7 @@ const Text = ({
   className = useTheme<typeof TextStyles, typeof variantKeys>('Text', {
     className,
     componentKey: 'root',
-    variant: { intent: active ? 'primary' : intent, size, weight }
+    variants: { intent: active ? 'primary' : intent, size, weight }
   });
 
   return (

@@ -48,7 +48,7 @@ const Input = ({
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys>('Input', {
     className: className && typeof className === 'object' ? className.input : '',
     componentKey: 'input',
-    variant: {
+    variants: {
       intent,
       size,
       disabled: disabled || loading,

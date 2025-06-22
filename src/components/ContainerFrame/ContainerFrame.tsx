@@ -48,8 +48,7 @@ const ContainerFrame = ({
 }: ContainerFrameProps) => {
   className = useTheme<typeof ContainerFrameStyles, typeof variantKeys>('ContainerFrame', {
     className,
-    componentKey: 'root',
-    variant: {}
+    componentKey: 'root'
   });
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useImperativeHandle<HTMLIFrameElement | null, HTMLIFrameElement | null>(ref, () => iframeRef.current, [iframeRef]);

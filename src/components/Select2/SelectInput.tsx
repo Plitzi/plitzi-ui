@@ -35,7 +35,7 @@ const SelectInput = ({
   className = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: 'searchInput',
-    variant: { size }
+    variants: { size }
   });
   const ref = useRef<HTMLInputElement>(undefined) as RefObject<HTMLInputElement>;
 

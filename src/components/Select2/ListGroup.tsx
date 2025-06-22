@@ -21,7 +21,7 @@ const ListGroup = ({ className, options, label = '', value = '', size, onChange 
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['listGroup', 'listGroupLabel'],
-    variant: { size }
+    variants: { size }
   });
 
   return (

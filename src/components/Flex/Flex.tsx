@@ -31,7 +31,7 @@ const Flex = ({
   className = useTheme<typeof FlexStyles, typeof variantKeys>('Flex', {
     className,
     componentKey: 'root',
-    variant: { direction, wrap, items, gap, justify, grow, basis, shrink, alignItems }
+    variants: { direction, wrap, items, gap, justify, grow, basis, shrink, alignItems }
   });
 
   return (

@@ -15,7 +15,7 @@ const Heading = ({ as = 'h1', className = '', children = 'Heading', testId, ...p
   className = useTheme<typeof HeadingStyles, typeof variantKeys>('Heading', {
     className,
     componentKey: 'root',
-    variant: { as }
+    variants: { as }
   });
 
   return (

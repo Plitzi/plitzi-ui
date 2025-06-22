@@ -17,7 +17,7 @@ const Checkbox = ({ ref, className = '', label = '', error = false, size, intent
   const classNameTheme = useTheme<typeof CheckboxStyles, typeof variantKeys>('Checkbox', {
     className,
     componentKey: ['root', 'input'],
-    variant: { intent: error ? 'danger' : intent, size }
+    variants: { intent: error ? 'danger' : intent, size }
   });
 
   return (

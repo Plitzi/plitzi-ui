@@ -42,7 +42,7 @@ const TextArea = ({
   const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys>('TextArea', {
     className: className && typeof className === 'object' ? className.input : '',
     componentKey: ['input', 'inputContainer', 'iconFloatingContainer'],
-    variant: { intent, size, disabled, error: !!error }
+    variants: { intent, size, disabled, error: !!error }
   });
 
   const handleChange = useCallback(

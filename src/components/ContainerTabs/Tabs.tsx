@@ -17,8 +17,7 @@ export type TabsProps = {
 const Tabs = ({ className, items = [], tabSelected = 0, onSelect }: TabsProps) => {
   className = useTheme<typeof ContainerTabsStyles, typeof variantKeys>('ContainerTabs', {
     className,
-    componentKey: 'tabs',
-    variant: {}
+    componentKey: 'tabs'
   });
 
   return (

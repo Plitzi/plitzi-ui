@@ -35,7 +35,7 @@ const ContentEditable = ({
   className = useTheme<typeof ContentEditableStyles, typeof variantKeys>('ContentEditable', {
     className,
     componentKey: 'root',
-    variant: { size }
+    variants: { size }
   });
 
   const contentEditableRef = useRef<HTMLDivElement>(null);

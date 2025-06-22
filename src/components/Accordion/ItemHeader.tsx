@@ -49,7 +49,7 @@ const ItemHeader = ({
   const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>('Accordion', {
     componentKey: ['itemHeader', 'itemHeaderIcon', 'itemHeaderIconError', 'itemHeaderSlot', 'itemHeaderIconWarning'],
     className,
-    variant: { intent, size }
+    variants: { intent, size }
   });
 
   return (

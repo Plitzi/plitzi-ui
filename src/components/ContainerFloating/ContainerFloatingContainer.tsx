@@ -38,7 +38,7 @@ const ContainerFloatingContainer = ({
   className = useTheme<typeof ContainerFloatingStyles, typeof variantKeys>('ContainerFloating', {
     className,
     componentKey: 'container',
-    variant: { placement }
+    variants: { placement }
   });
   const containerRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

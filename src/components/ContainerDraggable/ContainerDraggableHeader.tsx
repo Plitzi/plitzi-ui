@@ -44,7 +44,7 @@ const ContainerDraggableHeader = ({
   const classNameTheme = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
     className,
     componentKey: ['header', 'headerLabel', 'btn'],
-    variant: { intent, size, collapsed }
+    variants: { intent, size, collapsed }
   });
 
   const handleClickClose = useCallback(

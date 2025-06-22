@@ -33,7 +33,7 @@ const ListItem = ({
   className = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: 'listItem',
-    variant: { size, selected: isSelected }
+    variants: { size, selected: isSelected }
   });
 
   const handleClick = useCallback(() => {

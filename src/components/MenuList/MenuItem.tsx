@@ -30,7 +30,7 @@ const MenuItem = ({ className, children, value, disabled, testId, onSelect }: Me
   const classNameTheme = useTheme<typeof MenuListStyles, typeof variantKeys>('MenuList', {
     className,
     componentKey: ['menuItem', 'container', 'icon'],
-    variant: { disabled }
+    variants: { disabled }
   });
   const ref = useRef<HTMLDivElement>(null);
   const menuListContextValue = use(MenuListContext);

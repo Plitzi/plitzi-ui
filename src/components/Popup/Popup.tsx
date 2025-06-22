@@ -62,8 +62,7 @@ const Popup = ({
 }: PopupProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
-    componentKey: ['root', 'btn'],
-    variant: {}
+    componentKey: ['root', 'btn']
   });
 
   const { x, y } = useMemo(

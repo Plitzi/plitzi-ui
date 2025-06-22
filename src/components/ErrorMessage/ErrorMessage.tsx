@@ -14,7 +14,7 @@ const ErrorMessage = ({ className, message, disabled = false, error = false, int
   className = useTheme<typeof ErrorMessageStyles, typeof variantKeys>('ErrorMessage', {
     className,
     componentKey: 'root',
-    variant: { intent, size, error, disabled }
+    variants: { intent, size, error, disabled }
   });
 
   return <p className={className}>{message}</p>;

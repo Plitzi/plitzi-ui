@@ -25,7 +25,7 @@ const MenuListContainer = ({ className, children, open = false, asSubMenu = fals
   className = useTheme<typeof MenuListStyles, typeof variantKeys>('MenuList', {
     className,
     componentKey: 'container',
-    variant: { placement }
+    variants: { placement }
   });
   const [position, setPosition] = useState<{ top?: number; left?: number }>({ top: undefined, left: undefined });
 

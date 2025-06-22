@@ -26,8 +26,7 @@ const rehypePlugins = [rehypeRaw];
 const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers = true }: MarkdownProps) => {
   className = useTheme<typeof MarkdownStyles, typeof variantKeys>('Markdown', {
     className,
-    componentKey: 'root',
-    variant: {}
+    componentKey: 'root'
   });
 
   return (

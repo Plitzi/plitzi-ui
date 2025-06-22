@@ -39,7 +39,7 @@ const PopupSidebar = ({
   className = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
     componentKey: 'sidebar',
-    variant: { placement, size }
+    variants: { placement, size }
   });
   const { popups } = usePopup(placement);
 

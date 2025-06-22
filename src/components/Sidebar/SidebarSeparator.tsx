@@ -9,8 +9,7 @@ export type SidebarSeparatorProps = {} & useThemeSharedProps<typeof SidebarStyle
 const SidebarSeparator = ({ className }: SidebarSeparatorProps) => {
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
     className,
-    componentKey: 'separator',
-    variant: {}
+    componentKey: 'separator'
   });
 
   return <div className={className} />;

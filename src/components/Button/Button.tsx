@@ -42,7 +42,7 @@ const Button = ({
   const classNameTheme = useTheme<typeof ButtonStyles, typeof variantKeys>('Button', {
     className,
     componentKey: ['root', 'icon'],
-    variant: { intent, size, border, justify, items, disabled, aspect }
+    variants: { intent, size, border, justify, items, disabled, aspect }
   });
 
   const { iconChildren, contentChildren } = useMemo(() => {

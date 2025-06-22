@@ -24,8 +24,7 @@ const FormHeader = ({
 }: FormHeaderProps) => {
   className = useTheme<typeof FormStyles, typeof variantKeys>('Form', {
     className,
-    componentKey: 'header',
-    variant: {}
+    componentKey: 'header'
   });
 
   return (

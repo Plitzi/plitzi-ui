@@ -38,7 +38,7 @@ const Icon = ({
   className = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
     className,
     componentKey: 'root',
-    variant: {
+    variants: {
       intent: getIntent(disabled, active, intent),
       size,
       cursor: disabled ? 'disabled' : cursor

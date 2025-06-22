@@ -41,7 +41,7 @@ const ContainerDraggableContent = ({
   className = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
     className,
     componentKey: 'content',
-    variant: { intent, size, collapsed }
+    variants: { intent, size, collapsed }
   });
 
   const handleClick = useCallback(

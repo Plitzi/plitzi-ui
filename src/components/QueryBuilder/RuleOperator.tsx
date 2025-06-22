@@ -22,7 +22,7 @@ const RuleOperator = ({ className = '', value = '', operators, error = false, si
   className = useTheme<typeof QueryBuilderStyles, typeof variantKeys>('QueryBuilder', {
     className,
     componentKey: 'ruleOperator',
-    variant: { size }
+    variants: { size }
   });
   const operatorsFinal = useMemo(() => {
     if (!Array.isArray(operators) || operators.length === 0) {

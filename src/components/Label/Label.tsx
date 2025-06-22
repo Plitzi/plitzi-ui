@@ -16,7 +16,7 @@ const Label = ({ className, children, disabled = false, error = false, intent, s
   className = useTheme<typeof LabelStyles, typeof variantKeys>('Label', {
     className,
     componentKey: 'root',
-    variant: { intent, size, error, disabled }
+    variants: { intent, size, error, disabled }
   });
 
   return (

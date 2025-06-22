@@ -40,7 +40,7 @@ const GroupRules = ({
   const classNameTheme = useTheme<typeof QueryBuilderStyles, typeof variantKeys>('QueryBuilder', {
     className,
     componentKey: ['button', 'ruleGroup', 'ruleGroupHeader'],
-    variant: { size, showBranches, mainGroup, direction, intent }
+    variants: { size, showBranches, mainGroup, direction, intent }
   });
   const {
     addRule,

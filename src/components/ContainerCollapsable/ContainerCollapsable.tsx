@@ -37,8 +37,7 @@ const ContainerCollapsable = ({
   const [collapsed, setCollapsed] = useState(collapsedProp);
   className = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys>('ContainerCollapsable', {
     className,
-    componentKey: 'root',
-    variant: {}
+    componentKey: 'root'
   });
 
   useDidUpdateEffect(() => {

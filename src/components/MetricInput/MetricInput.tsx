@@ -55,7 +55,7 @@ const MetricInput = ({
   const classNameTheme = useTheme<typeof MetricInputStyles, typeof variantKeys>('MetricInput', {
     className,
     componentKey: ['root', 'input', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'units', 'divider'],
-    variant: { intent: error ? 'error' : intent, size, disabled }
+    variants: { intent: error ? 'error' : intent, size, disabled }
   });
 
   const units = useMemo(() => {

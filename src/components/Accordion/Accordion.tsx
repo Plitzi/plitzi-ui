@@ -157,7 +157,7 @@ const Accordion = ({
   className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: 'root',
     className,
-    variant: { intent, size, resizing }
+    variants: { intent, size, resizing }
   });
 
   useEffect(() => {

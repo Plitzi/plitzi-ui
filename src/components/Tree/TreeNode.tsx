@@ -78,7 +78,7 @@ const TreeNodeOriginal = ({
   const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
     className,
     componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon', 'icon'],
-    variant: { intent, size, selected, hovered, parentSelected, dropPosition, dragAllowed, isOpen }
+    variants: { intent, size, selected, hovered, parentSelected, dropPosition, dragAllowed, isOpen }
   });
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
   const ref = useRef<HTMLDivElement>(null);

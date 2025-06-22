@@ -24,8 +24,7 @@ const FormFooter = ({
 }: FormFooterProps) => {
   className = useTheme<typeof FormStyles, typeof variantKeys>('Form', {
     className,
-    componentKey: 'footer',
-    variant: {}
+    componentKey: 'footer'
   });
 
   return (

@@ -33,7 +33,7 @@ const Switch = ({
   const classNameTheme = useTheme<typeof SwitchyStyles, typeof variantKeys>('Switch', {
     className,
     componentKey: ['root', 'switch', 'slider'],
-    variant: { intent, size }
+    variants: { intent, size }
   });
 
   return (

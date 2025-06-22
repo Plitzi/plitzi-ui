@@ -10,7 +10,7 @@ const Dummy = ({ className, content, intent = 'default', size }: DummyProps) => 
   className = useTheme<typeof DummyStyles, typeof variantKeys>('Dummy', {
     className,
     componentKey: 'root',
-    variant: { intent, size }
+    variants: { intent, size }
   });
 
   return <div className={className}>Dummy Component {content}</div>;

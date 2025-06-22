@@ -34,7 +34,7 @@ const IconGroup = ({
   const classNameTheme = useTheme<typeof IconGroupStyles, typeof variantKeys>('IconGroup', {
     className,
     componentKey: ['root', 'icon', 'separator'],
-    variant: { intent, size, direction }
+    variants: { intent, size, direction }
   });
 
   const { icons } = useMemo(() => {

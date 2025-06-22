@@ -63,7 +63,7 @@ const Tree = ({
   className = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
     className,
     componentKey: 'root',
-    variant: { intent, size }
+    variants: { intent, size }
   });
   const dragMetadata = useRef<DragMetadata>(defaultDragMetadata);
   const flatItems = useMemo(() => getFlatItems(items), [items]);

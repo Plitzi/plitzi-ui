@@ -38,7 +38,7 @@ const Sidebar = ({
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
     className,
     componentKey: 'root',
-    variant: { placement, border, padding, size }
+    variants: { placement, border, padding, size }
   });
 
   const finalValue = useMemo(() => {

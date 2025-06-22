@@ -17,7 +17,7 @@ describe('useTheme', () => {
         useTheme<typeof dummyStyles, typeof dummyVariantKeys>('Dummy', {
           className: '',
           componentKey: 'root',
-          variant: { intent: 'default' }
+          variants: { intent: 'default' }
         }),
       { wrapper: ThemeProvider }
     );
@@ -30,7 +30,7 @@ describe('useTheme', () => {
         useTheme<typeof dummyStyles, typeof dummyVariantKeys>('Dummy', {
           className: 'text-red-500',
           componentKey: 'root',
-          variant: { intent: 'default' }
+          variants: { intent: 'default' }
         }),
       { wrapper: ThemeProvider }
     );
@@ -43,7 +43,7 @@ describe('useTheme', () => {
         useTheme<typeof dummyStyles, typeof dummyVariantKeys>('Dummy', {
           className: 'text-red-500',
           componentKey: 'root',
-          variant: { intent: 'danger' }
+          variants: { intent: 'danger' }
         }),
       { wrapper: ThemeProvider }
     );
@@ -56,7 +56,7 @@ describe('useTheme', () => {
         useTheme<typeof dummyStyles, typeof dummyVariantKeys>('Dummy', {
           className: 'text-red-500',
           componentKey: 'root',
-          variant: { intent: 'danger' }
+          variants: { intent: 'danger' }
         }),
       { wrapper: ThemeProvider }
     );
@@ -69,10 +69,24 @@ describe('useTheme', () => {
         useTheme<typeof dummyStyles, typeof dummyVariantKeys>('Dummy', {
           className: { root: 'text-red-500' },
           componentKey: 'root',
-          variant: { intent: 'danger' }
+          variants: { intent: 'danger' }
         }),
       { wrapper: ThemeProvider }
     );
+    expect(result.current).toEqual('text-red-500');
+  });
+
+  it('componentName array and componentKey as string', () => {
+    const { result } = renderHook(
+      () =>
+        useTheme<typeof dummyStyles, typeof dummyVariantKeys>(['Dummy', 'Dummy'], {
+          className: 'text-red-500',
+          componentKey: 'root',
+          variants: { intent: 'danger' }
+        }),
+      { wrapper: ThemeProvider }
+    );
+
     expect(result.current).toEqual('text-red-500');
   });
 });

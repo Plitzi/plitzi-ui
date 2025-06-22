@@ -106,7 +106,7 @@ const QueryBuilder = ({
   className = useTheme<typeof QueryBuilderStyles, typeof variantKeys>('QueryBuilder', {
     className,
     componentKey: 'root',
-    variant: { size, intent }
+    variants: { size, intent }
   });
   const queryMemo = useMemo<RuleGroup>(() => {
     if (!query || !query.id) {

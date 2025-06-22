@@ -67,7 +67,7 @@ const Select2 = ({
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['inputContainer', 'placeholder', 'listMessage'],
-    variant: { size }
+    variants: { size }
   });
   const [loading, setLoading] = useState(options instanceof Promise);
   const [open, setOpen, handleClickTrigger, triggerRef, triggerRect] = useFloating({

@@ -15,8 +15,7 @@ export type ContainerFloatingTriggerProps = {
 const ContainerFloatingTrigger = ({ children, className, testId, ref, onClick }: ContainerFloatingTriggerProps) => {
   className = useTheme<typeof ContainerFloatingStyles, typeof variantKeys>('ContainerFloating', {
     className,
-    componentKey: 'trigger',
-    variant: {}
+    componentKey: 'trigger'
   });
 
   return (

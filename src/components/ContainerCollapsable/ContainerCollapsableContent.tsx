@@ -25,8 +25,7 @@ const ContainerCollapsableContent = ({
 }: ContainerCollapsableContentProps) => {
   className = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys>('ContainerCollapsable', {
     className,
-    componentKey: 'content',
-    variant: {}
+    componentKey: 'content'
   });
 
   return (

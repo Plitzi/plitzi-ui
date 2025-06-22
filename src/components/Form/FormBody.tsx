@@ -26,7 +26,7 @@ const FormBody = ({
   className = useTheme<typeof FormStyles, typeof variantKeys>('Form', {
     className,
     componentKey: 'body',
-    variant: { scrollable }
+    variants: { scrollable }
   });
 
   return (

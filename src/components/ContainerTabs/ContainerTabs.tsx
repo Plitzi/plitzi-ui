@@ -19,8 +19,7 @@ export type ContainerTabsProps = {
 const ContainerTabs = ({ children, className }: ContainerTabsProps) => {
   className = useTheme<typeof ContainerTabsStyles, typeof variantKeys>('ContainerTabs', {
     className,
-    componentKey: 'root',
-    variant: {}
+    componentKey: 'root'
   });
   const [tabSelected, setTabSelected] = useState(0);
 

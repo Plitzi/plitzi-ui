@@ -15,7 +15,7 @@ const ItemContent = ({ className, children, testId = '', intent, size, grow }: I
   className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: 'itemContent',
     className,
-    variant: { intent, size, grow }
+    variants: { intent, size, grow }
   });
 
   return (

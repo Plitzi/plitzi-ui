@@ -22,7 +22,7 @@ const Alert = ({ children, className = '', iconClassName = '', intent = ALERT_IN
   const classNameTheme = useTheme<typeof AlertStyles, typeof variantKeys>('Alert', {
     className,
     componentKey: ['root', 'iconContainer', 'content'],
-    variant: { intent, size }
+    variants: { intent, size }
   });
 
   return (
