@@ -11,6 +11,7 @@ import ContainerFloating from './ContainerFloating';
 import ContainerFrame from './ContainerFrame';
 import ContainerResizable from './ContainerResizable';
 import ContainerRoot from './ContainerRoot';
+import ContainerShadow from './ContainerShadow';
 import ContainerTabs from './ContainerTabs';
 import ContainerWindow from './ContainerWindow';
 import Contenteditable from './ContentEditable';
@@ -38,8 +39,11 @@ import Sidebar from './Sidebar';
 import Switch from './Switch';
 import Text from './Text';
 import TextArea from './TextArea';
+import Toast from './Toast';
 import Tree from './Tree';
 
+export * from './Toast';
+export * from './ContainerShadow';
 export * from './KVInput';
 export * from './ColorPicker';
 export * from './Modal';
@@ -84,6 +88,8 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Toast,
+  ContainerShadow,
   KVInput,
   ColorPicker,
   Modal,

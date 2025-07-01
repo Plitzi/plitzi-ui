@@ -22,7 +22,7 @@ import type { DragMetadata, DropPosition, TreeFlatItem, TreeItem } from './utils
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { DragEvent, ReactNode } from 'react';
 
-export type { TreeItem, ItemControlsProps };
+export type { TreeItem, ItemControlsProps, DropPosition };
 
 export type TreeChangeState =
   | { action: 'itemsChange'; data: TreeItem[] }
@@ -43,7 +43,7 @@ export type TreeProps = {
   itemHovered?: string;
   itemSelected?: string;
   items: TreeItem[];
-  onChange?: (state: TreeChangeState['action'], data: TreeChangeState['data']) => void;
+  onChange?: (state: TreeChangeState) => void;
   isDragAllowed?: (id: string, dropPosition: DropPosition, parentId?: string) => boolean;
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
@@ -86,14 +86,17 @@ const Tree = ({
         set(draft, `${node.path}.label`, label);
       });
 
-      onChange?.('itemChanged', { items: newItems, item: get(newItems, node.path) as TreeItem });
+      onChange?.({ action: 'itemChanged', data: { items: newItems, item: get(newItems, node.path) as TreeItem } });
     },
     [flatItems, items, onChange]
   );
 
-  const handleHover = useCallback((nodeId?: string) => onChange?.('itemHovered', nodeId), [onChange]);
+  const handleHover = useCallback((nodeId?: string) => onChange?.({ action: 'itemHovered', data: nodeId }), [onChange]);
 
-  const handleSelect = useCallback((nodeId?: string) => onChange?.('itemSelected', nodeId), [onChange]);
+  const handleSelect = useCallback(
+    (nodeId?: string) => onChange?.({ action: 'itemSelected', data: nodeId }),
+    [onChange]
+  );
 
   const setOpened = useCallback(
     (nodeId: string, opened: boolean) => {
@@ -104,11 +107,11 @@ const Tree = ({
         newItemsOpened = { ...itemsOpened, [nodeId]: opened };
       }
 
-      onChange?.('itemsOpened', newItemsOpened);
+      onChange?.({ action: 'itemsOpened', data: newItemsOpened });
       if (!opened && itemSelected) {
         const nodeSelected = flatItems[itemSelected];
         if (nodeSelected && nodeSelected.parentId && !newItemsOpened[nodeSelected.parentId]) {
-          onChange?.('itemSelected', undefined);
+          onChange?.({ action: 'itemSelected', data: undefined });
         }
       }
     },
@@ -126,7 +129,7 @@ const Tree = ({
     }
 
     if ((node.items && !itemsOpened?.[node.id]) || (node.parentId && !itemsOpened?.[node.parentId])) {
-      onChange?.('itemsOpened', { ...itemsOpened, ...setOpenedMultiple(itemSelected, flatItems) });
+      onChange?.({ action: 'itemsOpened', data: { ...itemsOpened, ...setOpenedMultiple(itemSelected, flatItems) } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemSelected]);
@@ -150,7 +153,7 @@ const Tree = ({
   const handleDragStart = useCallback(
     (e: DragEvent) => {
       e.stopPropagation();
-      onChange?.('isDragging', true);
+      onChange?.({ action: 'isDragging', data: true });
     },
     [onChange]
   );
@@ -158,7 +161,7 @@ const Tree = ({
   const handleDragEnd = useCallback(
     (e: DragEvent) => {
       e.stopPropagation();
-      onChange?.('isDragging', false);
+      onChange?.({ action: 'isDragging', data: false });
     },
     [onChange]
   );
@@ -167,7 +170,7 @@ const Tree = ({
     (e: DragEvent, id: string, toId: string, dropPosition: DropPosition) => {
       const newItems = moveNode(id, toId, dropPosition, items, flatItems);
       if (newItems) {
-        onChange?.('itemDragged', { id, toId, dropPosition, items: newItems, event: e });
+        onChange?.({ action: 'itemDragged', data: { id, toId, dropPosition, items: newItems, event: e } });
       }
     },
     [flatItems, items, onChange]

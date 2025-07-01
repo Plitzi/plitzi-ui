@@ -3,9 +3,8 @@ import { useCallback, useMemo } from 'react';
 
 import Tree from './Tree';
 
-import type { TreeChangeState, TreeItem } from './Tree';
+import type { TreeChangeState } from './Tree';
 import type { ItemControlsProps } from './TreeNode';
-import type { DropPosition } from './utils';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
@@ -70,33 +69,33 @@ export const Primary: Story = {
     const [{ items, itemsOpened, itemSelected, itemHovered }, updateArgs] = useArgs<typeof args>();
 
     const handleChange = useCallback(
-      (action: TreeChangeState['action'], data: TreeChangeState['data']) => {
-        console.log(action, data);
-        switch (action) {
+      (state: TreeChangeState) => {
+        console.log(state);
+        switch (state.action) {
           case 'itemsChange':
-            updateArgs({ items: data as TreeItem[] });
+            updateArgs({ items: state.data });
             break;
 
           case 'itemsOpened':
-            updateArgs({ itemsOpened: data as { [key: string]: boolean } });
+            updateArgs({ itemsOpened: state.data });
             break;
 
           case 'itemChanged':
-            updateArgs({ items: (data as { items: TreeItem[]; item: TreeItem }).items });
+            updateArgs({ items: state.data.items });
             break;
 
           case 'itemDragged':
             updateArgs({
-              items: (data as { id: string; toId: string; dropPosition: DropPosition; items: TreeItem[] }).items
+              items: state.data.items
             });
             break;
 
           case 'itemHovered':
-            updateArgs({ itemHovered: data as string });
+            updateArgs({ itemHovered: state.data });
             break;
 
           case 'itemSelected':
-            updateArgs({ itemSelected: data as string });
+            updateArgs({ itemSelected: state.data });
             break;
 
           default:
