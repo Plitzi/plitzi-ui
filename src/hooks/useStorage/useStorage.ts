@@ -94,13 +94,13 @@ function useLocalStorage<T = unknown>(
     }
 
     window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('localstorage-changed', handleCustomStorageChange as EventListener);
+    window.addEventListener('customstorage-changed', handleCustomStorageChange as EventListener);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('localstorage-changed', handleCustomStorageChange as EventListener);
+      window.removeEventListener('customstorage-changed', handleCustomStorageChange as EventListener);
     };
-  }, [handleStorageChange, handleCustomStorageChange]);
+  }, [handleStorageChange, handleCustomStorageChange, mode]);
 
   return [value, setValue] as const;
 }

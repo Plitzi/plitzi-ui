@@ -1,18 +1,10 @@
 const triggerEvent = (key: string, oldValue: string | null, newValue: string | null) => {
   if (process.env.NODE_ENV === 'test') {
     queueMicrotask(() => {
-      window.dispatchEvent(
-        new CustomEvent('localstorage-changed', {
-          detail: { key, oldValue, newValue }
-        })
-      );
+      window.dispatchEvent(new CustomEvent('customstorage-changed', { detail: { key, oldValue, newValue } }));
     });
   } else {
-    window.dispatchEvent(
-      new CustomEvent('localstorage-changed', {
-        detail: { key, oldValue, newValue }
-      })
-    );
+    window.dispatchEvent(new CustomEvent('customstorage-changed', { detail: { key, oldValue, newValue } }));
   }
 };
 
