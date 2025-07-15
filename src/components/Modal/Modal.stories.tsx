@@ -156,11 +156,11 @@ const InnerComponent = ({ settings }: { settings: ModalProps }) => {
         <Modal.Header>
           <h4>Update Page Folder</h4>
         </Modal.Header>,
-        ({ onClose }) => (
+        ({ onSubmit, onClose }) => (
           <Modal.Body>
             <div className="flex gap-2">
-              <Button onClick={() => onClose('nice')}>Yes</Button>
-              <Button onClick={() => onClose()}>No</Button>
+              <Button onClick={() => onSubmit('nice')}>Yes</Button>
+              <Button onClick={onClose}>No</Button>
             </div>
           </Modal.Body>
         ),

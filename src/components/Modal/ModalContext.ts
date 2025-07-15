@@ -3,7 +3,13 @@ import { createContext } from 'react';
 import type { ModalProps } from './Modal';
 import type { ReactNode } from 'react';
 
-export type ProviderModalSlot<TValue = unknown> = ({ onClose }: { onClose: (value?: TValue) => void }) => ReactNode;
+export type ProviderModalSlot<TValue = unknown> = ({
+  onSubmit,
+  onClose
+}: {
+  onSubmit: (value?: TValue) => void;
+  onClose: () => void;
+}) => ReactNode;
 
 export type ModalContextValue = {
   showModal: <TValue = unknown>(

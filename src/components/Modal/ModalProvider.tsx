@@ -19,9 +19,14 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
     <TValue = unknown,>(
       id: string,
       settings?: Pick<ModalProps, 'duration' | 'animation'>,
-      resolve?: (value?: TValue) => void
+      resolve?: (value?: TValue) => void,
+      mode: 'cancel' | 'submit' = 'cancel'
     ) =>
       (value?: TValue) => {
+        if (mode === 'cancel') {
+          value = undefined;
+        }
+
         if (settings && settings.animation && settings.duration) {
           setElements(state => ({ ...state, [id]: { ...state[id], isClosing: true } }));
           setTimeout(() => {
@@ -46,17 +51,18 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
       const key = new Date().getTime().toString();
 
       return new Promise<TValue | undefined>(resolve => {
-        const onClose = close(key, settings, resolve);
+        const onClose = close(key, settings, resolve, 'cancel');
+        const onSubmit = close(key, settings, resolve, 'submit');
         if (typeof header === 'function') {
-          header = header({ onClose });
+          header = header({ onSubmit, onClose });
         }
 
         if (typeof body === 'function') {
-          body = body({ onClose });
+          body = body({ onSubmit, onClose });
         }
 
         if (typeof footer === 'function') {
-          footer = footer({ onClose });
+          footer = footer({ onSubmit, onClose });
         }
 
         setElements(state => ({
@@ -65,7 +71,7 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
             ...settings,
             id: key,
             children: [header, body, footer].filter(Boolean) as ReactNode[],
-            onClose,
+            onClose: onSubmit,
             open: true,
             isClosing: false
           }
