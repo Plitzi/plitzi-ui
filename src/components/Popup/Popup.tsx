@@ -4,7 +4,6 @@ import Button from '@components/Button';
 import useTheme from '@hooks/useTheme';
 
 import ContainerDraggable from '../ContainerDraggable';
-import { LIMIT_MODE_WINDOW } from '../ContainerDraggable/ContainerDraggable';
 
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
@@ -53,7 +52,7 @@ const Popup = ({
   allowClose = true,
   allowExternal = true,
   resizeHandles = resizeHandlesDefault, // ['s', 'e', 'w', 'se', 'sw', 'nw', 'ne'],
-  limitMode = LIMIT_MODE_WINDOW,
+  limitMode = 'window',
   parentElement,
   // methods
   placementPopup,

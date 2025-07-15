@@ -15,10 +15,6 @@ import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 
-export const LIMIT_MODE_PARENT = 'parent';
-export const LIMIT_MODE_WINDOW = 'window';
-export const LIMIT_MODE_NONE = 'none';
-
 const resizeHandlesDefault: ResizeHandle[] = ['se'];
 const customActionsDefault: ReactNode[] = [];
 
@@ -49,7 +45,7 @@ const ContainerDraggable = ({
   title = 'Title',
   className = '',
   children,
-  limitMode = LIMIT_MODE_WINDOW,
+  limitMode = 'window',
   x = 0,
   y = 0,
   width = 150,
@@ -142,13 +138,13 @@ const ContainerDraggable = ({
         const rect = elementRef.current.getBoundingClientRect();
         let newX = offsetX + e.clientX - TX;
         let newY = offsetY + e.clientY - TY;
-        if (newX + rect.width > containerRect.width && limitMode !== LIMIT_MODE_NONE) {
+        if (newX + rect.width > containerRect.width && limitMode !== 'none') {
           newX = containerRect.width - rect.width;
         } else if (newX < 0) {
           newX = 0;
         }
 
-        if (newY + rect.height > containerRect.height && limitMode !== LIMIT_MODE_NONE) {
+        if (newY + rect.height > containerRect.height && limitMode !== 'none') {
           newY = containerRect.height - rect.height;
         } else if (newY < 0) {
           newY = 0;
@@ -198,7 +194,7 @@ const ContainerDraggable = ({
 
   const handleMouseDown = (e: MouseEvent | React.MouseEvent) => {
     let rect;
-    if (limitMode === LIMIT_MODE_PARENT) {
+    if (limitMode === 'parent') {
       if (!elementRef.current.parentNode) {
         rect = { height: window.innerHeight, width: window.innerWidth };
       }

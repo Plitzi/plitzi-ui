@@ -25,7 +25,7 @@ export type PopupInstance = {
   settings: PopupSettings;
 };
 
-export type Popups = {
+type Popups = {
   left: PopupInstance[];
   right: PopupInstance[];
   floating: PopupInstance[];
