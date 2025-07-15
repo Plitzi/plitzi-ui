@@ -24,7 +24,8 @@ export type ModalContextValue = {
     header: ReactNode | ProviderModalSlot<TValue>,
     body: ReactNode | ProviderModalSlot<TValue>,
     footer?: ReactNode | ProviderModalSlot<TValue>,
-    settings?: ProviderModalProps
+    settings?: ProviderModalProps,
+    successValue?: TValue
   ) => Promise<TValue | undefined>;
 };
 

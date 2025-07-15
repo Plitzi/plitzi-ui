@@ -93,16 +93,17 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
     ) => {
       if (!footer) {
         footer = ({ onSubmit, onClose }) => (
-          <div className="p-3 flex">
+          <Modal.Footer>
             <Button onClick={() => onSubmit(successValue)} className="mr-3 rounded-md">
               Accept
             </Button>
             <Button onClick={onClose} className="rounded-md">
               Cancel
             </Button>
-          </div>
+          </Modal.Footer>
         );
       }
+
       return showModal(header, body, footer, settings);
     },
     [showModal]

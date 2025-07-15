@@ -146,7 +146,7 @@ export const DialogAnimated: Story = {
 };
 
 const InnerComponent = ({ settings }: { settings: ModalProps }) => {
-  const { showModal } = useModal();
+  const { showModal, showDialog } = useModal();
 
   const handleClick = useCallback(
     async (e: MouseEvent) => {
@@ -164,7 +164,7 @@ const InnerComponent = ({ settings }: { settings: ModalProps }) => {
             </div>
           </Modal.Body>
         ),
-        null,
+        undefined,
         settings
       );
 
@@ -175,7 +175,35 @@ const InnerComponent = ({ settings }: { settings: ModalProps }) => {
     [showModal, settings]
   );
 
-  return <Button onClick={(e: MouseEvent) => void handleClick(e)}>Click Me</Button>;
+  const handleClickDialog = useCallback(
+    async (e: MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const response = await showDialog<string>(
+        <Modal.Header>
+          <h4>Update Page Folder</h4>
+        </Modal.Header>,
+        <Modal.Body>
+          <div className="flex gap-2">i am a modal</div>
+        </Modal.Body>,
+        undefined,
+        settings,
+        'nice'
+      );
+
+      if (response) {
+        console.log(response);
+      }
+    },
+    [showDialog, settings]
+  );
+
+  return (
+    <div className="flex gap-4">
+      <Button onClick={(e: MouseEvent) => void handleClick(e)}>Click Me</Button>
+      <Button onClick={(e: MouseEvent) => void handleClickDialog(e)}>Click Me Dialog</Button>
+    </div>
+  );
 };
 
 export const UsingProvider: Story = {
