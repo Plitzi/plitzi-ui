@@ -1,12 +1,12 @@
-// Packages
 import { use } from 'react';
 
-// Relatives
 import ModalContext from './ModalContext';
+
+import type { ModalContextValue } from './ModalContext';
 
 const useModal = () => {
   const context = use(ModalContext);
-  if (context === undefined) {
+  if (!(context as ModalContextValue | undefined)) {
     throw new Error('ModalContext value is undefined. Make sure you use the ModalProvider before using the hook.');
   }
 
