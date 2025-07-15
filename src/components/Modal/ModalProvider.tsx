@@ -1,11 +1,13 @@
 import omit from 'lodash/omit';
 import { useCallback, useMemo, useState } from 'react';
 
+import Button from '@components/Button';
+
 import Modal from './Modal';
 import ModalContext from './ModalContext';
 
 import type { ModalProps } from './Modal';
-import type { ModalContextValue, ProviderModalSlot } from './ModalContext';
+import type { ProviderModalProps, ProviderModalSlot } from './ModalContext';
 import type { ReactNode } from 'react';
 
 export type ModalProviderProps = {
@@ -46,7 +48,7 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
       header: ReactNode | ProviderModalSlot<TValue>,
       body: ReactNode | ProviderModalSlot<TValue>,
       footer?: ReactNode | ProviderModalSlot<TValue>,
-      settings?: Parameters<ModalContextValue['showModal']>[3]
+      settings?: ProviderModalProps
     ) => {
       const key = new Date().getTime().toString();
 
@@ -81,7 +83,32 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
     [close]
   );
 
-  const modalMemo = useMemo(() => ({ showModal }), [showModal]);
+  const showDialog = useCallback(
+    <TValue = boolean,>(
+      header: ReactNode | ProviderModalSlot<TValue>,
+      body: ReactNode | ProviderModalSlot<TValue>,
+      footer?: ReactNode | ProviderModalSlot<TValue>,
+      settings?: ProviderModalProps,
+      successValue = true as TValue
+    ) => {
+      if (!footer) {
+        footer = ({ onSubmit, onClose }) => (
+          <div className="p-3 flex">
+            <Button onClick={() => onSubmit(successValue)} className="mr-3 rounded-md">
+              Accept
+            </Button>
+            <Button onClick={onClose} className="rounded-md">
+              Cancel
+            </Button>
+          </div>
+        );
+      }
+      return showModal(header, body, footer, settings);
+    },
+    [showModal]
+  );
+
+  const modalMemo = useMemo(() => ({ showModal, showDialog }), [showModal, showDialog]);
 
   return (
     <ModalContext value={modalMemo}>

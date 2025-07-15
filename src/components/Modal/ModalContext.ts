@@ -11,17 +11,26 @@ export type ProviderModalSlot<TValue = unknown> = ({
   onClose: () => void;
 }) => ReactNode;
 
+export type ProviderModalProps = Omit<ModalProps, 'children' | 'onClose' | 'isClosing' | 'open' | 'id'>;
+
 export type ModalContextValue = {
   showModal: <TValue = unknown>(
     header: ReactNode | ProviderModalSlot<TValue>,
     body: ReactNode | ProviderModalSlot<TValue>,
     footer?: ReactNode | ProviderModalSlot<TValue>,
-    settings?: Omit<ModalProps, 'children' | 'onClose' | 'isClosing' | 'open' | 'id'>
+    settings?: ProviderModalProps
+  ) => Promise<TValue | undefined>;
+  showDialog: <TValue = unknown>(
+    header: ReactNode | ProviderModalSlot<TValue>,
+    body: ReactNode | ProviderModalSlot<TValue>,
+    footer?: ReactNode | ProviderModalSlot<TValue>,
+    settings?: ProviderModalProps
   ) => Promise<TValue | undefined>;
 };
 
 const modalContextDefaultValue = {
-  showModal: () => {}
+  showModal: () => {},
+  showDialog: () => {}
 } as unknown as ModalContextValue;
 
 const ModalContext = createContext<ModalContextValue>(modalContextDefaultValue);
