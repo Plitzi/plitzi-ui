@@ -5,8 +5,12 @@ import Flex from '@components/Flex';
 import useDisclosure from '@hooks/useDisclosure';
 
 import Modal from './Modal';
+import ModalProvider from './ModalProvider';
+import useModal from './useModal';
 
+import type { ModalProps } from './Modal';
 import type { Meta, StoryObj } from '@storybook/react';
+import type { MouseEvent } from 'react';
 
 const meta = {
   title: 'Modal',
@@ -50,6 +54,36 @@ export const Primary: Story = {
   }
 };
 
+export const PrimaryAnimated: Story = {
+  args: { animation: 'zoom', duration: 300 },
+  render: function Render(args) {
+    const handleClose = useCallback(() => {
+      console.log('closing...');
+    }, []);
+
+    const [id, open, onOpen, onClose, , , { delay, isClosing }] = useDisclosure({
+      onClose: handleClose,
+      delay: args.duration
+    });
+
+    return (
+      <Flex>
+        <Button onClick={onOpen}>Click Me</Button>
+        <Modal {...args} onClose={onClose} id={id} open={open} duration={delay} isClosing={isClosing}>
+          <Modal.Header>
+            <Modal.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Modal.HeaderIcon>
+            Title
+          </Modal.Header>
+          <Modal.Body>Fancy Content Here</Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => void onClose()}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </Flex>
+    );
+  }
+};
+
 export const Dialog: Story = {
   args: {},
   render: function Render(args) {
@@ -75,6 +109,97 @@ export const Dialog: Story = {
           </Modal.Footer>
         </Modal>
       </Flex>
+    );
+  }
+};
+
+export const DialogAnimated: Story = {
+  args: { animation: 'zoom', duration: 300 },
+  render: function Render(args) {
+    const handleClose = useCallback((value?: unknown) => {
+      console.log('closing...', value);
+
+      // return false; // if we need to keep the modal open
+    }, []);
+
+    const [id, open, onOpen, onClose, , , { delay, isClosing }] = useDisclosure<{ test: string }>({
+      onClose: handleClose,
+      delay: args.duration
+    });
+
+    return (
+      <Flex>
+        <Button onClick={onOpen}>Click Me</Button>
+        <Modal {...args} onClose={onClose} id={id} open={open} duration={delay} isClosing={isClosing}>
+          <Modal.Header>
+            <Modal.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Modal.HeaderIcon>
+            Title
+          </Modal.Header>
+          <Modal.Body>Fancy Content Here</Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => void onClose({ test: 'abc' })}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </Flex>
+    );
+  }
+};
+
+const InnerComponent = ({ settings }: { settings: ModalProps }) => {
+  const { showModal } = useModal();
+
+  const handleClick = useCallback(
+    async (e: MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const response = await showModal<string>(
+        <Modal.Header>
+          <h4>Update Page Folder</h4>
+        </Modal.Header>,
+        ({ onClose }) => (
+          <Modal.Body>
+            <div className="flex gap-2">
+              <Button onClick={() => onClose('nice')}>Yes</Button>
+              <Button onClick={() => onClose()}>No</Button>
+            </div>
+          </Modal.Body>
+        ),
+        null,
+        settings
+      );
+
+      if (response) {
+        console.log(response);
+      }
+    },
+    [showModal, settings]
+  );
+
+  return <Button onClick={(e: MouseEvent) => void handleClick(e)}>Click Me</Button>;
+};
+
+export const UsingProvider: Story = {
+  args: {},
+  render: function Render(args) {
+    return (
+      <div>
+        <ModalProvider>
+          <InnerComponent settings={args} />
+        </ModalProvider>
+      </div>
+    );
+  }
+};
+
+export const UsingProviderAnimated: Story = {
+  args: { animation: 'zoom', duration: 300 },
+  render: function Render(args) {
+    return (
+      <div>
+        <ModalProvider>
+          <InnerComponent settings={args} />
+        </ModalProvider>
+      </div>
     );
   }
 };

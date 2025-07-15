@@ -1,9 +1,10 @@
-import { useCallback, useId, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 
 export type UseDisclosureProps<TValue = unknown, TState = unknown> = {
   id?: string;
   open?: boolean;
   defaultOpen?: boolean;
+  delay?: number;
   onOpen?: (initialState?: TState) => void;
   onClose?:
     | ((value?: TValue, state?: TState) => boolean | Promise<boolean>)
@@ -16,7 +17,11 @@ export type UseDisclosureReturn<TValue = unknown, TState = unknown> = [
   onOpen: (initialState?: TState) => void,
   onClose: (value?: TValue) => Promise<void>,
   onToggle: () => void,
-  state: TState
+  state: TState,
+  delayState: {
+    delay: number;
+    isClosing: boolean;
+  }
 ];
 
 const useDisclosure = <TValue = unknown, TState = unknown>({
@@ -24,15 +29,29 @@ const useDisclosure = <TValue = unknown, TState = unknown>({
   onOpen: onOpenProp,
   open: openProp,
   defaultOpen,
-  id: idProp
+  id: idProp,
+  delay = 0
 }: UseDisclosureProps<TValue, TState> = {}): UseDisclosureReturn<TValue, TState> => {
   const [open, setOpen] = useState(openProp ?? defaultOpen ?? false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [isClosingValue, setIsClosingValue] = useState<TValue>();
   const [state, setState] = useState<TState>(undefined as TState);
   const uid = useId();
   const id = idProp ?? `disclosure-${uid}`;
 
   const onClose = useCallback(
     async (value?: TValue) => {
+      if (delay && !isClosing) {
+        setIsClosing(true);
+        setIsClosingValue(value);
+
+        return;
+      }
+
+      if (isClosing && !value && isClosingValue) {
+        value = isClosingValue;
+      }
+
       const response = await onCloseProp?.(value, state);
       if (response === false) {
         return;
@@ -43,7 +62,7 @@ const useDisclosure = <TValue = unknown, TState = unknown>({
         setOpen(false);
       }
     },
-    [openProp, onCloseProp, state]
+    [delay, isClosing, isClosingValue, onCloseProp, state, openProp]
   );
 
   const onOpen = useCallback(
@@ -60,7 +79,15 @@ const useDisclosure = <TValue = unknown, TState = unknown>({
 
   const onToggle = useCallback(() => (open ? onClose() : onOpen()), [open, onOpen, onClose]);
 
-  return [id, open, onOpen, onClose, onToggle, state];
+  useEffect(() => {
+    return () => {
+      if (open) {
+        setIsClosing(false);
+      }
+    };
+  }, [open]);
+
+  return [id, open, onOpen, onClose, onToggle, state, { delay, isClosing }];
 };
 
 export default useDisclosure;

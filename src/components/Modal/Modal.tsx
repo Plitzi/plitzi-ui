@@ -1,4 +1,5 @@
-import { useCallback, useId } from 'react';
+import classNames from 'classnames';
+import { useCallback, useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import Card from '@components/Card';
@@ -7,18 +8,34 @@ import useTheme from '@hooks/useTheme';
 import type ModalStyles from './Modal.styles';
 import type { variantKeys } from './Modal.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode, RefObject } from 'react';
+import type { CSSProperties, ReactNode, RefObject } from 'react';
 
 export type ModalProps = {
   ref?: RefObject<HTMLDivElement>;
   children?: ReactNode;
   id?: string;
+  style?: CSSProperties;
   container?: Element | DocumentFragment;
   open?: boolean;
+  animation?: 'zoom' | 'fade' | 'flip' | 'door' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight';
+  duration?: number;
+  isClosing?: boolean;
   onClose?: () => void | Promise<void>;
 } & useThemeSharedProps<typeof ModalStyles, typeof variantKeys>;
 
-const Modal = ({ ref, className, children, id: idProp, container, open, onClose }: ModalProps) => {
+const Modal = ({
+  ref,
+  className,
+  children,
+  style,
+  animation,
+  duration = 300,
+  id: idProp,
+  container,
+  open,
+  isClosing = false,
+  onClose
+}: ModalProps) => {
   const classNameTheme = useTheme<typeof ModalStyles, typeof variantKeys>('Modal', {
     className,
     componentKey: ['root', 'background', 'card']
@@ -27,6 +44,23 @@ const Modal = ({ ref, className, children, id: idProp, container, open, onClose 
 
   const handleClose = useCallback(() => void onClose?.(), [onClose]);
 
+  const handleAnimationEnd = useCallback(
+    () => animation && isClosing && void onClose?.(),
+    [animation, isClosing, onClose]
+  );
+
+  useEffect(() => {
+    if (open) {
+      document.body.classList.add('modal-open');
+    }
+
+    return () => {
+      if (open) {
+        document.body.classList.remove('modal-open');
+      }
+    };
+  }, [open]);
+
   if (!open) {
     return undefined;
   }
@@ -34,7 +68,16 @@ const Modal = ({ ref, className, children, id: idProp, container, open, onClose 
   return createPortal(
     <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root}>
       <div className={classNameTheme.background} onClick={handleClose} />
-      <Card className={classNameTheme.card} intent="modal" closeable onClose={handleClose}>
+      <Card
+        className={classNames(classNameTheme.card, {
+          [`modal--${animation}-${isClosing ? 'leave' : 'enter'}`]: animation
+        })}
+        intent="modal"
+        closeable
+        onClose={handleClose}
+        onAnimationEnd={handleAnimationEnd}
+        style={{ ...style, animationDuration: `${duration}ms` }}
+      >
         {children}
       </Card>
     </div>,
