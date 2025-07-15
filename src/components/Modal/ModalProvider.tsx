@@ -5,14 +5,12 @@ import Modal from './Modal';
 import ModalContext from './ModalContext';
 
 import type { ModalProps } from './Modal';
-import type { ModalContextValue } from './ModalContext';
+import type { ModalContextValue, ProviderModalSlot } from './ModalContext';
 import type { ReactNode } from 'react';
 
 export type ModalProviderProps = {
   children?: ReactNode;
 };
-
-type ProviderModalProps = Parameters<ModalContextValue['showModal']>[3];
 
 const ModalProvider = ({ children }: ModalProviderProps) => {
   const [elements, setElements] = useState<Record<string, ModalProps>>({});
@@ -40,10 +38,10 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
 
   const showModal = useCallback(
     <TValue = unknown,>(
-      header?: ReactNode | (({ onClose }: { onClose: (value?: TValue) => void }) => ReactNode),
-      body?: ReactNode | (({ onClose }: { onClose: (value?: TValue) => void }) => ReactNode),
-      footer?: ReactNode | (({ onClose }: { onClose: (value?: TValue) => void }) => ReactNode),
-      settings?: ProviderModalProps
+      header: ReactNode | ProviderModalSlot<TValue>,
+      body: ReactNode | ProviderModalSlot<TValue>,
+      footer?: ReactNode | ProviderModalSlot<TValue>,
+      settings?: Parameters<ModalContextValue['showModal']>[3]
     ) => {
       const key = new Date().getTime().toString();
 
