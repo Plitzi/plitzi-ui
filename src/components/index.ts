@@ -39,7 +39,6 @@ import Sidebar from './Sidebar';
 import Switch from './Switch';
 import Text from './Text';
 import TextArea from './TextArea';
-import Toast from './Toast';
 import Tree from './Tree';
 
 export * from './Toast';
@@ -88,7 +87,6 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
-  Toast,
   ContainerShadow,
   KVInput,
   ColorPicker,

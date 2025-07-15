@@ -43,7 +43,11 @@ const ToastProvider = ({
         icon
       } = settings;
       let toastFinal: <TData = unknown>(content: ToastContent<TData>, options?: ToastOptions<TData>) => Id = toast;
-      if (appeareance !== 'default') {
+      if (
+        (appeareance as TypeOptions | undefined) &&
+        appeareance !== 'default' &&
+        (toast[appeareance] as typeof toast | undefined)
+      ) {
         toastFinal = toast[appeareance];
       }
 
