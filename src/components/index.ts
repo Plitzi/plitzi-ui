@@ -5,6 +5,7 @@ import Card from './Card';
 import Checkbox from './Checkbox';
 import CodeMirror from './CodeMirror';
 import ColorPicker from './ColorPicker';
+import ContainerAutoScale from './ContainerAutoScale';
 import ContainerCollapsable from './ContainerCollapsable';
 import ContainerDraggable from './ContainerDraggable';
 import ContainerFloating from './ContainerFloating';
@@ -41,6 +42,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
 
+export * from './ContainerAutoScale';
 export * from './Toast';
 export * from './ContainerShadow';
 export * from './KVInput';
@@ -87,6 +89,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  ContainerAutoScale,
   ContainerShadow,
   KVInput,
   ColorPicker,

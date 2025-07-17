@@ -25,11 +25,7 @@ export type PopupInstance = {
   settings: PopupSettings;
 };
 
-type Popups = {
-  left: PopupInstance[];
-  right: PopupInstance[];
-  floating: PopupInstance[];
-};
+export type Popups = Record<string, PopupInstance[]>;
 
 export type PopupProviderProps = {
   children?: ReactNode;

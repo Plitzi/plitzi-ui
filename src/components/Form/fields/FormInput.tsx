@@ -8,7 +8,7 @@ import type { InputProps } from '@components/Input';
 import type { RefObject } from 'react';
 import type { FieldValues, ControllerProps } from 'react-hook-form';
 
-export type FormInputProps<T extends FieldValues> = InputProps & BaseFormType<T> & { label: string };
+export type FormInputProps<T extends FieldValues> = InputProps & BaseFormType<T>;
 
 const FormInput = <T extends FieldValues>(props: FormInputProps<T>) => {
   const { control } = useFormContext<T>();
@@ -19,14 +19,11 @@ const FormInput = <T extends FieldValues>(props: FormInputProps<T>) => {
         <Input
           {...props}
           ref={ref as unknown as RefObject<HTMLInputElement>}
-          size="md"
           value={value}
           name={name}
           error={fieldError?.message}
           onChange={onChange}
-        >
-          {props.children}
-        </Input>
+        />
       ),
     [props]
   );
