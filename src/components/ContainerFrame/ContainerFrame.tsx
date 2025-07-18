@@ -11,19 +11,16 @@ import type { variantKeys } from './ContainerFrame.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 
-export type Asset = {
-  type: string;
-  params: { [key: string]: string };
-};
+export type Asset = { id?: string; type: string; params: Record<string, string> };
 
 export type ContainerFrameProps = {
-  ref: RefObject<HTMLIFrameElement>;
+  ref?: RefObject<HTMLIFrameElement | null>;
   ssrMode?: boolean;
   id?: string;
   css?: string;
   style?: CSSProperties;
   zoom?: number;
-  assets?: { [key: string]: Asset };
+  assets?: Record<string, Asset>;
   viewport?: string;
   children?: ReactNode;
   contentDidMount?: () => void;
@@ -54,18 +51,22 @@ const ContainerFrame = ({
   useImperativeHandle<HTMLIFrameElement | null, HTMLIFrameElement | null>(ref, () => iframeRef.current, [iframeRef]);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const document = useMemo(() => {
-    if (!iframeLoaded || !iframeRef.current) {
+    if (!iframeLoaded) {
       return undefined;
     }
 
-    return iframeRef.current.contentDocument;
+    return iframeRef.current?.contentDocument;
   }, [iframeLoaded]);
 
-  const loadAssets = useCallback((assets: { [key: string]: Asset }, head: HTMLHeadElement, document: Document) => {
+  const loadAssets = useCallback((assets: Record<string, Asset>, head: HTMLHeadElement, document: Document) => {
     const assetsLoaded = [...head.childNodes];
     const customStyleElement = document.getElementById('customStyle');
     Object.values(assets).forEach(asset => {
       const newAsset = document.createElement(asset.type) as HTMLLinkElement | HTMLScriptElement;
+      if (asset.id) {
+        newAsset.setAttribute('data-id', asset.id);
+      }
+
       Object.keys(asset.params).forEach(key => {
         if (asset.type === 'link') {
           (newAsset as HTMLLinkElement).setAttribute(key, asset.params[key]);
@@ -76,11 +77,12 @@ const ContainerFrame = ({
       if (
         !assetsLoaded.find(
           node =>
-            (node as HTMLLinkElement).href === (newAsset as HTMLLinkElement).href ||
-            (node as HTMLScriptElement).src === (newAsset as HTMLScriptElement).src
+            (asset.type === 'link' && (node as HTMLLinkElement).href === (newAsset as HTMLLinkElement).href) ||
+            (asset.type === 'script' && (node as HTMLScriptElement).src === (newAsset as HTMLScriptElement).src)
         )
       ) {
         head.insertBefore(newAsset, customStyleElement);
+        assetsLoaded.push(newAsset);
       }
     });
   }, []);
@@ -148,12 +150,12 @@ const ContainerFrame = ({
         createPortal(
           <>
             <meta name="viewport" content={viewport} asset-static="true" />
-            {!ssrMode && (
+            {!ssrMode && css && (
               <style id="customStyle" asset-static="true">
                 {css}
               </style>
             )}
-            {ssrMode && <style id="customStyle" asset-static="true" dangerouslySetInnerHTML={{ __html: css }} />}
+            {ssrMode && css && <style id="customStyle" asset-static="true" dangerouslySetInnerHTML={{ __html: css }} />}
           </>,
           document.head
         )}
