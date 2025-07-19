@@ -16,7 +16,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { HTMLAttributes, MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type CardProps = {
-  ref?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement | null>;
   children?: ReactNode;
   testId?: string;
   closeable?: boolean;

@@ -9,9 +9,10 @@ import type { variantKeys } from './Card.styles';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { HTMLAttributes, MouseEvent, ReactElement, ReactNode } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type CardHeaderProps = {
+  ref?: RefObject<HTMLDivElement | null>;
   children?: ReactNode;
   testId?: string;
   closeable?: boolean;
@@ -20,6 +21,7 @@ export type CardHeaderProps = {
   useThemeSharedProps<typeof CardStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const CardHeader = ({
+  ref,
   className,
   children,
   closeable,
@@ -84,6 +86,7 @@ const CardHeader = ({
   return (
     <Flex
       {...props}
+      ref={ref}
       testId={testId}
       className={classNameTheme.header}
       direction={direction}

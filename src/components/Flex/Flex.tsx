@@ -6,7 +6,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { HTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type FlexProps = {
-  ref?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement | null>;
   children?: ReactNode;
   testId?: string;
 } & HTMLAttributes<HTMLDivElement> &
