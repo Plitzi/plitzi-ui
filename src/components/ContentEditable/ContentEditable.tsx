@@ -8,7 +8,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
 export type ContentEditableProps = {
-  myWindow?: Window;
+  myWindow?: Window | null;
   value?: string;
   exitOnEnter?: boolean;
   exitOnEscape?: boolean;
