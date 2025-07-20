@@ -33,6 +33,7 @@ export type TreeChangeState =
       action: 'itemDragged';
       data: { id: string; toId: string; dropPosition: DropPosition; items: TreeItem[]; event: DragEvent };
     }
+  | { action: 'externalItemDragged'; data: { toId: string; dropPosition: DropPosition; event: DragEvent } }
   | { action: 'itemSelected'; data: string | undefined }
   | { action: 'isDragging'; data: boolean };
 
@@ -169,8 +170,10 @@ const Tree = ({
   const handleDrop = useCallback(
     (e: DragEvent, id: string, toId: string, dropPosition: DropPosition) => {
       const newItems = moveNode(id, toId, dropPosition, items, flatItems);
-      if (newItems) {
+      if (newItems && id) {
         onChange?.({ action: 'itemDragged', data: { id, toId, dropPosition, items: newItems, event: e } });
+      } else {
+        onChange?.({ action: 'externalItemDragged', data: { toId, dropPosition, event: e } });
       }
     },
     [flatItems, items, onChange]
