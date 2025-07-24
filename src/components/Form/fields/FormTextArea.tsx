@@ -3,14 +3,15 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import TextArea from '@components/TextArea';
 
-import type { BaseFormType } from '../Form';
+import type { BaseFormFieldType } from '../Form';
 import type { TextAreaProps } from '@components/TextArea';
 import type { RefObject } from 'react';
-import type { FieldValues, ControllerProps } from 'react-hook-form';
+import type { FieldValues, ControllerProps, FieldPath } from 'react-hook-form';
 
-export type FormTextAreaProps<T extends FieldValues> = TextAreaProps & BaseFormType<T>;
+export type FormTextAreaProps<T extends FieldValues, TName extends FieldPath<T>> = TextAreaProps &
+  BaseFormFieldType<T, TName>;
 
-const FormTextArea = <T extends FieldValues>(props: FormTextAreaProps<T>) => {
+const FormTextArea = <T extends FieldValues, TName extends FieldPath<T>>(props: FormTextAreaProps<T, TName>) => {
   const { control } = useFormContext<T>();
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
@@ -28,7 +29,7 @@ const FormTextArea = <T extends FieldValues>(props: FormTextAreaProps<T>) => {
     [props]
   );
 
-  return <Controller control={control} name={props.name} render={renderMemo} />;
+  return <Controller control={props.control ?? control} name={props.name} render={renderMemo} />;
 };
 
 export default FormTextArea;

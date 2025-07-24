@@ -16,7 +16,7 @@ import type { FormHeaderProps } from './FormHeader';
 import type { UseFormReturn } from './hooks/useForm';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { FormEvent, ReactElement, ReactNode, RefObject } from 'react';
-import type { FieldPath, FieldValues, SubmitHandler } from 'react-hook-form';
+import type { Control, FieldPath, FieldValues, SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
 export type SupportedFormType<T extends z.ZodObject<z.ZodRawShape> = z.ZodObject<z.ZodRawShape>> = T | z.ZodEffects<T>;
@@ -25,7 +25,10 @@ export type FormConfig<T extends z.ZodObject<z.ZodRawShape>> = {
   schema: SupportedFormType<T>;
 };
 
-export type BaseFormType<T extends FieldValues> = { name: FieldPath<T> };
+export type BaseFormFieldType<T extends FieldValues, TName extends FieldPath<T>> = {
+  control?: Control<T, unknown, T>;
+  name: TName;
+};
 
 export type FormProps<T extends z.ZodObject<z.ZodRawShape>> = {
   testId?: string;

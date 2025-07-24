@@ -3,14 +3,15 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import Input from '@components/Input';
 
-import type { BaseFormType } from '../Form';
+import type { BaseFormFieldType } from '../Form';
 import type { InputProps } from '@components/Input';
 import type { RefObject } from 'react';
-import type { FieldValues, ControllerProps } from 'react-hook-form';
+import type { FieldValues, ControllerProps, FieldPath } from 'react-hook-form';
 
-export type FormInputProps<T extends FieldValues> = InputProps & BaseFormType<T>;
+export type FormInputProps<T extends FieldValues, TName extends FieldPath<T>> = InputProps &
+  BaseFormFieldType<T, TName>;
 
-const FormInput = <T extends FieldValues>(props: FormInputProps<T>) => {
+const FormInput = <T extends FieldValues, TName extends FieldPath<T>>(props: FormInputProps<T, TName>) => {
   const { control } = useFormContext<T>();
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
@@ -28,7 +29,7 @@ const FormInput = <T extends FieldValues>(props: FormInputProps<T>) => {
     [props]
   );
 
-  return <Controller control={control} name={props.name} render={renderMemo} />;
+  return <Controller control={props.control ?? control} name={props.name} render={renderMemo} />;
 };
 
 export default FormInput;
