@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
@@ -20,9 +20,16 @@ export type UseFloatingReturn = [
   DOMRect | undefined
 ];
 
-const useFloating = ({ open: openProp, disabled = false, loading = false }: UseFloatingProps): UseFloatingReturn => {
+const useFloating = ({
+  ref,
+  open: openProp,
+  disabled = false,
+  loading = false
+}: UseFloatingProps): UseFloatingReturn => {
   const [open, setOpen] = useState<boolean>(openProp ?? false);
-  const triggerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  useImperativeHandle(ref, () => triggerRef.current!, []);
 
   const handleClickTrigger = useCallback(
     (e: React.MouseEvent) => {
@@ -32,7 +39,6 @@ const useFloating = ({ open: openProp, disabled = false, loading = false }: UseF
 
       e.stopPropagation();
       e.preventDefault();
-
       setOpen(state => !state);
     },
     [disabled, loading, openProp]

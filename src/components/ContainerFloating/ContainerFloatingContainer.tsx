@@ -114,6 +114,7 @@ const ContainerFloatingContainer = ({
 
   return createPortal(
     <>
+      {open && <div className="absolute top-0 bottom-0 left-0 right-0" onClick={handleClickClose} />}
       <div
         ref={containerRef}
         style={containerStyle}
@@ -123,7 +124,6 @@ const ContainerFloatingContainer = ({
       >
         {children}
       </div>
-      {open && <div className="absolute top-0 bottom-0 left-0 right-0" onClick={handleClickClose} />}
     </>,
     container ?? document.body
   );

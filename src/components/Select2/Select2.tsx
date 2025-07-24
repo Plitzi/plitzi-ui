@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import { useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import ContainerFloating from '@components/ContainerFloating';
-import useFloating from '@components/ContainerFloating/hooks/useFloating';
 import Flex from '@components/Flex';
 import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
@@ -34,6 +33,7 @@ export type Select2Props = {
   ref?: RefObject<HTMLDivElement | null>;
   className?: string;
   id?: string;
+  name?: string;
   value?: Exclude<Option, OptionGroup> | string;
   label?: string;
   options?: Option[] | Promise<Option[]>;
@@ -52,6 +52,7 @@ const Select2 = ({
   ref,
   className = '',
   id,
+  name,
   value,
   options = optionsDefault,
   placeholder = 'Select...',
@@ -62,21 +63,24 @@ const Select2 = ({
   allowCreateOptions = false,
   isSearchable = true,
   clearable = true,
-  open: openProp = false,
+  open: openProp,
   searchAutoFocus = true,
   onChange
 }: Select2Props) => {
+  const [open, setOpen] = useState(openProp);
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['inputContainer', 'placeholder', 'listMessage'],
     variants: { size }
   });
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+  const triggerRect = useMemo<DOMRect | undefined>(
+    () => triggerRef.current?.getBoundingClientRect(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [triggerRef.current, open]
+  );
+
   const [loading, setLoading] = useState(options instanceof Promise);
-  const [open, setOpen, handleClickTrigger, triggerRef, triggerRect] = useFloating({
-    open: openProp,
-    disabled,
-    loading
-  });
   const [optionsLoaded, setOptionsLoaded] = useState(() => (!loading && Array.isArray(options) ? options : []));
   const [optionsCustom, setOptionsCustom] = useState<Option[]>([]);
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
@@ -116,7 +120,12 @@ const Select2 = ({
     [setSearch, open, triggerRef]
   );
 
-  const handleContainerVisible = useCallback((open: boolean) => !open && setSearch(''), []);
+  const handleContainerVisible = useCallback((openState: boolean) => {
+    setOpen(openState);
+    if (!openState) {
+      setSearch('');
+    }
+  }, []);
 
   const handleChange = useCallback(
     (newValue?: Exclude<Option, OptionGroup>) => {
@@ -205,13 +214,15 @@ const Select2 = ({
 
   return (
     <ContainerFloating
-      ref={triggerRef as RefObject<HTMLDivElement>}
+      ref={triggerRef}
       containerTopOffset={error ? -26 : 0}
       containerLeftOffset={0}
       onOpenChange={handleContainerVisible}
-      open={open}
+      open={openProp}
+      loading={loading}
+      disabled={disabled}
     >
-      <ContainerFloating.Trigger className="w-full" onClick={handleClickTrigger}>
+      <ContainerFloating.Trigger className="w-full">
         <InputContainer
           id={id}
           size={size}
@@ -224,6 +235,7 @@ const Select2 = ({
           className={{ iconFloatingContainer: classNameTheme.inputContainer }}
           value={value}
         >
+          <input type="hidden" name={name} className="hidden invisible" />
           <Flex justify="between" items="center" className="min-w-0" grow>
             <div
               className={classNames('truncate select-none', {

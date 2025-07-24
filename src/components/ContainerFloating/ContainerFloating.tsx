@@ -1,4 +1,4 @@
-import { Children, isValidElement, useMemo, useImperativeHandle, cloneElement, useRef } from 'react';
+import { Children, isValidElement, useMemo, cloneElement, useRef } from 'react';
 
 import ContainerFloatingContainer from './ContainerFloatingContainer';
 import ContainerFloatingContent from './ContainerFloatingContent';
@@ -15,7 +15,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ReactElement, ReactNode, RefObject } from 'react';
 
 export type ContainerFloatingProps = {
-  ref?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement | null>;
   children?: ReactNode;
   containerTopOffset?: number;
   containerLeftOffset?: number;
@@ -42,11 +42,11 @@ const ContainerFloating = ({
 }: ContainerFloatingProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen, handleClickTrigger, triggerRef] = useFloating({
+    ref,
     open: openProp,
     loading,
     disabled
   });
-  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
 
   const { trigger, content } = useMemo(() => {
     const components: { trigger?: ReactNode; content?: ReactNode } = {};

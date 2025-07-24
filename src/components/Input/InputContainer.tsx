@@ -57,9 +57,9 @@ const InputContainer = ({
   const handleClickClear = useCallback((e: MouseEvent) => onClear?.(e), [onClear]);
 
   const { iconChildren, inputChildren } = useMemo(() => {
-    const components: { iconChildren: ReactNode; inputChildren: ReactNode } = {
+    const components: { iconChildren: ReactNode; inputChildren: ReactNode[] } = {
       iconChildren: undefined,
-      inputChildren: undefined
+      inputChildren: []
     };
     Children.forEach(children, child => {
       if (!isValidElement(child)) {
@@ -75,7 +75,7 @@ const InputContainer = ({
           intent: childProps.intent ?? 'custom'
         });
       } else {
-        components.inputChildren = child;
+        components.inputChildren.push(child);
       }
     });
 

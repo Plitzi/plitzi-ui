@@ -30,7 +30,8 @@ const watchFormSchema = z.object({
   username: z.string().min(3, { message: 'Too Short' }).max(20, { message: 'Too Long' }),
   password: z.string().min(8, { message: 'Too Short' }).max(20, { message: 'Too Long' }),
   extra: z.string().optional(),
-  custom: z.string().min(1)
+  custom: z.string().min(1),
+  prop1: z.enum(['option-1', 'option-2', 'option-3'])
 });
 
 export const Primary: Story = {
@@ -54,19 +55,18 @@ export const Primary: Story = {
     }, []);
 
     return (
-      <Form {...args} form={form} onSubmit={handleSubmit}>
+      <Form {...args} form={form} onSubmit={handleSubmit} className="gap-4">
         <Form.Body>
           <Form.Input name="username" label="Username" />
           <Form.Input name="password" label="Password" />
           <Form.Input name="extra" label="Extra" />
-          <Form.Input name="" />
           <Controller
             name="custom"
             control={form.formMethods.control}
             render={({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
               <>
-                <label htmlFor="form-custom">Custom RHF</label>
-                <input ref={ref} id="form-custom" value={value} name={name} onChange={onChange} />
+                <label htmlFor="form-custom-1">Custom RHF</label>
+                <input ref={ref} id="form-custom-1" value={value} name={name} onChange={onChange} />
                 {fieldError?.message && <ErrorMessage message={fieldError.message} error={!!fieldError.message} />}
               </>
             )}
@@ -76,14 +76,26 @@ export const Primary: Story = {
             name="custom"
             render={({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
               <>
-                <label htmlFor="form-custom">Custom Plitzi</label>
-                <input ref={ref} id="form-custom" value={value} name={name} onChange={onChange} />
+                <label htmlFor="form-custom-2">Custom Plitzi</label>
+                <input ref={ref} id="form-custom-2" value={value} name={name} onChange={onChange} />
                 {fieldError?.message && <ErrorMessage message={fieldError.message} error={!!fieldError.message} />}
               </>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Form.Select2
+            name="prop1"
+            placeholder="None"
+            label="Prop 1"
+            options={[
+              { label: 'Option 1', value: 'option-1' },
+              { label: 'Option 2', value: 'option-2' },
+              { label: 'Option 3', value: 'option-3' }
+            ]}
+          />
         </Form.Body>
+        <Form.Footer>
+          <Button type="submit">Submit</Button>
+        </Form.Footer>
       </Form>
     );
   }
