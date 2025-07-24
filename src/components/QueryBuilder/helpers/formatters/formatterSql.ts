@@ -140,7 +140,13 @@ const formatField = (rule?: Rule, params?: QueryBuilderParams) => {
   }
 };
 
-const formatterSql = (query?: RuleGroup, granulated = false, params: QueryBuilderParams = {}) => {
+function formatterSql(query: RuleGroup, granulated: false, params?: QueryBuilderParams): string;
+function formatterSql(query: RuleGroup, granulated?: boolean, params?: QueryBuilderParams): string[];
+function formatterSql(
+  query?: RuleGroup,
+  granulated: boolean = true,
+  params: QueryBuilderParams = {}
+): string | string[] {
   if (!query) {
     return '';
   }
@@ -154,7 +160,7 @@ const formatterSql = (query?: RuleGroup, granulated = false, params: QueryBuilde
     .filter(rule => rule.enabled !== false)
     .map(rule => {
       if ('rules' in rule) {
-        return `(${formatterSql(rule, granulated, params) as string})`;
+        return `(${granulated ? formatterSql(rule, granulated, params).toString() : formatterSql(rule, granulated, params)})`;
       }
 
       return formatField(rule, params);
@@ -165,6 +171,6 @@ const formatterSql = (query?: RuleGroup, granulated = false, params: QueryBuilde
   }
 
   return content;
-};
+}
 
 export default formatterSql;

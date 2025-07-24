@@ -165,8 +165,14 @@ const formatField = (rule?: Rule, params?: QueryBuilderParams) => {
   }
 };
 
-const formatterMongoDB = (query?: RuleGroup, granulated = false, params: QueryBuilderParams = {}): object => {
-  if (!query) {
+function formatterMongoDB(query: RuleGroup, granulated: false, params?: QueryBuilderParams): string;
+function formatterMongoDB(query: RuleGroup, granulated?: boolean, params?: QueryBuilderParams): object;
+function formatterMongoDB(
+  query: RuleGroup,
+  granulated: boolean = false,
+  params: QueryBuilderParams = {}
+): string | object {
+  if (!(query as RuleGroup | undefined)) {
     return {};
   }
 
@@ -198,6 +204,6 @@ const formatterMongoDB = (query?: RuleGroup, granulated = false, params: QueryBu
   }
 
   return content;
-};
+}
 
 export default formatterMongoDB;

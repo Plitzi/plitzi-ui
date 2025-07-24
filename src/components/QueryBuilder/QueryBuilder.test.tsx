@@ -604,8 +604,8 @@ describe('QueryBuilder', () => {
   });
 
   it('should evaluete to formatter', () => {
-    expect(QueryBuilderFormatter(undefined, 'mongodb')).toStrictEqual({});
-    expect(QueryBuilderFormatter(undefined, 'sql')).toStrictEqual('');
+    expect(QueryBuilderFormatter(undefined as unknown as RuleGroup, 'mongodb')).toStrictEqual({});
+    expect(QueryBuilderFormatter(undefined as unknown as RuleGroup, 'sql')).toStrictEqual('');
 
     let queryRaw: RuleGroup = {
       id: '6533cb2b-f78c-4558-b9ae-ca4a16946680',
