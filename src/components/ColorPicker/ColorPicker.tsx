@@ -14,7 +14,7 @@ import type { variantKeys } from './ColorPicker.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, RefObject } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, RefObject } from 'react';
 
 export type ColorPickerProps = {
   ref?: RefObject<HTMLInputElement>;
@@ -27,7 +27,8 @@ export type ColorPickerProps = {
   required?: boolean;
   value?: string;
   onChange?: (value: string) => void;
-} & useThemeSharedProps<typeof ColorPickerStyles & typeof InputStyles, typeof variantKeys>;
+} & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &
+  useThemeSharedProps<typeof ColorPickerStyles & typeof InputStyles, typeof variantKeys>;
 
 type SketchPickerValue = {
   hex: string;
@@ -41,6 +42,7 @@ type SketchPickerValue = {
 const ColorPicker = ({
   ref,
   className,
+  id,
   label = '',
   placeholder = '',
   readOnly = false,
@@ -112,6 +114,7 @@ const ColorPicker = ({
   return (
     <InputContainer
       className={className}
+      id={id}
       label={label}
       // loading={loading}
       // clearable={clearable}
@@ -135,6 +138,7 @@ const ColorPicker = ({
         <div className={classNameTheme.divider} />
         <input
           {...inputProps}
+          id={id}
           ref={ref}
           placeholder={placeholder}
           readOnly={readOnly}

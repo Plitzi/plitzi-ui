@@ -26,6 +26,7 @@ export type TextAreaProps = {
 const TextArea = ({
   ref,
   className = '',
+  id,
   children,
   label = 'Text Area',
   placeholder = 'Text',
@@ -57,6 +58,7 @@ const TextArea = ({
   return (
     <InputContainer
       className={omit(classNameTheme, 'input')}
+      id={id}
       label={label}
       error={error}
       disabled={disabled}
@@ -70,6 +72,7 @@ const TextArea = ({
       {children}
       <textarea
         ref={ref}
+        id={id}
         placeholder={placeholder}
         className={classNameTheme.input}
         disabled={disabled}

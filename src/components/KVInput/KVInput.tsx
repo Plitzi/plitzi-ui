@@ -12,13 +12,14 @@ import type { InputContainerProps } from '@components/Input/InputContainer';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type KVInputProps = {
+  id?: string;
   value?: [string, string][];
   disabled?: boolean;
   onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
 } & Pick<InputContainerProps, 'label' | 'error'> &
   useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
 
-const KVInput = ({ className, size, value = [], disabled = false, label, error, onChange }: KVInputProps) => {
+const KVInput = ({ className, id, size, value = [], disabled = false, label, error, onChange }: KVInputProps) => {
   const classNameTheme = useTheme<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>(['Input', 'KVInput'], {
     className,
     variants: { size }
@@ -73,6 +74,7 @@ const KVInput = ({ className, size, value = [], disabled = false, label, error, 
   return (
     <InputContainer
       className={classNameTheme}
+      id={id}
       label={label}
       value={value}
       disabled={disabled}

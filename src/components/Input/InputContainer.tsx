@@ -14,6 +14,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
 
 export type InputContainerProps = {
+  id?: string;
   label?: string;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   disabled?: boolean;
@@ -29,6 +30,7 @@ export type InputContainerProps = {
 
 const InputContainer = ({
   className,
+  id,
   label,
   error,
   disabled,
@@ -83,7 +85,7 @@ const InputContainer = ({
   return (
     <div className={classNameTheme.root}>
       {label && (
-        <Label error={!!error} disabled={disabled} intent={intent} size={size}>
+        <Label error={!!error} disabled={disabled} intent={intent} size={size} htmlFor={id}>
           {label}
         </Label>
       )}

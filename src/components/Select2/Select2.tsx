@@ -33,6 +33,7 @@ export type OptionGroup = {
 export type Select2Props = {
   ref?: RefObject<HTMLDivElement | null>;
   className?: string;
+  id?: string;
   value?: Exclude<Option, OptionGroup> | string;
   label?: string;
   options?: Option[] | Promise<Option[]>;
@@ -50,6 +51,7 @@ export type Select2Props = {
 const Select2 = ({
   ref,
   className = '',
+  id,
   value,
   options = optionsDefault,
   placeholder = 'Select...',
@@ -211,6 +213,7 @@ const Select2 = ({
     >
       <ContainerFloating.Trigger className="w-full" onClick={handleClickTrigger}>
         <InputContainer
+          id={id}
           size={size}
           clearable={clearable}
           disabled={disabled}

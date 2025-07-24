@@ -31,6 +31,7 @@ export type SelectProps = {
 const Select = ({
   ref,
   children,
+  id,
   label = '',
   placeholder = '',
   value = '',
@@ -82,6 +83,7 @@ const Select = ({
   return (
     <InputContainer
       className={className}
+      id={id}
       label={label}
       error={error}
       disabled={disabled}
@@ -96,6 +98,7 @@ const Select = ({
       <select
         ref={ref}
         className={classNameTheme}
+        id={id}
         disabled={disabled || loading}
         value={value}
         onChange={handleChange}

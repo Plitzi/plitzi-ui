@@ -31,6 +31,7 @@ const Input = ({
   ref,
   children,
   className = '',
+  id,
   label = '',
   placeholder = 'Text',
   loading = false,
@@ -63,6 +64,7 @@ const Input = ({
   return (
     <InputContainer
       className={className}
+      id={id}
       label={label}
       loading={loading}
       clearable={clearable}
@@ -77,6 +79,7 @@ const Input = ({
       {children}
       <input
         ref={ref}
+        id={id}
         type={type}
         placeholder={placeholder}
         className={classNameTheme}
