@@ -6,7 +6,7 @@ import type { BaseFormFieldType } from '../Form';
 import type { FieldValues, FieldPath, ControllerProps } from 'react-hook-form';
 
 export type FormFieldCustomProps<T extends FieldValues, TName extends FieldPath<T>> = {
-  render: ControllerProps<T>['render'];
+  render: ControllerProps<T, TName>['render'];
 } & BaseFormFieldType<T, TName>;
 
 const FormFieldCustom = <T extends FieldValues, TName extends FieldPath<T>>(props: FormFieldCustomProps<T, TName>) => {
