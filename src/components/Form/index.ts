@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form';
+
 import * as fields from './fields';
 import Form from './Form';
 import { useForm, useFormWatch } from './hooks';
@@ -8,4 +10,4 @@ export * from './hooks';
 
 export default Form;
 
-export { fields, useForm, useFormWatch };
+export { fields, useForm, useFormWatch, useFormContext };
