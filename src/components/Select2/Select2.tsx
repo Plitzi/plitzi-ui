@@ -42,6 +42,7 @@ export type Select2Props = {
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   allowCreateOptions?: boolean;
   isSearchable?: boolean;
+  autoClose?: boolean;
   clearable?: boolean;
   open?: boolean;
   searchAutoFocus?: boolean;
@@ -65,6 +66,7 @@ const Select2 = ({
   clearable = true,
   open: openProp,
   searchAutoFocus = true,
+  autoClose = true,
   onChange
 }: Select2Props) => {
   const [open, setOpen] = useState(openProp);
@@ -135,9 +137,11 @@ const Select2 = ({
 
       onChange?.(newValue);
       setSearch('');
-      setOpen(false);
+      if (autoClose && triggerRef.current) {
+        triggerRef.current.click();
+      }
     },
-    [onChange, disabled, setOpen]
+    [disabled, onChange, autoClose]
   );
 
   const loadOptions = useCallback(async () => {
