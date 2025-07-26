@@ -4,13 +4,14 @@ export const variantKeys = {
   intent: ['primary', 'custom'],
   size: ['xs', 'sm', 'md', 'custom'],
   disabled: [true, false],
-  error: [true, false]
+  error: [true, false],
+  rounded: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'CodeMirror';
 
 export default {
-  input: cva('h-full grow basis-0 overflow-auto', {
+  input: cva('h-full w-full grow basis-0 overflow-auto', {
     variants: {
       intent: {
         primary: '',
@@ -25,13 +26,33 @@ export default {
         false: ''
       },
       size: {
-        md: 'rounded-lg',
-        sm: 'text-sm rounded',
-        xs: 'text-xs rounded-sm',
+        md: '',
+        sm: 'text-sm',
+        xs: 'text-xs',
         custom: ''
+      },
+      rounded: {
+        true: '',
+        false: ''
       }
     },
-    compoundVariants: [],
+    compoundVariants: [
+      {
+        rounded: true,
+        size: 'md',
+        className: 'rounded-lg'
+      },
+      {
+        rounded: true,
+        size: 'sm',
+        className: 'rounded'
+      },
+      {
+        rounded: true,
+        size: 'xs',
+        className: 'rounded-sm'
+      }
+    ],
     defaultVariants: {
       intent: 'primary',
       size: 'md',

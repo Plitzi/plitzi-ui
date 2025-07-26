@@ -18,6 +18,7 @@ import type CodeMirrorStyles from './CodeMirror.styles';
 import type { variantKeys } from './CodeMirror.styles';
 import type { Completion, CompletionContext, CompletionSource } from '@codemirror/autocomplete';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
+import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { FocusEvent, KeyboardEvent, RefObject } from 'react';
 
@@ -46,13 +47,13 @@ export type CodeMirrorProps = {
   onChange?: (value: string) => void;
   onBlur?: (e: FocusEvent) => void;
   getReadOnlyRanges?: (state: EditorState) => { from: number | null; to: number | null }[];
-} & useThemeSharedProps<typeof CodeMirrorStyles, typeof variantKeys>;
+} & useThemeSharedProps<typeof CodeMirrorStyles & typeof InputStyles, typeof variantKeys>;
 
 const CodeMirror = ({
   ref,
   className,
   id,
-  label = 'Text Area',
+  label = '',
   loading = false,
   disabled = false,
   clearable = false,
@@ -68,13 +69,14 @@ const CodeMirror = ({
   readOnly = false,
   placeholder = '',
   size,
+  rounded,
   intent,
   getReadOnlyRanges
 }: CodeMirrorProps) => {
-  const classNameTheme = useTheme<typeof CodeMirrorStyles, typeof variantKeys>('CodeMirror', {
+  const classNameTheme = useTheme<typeof CodeMirrorStyles & typeof InputStyles, typeof variantKeys>('CodeMirror', {
     className,
-    componentKey: ['input', 'inputContainer', 'iconFloatingContainer'],
-    variants: { size }
+    componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear', 'input'],
+    variants: { size, rounded, intent }
   });
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
   const styleMemo = useMemo(() => ({ height: '100%' }), []);
@@ -209,7 +211,7 @@ const CodeMirror = ({
 
   return (
     <InputContainer
-      className={omit(classNameTheme, 'input')}
+      className={omit(classNameTheme, ['input'])}
       id={id}
       label={label}
       error={error}
