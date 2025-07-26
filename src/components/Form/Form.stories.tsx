@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Controller } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -34,19 +34,20 @@ const watchFormSchema = z.object({
   prop1: z.enum(['option-1', 'option-2', 'option-3'])
 });
 
+type Schema = typeof watchFormSchema;
+
 export const Primary: Story = {
   args: {},
   render: function Render(args) {
-    const initialValues = useMemo(() => ({ username: 'test', password: 'password', extra: '', custom: 'hey' }), []);
-
-    type Schema = typeof watchFormSchema;
-
-    const form = useForm({ initialValues, config: { schema: watchFormSchema } });
+    const form = useForm({
+      initialValues: { username: 'test', password: 'password', extra: '', custom: 'hey' },
+      config: { schema: watchFormSchema }
+    });
 
     const watchUsername = useFormWatch(form.formMethods, 'username');
     const watchPassword = useFormWatch(form.formMethods, 'password');
-    const watchArray = useFormWatch(form.formMethods, ['username', 'password']);
-    console.log(watchUsername, watchPassword, watchArray);
+    const [username, password] = useFormWatch(form.formMethods, ['username', 'password']);
+    console.log(watchUsername, watchPassword, [username, password]);
 
     const handleSubmit = useCallback(async (values: z.infer<Schema>) => {
       console.log('submitted', values);

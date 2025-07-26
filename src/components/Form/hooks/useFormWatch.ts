@@ -1,4 +1,7 @@
+import get from 'lodash/get';
 import { useEffect, useState } from 'react';
+
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
 import type { FieldPathValue, FieldPathValues, FieldValues, Path, UseFormReturn } from 'react-hook-form';
 
@@ -8,19 +11,23 @@ type WatchValue<T extends FieldValues, K extends Path<T> | Path<T>[] | undefined
     ? FieldPathValue<T, K>
     : unknown;
 
-function useFormWatch<T extends FieldValues, K extends Path<T>>(
-  form: UseFormReturn<T>,
-  names: K
-): FieldPathValue<T, K> | undefined;
+function useFormWatch<T extends FieldValues, K extends Path<T>>(form: UseFormReturn<T>, names: K): FieldPathValue<T, K>;
 
 function useFormWatch<T extends FieldValues, K extends Path<T>[]>(
   form: UseFormReturn<T>,
   names: [...K]
-): [...FieldPathValues<T, K>] | undefined;
+): [...FieldPathValues<T, K>];
 
 function useFormWatch<T extends FieldValues>(form: UseFormReturn<T>, names: Path<T> | Path<T>[]) {
-  const [value, setValue] = useState<WatchValue<T, typeof names> | undefined>(undefined);
   const [mounted, setMounted] = useState(false);
+  const [value, setValue] = useState<WatchValue<T, typeof names>>(() => {
+    const values = form.getValues();
+    if (Array.isArray(names)) {
+      return names.map(name => get(values, name) as Path<T>) as WatchValue<T, typeof names>;
+    }
+
+    return values[names];
+  });
 
   useEffect(() => {
     const subscription = form.watch((_values, { name }) => {
@@ -44,13 +51,12 @@ function useFormWatch<T extends FieldValues>(form: UseFormReturn<T>, names: Path
     return () => subscription.unsubscribe();
   }, [form, mounted, names]);
 
-  useEffect(() => {
+  useDidUpdateEffect(() => {
     if (typeof names === 'string') {
       setValue(form.getValues(names));
     } else {
       setValue(form.getValues(names));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.defaultValues]);
 
   return value;
