@@ -59,9 +59,16 @@ export const BasicUsage: Story = {
 
     return (
       <div className="flex flex-col gap-4 w-96 h-96">
-        <Select2 {...args} value={value} options={options} onChange={option => updateArgs({ value: option })} />
         <Select2
           {...args}
+          valueAsString={false}
+          value={value}
+          options={options}
+          onChange={option => updateArgs({ value: option })}
+        />
+        <Select2
+          {...args}
+          valueAsString={false}
           size="sm"
           value={value}
           options={options}
@@ -71,6 +78,7 @@ export const BasicUsage: Story = {
         />
         <Select2
           {...args}
+          valueAsString={false}
           size="xs"
           value={value}
           options={options}
@@ -120,7 +128,13 @@ export const AsyncUsage: Story = {
 
     return (
       <div>
-        <Select2 {...args} value={value} options={optionsMemo} onChange={option => updateArgs({ value: option })} />
+        <Select2
+          {...args}
+          valueAsString={false}
+          value={value}
+          options={optionsMemo}
+          onChange={option => updateArgs({ value: option })}
+        />
       </div>
     );
   }

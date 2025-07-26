@@ -29,7 +29,7 @@ export type OptionGroup = {
   options: Exclude<Option, OptionGroup>[];
 };
 
-export type Select2Props = {
+type Select2PropsBase = {
   ref?: RefObject<HTMLDivElement | null>;
   className?: string;
   id?: string;
@@ -46,29 +46,42 @@ export type Select2Props = {
   clearable?: boolean;
   open?: boolean;
   searchAutoFocus?: boolean;
-  onChange?: (value?: Exclude<Option, OptionGroup>) => void;
-} & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
+};
 
-const Select2 = ({
-  ref,
-  className = '',
-  id,
-  name,
-  value,
-  options = optionsDefault,
-  placeholder = 'Select...',
-  label = '',
-  size = 'md',
-  disabled = false,
-  error = false,
-  allowCreateOptions = false,
-  isSearchable = true,
-  clearable = true,
-  open: openProp,
-  searchAutoFocus = true,
-  autoClose = true,
-  onChange
-}: Select2Props) => {
+type Select2PropsWithString = Select2PropsBase & {
+  valueAsString: true;
+  onChange?: (value?: string) => void;
+};
+
+type Select2PropsWithObject = Select2PropsBase & {
+  valueAsString?: false;
+  onChange?: (value?: Exclude<Option, OptionGroup>) => void;
+};
+
+export type Select2Props = (Select2PropsWithString | Select2PropsWithObject) &
+  useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
+
+const Select2 = (props: Select2Props) => {
+  const {
+    ref,
+    className = '',
+    id,
+    name,
+    value,
+    options = optionsDefault,
+    placeholder = 'Select...',
+    label = '',
+    size = 'md',
+    disabled = false,
+    error = false,
+    allowCreateOptions = false,
+    isSearchable = true,
+    clearable = true,
+    open: openProp,
+    searchAutoFocus = true,
+    autoClose = true,
+    onChange
+  } = props;
   const [open, setOpen] = useState(openProp);
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
@@ -135,13 +148,19 @@ const Select2 = ({
         return;
       }
 
-      onChange?.(newValue);
+      if (props.valueAsString) {
+        props.onChange?.(newValue?.value);
+      } else {
+        props.onChange?.(newValue);
+      }
+
       setSearch('');
       if (autoClose && triggerRef.current) {
         triggerRef.current.click();
       }
     },
-    [disabled, onChange, autoClose]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [disabled, props.valueAsString, props.onChange, autoClose]
   );
 
   const loadOptions = useCallback(async () => {

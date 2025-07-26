@@ -7,7 +7,7 @@ import { isOptionGroup } from './helpers/utils';
 import ListGroup from './ListGroup';
 import ListItem from './ListItem';
 
-import type { Option, Select2Props } from './Select2';
+import type { Option, OptionGroup } from './Select2';
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
@@ -16,7 +16,7 @@ export type SelectListProps = {
   className?: string;
   options?: Option[];
   value?: string;
-  onChange?: Select2Props['onChange'];
+  onChange?: (newValue?: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 const optionsDefault: Option[] = [];
 

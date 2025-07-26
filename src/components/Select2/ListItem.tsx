@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 import useTheme from '@hooks/useTheme';
 
-import type { Option, OptionGroup, Select2Props } from './Select2';
+import type { Option, OptionGroup } from './Select2';
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
@@ -16,7 +16,7 @@ export type ListItemProps = {
   suffix?: string;
   option?: Exclude<Option, OptionGroup>;
   isSelected?: boolean;
-  onChange?: Select2Props['onChange'];
+  onChange?: (newValue?: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
 const ListItem = ({
