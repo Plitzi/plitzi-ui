@@ -2,7 +2,7 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['primary', 'custom'],
-  size: ['xs', 'sm', 'md'],
+  size: ['xs', 'sm', 'md', 'custom'],
   disabled: [true, false],
   error: [true, false]
 } as const;
@@ -25,9 +25,10 @@ export default {
         false: ''
       },
       size: {
-        md: 'text-base',
+        md: '',
         sm: 'text-sm',
-        xs: 'text-xs'
+        xs: 'text-xs',
+        custom: ''
       }
     },
     compoundVariants: [],
@@ -47,7 +48,8 @@ export default {
       size: {
         md: 'py-1.5',
         sm: 'py-1',
-        xs: 'py-0.5'
+        xs: 'py-0.5',
+        custom: ''
       }
     },
     compoundVariants: [],

@@ -6,8 +6,10 @@ import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { json, jsonLanguage } from '@codemirror/lang-json';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
+import omit from 'lodash/omit';
 import { useCallback, useMemo, useRef } from 'react';
 
+import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
 import useCodeMirror from './hooks/useCodeMirror';
@@ -15,6 +17,7 @@ import useCodeMirror from './hooks/useCodeMirror';
 import type CodeMirrorStyles from './CodeMirror.styles';
 import type { variantKeys } from './CodeMirror.styles';
 import type { Completion, CompletionContext, CompletionSource } from '@codemirror/autocomplete';
+import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { FocusEvent, KeyboardEvent, RefObject } from 'react';
 
@@ -26,14 +29,20 @@ export { EditorState, Transaction };
 
 export type CodeMirrorProps = {
   ref?: RefObject<HTMLElement>;
+  id?: string;
+  label?: string;
+  placeholder?: string;
+  loading?: boolean;
+  disabled?: boolean;
+  clearable?: boolean;
   value?: string;
+  error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   mode?: 'css' | 'js' | 'json' | 'text' | 'html';
   theme?: 'light' | 'dark' | 'none';
   lineWrapping?: boolean;
   autoComplete?: AutoComplete[];
   multiline?: boolean;
   readOnly?: boolean;
-  placeholder?: string;
   onChange?: (value: string) => void;
   onBlur?: (e: FocusEvent) => void;
   getReadOnlyRanges?: (state: EditorState) => { from: number | null; to: number | null }[];
@@ -42,7 +51,13 @@ export type CodeMirrorProps = {
 const CodeMirror = ({
   ref,
   className,
+  id,
+  label = 'Text Area',
+  loading = false,
+  disabled = false,
+  clearable = false,
   value = '',
+  error,
   mode = 'css',
   theme = 'light',
   autoComplete = autoCompleteDefault,
@@ -53,11 +68,12 @@ const CodeMirror = ({
   readOnly = false,
   placeholder = '',
   size,
+  intent,
   getReadOnlyRanges
 }: CodeMirrorProps) => {
-  className = useTheme<typeof CodeMirrorStyles, typeof variantKeys>('CodeMirror', {
+  const classNameTheme = useTheme<typeof CodeMirrorStyles, typeof variantKeys>('CodeMirror', {
     className,
-    componentKey: 'root',
+    componentKey: ['input', 'inputContainer', 'iconFloatingContainer'],
     variants: { size }
   });
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
@@ -143,6 +159,8 @@ const CodeMirror = ({
     [autoCompleteOptions]
   ) as CompletionSource;
 
+  const handleClickClear = useCallback(() => onChange?.(''), [onChange]);
+
   const extensions = useMemo(() => {
     const extensionsInternal = [
       readOnlyTransactionFilter(),
@@ -189,7 +207,23 @@ const CodeMirror = ({
     e.stopPropagation();
   }, []);
 
-  return <div className={className} ref={editorRef} onKeyDown={handleKeyDown} onBlur={onBlur} />;
+  return (
+    <InputContainer
+      className={omit(classNameTheme, 'input')}
+      id={id}
+      label={label}
+      error={error}
+      disabled={disabled}
+      intent={intent}
+      size={size}
+      loading={loading}
+      clearable={clearable}
+      value={value}
+      onClear={handleClickClear}
+    >
+      <div className={classNameTheme.input} ref={editorRef} onKeyDown={handleKeyDown} onBlur={onBlur} />
+    </InputContainer>
+  );
 };
 
 export default CodeMirror;

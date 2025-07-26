@@ -29,7 +29,8 @@ export const Primary: Story = {
       { type: 'token', value: 'normalToken' },
       { type: 'custom-token', value: 'customToken' }
     ],
-    value: 'body {\n  background: var(--fancyVariable);\n}'
+    value: 'body {\n  background: var(--fancyVariable);\n}',
+    label: 'CodeMirror Label'
   },
   render: function Render(args) {
     return (

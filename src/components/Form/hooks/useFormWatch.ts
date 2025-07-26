@@ -2,22 +2,23 @@ import { useEffect, useState } from 'react';
 
 import type { FieldPathValue, FieldPathValues, FieldValues, Path, UseFormReturn } from 'react-hook-form';
 
-type WatchValue<
-  T extends FieldValues,
-  K extends Path<T> | readonly Path<T>[] | undefined
-> = K extends readonly Path<T>[] ? [...FieldPathValues<T, K>] : K extends Path<T> ? FieldPathValue<T, K> : unknown;
+type WatchValue<T extends FieldValues, K extends Path<T> | Path<T>[] | undefined> = K extends Path<T>[]
+  ? [...FieldPathValues<T, K>]
+  : K extends Path<T>
+    ? FieldPathValue<T, K>
+    : unknown;
 
 function useFormWatch<T extends FieldValues, K extends Path<T>>(
   form: UseFormReturn<T>,
   names: K
 ): FieldPathValue<T, K> | undefined;
 
-function useFormWatch<T extends FieldValues, K extends readonly Path<T>[]>(
+function useFormWatch<T extends FieldValues, K extends Path<T>[]>(
   form: UseFormReturn<T>,
-  names: readonly [...K]
+  names: [...K]
 ): [...FieldPathValues<T, K>] | undefined;
 
-function useFormWatch<T extends FieldValues>(form: UseFormReturn<T>, names: Path<T> | readonly Path<T>[]) {
+function useFormWatch<T extends FieldValues>(form: UseFormReturn<T>, names: Path<T> | Path<T>[]) {
   const [value, setValue] = useState<WatchValue<T, typeof names> | undefined>(undefined);
   const [mounted, setMounted] = useState(false);
 
