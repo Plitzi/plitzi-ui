@@ -52,11 +52,13 @@ const CodeMirror = ({
   multiline = true,
   readOnly = false,
   placeholder = '',
+  size,
   getReadOnlyRanges
 }: CodeMirrorProps) => {
   className = useTheme<typeof CodeMirrorStyles, typeof variantKeys>('CodeMirror', {
     className,
-    componentKey: 'root'
+    componentKey: 'root',
+    variants: { size }
   });
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
   const styleMemo = useMemo(() => ({ height: '100%' }), []);

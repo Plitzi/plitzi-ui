@@ -29,10 +29,14 @@ export const Primary: Story = {
       { type: 'token', value: 'normalToken' },
       { type: 'custom-token', value: 'customToken' }
     ],
-    value: ''
+    value: 'body {\n  background: var(--fancyVariable);\n}'
   },
   render: function Render(args) {
-    return <CodeMirror {...args} />;
+    return (
+      <div className="flex flex-col min-h-[200px]">
+        <CodeMirror {...args} size="md" />
+      </div>
+    );
   }
 };
 
