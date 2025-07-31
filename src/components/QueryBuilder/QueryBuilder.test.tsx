@@ -492,6 +492,9 @@ describe('QueryBuilder', () => {
       firstName_repeat: 'Steven'
     });
     expect(isValid).toEqual(false);
+
+    isValid = QueryBuilderEvaluator({} as RuleGroup, {}, false, true);
+    expect(isValid).toEqual(true);
   });
 
   it('should evaluate complex in', () => {
