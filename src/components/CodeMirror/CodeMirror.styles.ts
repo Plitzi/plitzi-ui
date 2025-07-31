@@ -78,7 +78,7 @@ export default {
       error: false
     }
   }),
-  inputContainer: cva('border-none p-0', {
+  inputContainer: cva('border-none p-0 h-full w-full', {
     variants: {
       error: {
         true: '!items-start',
