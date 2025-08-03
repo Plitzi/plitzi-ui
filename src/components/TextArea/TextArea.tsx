@@ -1,5 +1,5 @@
 import omit from 'lodash/omit';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
@@ -42,10 +42,11 @@ const TextArea = ({
   ...textareaProps
 }: TextAreaProps) => {
   const classNameTheme = useTheme<typeof TextAreaStyles & typeof InputStyles, typeof variantKeys>('TextArea', {
-    className: className && typeof className === 'object' ? className.input : '',
+    className,
     componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear', 'input'],
     variants: { intent, size, disabled, error: !!error }
   });
+  const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['input']), [classNameTheme]);
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -58,7 +59,7 @@ const TextArea = ({
 
   return (
     <InputContainer
-      className={omit(classNameTheme, 'input')}
+      className={inputClassNameTheme}
       id={id}
       label={label}
       error={error}

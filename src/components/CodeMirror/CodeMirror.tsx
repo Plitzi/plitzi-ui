@@ -78,6 +78,7 @@ const CodeMirror = ({
     componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear', 'input'],
     variants: { size, rounded, intent }
   });
+  const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['input']), [classNameTheme]);
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
   const styleMemo = useMemo(() => ({ height: '100%' }), []);
   const getRanges = useRef(getReadOnlyRanges);
@@ -211,7 +212,7 @@ const CodeMirror = ({
 
   return (
     <InputContainer
-      className={omit(classNameTheme, ['input'])}
+      className={inputClassNameTheme}
       id={id}
       label={label}
       error={error}
