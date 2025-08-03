@@ -7,6 +7,7 @@ import useTheme from '@hooks/useTheme';
 import type TextAreaStyles from './TextArea.styles';
 import type { variantKeys } from './TextArea.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
+import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, RefObject, TextareaHTMLAttributes } from 'react';
 
@@ -21,7 +22,7 @@ export type TextAreaProps = {
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
 } & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
-  Omit<useThemeSharedProps<typeof TextAreaStyles, typeof variantKeys>, 'error'>;
+  Omit<useThemeSharedProps<typeof TextAreaStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const TextArea = ({
   ref,
@@ -40,9 +41,9 @@ const TextArea = ({
   onChange,
   ...textareaProps
 }: TextAreaProps) => {
-  const classNameTheme = useTheme<typeof TextAreaStyles, typeof variantKeys>('TextArea', {
+  const classNameTheme = useTheme<typeof TextAreaStyles & typeof InputStyles, typeof variantKeys>('TextArea', {
     className: className && typeof className === 'object' ? className.input : '',
-    componentKey: ['input', 'inputContainer', 'iconFloatingContainer'],
+    componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear', 'input'],
     variants: { intent, size, disabled, error: !!error }
   });
 
