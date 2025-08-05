@@ -24,6 +24,7 @@ export type InputContainerProps = {
   children?: ReactNode;
   loading?: boolean;
   clearable?: boolean;
+  inline?: boolean;
   value?: unknown;
   onClear?: (e: MouseEvent) => void;
 } & Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'>;
@@ -40,17 +41,19 @@ const InputContainer = ({
   children,
   loading,
   clearable,
+  inline,
   value,
   onClear
 }: InputContainerProps) => {
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys>('Input', {
     className,
-    componentKey: ['root', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear'],
+    componentKey: ['root', 'label', 'inputContainer', 'iconFloatingContainer', 'icon', 'iconError', 'iconClear'],
     variants: {
       intent,
       size,
       disabled: disabled || loading,
-      error: !!error
+      error: !!error,
+      inline
     }
   });
 
@@ -84,15 +87,35 @@ const InputContainer = ({
 
   return (
     <div className={classNameTheme.root}>
-      {label && (
-        <Label error={!!error} disabled={disabled} intent={intent} size={size} htmlFor={id}>
+      {label && !inline && (
+        <Label
+          error={!!error}
+          disabled={disabled}
+          intent={intent}
+          size={size}
+          htmlFor={id}
+          className={classNameTheme.label}
+        >
           {label}
         </Label>
       )}
       <div className={classNameTheme.inputContainer}>
         {iconChildren}
         {prefix && <div>{prefix}</div>}
-        {inputChildren}
+        {!inline && inputChildren}
+        {inline && (
+          <Label
+            error={!!error}
+            disabled={disabled}
+            intent={intent}
+            size={size}
+            htmlFor={id}
+            className={classNameTheme.label}
+          >
+            {inputChildren}
+            {label}
+          </Label>
+        )}
         {!disabled && (!!error || loading || (clearable && !!value)) && (
           <div className={classNameTheme.iconFloatingContainer}>
             {error && !loading && (

@@ -4,7 +4,8 @@ export const variantKeys = {
   intent: ['primary', 'custom'],
   size: ['md', 'sm', 'xs', 'custom'],
   error: [true, false],
-  disabled: [true, false]
+  disabled: [true, false],
+  inline: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Input';
@@ -88,6 +89,41 @@ export default {
       size: 'md',
       disabled: false,
       error: false
+    }
+  }),
+  label: cva('', {
+    variants: {
+      inline: {
+        true: 'flex cursor-pointer',
+        false: ''
+      },
+      size: {
+        md: '',
+        sm: 'text-sm',
+        xs: 'text-xs',
+        custom: ''
+      }
+    },
+    compoundVariants: [
+      {
+        inline: true,
+        size: 'md',
+        className: 'gap-2'
+      },
+      {
+        inline: true,
+        size: 'sm',
+        className: 'gap-1.5'
+      },
+      {
+        inline: true,
+        size: 'xs',
+        className: 'gap-1'
+      }
+    ],
+    defaultVariants: {
+      inline: false,
+      size: 'md'
     }
   }),
   iconFloatingContainer: cva('flex', {

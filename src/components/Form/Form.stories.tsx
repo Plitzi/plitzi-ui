@@ -31,7 +31,9 @@ const watchFormSchema = z.object({
   password: z.string().min(8, { message: 'Too Short' }).max(20, { message: 'Too Long' }),
   extra: z.string().optional(),
   custom: z.string().min(1),
-  prop1: z.enum(['option-1', 'option-2', 'option-3'])
+  prop1: z.enum(['option-1', 'option-2', 'option-3']),
+  check: z.boolean(),
+  switch: z.boolean()
 });
 
 type Schema = typeof watchFormSchema;
@@ -40,14 +42,23 @@ export const Primary: Story = {
   args: {},
   render: function Render(args) {
     const form = useForm({
-      initialValues: { username: 'test', password: 'password', extra: '', custom: 'hey' },
+      initialValues: {
+        username: 'test',
+        password: 'password',
+        extra: '',
+        custom: 'hey',
+        prop1: 'option-1',
+        check: false,
+        switch: false
+      },
       config: { schema: watchFormSchema }
     });
 
+    const watchEverything = useFormWatch(form.formMethods);
     const watchUsername = useFormWatch(form.formMethods, 'username');
     const watchPassword = useFormWatch(form.formMethods, 'password');
     const [username, password] = useFormWatch(form.formMethods, ['username', 'password']);
-    console.log(watchUsername, watchPassword, [username, password]);
+    console.log(watchUsername, watchPassword, [username, password], watchEverything);
 
     const handleSubmit = useCallback(async (values: z.infer<Schema>) => {
       console.log('submitted', values);
@@ -68,6 +79,8 @@ export const Primary: Story = {
           />
           <Form.Input name="password" label="Password" />
           <Form.Input name="extra" label="Extra" />
+          <Form.Switch name="switch" label="Switch" value="test" />
+          <Form.Checkbox name="check" label="Checkbox" value="test2" />
           <Controller
             name="custom"
             control={form.formMethods.control}

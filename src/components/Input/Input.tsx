@@ -37,6 +37,7 @@ const Input = ({
   loading = false,
   disabled = false,
   clearable = false,
+  inline = false,
   prefix = '',
   type = 'text',
   size,
@@ -53,7 +54,8 @@ const Input = ({
       intent,
       size,
       disabled: disabled || loading,
-      error: !!error
+      error: !!error,
+      inline
     }
   });
 

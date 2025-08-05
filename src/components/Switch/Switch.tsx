@@ -1,59 +1,94 @@
 import classNames from 'classnames';
+import omit from 'lodash/omit';
+import { useMemo } from 'react';
 
-import Label from '@components/Label';
+import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
 import type SwitchyStyles from './Switch.styles';
 import type { variantKeys } from './Switch.styles';
+import type { ErrorMessageProps } from '@components/ErrorMessage';
+import type InputStyles from '@components/Input/Input.styles';
+import type { InputContainerProps } from '@components/Input/InputContainer';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, ReactNode, RefObject } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type SwitchProps = {
   ref?: RefObject<HTMLInputElement>;
   children?: ReactNode;
-  value?: string;
-  checked?: boolean;
+  label?: string;
+  value?: boolean;
+  loading?: boolean;
   disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   readOnly?: boolean;
-} & useThemeSharedProps<typeof SwitchyStyles, typeof variantKeys>;
+  error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
+} & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
+  Omit<useThemeSharedProps<typeof SwitchyStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const Switch = ({
   ref,
   children,
+  id,
+  name,
   className = '',
-  value = '',
-  checked = true,
+  value,
+  label = '',
   disabled = false,
+  loading = false,
   intent,
-  size = 'md',
+  size,
+  error,
   onChange,
   ...inputProps
 }: SwitchProps) => {
-  const classNameTheme = useTheme<typeof SwitchyStyles, typeof variantKeys>('Switch', {
+  const classNameTheme = useTheme<typeof SwitchyStyles & typeof InputStyles, typeof variantKeys>('Switch', {
     className,
-    componentKey: ['root', 'switch', 'slider'],
-    variants: { intent, size }
+    componentKey: [
+      'switch',
+      'slider',
+      'root',
+      'inputContainer',
+      'iconFloatingContainer',
+      'icon',
+      'iconError',
+      'iconClear',
+      'input'
+    ],
+    variants: { intent, size, disabled, error: !!error }
   });
+  const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['switch', 'slide']), [classNameTheme]);
 
   return (
-    <Label className={classNameTheme.root}>
+    <InputContainer
+      className={inputClassNameTheme}
+      id={id}
+      label={label}
+      error={error}
+      disabled={disabled}
+      intent={intent as InputContainerProps['intent']}
+      size={size as InputContainerProps['size']}
+      loading={loading}
+      inline
+      value={value}
+    >
+      {children}
       <div className={classNames('switch', classNameTheme.switch)}>
         <input
           {...inputProps}
+          id={id}
+          name={name}
           type="checkbox"
           ref={ref}
           value={value}
-          checked={checked}
           readOnly={!onChange || inputProps.readOnly}
           onChange={onChange}
-          className="opacity-0 w-0 h-0 peer"
+          className={classNameTheme.input}
           disabled={disabled}
         />
         <span className={classNames('slider', classNameTheme.slider)} />
       </div>
-      {children}
-    </Label>
+    </InputContainer>
   );
 };
 

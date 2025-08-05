@@ -1,39 +1,19 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'danger', 'secondary'],
+  intent: ['primary', 'secondary', 'danger', 'custom'],
   size: ['lg', 'md', 'sm', 'xs', 'custom'],
-  rounded: [true, false]
+  rounded: [true, false],
+  disabled: [true, false],
+  error: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Switch';
 
 export default {
-  root: cva('flex gap-1 cursor-pointer select-none items-center', {
-    variants: {
-      intent: {
-        primary: ''
-      },
-      size: {
-        lg: 'text-lg',
-        md: '',
-        sm: 'text-sm',
-        xs: 'text-xs',
-        custom: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      intent: 'primary',
-      size: 'md'
-    }
-  }),
   input: cva('opacity-0 w-0 h-0 peer'),
   switch: cva('relative block', {
     variants: {
-      intent: {
-        primary: ''
-      },
       size: {
         lg: 'w-12 h-7',
         md: 'w-10 h-6',
@@ -44,10 +24,10 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'primary',
       size: 'md'
     }
   }),
+  inputContainer: cva('border-0 p-0'),
   slider: cva(
     [
       'round absolute top-0 bottom-0 left-0 right-0 duration-[0.4s]',
@@ -56,9 +36,9 @@ export default {
     {
       variants: {
         intent: {
-          primary: 'bg-gray-300 peer-checked:bg-primary-500',
-          secondary: 'bg-gray-300 peer-checked:bg-secondary-500',
-          danger: 'bg-gray-300 peer-checked:bg-danger-500'
+          primary: '',
+          secondary: '',
+          danger: ''
         },
         size: {
           lg: 'before:w-5 before:h-5 peer-checked:before:translate-x-[20px]',
@@ -70,9 +50,33 @@ export default {
         rounded: {
           true: 'before:rounded-full rounded-2xl',
           false: ''
+        },
+        disabled: {
+          true: 'bg-gray-300',
+          false: ''
+        },
+        error: {
+          true: 'before:bg-red-500',
+          false: ''
         }
       },
-      compoundVariants: [],
+      compoundVariants: [
+        {
+          intent: 'primary',
+          disabled: false,
+          className: 'bg-gray-300 peer-checked:bg-primary-500 hover:before:bg-primary-500'
+        },
+        {
+          intent: 'secondary',
+          disabled: false,
+          className: 'bg-gray-300 peer-checked:bg-secondary-500 hover:before:bg-secondary-500'
+        },
+        {
+          intent: 'danger',
+          disabled: false,
+          className: 'bg-gray-300 peer-checked:bg-red-500 hover:before:bg-red-500'
+        }
+      ],
       defaultVariants: {
         intent: 'primary',
         rounded: true,
