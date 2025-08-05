@@ -20,7 +20,7 @@ export type InputProps = {
   clearable?: boolean;
   label?: string;
   prefix?: string;
-  type?: 'text' | 'number';
+  type?: 'text' | 'number' | 'email' | 'password';
   value?: string | number;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onChange?: (value: string) => void;
