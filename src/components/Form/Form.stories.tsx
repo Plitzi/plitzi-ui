@@ -33,7 +33,8 @@ const watchFormSchema = z.object({
   custom: z.string().min(1),
   prop1: z.enum(['option-1', 'option-2', 'option-3']),
   check: z.boolean(),
-  switch: z.boolean()
+  switch: z.boolean(),
+  color: z.string()
 });
 
 type Schema = typeof watchFormSchema;
@@ -49,7 +50,8 @@ export const Primary: Story = {
         custom: 'hey',
         prop1: 'option-1',
         check: false,
-        switch: false
+        switch: false,
+        color: ''
       },
       config: { schema: watchFormSchema }
     });
@@ -79,8 +81,9 @@ export const Primary: Story = {
           />
           <Form.Input name="password" label="Password" />
           <Form.Input name="extra" label="Extra" />
-          <Form.Switch name="switch" label="Switch" value="test" />
-          <Form.Checkbox name="check" label="Checkbox" value="test2" />
+          <Form.Switch name="switch" label="Switch" />
+          <Form.Checkbox name="check" label="Checkbox" />
+          <Form.Color name="color" label="Color" />
           <Controller
             name="custom"
             control={form.formMethods.control}

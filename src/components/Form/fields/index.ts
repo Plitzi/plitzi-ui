@@ -1,4 +1,5 @@
 import FormCheckbox from './FormCheckbox';
+import FormColor from './FormColor';
 import FormFieldCustom from './FormFieldCustom';
 import FormInput from './FormInput';
 import FormSelect from './FormSelect';
@@ -6,6 +7,7 @@ import FormSelect2 from './FormSelect2';
 import FormSwitch from './FormSwitch';
 import FormTextArea from './FormTextArea';
 
+export * from './FormColor';
 export * from './FormCheckbox';
 export * from './FormSwitch';
 export * from './FormSelect2';
@@ -21,5 +23,6 @@ export {
   FormSelect2 as Select2,
   FormFieldCustom as Custom,
   FormSwitch as Switch,
-  FormCheckbox as Checkbox
+  FormCheckbox as Checkbox,
+  FormColor as Color
 };

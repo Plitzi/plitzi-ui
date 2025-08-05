@@ -17,7 +17,6 @@ export type SwitchProps = {
   ref?: RefObject<HTMLInputElement>;
   children?: ReactNode;
   label?: string;
-  value?: boolean;
   loading?: boolean;
   disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -30,7 +29,6 @@ const Switch = ({
   ref,
   children,
   id,
-  name,
   className = '',
   value,
   label = '',
@@ -77,7 +75,6 @@ const Switch = ({
         <input
           {...inputProps}
           id={id}
-          name={name}
           type="checkbox"
           ref={ref}
           value={value}
