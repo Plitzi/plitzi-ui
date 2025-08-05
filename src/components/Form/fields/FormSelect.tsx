@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCallback, useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import Select from '@components/Select';
@@ -14,6 +15,14 @@ export type FormSelectProps<T extends FieldValues, TName extends FieldPath<T>> =
 const FormSelect = <T extends FieldValues, TName extends FieldPath<T>>(props: FormSelectProps<T, TName>) => {
   const { control } = useFormContext<T>();
 
+  const handleChange = useCallback(
+    (onChange: (...event: any[]) => void) => (value: string) => {
+      onChange(value);
+      props.onChange?.(value);
+    },
+    [props]
+  );
+
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
       ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
@@ -23,10 +32,10 @@ const FormSelect = <T extends FieldValues, TName extends FieldPath<T>>(props: Fo
           value={value}
           name={name}
           error={fieldError?.message}
-          onChange={onChange}
+          onChange={handleChange(onChange)}
         />
       ),
-    [props]
+    [props, handleChange]
   );
 
   return <Controller control={props.control ?? control} name={props.name} render={renderMemo} />;

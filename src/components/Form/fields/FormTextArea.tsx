@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCallback, useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import TextArea from '@components/TextArea';
@@ -14,6 +15,14 @@ export type FormTextAreaProps<T extends FieldValues, TName extends FieldPath<T>>
 const FormTextArea = <T extends FieldValues, TName extends FieldPath<T>>(props: FormTextAreaProps<T, TName>) => {
   const { control } = useFormContext<T>();
 
+  const handleChange = useCallback(
+    (onChange: (...event: any[]) => void) => (value: string) => {
+      onChange(value);
+      props.onChange?.(value);
+    },
+    [props]
+  );
+
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
       ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
@@ -23,10 +32,10 @@ const FormTextArea = <T extends FieldValues, TName extends FieldPath<T>>(props: 
           value={value}
           name={name}
           error={fieldError?.message}
-          onChange={onChange}
+          onChange={handleChange(onChange)}
         />
       ),
-    [props]
+    [props, handleChange]
   );
 
   return <Controller control={props.control ?? control} name={props.name} render={renderMemo} />;

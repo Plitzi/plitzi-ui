@@ -58,7 +58,14 @@ export const Primary: Story = {
     return (
       <Form {...args} form={form} onSubmit={handleSubmit} className="gap-4">
         <Form.Body>
-          <Form.Input name="username" label="Username" />
+          <Form.Input
+            name="username"
+            label="Username"
+            onChange={currentUsername => {
+              console.log('called', currentUsername);
+              form.formMethods.setValue('password', '');
+            }}
+          />
           <Form.Input name="password" label="Password" />
           <Form.Input name="extra" label="Extra" />
           <Controller
