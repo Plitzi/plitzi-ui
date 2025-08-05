@@ -71,7 +71,7 @@ const Select2 = (props: Select2Props) => {
     options = optionsDefault,
     placeholder = 'Select...',
     label = '',
-    size = 'md',
+    size,
     disabled = false,
     error = false,
     allowCreateOptions = false,
