@@ -29,7 +29,7 @@ const autoCompleteDefault: AutoComplete[] = [];
 export { EditorState, Transaction };
 
 export type CodeMirrorProps = {
-  ref?: RefObject<HTMLElement>;
+  ref?: RefObject<HTMLElement | null>;
   id?: string;
   label?: string;
   placeholder?: string;
@@ -203,7 +203,7 @@ const CodeMirror = ({
     readOnly,
     value,
     onChange,
-    ref
+    ref: ref as RefObject<HTMLElement>
   });
 
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
