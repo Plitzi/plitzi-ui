@@ -31,9 +31,9 @@ export default {
     compoundVariants: [
       { disabled: true, canDragAndDrop: true, className: 'cursor-not-allowed' },
       { disabled: false, canDragAndDrop: true, className: 'cursor-pointer' },
-      { canDragAndDrop: true, size: 'md', className: 'px-4 py-10 gap-4' },
-      { canDragAndDrop: true, size: 'sm', className: 'px-2 py-8 gap-3' },
-      { canDragAndDrop: true, size: 'xs', className: 'px-1 py-6 gap-2' }
+      { canDragAndDrop: true, size: 'md', className: 'p-4 gap-4' },
+      { canDragAndDrop: true, size: 'sm', className: 'p-2 gap-3' },
+      { canDragAndDrop: true, size: 'xs', className: 'p-1 gap-2' }
     ],
     defaultVariants: {
       disabled: false,
@@ -96,16 +96,16 @@ export default {
     }
   }),
   itemLabel: cva('whitespace-nowrap w-full truncate'),
-  label: cva('mt-2 text-center flex flex-col', {
+  label: cva('text-center flex flex-col', {
     variants: {
       error: {
         true: 'text-red-500',
         false: ''
       },
       size: {
-        md: '',
-        sm: 'text-sm',
-        xs: 'text-xs',
+        md: 'mt-2',
+        sm: 'text-sm mt-1.5',
+        xs: 'text-xs mt-1',
         custom: ''
       },
       disabled: {
@@ -123,7 +123,7 @@ export default {
   subLabel: cva('lowercase text-[9px] text-center w-full items-center justify-center', {
     variants: {
       size: {
-        md: 'text-sm',
+        md: 'text-xs',
         sm: 'text-xs',
         xs: 'text-xs',
         custom: ''

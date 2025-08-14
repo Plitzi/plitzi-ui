@@ -271,7 +271,7 @@ const FileUpload = ({
       <div className="flex flex-col grow items-center justify-center overflow-hidden w-full">
         <Icon
           icon="fa-solid fa-file-circle-plus"
-          size="3xl"
+          size={!size || size === 'md' ? '3xl' : size === 'sm' ? '2xl' : 'xl'}
           disabled={disabled}
           intent={error && !dragging ? 'danger' : 'primary'}
         />
