@@ -7,20 +7,12 @@ let draggingCount = 0;
 export type UseDraggingProps = {
   labelRef: RefObject<HTMLDivElement | null>;
   inputRef: RefObject<HTMLInputElement | null>;
-  multiple?: boolean;
   disabled?: boolean;
   onChange?: (files: File | File[]) => boolean;
-  onDrop?: (files: File | File[]) => void;
-};
+} & ({ multiple: true; onDrop?: (files: File[]) => void } | { multiple?: false; onDrop?: (files: File) => void });
 
-export default function useDragging({
-  labelRef,
-  inputRef,
-  multiple = false,
-  onChange,
-  onDrop,
-  disabled = false
-}: UseDraggingProps) {
+export default function useDragging(props: UseDraggingProps) {
+  const { labelRef, inputRef, disabled = false } = props;
   const [dragging, setDragging] = useState(false);
 
   const handleClick = useCallback(() => !disabled && inputRef.current?.click(), [disabled, inputRef]);
@@ -59,14 +51,20 @@ export default function useDragging({
 
       const eventFiles = ev.dataTransfer?.files;
       if (eventFiles && eventFiles.length > 0) {
-        const files = multiple ? Array.from(eventFiles) : eventFiles[0];
-        const success = onChange?.(files);
-        if (onDrop && success) {
-          onDrop(files);
+        const files = props.multiple ? Array.from(eventFiles) : eventFiles[0];
+        const success = props.onChange?.(files);
+        if (!success) {
+          return;
+        }
+
+        if (props.multiple) {
+          props.onDrop?.(files as File[]);
+        } else {
+          props.onDrop?.(files as File);
         }
       }
     },
-    [onChange, multiple, onDrop]
+    [props]
   );
 
   useEffect(() => {

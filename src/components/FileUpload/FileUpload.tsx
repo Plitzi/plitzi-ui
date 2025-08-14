@@ -26,45 +26,49 @@ export type FileUploadProps = {
   name?: string;
   minSize?: number;
   maxSize?: number;
-  multiple?: boolean;
+  // multiple?: boolean;
   types?: string[];
   label?: string;
-  value?: File | File[];
+  // value?: File | File[];
   loading?: boolean;
   showPreview?: boolean;
   clearable?: boolean;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onError?: (error?: string) => void;
-  onChange?: (files?: File | File[]) => void;
-  onSelect?: (files: File | File[]) => void;
+  // onChange?: (files?: File | File[]) => void;
   onDraggingStateChange?: (dragging: boolean) => void;
-  onDrop?: (files: File | File[]) => void;
-} & Omit<useThemeSharedProps<typeof FileUploadStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
+  // onDrop?: (files: File | File[]) => void;
+} & (
+  | { multiple: true; value?: File[]; onChange?: (files?: File[]) => void; onDrop?: (files: File[]) => void }
+  | { multiple?: false; value?: File; onChange?: (files?: File) => void; onDrop?: (files: File) => void }
+) &
+  Omit<useThemeSharedProps<typeof FileUploadStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
-const FileUpload = ({
-  ref,
-  className = '',
-  canDragAndDrop = false,
-  id,
-  clearable = true,
-  loading = false,
-  name = '',
-  value,
-  minSize = 0,
-  maxSize = Infinity,
-  multiple = false,
-  disabled = false,
-  showPreview = true,
-  types = typesDefault,
-  label,
-  intent,
-  size,
-  error,
-  onError,
-  onChange,
-  onDraggingStateChange,
-  onDrop
-}: FileUploadProps) => {
+const FileUpload = (props: FileUploadProps) => {
+  const {
+    ref,
+    className = '',
+    canDragAndDrop = false,
+    id,
+    clearable = true,
+    loading = false,
+    name = '',
+    value,
+    minSize = 0,
+    maxSize = Infinity,
+    multiple = false,
+    disabled = false,
+    showPreview = true,
+    types = typesDefault,
+    label,
+    intent,
+    size,
+    error,
+    onError,
+    onChange,
+    onDraggingStateChange,
+    onDrop
+  } = props;
   const classNameTheme = useTheme<typeof FileUploadStyles & typeof InputStyles, typeof variantKeys>('FileUpload', {
     className,
     componentKey: [
@@ -127,7 +131,12 @@ const FileUpload = ({
           return false;
         }
 
-        onChange?.(files);
+        if (props.multiple) {
+          props.onChange?.(files as File[] | undefined);
+        } else {
+          props.onChange?.(files as File | undefined);
+        }
+
         onError?.(undefined);
 
         return true;
@@ -135,16 +144,16 @@ const FileUpload = ({
 
       return false;
     },
-    [onChange, onError, validate]
+    [props, onError, validate]
   );
 
   const handleClickClear = useCallback(() => {
-    if (multiple && Array.isArray(value) && value.length > 0) {
-      onChange?.([]);
+    if (props.multiple && Array.isArray(value) && value.length > 0) {
+      props.onChange?.([]);
     } else if (!multiple && value) {
       onChange?.(undefined);
     }
-  }, [multiple, value, onChange]);
+  }, [props, value, multiple, onChange]);
 
   const handleClickRemove = useCallback(
     (index: number) => () => {
@@ -152,13 +161,13 @@ const FileUpload = ({
         return;
       }
 
-      if (multiple) {
-        onChange?.((value as File[]).toSpliced(index, 1));
+      if (props.multiple && props.value) {
+        props.onChange?.(props.value.toSpliced(index, 1));
       } else {
         onChange?.(undefined);
       }
     },
-    [multiple, onChange, value]
+    [onChange, props, value]
   );
 
   const dragging = useDragging({
@@ -166,7 +175,7 @@ const FileUpload = ({
     inputRef,
     multiple,
     onChange: handleChange,
-    onDrop,
+    onDrop: onDrop as (files: File | File[]) => void,
     disabled: !canDragAndDrop
   });
 
@@ -179,31 +188,13 @@ const FileUpload = ({
     (e: ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
       e.stopPropagation();
-      const allFiles = Array.from(e.target.files as FileList);
-      if (inputRef.current) {
-        inputRef.current.value = '';
-      }
-
-      const files = multiple ? allFiles : allFiles[0];
-      let checkError = false;
-      if (files as File | File[] | undefined) {
-        if (files instanceof File) {
-          checkError = !validate(files);
-        } else {
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            checkError = !validate(file) || checkError;
-          }
-        }
-      }
-
-      if (checkError) {
+      if (!e.target.files) {
         return;
       }
 
-      onChange?.(files);
+      handleChange(Array.from(e.target.files));
     },
-    [multiple, onChange, validate]
+    [handleChange]
   );
 
   if (!canDragAndDrop) {

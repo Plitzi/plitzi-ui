@@ -18,7 +18,12 @@ const FormFileUpload = <T extends FieldValues, TName extends FieldPath<T>>(props
   const handleChange = useCallback(
     (onChange: (...event: any[]) => void) => (value?: File | File[]) => {
       onChange(value);
-      props.onChange?.(value);
+      if (props.multiple) {
+        props.onChange?.(value as File[] | undefined);
+      } else {
+        props.onChange?.(value as File | undefined);
+      }
+
       if (props.name) {
         clearErrors(props.name);
       }

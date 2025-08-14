@@ -25,7 +25,6 @@ export const Primary: Story = {
   args: {
     label: 'Select a resource file to upload',
     types: ['jpeg', 'jpg', 'png', 'json'],
-    multiple: true,
     maxSize: 10240000,
     // error: 'Test',
     // disabled: true,
@@ -37,7 +36,7 @@ export const Primary: Story = {
     const handleChange = useCallback(
       (data?: File | File[]) => {
         console.log('files to upload', data);
-        updateArgs({ value: data });
+        updateArgs({ value: data as File[] });
       },
       [updateArgs]
     );
@@ -46,20 +45,45 @@ export const Primary: Story = {
 
     return (
       <div className="p-10 flex flex-col w-full gap-10">
-        <FileUpload {...args} value={value} error={error} onChange={handleChange} onError={handleError} />
-        <FileUpload {...args} value={value} error={error} onChange={handleChange} onError={handleError} size="sm" />
-        <FileUpload {...args} value={value} error={error} onChange={handleChange} onError={handleError} size="xs" />
         <FileUpload
-          {...args}
-          value={value}
+          {...(args as Omit<typeof args, 'onDrop'>)}
+          multiple
+          value={value as File[]}
+          error={error}
+          onChange={handleChange}
+          onError={handleError}
+        />
+        <FileUpload
+          {...(args as Omit<typeof args, 'onDrop'>)}
+          multiple={false}
+          value={value as File}
+          error={error}
+          onChange={handleChange}
+          onError={handleError}
+          size="sm"
+        />
+        <FileUpload
+          {...(args as Omit<typeof args, 'onDrop'>)}
+          multiple={false}
+          value={value as File}
+          error={error}
+          onChange={handleChange}
+          onError={handleError}
+          size="xs"
+        />
+        <FileUpload
+          {...(args as Omit<typeof args, 'onDrop'>)}
+          multiple
+          value={value as File[]}
           error={error}
           onChange={handleChange}
           onError={handleError}
           canDragAndDrop
         />
         <FileUpload
-          {...args}
-          value={value}
+          {...(args as Omit<typeof args, 'onDrop'>)}
+          multiple={false}
+          value={value as File}
           error={error}
           onChange={handleChange}
           onError={handleError}
@@ -67,8 +91,9 @@ export const Primary: Story = {
           canDragAndDrop
         />
         <FileUpload
-          {...args}
-          value={value}
+          {...(args as Omit<typeof args, 'onDrop'>)}
+          multiple={false}
+          value={value as File}
           error={error}
           onChange={handleChange}
           onError={handleError}

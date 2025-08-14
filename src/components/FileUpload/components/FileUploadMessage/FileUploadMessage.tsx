@@ -35,7 +35,7 @@ const FileUploadMessage = ({
       {label && <span>{label}</span>}
       <span>
         <span className="font-bold underline">Click to Upload</span>
-        <span> or drop a file right here</span>
+        <span> or drop a file here</span>
       </span>
       {hasFiles && <span>Added Successfully!. Add another?</span>}
       {error && <span>{typeof error === 'boolean' ? 'This field is invalid' : error}</span>}
