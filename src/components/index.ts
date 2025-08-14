@@ -19,6 +19,7 @@ import Contenteditable from './ContentEditable';
 import Dummy from './Dummy';
 import ErrorBoundary from './ErrorBoundary';
 import ErrorMessage from './ErrorMessage';
+import FileUpload from './FileUpload';
 import Flex from './Flex';
 import Form from './Form';
 import Heading from './Heading';
@@ -42,6 +43,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
 
+export * from './FileUpload';
 export * from './ContainerAutoScale';
 export * from './Toast';
 export * from './ContainerShadow';
@@ -89,6 +91,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  FileUpload,
   ContainerAutoScale,
   ContainerShadow,
   KVInput,

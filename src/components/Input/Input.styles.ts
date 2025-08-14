@@ -126,7 +126,7 @@ export default {
       size: 'md'
     }
   }),
-  iconFloatingContainer: cva('flex', {
+  iconFloatingContainer: cva('flex items-center justify-center', {
     variants: {
       intent: {
         primary: ''

@@ -11,9 +11,10 @@ import type { variantKeys } from './Input.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent, ReactElement, ReactNode } from 'react';
+import type { MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type InputContainerProps = {
+  ref?: RefObject<HTMLDivElement | null>;
   id?: string;
   label?: string;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
@@ -30,6 +31,7 @@ export type InputContainerProps = {
 } & Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const InputContainer = ({
+  ref,
   className,
   id,
   label,
@@ -86,7 +88,7 @@ const InputContainer = ({
   }, [children, classNameTheme.icon, size]);
 
   return (
-    <div className={classNameTheme.root}>
+    <div className={classNameTheme.root} ref={ref}>
       {label && !inline && (
         <Label
           error={!!error}

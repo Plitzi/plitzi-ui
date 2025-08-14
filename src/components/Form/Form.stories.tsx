@@ -34,7 +34,27 @@ const watchFormSchema = z.object({
   prop1: z.enum(['option-1', 'option-2', 'option-3']),
   check: z.boolean(),
   switch: z.boolean(),
-  color: z.string()
+  color: z.string(),
+  files: z
+    .custom<File | File[] | FileList>()
+    .transform(val => {
+      if (val instanceof File) {
+        return [val];
+      }
+
+      if (val instanceof FileList) {
+        return Array.from(val);
+      }
+
+      if (Array.isArray(val)) {
+        return val;
+      }
+
+      return [];
+    })
+    .refine(arr => arr.length > 0, 'This field is required')
+    .refine(files => files.find(f => f.size <= 0.1 * 1024 * 1024), 'Máx 5MB') // 5 * 1024 * 1024
+    .refine(files => files.find(f => ['image/png', 'image/jpeg'].includes(f.type)), 'Solo PNG o JPG')
 });
 
 type Schema = typeof watchFormSchema;
@@ -51,7 +71,8 @@ export const Primary: Story = {
         prop1: 'option-1',
         check: false,
         switch: false,
-        color: ''
+        color: '',
+        files: undefined
       },
       config: { schema: watchFormSchema }
     });
@@ -116,6 +137,8 @@ export const Primary: Story = {
               { label: 'Option 3', value: 'option-3' }
             ]}
           />
+          {/* <Form.FileUpload name="files" multiple clearable /> */}
+          <Form.FileUpload name="files" multiple clearable canDragAndDrop label="Select a resource file to upload" />
         </Form.Body>
         <Form.Footer>
           <Button type="submit">Submit</Button>

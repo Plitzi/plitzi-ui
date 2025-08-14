@@ -34,7 +34,6 @@ export type CodeMirrorProps = {
   label?: string;
   placeholder?: string;
   loading?: boolean;
-  disabled?: boolean;
   clearable?: boolean;
   value?: string;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
