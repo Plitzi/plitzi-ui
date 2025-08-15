@@ -33,7 +33,7 @@ const Input = ({
   className = '',
   id,
   label = '',
-  placeholder = 'Text',
+  placeholder = '',
   loading = false,
   disabled = false,
   clearable = false,

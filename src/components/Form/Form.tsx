@@ -33,6 +33,7 @@ export type BaseFormFieldType<T extends FieldValues, TName extends FieldPath<T>>
 export type FormProps<T extends z.ZodObject<z.ZodRawShape>> = {
   testId?: string;
   form: UseFormReturn<T>;
+  onReset?: (e: FormEvent) => void;
   onSubmit?: SubmitHandler<z.infer<T>>;
   children?: ReactNode;
   ref?: RefObject<HTMLFormElement>;
@@ -45,6 +46,7 @@ const BaseForm = <T extends z.ZodObject<z.ZodRawShape>>({
   className,
   scrollable,
   testId,
+  onReset,
   onSubmit
 }: FormProps<T>) => {
   className = useTheme<typeof FormStyles, typeof variantKeys>('Form', { className, componentKey: 'root' });
@@ -98,7 +100,7 @@ const BaseForm = <T extends z.ZodObject<z.ZodRawShape>>({
 
   return (
     <FormProvider {...form.formMethods}>
-      <form data-testid={testId} ref={ref} className={className} onSubmit={handleSubmit}>
+      <form data-testid={testId} ref={ref} className={className} onReset={onReset} onSubmit={handleSubmit}>
         {header}
         {body}
         {footer}
