@@ -7,7 +7,7 @@ import type { MouseEvent, ReactNode, RefObject } from 'react';
 
 export type ContainerFloatingTriggerProps = {
   children?: ReactNode;
-  ref?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement | null>;
   testId?: string;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;

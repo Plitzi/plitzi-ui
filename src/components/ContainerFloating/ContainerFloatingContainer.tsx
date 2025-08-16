@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { use, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -46,7 +45,7 @@ const ContainerFloatingContainer = ({
   const [position, setPosition] = useState<{ top?: number; left?: number }>({ top: undefined, left: undefined });
 
   const updatePosition = useCallback(() => {
-    if (!triggerRef) {
+    if (!triggerRef || !triggerRef.current) {
       return;
     }
 
@@ -115,15 +114,11 @@ const ContainerFloatingContainer = ({
   return createPortal(
     <>
       {open && <div className="absolute top-0 bottom-0 left-0 right-0" onClick={handleClickClose} />}
-      <div
-        ref={containerRef}
-        style={containerStyle}
-        className={classNames(className, {
-          'opacity-0 pointer-events-none': position.top === undefined || position.left === undefined || !open
-        })}
-      >
-        {children}
-      </div>
+      {open && position.top !== undefined && position.left !== undefined && (
+        <div ref={containerRef} style={containerStyle} className={className}>
+          {children}
+        </div>
+      )}
     </>,
     container ?? document.body
   );

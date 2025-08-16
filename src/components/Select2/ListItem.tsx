@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import useTheme from '@hooks/useTheme';
 
@@ -7,10 +7,12 @@ import type { Option, OptionGroup } from './Select2';
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { ReactNode } from 'react';
 
 export type ListItemProps = {
   className?: string;
   label?: string;
+  icon?: ReactNode;
   value?: string;
   prefix?: string;
   suffix?: string;
@@ -22,6 +24,7 @@ export type ListItemProps = {
 const ListItem = ({
   className = '',
   label = '',
+  icon,
   value = '',
   prefix = '',
   suffix = '',
@@ -46,9 +49,27 @@ const ListItem = ({
     onChange?.({ value, label });
   }, [option, onChange, value, label]);
 
+  const labelParsed = useMemo(() => {
+    const labelArr = [];
+    if (prefix) {
+      labelArr.push(prefix);
+    }
+
+    if (label) {
+      labelArr.push(label);
+    }
+
+    if (suffix) {
+      labelArr.push(suffix);
+    }
+
+    return labelArr.join(' ');
+  }, [label, prefix, suffix]);
+
   return (
     <div className={classNames('select2__list-item', className)} onClick={handleClick}>
-      {`${prefix ? `${prefix} ` : ''}${label ? label : value}${suffix ? ` ${suffix}` : ''}`}
+      {icon}
+      {labelParsed}
     </div>
   );
 };

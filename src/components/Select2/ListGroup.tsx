@@ -9,15 +9,17 @@ import type { Option, OptionGroup } from './Select2';
 import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { ReactNode } from 'react';
 
 export type ListGroupProps = {
   options?: Exclude<Option, OptionGroup>[];
+  icon?: ReactNode;
   label?: string;
   value?: string;
   onChange?: (newValue?: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
-const ListGroup = ({ className, options, label = '', value = '', size, onChange }: ListGroupProps) => {
+const ListGroup = ({ className, options, icon, label = '', value = '', size, onChange }: ListGroupProps) => {
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['listGroup', 'listGroupLabel'],
@@ -26,7 +28,10 @@ const ListGroup = ({ className, options, label = '', value = '', size, onChange 
 
   return (
     <Flex direction="column" className={classNames('select2__list-group', classNameTheme.listGroup)}>
-      <div className={classNameTheme.listGroupLabel}>{label}</div>
+      <div className={classNameTheme.listGroupLabel}>
+        {icon}
+        {label}
+      </div>
       {options &&
         options.map((option, index) => (
           <ListItem

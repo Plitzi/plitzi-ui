@@ -1,6 +1,8 @@
 import { useArgs } from '@storybook/preview-api';
 import { useMemo } from 'react';
 
+import Icon from '@components/Icon';
+
 import Select2 from './Select2';
 
 import type { Option } from './Select2';
@@ -29,10 +31,16 @@ export const BasicUsage: Story = {
     //   { value: 'world', label: 'World' }
     // ],
     options: [
-      { value: 'hello', label: 'Hello a b c d e f wwwww', customParam: 'Nice' },
-      { value: 'world', label: 'World' },
+      {
+        value: 'hello',
+        label: 'Hello a b c d e f wwwww',
+        customParam: 'Nice',
+        icon: <Icon icon="fa-solid fa-house" />
+      },
+      { value: 'world', label: 'World', icon: <Icon icon="fa-solid fa-circle-user" /> },
       {
         label: 'Group 1',
+        icon: <Icon icon="fa-solid fa-image" />,
         options: [
           { value: 'hello1', label: 'Hello 1' },
           { value: 'world', label: 'World' }

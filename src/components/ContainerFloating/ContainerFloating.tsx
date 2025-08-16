@@ -40,7 +40,7 @@ const ContainerFloating = ({
   container,
   onOpenChange
 }: ContainerFloatingProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen, handleClickTrigger, triggerRef] = useFloating({
     ref,
     open: openProp,

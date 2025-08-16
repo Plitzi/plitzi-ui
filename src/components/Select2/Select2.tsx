@@ -16,15 +16,18 @@ import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, RefObject } from 'react';
+import type { CSSProperties, ReactNode, RefObject } from 'react';
 
 const optionsDefault: Option[] = [];
 
 export type Option =
-  | ({ label: string; value: string } & { [key in Exclude<string, 'options' | 'label' | 'value'>]?: unknown })
+  | ({ label: string; value: string; icon?: ReactNode } & {
+      [key in Exclude<string, 'options' | 'label' | 'value'>]?: unknown;
+    })
   | OptionGroup;
 
 export type OptionGroup = {
+  icon?: ReactNode;
   label: string;
   options: Exclude<Option, OptionGroup>[];
 };
@@ -89,12 +92,7 @@ const Select2 = (props: Select2Props) => {
     variants: { size }
   });
   const triggerRef = useRef<HTMLDivElement | null>(null);
-  const triggerRect = useMemo<DOMRect | undefined>(
-    () => triggerRef.current?.getBoundingClientRect(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [triggerRef.current, open]
-  );
-
+  const [triggerRect, setTriggerRect] = useState<DOMRect | undefined>();
   const [loading, setLoading] = useState(options instanceof Promise);
   const [optionsLoaded, setOptionsLoaded] = useState(() => (!loading && Array.isArray(options) ? options : []));
   const [optionsCustom, setOptionsCustom] = useState<Option[]>([]);
@@ -179,6 +177,14 @@ const Select2 = (props: Select2Props) => {
   }, [options, loadOptions]);
 
   useEffect(() => {
+    if (open) {
+      setTriggerRect(triggerRef.current?.getBoundingClientRect());
+    } else {
+      setTriggerRect(undefined);
+    }
+  }, [open]);
+
+  useEffect(() => {
     if (!allowCreateOptions || !optionSelected || isOptionGroup(optionSelected)) {
       return;
     }
@@ -208,7 +214,7 @@ const Select2 = (props: Select2Props) => {
       (item.label ? item.label : '').toLowerCase().indexOf(search.toLowerCase()) > -1;
     let result = [...optionsCustom, ...optionsLoaded].map(item => {
       if (isOptionGroup(item)) {
-        return { label: item.label, options: item.options.filter(filterItem) };
+        return { icon: item.icon, label: item.label, options: item.options.filter(filterItem) };
       }
 
       return item;
@@ -238,7 +244,7 @@ const Select2 = (props: Select2Props) => {
   return (
     <ContainerFloating
       ref={triggerRef}
-      containerTopOffset={error ? -26 : 0}
+      containerTopOffset={error ? -26 : 4}
       containerLeftOffset={0}
       onOpenChange={handleContainerVisible}
       open={openProp}
@@ -274,35 +280,37 @@ const Select2 = (props: Select2Props) => {
           </Flex>
         </InputContainer>
       </ContainerFloating.Trigger>
-      <ContainerFloating.Content className="flex flex-col w-full" style={style}>
-        {!loading && isSearchable && open && (
-          <SelectInput
-            size={size}
-            value={search}
-            placeholder="Search..."
-            disabled={disabled}
-            autoFocus={searchAutoFocus}
-            allowCreateOptions={allowCreateOptions}
-            onChange={handleSearch}
-            onSelect={handleChange}
-          />
-        )}
-        {!loading && optionsFiltered.length > 0 && (
-          <SelectList value={optionSelected?.value} options={optionsFiltered} onChange={handleChange} size={size} />
-        )}
-        {!loading && allowCreateOptions && search && (
-          <ListItem
-            className="mx-2.5 mt-2.5"
-            prefix="Create:"
-            size={size}
-            label={search}
-            value={search}
-            onChange={handleChange}
-          />
-        )}
-        {loading && <div className={classNameTheme.listMessage}>Loading...</div>}
-        {!loading && optionsFiltered.length === 0 && <div className={classNameTheme.listMessage}>No Options</div>}
-      </ContainerFloating.Content>
+      {triggerRect && (
+        <ContainerFloating.Content className="flex flex-col w-full" style={style}>
+          {!loading && isSearchable && open && (
+            <SelectInput
+              size={size}
+              value={search}
+              placeholder="Search..."
+              disabled={disabled}
+              autoFocus={searchAutoFocus}
+              allowCreateOptions={allowCreateOptions}
+              onChange={handleSearch}
+              onSelect={handleChange}
+            />
+          )}
+          {!loading && optionsFiltered.length > 0 && (
+            <SelectList value={optionSelected?.value} options={optionsFiltered} onChange={handleChange} size={size} />
+          )}
+          {!loading && allowCreateOptions && search && (
+            <ListItem
+              className="mx-2.5 mt-2.5"
+              prefix="Create:"
+              size={size}
+              label={search}
+              value={search}
+              onChange={handleChange}
+            />
+          )}
+          {loading && <div className={classNameTheme.listMessage}>Loading...</div>}
+          {!loading && optionsFiltered.length === 0 && <div className={classNameTheme.listMessage}>No Options</div>}
+        </ContainerFloating.Content>
+      )}
     </ContainerFloating>
   );
 };

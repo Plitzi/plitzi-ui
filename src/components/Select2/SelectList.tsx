@@ -18,9 +18,8 @@ export type SelectListProps = {
   value?: string;
   onChange?: (newValue?: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
-const optionsDefault: Option[] = [];
 
-const SelectList = ({ className = '', options = optionsDefault, value = '', size, onChange }: SelectListProps) => {
+const SelectList = ({ className = '', options, value = '', size, onChange }: SelectListProps) => {
   className = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: 'list',
@@ -29,13 +28,14 @@ const SelectList = ({ className = '', options = optionsDefault, value = '', size
 
   return (
     <Flex direction="column" className={classNames('select2__list', className)}>
-      {options.map((option, index) => {
-        const { label } = option;
+      {options?.map((option, index) => {
+        const { label, icon } = option;
         if (isOptionGroup(option)) {
           return (
             <ListGroup
               key={index}
               label={label}
+              icon={icon}
               options={option.options}
               value={value}
               size={size}
@@ -44,14 +44,13 @@ const SelectList = ({ className = '', options = optionsDefault, value = '', size
           );
         }
 
-        const { value: optionValue } = option;
-
         return (
           <ListItem
             key={index}
-            isSelected={value === optionValue}
+            isSelected={value === option.value}
             label={label}
-            value={optionValue}
+            icon={icon}
+            value={option.value}
             option={option}
             size={size}
             onChange={onChange}
