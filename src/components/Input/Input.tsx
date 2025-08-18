@@ -18,7 +18,7 @@ export type InputProps = {
   loading?: boolean;
   disabled?: boolean;
   clearable?: boolean;
-  label?: string;
+  label?: ReactNode;
   prefix?: string;
   type?: 'text' | 'number' | 'email' | 'password';
   value?: string | number;

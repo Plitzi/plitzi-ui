@@ -5,10 +5,11 @@ import type { variantKeys } from '../../FileUpload.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
+import type { ReactNode } from 'react';
 
 export type FileUploadMessageProps = {
   className?: string;
-  label?: string;
+  label?: ReactNode;
   hasFiles: boolean;
   disabled: boolean;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];

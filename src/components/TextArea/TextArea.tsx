@@ -9,11 +9,11 @@ import type { variantKeys } from './TextArea.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, RefObject, TextareaHTMLAttributes } from 'react';
+import type { ChangeEvent, ReactNode, RefObject, TextareaHTMLAttributes } from 'react';
 
 export type TextAreaProps = {
   ref?: RefObject<HTMLTextAreaElement>;
-  label?: string;
+  label?: ReactNode;
   placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
@@ -30,7 +30,7 @@ const TextArea = ({
   id,
   children,
   label = '',
-  placeholder = 'Text',
+  placeholder = '',
   loading = false,
   disabled = false,
   clearable = false,

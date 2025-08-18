@@ -20,7 +20,7 @@ import type { Completion, CompletionContext, CompletionSource } from '@codemirro
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { FocusEvent, KeyboardEvent, RefObject } from 'react';
+import type { FocusEvent, KeyboardEvent, ReactNode, RefObject } from 'react';
 
 export type AutoComplete = string | { type: 'token' | 'css-token' | 'custom-token'; value: string; detail?: string };
 
@@ -31,7 +31,7 @@ export { EditorState, Transaction };
 export type CodeMirrorProps = {
   ref?: RefObject<HTMLElement | null>;
   id?: string;
-  label?: string;
+  label?: ReactNode;
   placeholder?: string;
   loading?: boolean;
   clearable?: boolean;

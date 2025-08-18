@@ -16,7 +16,7 @@ import type { variantKeys } from './FileUpload.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, RefObject } from 'react';
+import type { ChangeEvent, ReactNode, RefObject } from 'react';
 
 const typesDefault = ['jpeg', 'jpg', 'png'];
 
@@ -26,18 +26,14 @@ export type FileUploadProps = {
   name?: string;
   minSize?: number;
   maxSize?: number;
-  // multiple?: boolean;
   types?: string[];
-  label?: string;
-  // value?: File | File[];
+  label?: ReactNode;
   loading?: boolean;
   showPreview?: boolean;
   clearable?: boolean;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   onError?: (error?: string) => void;
-  // onChange?: (files?: File | File[]) => void;
   onDraggingStateChange?: (dragging: boolean) => void;
-  // onDrop?: (files: File | File[]) => void;
 } & (
   | { multiple: true; value?: File[]; onChange?: (files?: File[]) => void; onDrop?: (files: File[]) => void }
   | { multiple?: false; value?: File; onChange?: (files?: File) => void; onDrop?: (files: File) => void }

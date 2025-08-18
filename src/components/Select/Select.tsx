@@ -17,7 +17,7 @@ import type { ChangeEvent, ReactNode, RefObject, SelectHTMLAttributes, JSX, HTML
 export type SelectProps = {
   ref?: RefObject<HTMLSelectElement>;
   children?: ReactNode;
-  label?: string;
+  label?: ReactNode;
   placeholder?: string;
   value?: string | number;
   loading?: boolean;

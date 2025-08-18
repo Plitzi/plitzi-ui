@@ -16,7 +16,7 @@ import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from 'rea
 export type SwitchProps = {
   ref?: RefObject<HTMLInputElement>;
   children?: ReactNode;
-  label?: string;
+  label?: ReactNode;
   loading?: boolean;
   disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;

@@ -14,11 +14,11 @@ import type { variantKeys } from './ColorPicker.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, InputHTMLAttributes, RefObject } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type ColorPickerProps = {
   ref?: RefObject<HTMLInputElement>;
-  label?: string;
+  label?: ReactNode;
   placeholder?: string;
   disabled?: boolean;
   readOnly?: boolean;

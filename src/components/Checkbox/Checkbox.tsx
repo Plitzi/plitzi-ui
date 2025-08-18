@@ -10,11 +10,11 @@ import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { InputContainerProps } from '@components/Input/InputContainer';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { RefObject, InputHTMLAttributes } from 'react';
+import type { RefObject, InputHTMLAttributes, ReactNode } from 'react';
 
 export type CheckboxProps = {
   ref?: RefObject<HTMLInputElement>;
-  label?: string;
+  label?: ReactNode;
   disabled?: boolean;
   loading?: boolean;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];

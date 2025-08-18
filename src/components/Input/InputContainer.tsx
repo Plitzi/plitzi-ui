@@ -16,7 +16,7 @@ import type { MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 export type InputContainerProps = {
   ref?: RefObject<HTMLDivElement | null>;
   id?: string;
-  label?: string;
+  label?: ReactNode;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   disabled?: boolean;
   intent?: string;

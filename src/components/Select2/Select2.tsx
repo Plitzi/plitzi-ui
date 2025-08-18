@@ -38,7 +38,7 @@ type Select2PropsBase = {
   id?: string;
   name?: string;
   value?: Exclude<Option, OptionGroup> | string;
-  label?: string;
+  label?: ReactNode;
   options?: Option[] | Promise<Option[]>;
   placeholder?: string;
   disabled?: boolean;
