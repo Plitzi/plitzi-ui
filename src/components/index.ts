@@ -1,5 +1,6 @@
 import Accordion from './Accordion';
 import Alert from './Alert';
+import Breadcrumb from './Breadcrumb';
 import Button from './Button';
 import Card from './Card';
 import Checkbox from './Checkbox';
@@ -43,6 +44,7 @@ import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
 
+export * from './Breadcrumb';
 export * from './FileUpload';
 export * from './ContainerAutoScale';
 export * from './Toast';
@@ -91,6 +93,7 @@ export * from './ContainerCollapsable';
 export * from './Popup';
 
 export {
+  Breadcrumb,
   FileUpload,
   ContainerAutoScale,
   ContainerShadow,
