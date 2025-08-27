@@ -1,5 +1,5 @@
-import { useArgs } from '@storybook/preview-api';
 import { useCallback, useMemo } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import Tree from './Tree';
 

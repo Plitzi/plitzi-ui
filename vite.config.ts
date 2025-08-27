@@ -70,7 +70,6 @@ export default defineConfig((env: ConfigEnv) => ({
       '@': resolve(__dirname, './src')
     }
   },
-  css: { preprocessorOptions: { scss: { api: 'modern-compiler' } } },
   build: {
     outDir: 'dist/src',
     lib: {

@@ -1,5 +1,5 @@
-import { useArgs } from '@storybook/preview-api';
 import { useMemo } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import Icon from '@components/Icon';
 

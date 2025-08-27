@@ -47,7 +47,7 @@ const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers 
                   style={vscDarkPlus as { [key: string]: CSSProperties }}
                   wrapLines={wrapLines}
                   showLineNumbers={showLineNumbers}
-                  children={String(children as string).replace(/\n$/, '')}
+                  children={typeof children === 'string' ? children.replace(/\n$/, '') : ''}
                 />
               );
             }

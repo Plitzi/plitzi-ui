@@ -1,6 +1,6 @@
-import { useArgs } from '@storybook/preview-api';
 import { fn } from '@storybook/test';
 import { useCallback } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import FileUpload from './FileUpload';
 

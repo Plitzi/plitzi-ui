@@ -19,14 +19,12 @@ import type { FormEvent, ReactElement, ReactNode, RefObject } from 'react';
 import type { Control, FieldPath, FieldValues, SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
-export type SupportedFormType<T extends z.ZodObject<z.ZodRawShape> = z.ZodObject<z.ZodRawShape>> = T | z.ZodEffects<T>;
-
 export type FormConfig<T extends z.ZodObject<z.ZodRawShape>> = {
-  schema: SupportedFormType<T>;
+  schema: T;
 };
 
 export type BaseFormFieldType<T extends FieldValues, TName extends FieldPath<T>> = {
-  control?: Control<T, unknown, T>;
+  control?: Control<T>;
   name: TName;
 };
 

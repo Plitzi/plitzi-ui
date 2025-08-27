@@ -1,4 +1,4 @@
-import { useArgs } from '@storybook/preview-api';
+import { useArgs } from 'storybook/preview-api';
 
 import { defaultCombinators, defaultOperators, defaultValidator } from './helpers/QueryBuilderContants';
 import QueryBuilder from './QueryBuilder';

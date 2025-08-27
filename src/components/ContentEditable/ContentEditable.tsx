@@ -61,7 +61,7 @@ const ContentEditable = ({
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLDivElement>) => {
       if (updateMode === 'change') {
-        onChange?.((e.target as HTMLDivElement).textContent ?? '');
+        onChange?.(e.target.textContent);
       }
     },
     [onChange, updateMode]
@@ -122,7 +122,7 @@ const ContentEditable = ({
     elementDOM.setAttribute('contenteditable', 'false');
     if (updateMode === 'blur') {
       if (elementDOM.textContent !== value) {
-        onChange?.(elementDOM.textContent ?? '');
+        onChange?.(elementDOM.textContent);
       }
     }
 
