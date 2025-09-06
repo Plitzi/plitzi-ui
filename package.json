@@ -23,29 +23,35 @@
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
-      "import": "./dist/src/index.es"
+      "import": "./dist/src/index.es",
+      "require": "./dist/src/index.cjs"
     },
     "./tailwind.config": "./tailwind.config.js",
     "./style.css": "./dist/src/plitzi-ui.css",
     "./tailwind/*": {
       "types": "./dist/src/tailwind/*/index.d.ts",
-      "import": "./dist/src/tailwind/*"
+      "import": "./dist/src/tailwind/*",
+      "require": "./dist/src/tailwind/*"
     },
     "./icons": {
       "types": "./dist/src/icons/index.d.ts",
-      "import": "./dist/src/icons/index.es"
+      "import": "./dist/src/icons/index.es",
+      "require": "./dist/src/icons/index.cjs"
     },
     "./icons/*": {
       "types": "./dist/src/icons/*/index.d.ts",
-      "import": "./dist/src/icons/*"
+      "import": "./dist/src/icons/*",
+      "require": "./dist/src/icons/*"
     },
     "./hooks": {
       "types": "./dist/src/hooks/index.d.ts",
-      "import": "./dist/src/hooks/index.es"
+      "import": "./dist/src/hooks/index.es",
+      "require": "./dist/src/hooks/index.cjs"
     },
     "./hooks/*": {
       "types": "./dist/src/hooks/*/index.d.ts",
-      "import": "./dist/src/hooks/*"
+      "import": "./dist/src/hooks/*",
+      "require": "./dist/src/hooks/*"
     },
     "./components": {
       "types": "./dist/src/components/index.d.ts",
@@ -53,19 +59,23 @@
     },
     "./components/*": {
       "types": "./dist/src/components/*/index.d.ts",
-      "import": "./dist/src/components/*"
+      "import": "./dist/src/components/*",
+      "require": "./dist/src/components/*"
     },
     "./utils": {
       "types": "./dist/src/utils/index.d.ts",
-      "import": "./dist/src/utils/index.es"
+      "import": "./dist/src/utils/index.es",
+      "require": "./dist/src/utils/index.cjs"
     },
     "./utils/*": {
       "types": "./dist/src/utils/*/index.d.ts",
-      "import": "./dist/src/utils/*"
+      "import": "./dist/src/utils/*",
+      "require": "./dist/src/utils/*"
     },
     "./*": {
       "types": "./dist/src/components/*/index.d.ts",
-      "import": "./dist/src/components/*"
+      "import": "./dist/src/components/*",
+      "require": "./dist/src/components/*"
     }
   },
   "sideEffects": [
