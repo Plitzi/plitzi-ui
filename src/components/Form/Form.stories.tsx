@@ -63,7 +63,7 @@ export const Primary: Story = {
   args: {},
   render: function Render(args) {
     const form = useForm({
-      initialValues: {
+      defaultValues: {
         username: 'test',
         password: 'password',
         extra: '',
@@ -97,7 +97,7 @@ export const Primary: Story = {
             label="Username"
             onChange={currentUsername => {
               console.log('called', currentUsername);
-              form.formMethods.setValue('password', '');
+              // form.formMethods.setValue('password', '');
             }}
           />
           <Form.Input name="password" label="Password" />

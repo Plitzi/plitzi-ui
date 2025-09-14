@@ -4,47 +4,43 @@ import { useForm as useReactHookForm } from 'react-hook-form';
 
 import useValueMemo from '@hooks/useValueMemo';
 
-import type { FormConfig } from '../Form';
 import type {
-  DefaultValues,
   FieldErrors,
   UseFormProps as UseReactHookFormProps,
-  UseFormReturn as UseFormReturnReactHookForm
+  UseFormReturn as UseFormReturnReactHookForm,
+  DefaultValues
 } from 'react-hook-form';
 import type { z } from 'zod';
 
-export type AsyncDefaultValues<TFieldValues> = () => Promise<TFieldValues>;
+// Helpers
+export type ZodFormSchema = z.ZodObject<z.ZodRawShape>;
 
-export type InitialValues<T extends z.ZodObject<z.ZodRawShape>> =
-  | DefaultValues<z.infer<T>>
-  | AsyncDefaultValues<z.infer<T>>;
-
-export type UseFormProps<T extends z.ZodObject<z.ZodRawShape>> = Omit<
-  UseReactHookFormProps,
-  'defaultValues' | 'errors' | 'values' | 'formControl'
+export type UseFormProps<T extends ZodFormSchema> = Omit<
+  UseReactHookFormProps<T>,
+  'errors' | 'values' | 'formControl' | 'defaultValues'
 > & {
-  initialValues?: InitialValues<T>;
+  defaultValues?: DefaultValues<z.infer<T>>;
   errors?: FieldErrors<z.infer<T>>;
-  config: FormConfig<T>;
+  config: { schema: T };
 };
 
-export type UseFormReturn<T extends z.ZodObject<z.ZodRawShape>> = {
-  formMethods: UseFormReturnReactHookForm<z.TypeOf<T>>;
-  config: FormConfig<T>;
+export type UseFormReturn<T extends ZodFormSchema> = {
+  formMethods: UseFormReturnReactHookForm<z.infer<T>>;
+  config: { schema: T };
 };
 
-const useForm = <T extends z.ZodObject<z.ZodRawShape>>({
-  initialValues: initialValuesProp,
+const useForm = <T extends ZodFormSchema>({
+  defaultValues: defaultValuesProp,
   config: configProp,
   errors,
   ...props
-}: UseFormProps<T>) => {
-  const initialValues = useValueMemo(initialValuesProp);
+}: UseFormProps<T>): UseFormReturn<T> => {
+  const defaultValues = useValueMemo(defaultValuesProp);
   const config = useValueMemo(configProp, 'hard', { skipFunctions: true });
 
   const methods = useReactHookForm<z.infer<T>>({
     ...props,
-    defaultValues: initialValues,
+    defaultValues,
     context: undefined,
     errors,
     resolver: standardSchemaResolver(config.schema)

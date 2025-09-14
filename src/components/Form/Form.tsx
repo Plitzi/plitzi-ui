@@ -13,22 +13,18 @@ import type { variantKeys } from './Form.styles';
 import type { FormBodyProps } from './FormBody';
 import type { FormFooterProps } from './FormFooter';
 import type { FormHeaderProps } from './FormHeader';
-import type { UseFormReturn } from './hooks/useForm';
+import type { UseFormReturn, ZodFormSchema } from './hooks/useForm';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { FormEvent, ReactElement, ReactNode, RefObject } from 'react';
 import type { Control, FieldPath, FieldValues, SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
-
-export type FormConfig<T extends z.ZodObject<z.ZodRawShape>> = {
-  schema: T;
-};
 
 export type BaseFormFieldType<T extends FieldValues, TName extends FieldPath<T>> = {
   control?: Control<T>;
   name: TName;
 };
 
-export type FormProps<T extends z.ZodObject<z.ZodRawShape>> = {
+export type FormProps<T extends ZodFormSchema> = {
   testId?: string;
   form: UseFormReturn<T>;
   onReset?: (e: FormEvent) => void;
@@ -37,7 +33,7 @@ export type FormProps<T extends z.ZodObject<z.ZodRawShape>> = {
   ref?: RefObject<HTMLFormElement>;
 } & useThemeSharedProps<typeof FormStyles, typeof variantKeys>;
 
-const BaseForm = <T extends z.ZodObject<z.ZodRawShape>>({
+const BaseForm = <T extends ZodFormSchema>({
   ref,
   children,
   form,

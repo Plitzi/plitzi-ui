@@ -12,8 +12,8 @@ import importEslint from 'eslint-plugin-import';
 
 export default tsEslint.config({
   extends: [js.configs.recommended, ...tsEslint.configs.strictTypeChecked],
-  files: ['**/*.{ts,tsx}'],
-  ignores: ['node_modules', 'dist', 'coverage', '.yarn/*'],
+  files: ['src/**/*.{ts,tsx}'],
+  ignores: ['dist/*', 'node_modules/*', 'coverage', '.yarn/*'],
   languageOptions: {
     ecmaVersion: 2023,
     globals: globals.browser,
@@ -36,11 +36,14 @@ export default tsEslint.config({
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
-    '@typescript-eslint/consistent-type-imports': ['warn', {
-      disallowTypeAnnotations: false,
-      fixStyle: 'separate-type-imports',
-      prefer: 'type-imports'
-    }],
+    '@typescript-eslint/consistent-type-imports': [
+      'warn',
+      {
+        disallowTypeAnnotations: false,
+        fixStyle: 'separate-type-imports',
+        prefer: 'type-imports'
+      }
+    ],
     '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'no-var': 'error',

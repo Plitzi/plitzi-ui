@@ -166,10 +166,11 @@
   "scripts": {
     "start": "storybook dev -p 6006",
     "build:prod": "tsc -p ./tsconfig.app.json && vite build",
-    "build:dev": "tsc -p ./tsconfig.app.json && vite build --mode development --watch --minify false",
+    "build:dev": "tsc -p ./tsconfig.app.json && vite build --mode development --minify false",
+    "build:dev-watch": "tsc -p ./tsconfig.app.json && vite build --mode development --watch --minify false",
     "build:analyze": "npx vite-bundle-visualizer",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ./src",
+    "lint": "TIMING=1 eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "test": "vitest run",
     "test:watch": "vitest",
