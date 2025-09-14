@@ -301,6 +301,14 @@ const suiteTests: {
         description: 'objects with nested functions',
         value1: { prop1: 'abc', prop2: () => true },
         value2: { prop1: 'abc', prop2: () => false },
+        mode: 'soft',
+        metadata: { skipFunctions: true },
+        equal: true
+      },
+      {
+        description: 'objects with nested functions',
+        value1: { prop1: 'abc', prop2: () => true },
+        value2: { prop1: 'abc', prop2: () => false },
         mode: 'hard',
         metadata: { skipFunctions: false },
         equal: false

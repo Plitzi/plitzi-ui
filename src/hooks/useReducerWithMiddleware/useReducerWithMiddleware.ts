@@ -2,6 +2,7 @@ import { useCallback, useReducer, useRef } from 'react';
 
 import useValueMemo from '@hooks/useValueMemo';
 
+import type { DeepEqualMetadata } from '@/utils';
 import type { ActionDispatch, AnyActionArg } from 'react';
 
 export type ReducerMiddlewareCallback<S, A extends AnyActionArg> = (
@@ -21,10 +22,11 @@ const useReducerWithMiddleware = <S, A extends AnyActionArg>(
     typeFilter?: string[];
     filterCallback?: ReducerFilterCallback<A>;
   }[] = [],
-  middlewaresDeepEqualMode?: 'soft' | 'hard'
+  middlewaresDeepEqualMode?: 'soft' | 'hard',
+  middlewaresDeepEqualMetadata: DeepEqualMetadata = { skipFunctions: true }
 ) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const middlewaresMemo = useValueMemo(middlewares, middlewaresDeepEqualMode);
+  const middlewaresMemo = useValueMemo(middlewares, middlewaresDeepEqualMode, middlewaresDeepEqualMetadata);
   const stateRef = useRef(state);
   stateRef.current = state;
 

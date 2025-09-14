@@ -143,7 +143,7 @@ const deepEqual = (a: unknown, b: unknown, mode: 'soft' | 'hard' = 'soft', metad
     return true;
   }
 
-  if (mode === 'hard' && (a === b || (skipFunctions && typeof a === 'function' && typeof b === 'function'))) {
+  if ((mode === 'hard' && a === b) || (skipFunctions && typeof a === 'function' && typeof b === 'function')) {
     return true;
   }
 
