@@ -78,25 +78,56 @@ export default defineConfig((env: ConfigEnv) => ({
         resolve(__dirname, './src/components/ContainerFloating/index.ts'),
         resolve(__dirname, './src/components/Form/index.ts')
       ],
-      name: 'plitzi-ui',
-      formats: ['es', 'cjs']
+      name: 'plitzi-ui'
     },
     rollupOptions: {
       treeshake: false,
       external: [],
-      output: {
-        exports: 'named',
-        preserveModules: true, // Keep module structure for tree-shaking
-        // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
-        entryFileNames: '[name].[format]',
-        chunkFileNames: '[name].[format]',
-        assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
+      // output: {
+      //   exports: 'named',
+      //   preserveModules: true, // Keep module structure for tree-shaking
+      //   // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
+      //   entryFileNames: '[name].[format]',
+      //   chunkFileNames: '[name].[format]',
+      //   assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
+      //   globals: {
+      //     react: 'React',
+      //     'react-dom': 'ReactDOM',
+      //     'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
+      //   }
+      // }
+      output: [
+        // ESM -> .mjs
+        {
+          format: 'es',
+          preserveModules: true,
+          // preserveModulesRoot: 'src',
+          entryFileNames: '[name].mjs',
+          chunkFileNames: '[name].mjs',
+          assetFileNames: '[name][extname]',
+          exports: 'named',
+          globals: {
+            react: 'React',
+            'react-dom': 'ReactDOM',
+            'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
+          }
+        },
+        // CJS -> .cjs
+        {
+          format: 'cjs',
+          preserveModules: true,
+          // preserveModulesRoot: 'src',
+          entryFileNames: '[name].cjs',
+          chunkFileNames: '[name].cjs',
+          assetFileNames: '[name][extname]',
+          exports: 'named',
+          globals: {
+            react: 'React',
+            'react-dom': 'ReactDOM',
+            'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
+          }
         }
-      }
+      ]
     },
     sourcemap: false,
     emptyOutDir: true
