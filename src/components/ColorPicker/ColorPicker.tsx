@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useCallback, useMemo, useState } from 'react';
 // @ts-ignore
-import SketchPicker from 'react-color/lib/Sketch';
+import SketchPicker from 'react-color/lib/Sketch.js';
 import tinycolor from 'tinycolor2';
 
 import ContainerFloating from '@components/ContainerFloating';
