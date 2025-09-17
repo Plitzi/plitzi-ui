@@ -1,6 +1,6 @@
 import { produce } from 'immer';
-import get from 'lodash/get';
-import set from 'lodash/set';
+import get from 'lodash/get.js';
+import set from 'lodash/set.js';
 import { useCallback, use, useMemo, useState } from 'react';
 
 import CacheContext from '../CacheContext';

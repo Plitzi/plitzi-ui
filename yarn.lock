@@ -62,7 +62,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.28.0, @babel/core@npm:^7.28.3":
+"@babel/core@npm:^7.28.0, @babel/core@npm:^7.28.4":
   version: 7.28.4
   resolution: "@babel/core@npm:7.28.4"
   dependencies:
@@ -1313,13 +1313,13 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.8.0"
     "@testing-library/react": "npm:^16.3.0"
     "@types/lodash": "npm:^4.17.20"
-    "@types/node": "npm:^24.5.0"
+    "@types/node": "npm:^24.5.1"
     "@types/react": "npm:^19.1.13"
     "@types/react-color": "npm:^3.0.13"
     "@types/react-dom": "npm:^19.1.9"
     "@types/react-syntax-highlighter": "npm:^15.5.13"
     "@types/tinycolor2": "npm:^1.4.6"
-    "@vitejs/plugin-react": "npm:^5.0.2"
+    "@vitejs/plugin-react": "npm:^5.0.3"
     class-variance-authority: "npm:^0.7.1"
     classnames: "npm:^2.5.1"
     cssnano: "npm:^7.1.1"
@@ -1330,7 +1330,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
     eslint-plugin-storybook: "npm:^9.1.6"
-    flow-bin: "npm:^0.281.0"
+    flow-bin: "npm:^0.283.0"
     globals: "npm:^16.4.0"
     immer: "npm:^10.1.3"
     jsdom: "npm:^27.0.0"
@@ -1363,14 +1363,14 @@ __metadata:
     vite-plugin-dts: "npm:^4.5.4"
     vitest: "npm:^3.2.4"
     vitest-fetch-mock: "npm:^0.4.5"
-    zod: "npm:^4.1.8"
+    zod: "npm:^4.1.9"
   languageName: unknown
   linkType: soft
 
-"@rolldown/pluginutils@npm:1.0.0-beta.34":
-  version: 1.0.0-beta.34
-  resolution: "@rolldown/pluginutils@npm:1.0.0-beta.34"
-  checksum: 10/8ac36812fc8670f7b1617c0f37457ba1d570c9ede08d20316aca3d69b01b0adff61f7d1810d1eadc6927e4f108d6ea0df9131b7f1211ac0f080e8061308e0b30
+"@rolldown/pluginutils@npm:1.0.0-beta.35":
+  version: 1.0.0-beta.35
+  resolution: "@rolldown/pluginutils@npm:1.0.0-beta.35"
+  checksum: 10/f6e28e437df02d1a184ce49726ffb53dfc24e3c3c67602c41352ddcbbeb51b292f7f973b62b0abd807af38b9913fa4d48f6892c698e1c6210642d0a33ec1a102
   languageName: node
   linkType: hard
 
@@ -2186,12 +2186,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.5.0":
-  version: 24.5.0
-  resolution: "@types/node@npm:24.5.0"
+"@types/node@npm:^24.5.1":
+  version: 24.5.1
+  resolution: "@types/node@npm:24.5.1"
   dependencies:
     undici-types: "npm:~7.12.0"
-  checksum: 10/d9fb6541d526a0f9e5f44866b9eed59a9621a506ff660ae6d52b49f0f3c007ce46384eed2f40ee03348e9e3dc848e296131adb94b85b9cf224d57acb3bd71268
+  checksum: 10/1dd21dffe0c522f67f2e3ae75234f7f98990f183c918091c4d186dfefa4f915607a3adbcf4b144c241ead0ed5cf3b743cf2d32ea2f0810489de68837e4b960ae
   languageName: node
   linkType: hard
 
@@ -2414,19 +2414,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^5.0.2":
-  version: 5.0.2
-  resolution: "@vitejs/plugin-react@npm:5.0.2"
+"@vitejs/plugin-react@npm:^5.0.3":
+  version: 5.0.3
+  resolution: "@vitejs/plugin-react@npm:5.0.3"
   dependencies:
-    "@babel/core": "npm:^7.28.3"
+    "@babel/core": "npm:^7.28.4"
     "@babel/plugin-transform-react-jsx-self": "npm:^7.27.1"
     "@babel/plugin-transform-react-jsx-source": "npm:^7.27.1"
-    "@rolldown/pluginutils": "npm:1.0.0-beta.34"
+    "@rolldown/pluginutils": "npm:1.0.0-beta.35"
     "@types/babel__core": "npm:^7.20.5"
     react-refresh: "npm:^0.17.0"
   peerDependencies:
     vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
-  checksum: 10/530788cc96814c03195e2eb55b1f24c2c3f88e30c186aba2a17fd4816f0b22b032e7deb5f260129296426d47c2d0f6915728ed40c54ab700253397123980f866
+  checksum: 10/152e159f1121e8c403eba6d77a16fe67e316e432826ffbb81a72753f093597cb3eb65d9e46049fddac9099701974bce817d6908c5228a5f9c32c54f0baf13c66
   languageName: node
   linkType: hard
 
@@ -4674,12 +4674,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flow-bin@npm:^0.281.0":
-  version: 0.281.0
-  resolution: "flow-bin@npm:0.281.0"
+"flow-bin@npm:^0.283.0":
+  version: 0.283.0
+  resolution: "flow-bin@npm:0.283.0"
   bin:
     flow: cli.js
-  checksum: 10/f378f54b9f58f1d670b8e81cda3b23ba4aac8f3cd799e9669dc3eb6d08d877e122453f54089c61a78369cc5359c57164d1b917fa465e03d0745e1d769a31f3a7
+  checksum: 10/c5b2c7e52a0011cee4731937bac3e1d09ab60175413bbe74a7feccbd1734d4901a22e8ba7c72df82220d4f13f6070208f4f3d66f359bb17ea6d09e4bda6a7915
   languageName: node
   linkType: hard
 
@@ -10104,10 +10104,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^4.1.8":
-  version: 4.1.8
-  resolution: "zod@npm:4.1.8"
-  checksum: 10/1a317c26b39d145d7045be6775d30497545fd1c5a13ce0f3f373ec06676ff7b2e0715f522525c183aae01f18d05d4789ee19533c3e9203087a5adf6753e588e5
+"zod@npm:^4.1.9":
+  version: 4.1.9
+  resolution: "zod@npm:4.1.9"
+  checksum: 10/e9197869b65c858132f85ab877b3c6e7477d9782b8693fb7bff25a69b5fbfa6781cc0c98d465d543cc428c34a5aa370af8652cbf1842d4a67ab2139cfc99b408
   languageName: node
   linkType: hard
 

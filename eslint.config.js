@@ -15,7 +15,7 @@ export default tsEslint.config({
   files: ['src/**/*.{ts,tsx}'],
   ignores: ['dist/*', 'node_modules/*', 'coverage', '.yarn/*'],
   languageOptions: {
-    ecmaVersion: 2023,
+    ecmaVersion: 2024,
     globals: globals.browser,
     parserOptions: {
       projectService: {

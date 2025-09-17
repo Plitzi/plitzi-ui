@@ -1,6 +1,6 @@
-import get from 'lodash/get';
-import isString from 'lodash/isString';
-import set from 'lodash/set';
+import get from 'lodash/get.js';
+import isString from 'lodash/isString.js';
+import set from 'lodash/set.js';
 import { use, useCallback, useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 

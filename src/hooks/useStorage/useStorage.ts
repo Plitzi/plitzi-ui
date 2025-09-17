@@ -1,6 +1,6 @@
 import { produce } from 'immer';
-import get from 'lodash/get';
-import set from 'lodash/set';
+import get from 'lodash/get.js';
+import set from 'lodash/set.js';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 import { storageProxy } from './useStorageHelper';

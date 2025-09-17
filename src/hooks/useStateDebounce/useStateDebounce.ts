@@ -1,4 +1,4 @@
-import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce.js';
 import { useCallback, useMemo, useState, useRef } from 'react';
 
 import { isFunction } from '@/helpers/utils';

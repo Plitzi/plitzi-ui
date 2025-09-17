@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import get from 'lodash/get.js';
 import { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 

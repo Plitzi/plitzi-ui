@@ -1,4 +1,4 @@
-import omit from 'lodash/omit';
+import omit from 'lodash/omit.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import Button from '@components/Button';
