@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import type { ConfigEnv } from 'vite';
 
@@ -14,6 +15,10 @@ const importedPackages = new Set<string>();
 
 export default defineConfig((env: ConfigEnv) => ({
   plugins: [
+    viteStaticCopy({
+      targets: [{ src: 'src/**/*.scss', dest: '..' }],
+      structured: true
+    }),
     react(),
     tailwindcss(),
     dts({
