@@ -13,7 +13,7 @@ import type {
 import type { z } from 'zod';
 
 // Helpers
-export type ZodFormSchema = z.ZodObject<z.ZodRawShape>;
+export type ZodFormSchema = z.ZodObject<z.ZodRawShape> | z.ZodDiscriminatedUnion<z.ZodObject<z.ZodRawShape>[]>;
 
 export type UseFormProps<T extends ZodFormSchema> = Omit<
   UseReactHookFormProps<T>,

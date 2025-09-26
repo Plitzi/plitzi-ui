@@ -147,3 +147,55 @@ export const Primary: Story = {
     );
   }
 };
+
+const conditionalFormSchema = z.discriminatedUnion('category', [
+  z.object({
+    category: z.literal('option-1'),
+    field1: z.string().min(2)
+  }),
+  z.object({
+    provider: z.literal('option-2'),
+    field2: z.string().min(2)
+  })
+]);
+
+type SchemaConditional = typeof conditionalFormSchema;
+
+export const DiscriminateUnion: Story = {
+  args: {},
+  render: function Render(args) {
+    const form = useForm({
+      defaultValues: {
+        category: 'option-1',
+        field1: '',
+        field2: ''
+      },
+      config: { schema: conditionalFormSchema }
+    });
+
+    const [category, field1, field2] = useFormWatch(form.formMethods);
+    console.log(category, field1, field2);
+
+    const handleSubmit = useCallback(async (values: z.infer<SchemaConditional>) => {
+      console.log('submitted', values);
+
+      return Promise.resolve(values);
+    }, []);
+
+    return (
+      <Form {...args} form={form} onSubmit={handleSubmit} className="gap-4">
+        <Form.Body>
+          <Form.Select name="category" label="Category">
+            <option value="option-1">Option 1</option>
+            <option value="option-2">Option 2</option>
+          </Form.Select>
+          {category === 'option-1' && <Form.Input name="field1" label="Field 1" />}
+          {category === 'option-2' && <Form.Input name="field2" label="Field 2" />}
+        </Form.Body>
+        <Form.Footer>
+          <Button type="submit">Submit</Button>
+        </Form.Footer>
+      </Form>
+    );
+  }
+};
