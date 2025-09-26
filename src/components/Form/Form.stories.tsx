@@ -154,7 +154,7 @@ const conditionalFormSchema = z.discriminatedUnion('category', [
     field1: z.string().min(2)
   }),
   z.object({
-    provider: z.literal('option-2'),
+    category: z.literal('option-2'),
     field2: z.string().min(2)
   })
 ]);
@@ -166,7 +166,7 @@ export const DiscriminateUnion: Story = {
   render: function Render(args) {
     const form = useForm({
       defaultValues: {
-        category: 'option-1',
+        category: 'option-1' as 'option-1' | 'option-2',
         field1: '',
         field2: ''
       },
