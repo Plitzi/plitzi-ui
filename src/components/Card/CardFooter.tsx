@@ -20,6 +20,7 @@ const CardFooter = ({
   children,
   testId,
   intent,
+  size,
   shadow,
   rounded,
   overflow,
@@ -34,7 +35,7 @@ const CardFooter = ({
   className = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: 'footer',
-    variants: { intent, shadow, rounded, overflow }
+    variants: { intent, size, shadow, rounded, overflow }
   });
 
   return (

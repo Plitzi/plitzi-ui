@@ -28,6 +28,7 @@ const CardHeader = ({
   onClose,
   testId,
   intent,
+  size,
   shadow,
   rounded,
   overflow,
@@ -42,7 +43,7 @@ const CardHeader = ({
   const classNameTheme = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: ['header', 'headerCloseButton'],
-    variants: { intent, shadow, rounded, overflow }
+    variants: { intent, size, shadow, rounded, overflow }
   });
 
   const { icon, content } = useMemo(() => {
@@ -66,14 +67,16 @@ const CardHeader = ({
         components.icon = cloneElement<IconProps>(child as ReactElement<IconProps>, {
           testId: testId ? `${testId}-icon` : undefined,
           ...childProps,
-          intent: childProps.intent ?? 'custom'
+          intent: childProps.intent ?? 'custom',
+          size
         });
       } else if (child.type === 'i') {
         const childProps = child.props as IconProps;
         components.icon = cloneElement<IconProps & { 'data-testid'?: string }>(child as ReactElement<IconProps>, {
           'data-testid': testId ? `${testId}-icon` : undefined,
           ...childProps,
-          intent: childProps.intent ?? 'custom'
+          intent: childProps.intent ?? 'custom',
+          size
         });
       } else {
         components.content.push(child);
@@ -81,7 +84,7 @@ const CardHeader = ({
     });
 
     return components;
-  }, [children, testId]);
+  }, [children, testId, size]);
 
   return (
     <Flex

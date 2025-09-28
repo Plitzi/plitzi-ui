@@ -32,6 +32,7 @@ const Card = ({
   closeable,
   onClose,
   intent,
+  size,
   shadow,
   rounded,
   overflow,
@@ -40,7 +41,7 @@ const Card = ({
   className = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: 'root',
-    variants: { intent, shadow, rounded, overflow }
+    variants: { intent, size, shadow, rounded, overflow }
   });
 
   const { header, body, footer } = useMemo(() => {
@@ -59,6 +60,7 @@ const Card = ({
         components.header = cloneElement<CardHeaderProps>(child as ReactElement<CardHeaderProps>, {
           testId: testId ? `${testId}-header` : undefined,
           intent,
+          size,
           shadow,
           rounded,
           overflow,
@@ -70,6 +72,7 @@ const Card = ({
         components.body = cloneElement<CardBodyProps>(child as ReactElement<CardBodyProps>, {
           testId: testId ? `${testId}-body` : undefined,
           intent,
+          size,
           shadow,
           rounded,
           overflow,
@@ -79,6 +82,7 @@ const Card = ({
         components.footer = cloneElement<CardFooterProps>(child as ReactElement<CardFooterProps>, {
           testId: testId ? `${testId}-footer` : undefined,
           intent,
+          size,
           shadow,
           rounded,
           overflow,
@@ -88,7 +92,7 @@ const Card = ({
     });
 
     return components;
-  }, [children, testId, intent, shadow, rounded, overflow, closeable, onClose]);
+  }, [children, testId, intent, size, shadow, rounded, overflow, closeable, onClose]);
 
   return (
     <div ref={ref} {...otherProps} className={className}>

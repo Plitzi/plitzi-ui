@@ -1,6 +1,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
+  size: ['md', 'sm', 'xs', 'custom'],
   intent: ['white', 'modal'],
   shadow: ['normal', 'dark', 'custom'],
   rounded: ['none', 'md'],
@@ -42,12 +43,35 @@ export default {
     variants: {
       intent: {
         white: '',
-        modal: 'p-4 border-b border-solid border-gray-200'
+        modal: 'border-b border-solid border-gray-200'
+      },
+      size: {
+        md: '',
+        sm: '',
+        xs: '',
+        custom: ''
       }
     },
-    compoundVariants: [],
+    compoundVariants: [
+      {
+        intent: 'modal',
+        size: 'md',
+        className: 'p-4 text-md'
+      },
+      {
+        intent: 'modal',
+        size: 'sm',
+        className: 'p-3 text-sm'
+      },
+      {
+        intent: 'modal',
+        size: 'xs',
+        className: 'p-2 text-xs'
+      }
+    ],
     defaultVariants: {
-      intent: 'white'
+      intent: 'white',
+      size: 'md'
     }
   }),
   headerCloseButton: cva('cursor-pointer'),
@@ -55,24 +79,70 @@ export default {
     variants: {
       intent: {
         white: '',
-        modal: 'p-4'
+        modal: ''
+      },
+      size: {
+        md: '',
+        sm: '',
+        xs: '',
+        custom: ''
       }
     },
-    compoundVariants: [],
+    compoundVariants: [
+      {
+        intent: 'modal',
+        size: 'md',
+        className: 'p-4 text-md'
+      },
+      {
+        intent: 'modal',
+        size: 'sm',
+        className: 'p-3 text-sm'
+      },
+      {
+        intent: 'modal',
+        size: 'xs',
+        className: 'p-2 text-xs'
+      }
+    ],
     defaultVariants: {
-      intent: 'white'
+      intent: 'white',
+      size: 'md'
     }
   }),
   footer: cva('', {
     variants: {
       intent: {
         white: '',
-        modal: 'p-4 border-t border-solid border-gray-200'
+        modal: 'border-t border-solid border-gray-200'
+      },
+      size: {
+        md: '',
+        sm: '',
+        xs: '',
+        custom: ''
       }
     },
-    compoundVariants: [],
+    compoundVariants: [
+      {
+        intent: 'modal',
+        size: 'md',
+        className: 'p-4 text-md'
+      },
+      {
+        intent: 'modal',
+        size: 'sm',
+        className: 'p-3 text-sm'
+      },
+      {
+        intent: 'modal',
+        size: 'xs',
+        className: 'p-2 text-xs'
+      }
+    ],
     defaultVariants: {
-      intent: 'white'
+      intent: 'white',
+      size: 'md'
     }
   })
 };

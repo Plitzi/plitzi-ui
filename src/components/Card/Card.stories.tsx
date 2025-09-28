@@ -31,14 +31,16 @@ export const Modal: Story = {
     }, []);
 
     return (
-      <Card {...args} intent="modal">
+      <Card {...args} intent="modal" size="sm">
         <Card.Header closeable onClose={handleClose}>
           <Card.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Card.HeaderIcon>
           Title
         </Card.Header>
         <Card.Body>Fancy Content Here</Card.Body>
         <Card.Footer>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleClose} size="sm">
+            Close
+          </Button>
         </Card.Footer>
       </Card>
     );

@@ -34,6 +34,7 @@ const Modal = ({
   container,
   open,
   isClosing = false,
+  size,
   onClose
 }: ModalProps) => {
   const classNameTheme = useTheme<typeof ModalStyles, typeof variantKeys>('Modal', {
@@ -73,6 +74,7 @@ const Modal = ({
           [`modal--${animation}-${isClosing ? 'leave' : 'enter'}`]: animation
         })}
         intent="modal"
+        size={size}
         closeable
         onClose={handleClose}
         onAnimationEnd={handleAnimationEnd}

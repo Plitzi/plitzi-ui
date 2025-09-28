@@ -20,6 +20,7 @@ const CardBody = ({
   children,
   testId,
   intent,
+  size,
   shadow,
   rounded,
   overflow,
@@ -34,7 +35,7 @@ const CardBody = ({
   className = useTheme<typeof CardStyles, typeof variantKeys>('Card', {
     className,
     componentKey: 'body',
-    variants: { intent, shadow, rounded, overflow }
+    variants: { intent, size, shadow, rounded, overflow }
   });
 
   return (
