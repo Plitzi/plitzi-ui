@@ -93,7 +93,7 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
     ) => {
       if (!footer) {
         footer = ({ onSubmit, onClose }) => (
-          <Modal.Footer gap={3}>
+          <Modal.Footer gap={3} justify="end">
             <Button onClick={() => onSubmit(successValue)} size={settings?.size}>
               Accept
             </Button>
