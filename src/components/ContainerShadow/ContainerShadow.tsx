@@ -15,9 +15,11 @@ import { createPortal } from 'react-dom';
 import ContainerShadowContent from './ContainerShadowContent';
 import ContainerShadowContext from './ContainerShadowContext';
 import ContainerShadowLink from './ContainerShadowLink';
+import ContainerShadowStyle from './ContainerShadowStyle';
 
 import type { ContainerShadowContentProps } from './ContainerShadowContent';
 import type { ContainerShadowLinkProps } from './ContainerShadowLink';
+import type { ContainerShadowStyleProps } from './ContainerShadowStyle';
 import type { ReactElement, ReactNode, RefObject, SyntheticEvent } from 'react';
 
 export type ContainerShadowProps = {
@@ -83,10 +85,11 @@ const ContainerShadow = ({
 
   const contentDidMount = () => {};
 
-  const { content, links } = useMemo(() => {
+  const { content, links, styles } = useMemo(() => {
     const components = {
       content: <ContainerShadowContent key="shadow-content" />,
-      links: [] as ReactNode[]
+      links: [] as ReactNode[],
+      styles: [] as ReactNode[]
     };
 
     Children.forEach(children, (child, i) => {
@@ -110,6 +113,11 @@ const ContainerShadow = ({
             onError: linkError
           })
         );
+      } else if (child.type === ContainerShadowStyle) {
+        components.content = cloneElement<ContainerShadowStyleProps>(child as ReactElement<ContainerShadowStyleProps>, {
+          ...(child.props as ContainerShadowStyleProps),
+          key: i
+        });
       }
     });
 
@@ -151,6 +159,7 @@ const ContainerShadow = ({
         createPortal(
           <ContainerShadowContext value={shadowContextMemo}>
             {links}
+            {styles}
             {!isLoading && content}
             {isLoading && fallback}
           </ContainerShadowContext>,
@@ -169,5 +178,6 @@ const ContainerShadow = ({
 ContainerShadow.Content = ContainerShadowContent;
 
 ContainerShadow.Link = ContainerShadowLink;
+ContainerShadow.Style = ContainerShadowStyle;
 
 export default ContainerShadow;
