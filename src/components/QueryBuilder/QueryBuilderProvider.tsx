@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import { produce } from 'immer';
 import get from 'lodash/get.js';
 import set from 'lodash/set.js';

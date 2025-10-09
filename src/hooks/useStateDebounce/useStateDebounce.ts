@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import debounce from 'lodash/debounce.js';
 import { useCallback, useMemo, useState, useRef } from 'react';
 

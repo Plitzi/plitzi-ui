@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
 import { indentWithTab } from '@codemirror/commands';
 import { css, cssLanguage } from '@codemirror/lang-css';

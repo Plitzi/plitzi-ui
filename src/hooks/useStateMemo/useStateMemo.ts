@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import { useCallback, useRef, useState } from 'react';
 
 import { isFunction } from '@/helpers/utils';
@@ -10,7 +11,7 @@ const useStateMemo = <T>(
   deps: DependencyList = [],
   mode: 'soft' | 'hard' = 'soft'
 ): [T, Dispatch<SetStateAction<T>>] => {
-  const [, setRefresh] = useState(Math.random());
+  const [, setRefresh] = useState(0);
   const state = useRef(isFunction<T>(initialState) ? initialState() : initialState);
   const prevDepsRef = useRef<DependencyList>(deps);
 

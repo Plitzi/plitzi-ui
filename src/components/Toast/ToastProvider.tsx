@@ -20,7 +20,7 @@ const ToastProvider = ({
   classNameContainer = '',
   isFixed = true
 }: ToastProviderProps) => {
-  const id = useMemo(() => Math.random().toString(36).slice(2, 9), []);
+  const id = useMemo(() => crypto.randomUUID(), []);
 
   const addToast = useCallback(
     async (

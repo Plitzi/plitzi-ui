@@ -50,7 +50,7 @@ const ContainerFrame = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useImperativeHandle<HTMLIFrameElement | null, HTMLIFrameElement | null>(ref, () => iframeRef.current, [iframeRef]);
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const document = useMemo(() => {
+  const myDocument = useMemo(() => {
     if (!iframeLoaded) {
       return undefined;
     }
@@ -58,11 +58,11 @@ const ContainerFrame = ({
     return iframeRef.current?.contentDocument;
   }, [iframeLoaded]);
 
-  const loadAssets = useCallback((assets: Record<string, Asset>, head: HTMLHeadElement, document: Document) => {
+  const loadAssets = useCallback((assets: Record<string, Asset>, head: HTMLHeadElement, documentInstance: Document) => {
     const assetsLoaded = [...head.childNodes];
-    const customStyleElement = document.getElementById('customStyle');
+    const customStyleElement = documentInstance.getElementById('customStyle');
     Object.values(assets).forEach(asset => {
-      const newAsset = document.createElement(asset.type) as HTMLLinkElement | HTMLScriptElement;
+      const newAsset = documentInstance.createElement(asset.type) as HTMLLinkElement | HTMLScriptElement;
       if (asset.id) {
         newAsset.setAttribute('data-id', asset.id);
       }
@@ -88,14 +88,14 @@ const ContainerFrame = ({
   }, []);
 
   const loadBuilderAssets = useCallback(
-    (document: Document, assets: { [key: string]: Asset }) => {
-      const { head } = document;
+    (documentInstance: Document, assets: { [key: string]: Asset }) => {
+      const { head } = documentInstance;
       const headChildren = head.querySelectorAll('*:not([asset-static="true"])');
       Object.values(headChildren).forEach(node => {
         head.removeChild(node);
       });
 
-      loadAssets(assets, head, document);
+      loadAssets(assets, head, documentInstance);
     },
     [loadAssets]
   );
@@ -118,10 +118,10 @@ const ContainerFrame = ({
   const contentDidMount = () => contentDidMountProp?.();
 
   useEffect(() => {
-    if (iframeLoaded && document) {
-      loadBuilderAssets(document, assets);
+    if (iframeLoaded && myDocument) {
+      loadBuilderAssets(myDocument, assets);
     }
-  }, [iframeLoaded, assets, document, loadBuilderAssets]);
+  }, [iframeLoaded, assets, myDocument, loadBuilderAssets]);
 
   const handleLoad = useCallback(() => {
     if (iframeLoaded) {
@@ -131,9 +131,12 @@ const ContainerFrame = ({
     setIframeLoaded(true);
   }, [iframeLoaded]);
 
-  if (document) {
-    document.body.style.zoom = `${zoom}`;
-  }
+  useEffect(() => {
+    if (myDocument) {
+      // eslint-disable-next-line react-hooks/immutability
+      myDocument.body.style.zoom = `${zoom}`;
+    }
+  }, [myDocument, zoom]);
 
   return (
     <iframe
@@ -146,7 +149,7 @@ const ContainerFrame = ({
       style={style}
     >
       {iframeLoaded &&
-        document &&
+        myDocument &&
         createPortal(
           <>
             <meta name="viewport" content={viewport} asset-static="true" />
@@ -157,10 +160,10 @@ const ContainerFrame = ({
             )}
             {ssrMode && css && <style id="customStyle" asset-static="true" dangerouslySetInnerHTML={{ __html: css }} />}
           </>,
-          document.head
+          myDocument.head
         )}
       {iframeLoaded &&
-        document &&
+        myDocument &&
         children &&
         createPortal(
           <FrameContent
@@ -170,7 +173,7 @@ const ContainerFrame = ({
           >
             {Children.only(children)}
           </FrameContent>,
-          document.body
+          myDocument.body
         )}
     </iframe>
   );

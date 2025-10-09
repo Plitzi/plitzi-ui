@@ -56,6 +56,7 @@ const useResize = ({
       e.stopPropagation();
       e.preventDefault();
       window.removeEventListener('mousemove', handleMouseMove);
+      // eslint-disable-next-line react-hooks/immutability
       window.removeEventListener('mouseup', handleMouseUp);
       setResizing(false);
     },
