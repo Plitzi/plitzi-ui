@@ -27,7 +27,7 @@ export type InputProps = {
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &
   Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'>;
 
-const Input = ({
+const BaseInput = ({
   ref,
   children,
   className = '',
@@ -94,6 +94,6 @@ const Input = ({
   );
 };
 
-Input.Icon = Icon;
+const Input = Object.assign(memo(BaseInput), { Icon });
 
-export default memo(Input);
+export default Input;

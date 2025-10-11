@@ -28,7 +28,7 @@ export type SelectProps = {
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'className' | 'onChange' | 'size'> &
   Omit<useThemeSharedProps<typeof SelectStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
-const Select = ({
+const BaseSelect = ({
   ref,
   children,
   id,
@@ -115,7 +115,6 @@ const Select = ({
   );
 };
 
-Select.Icon = Icon;
-Select.Option = SelectOption;
+const Select = Object.assign(memo(BaseSelect), { Icon, Option: SelectOption });
 
-export default memo(Select);
+export default Select;
