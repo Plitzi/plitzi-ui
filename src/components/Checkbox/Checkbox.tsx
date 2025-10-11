@@ -1,5 +1,5 @@
 import omit from 'lodash/omit.js';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
@@ -61,4 +61,4 @@ const Checkbox = ({
   );
 };
 
-export default Checkbox;
+export default memo(Checkbox);

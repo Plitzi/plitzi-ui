@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, memo } from 'react';
 // @ts-ignore
 import SketchPicker from 'react-color/lib/Sketch.js';
 import tinycolor from 'tinycolor2';
@@ -160,4 +160,4 @@ const ColorPicker = ({
   );
 };
 
-export default ColorPicker;
+export default memo(ColorPicker);

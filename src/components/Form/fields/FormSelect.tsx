@@ -14,27 +14,32 @@ export type FormSelectProps<T extends FieldValues, TName extends FieldPath<T>> =
 
 const FormSelect = <T extends FieldValues, TName extends FieldPath<T>>(props: FormSelectProps<T, TName>) => {
   const { control } = useFormContext<T>();
+  const { onChange: onChangeProp } = props;
 
   const handleChange = useCallback(
     (onChange: (...event: any[]) => void) => (value: string) => {
       onChange(value);
-      props.onChange?.(value);
+      onChangeProp?.(value);
     },
-    [props]
+    [onChangeProp]
   );
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
-      ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
-        <Select
-          {...props}
-          ref={ref as unknown as RefObject<HTMLSelectElement>}
-          value={value}
-          name={name}
-          error={fieldError?.message}
-          onChange={handleChange(onChange)}
-        />
-      ),
+      function Render({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) {
+        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange]);
+
+        return (
+          <Select
+            {...props}
+            ref={ref as unknown as RefObject<HTMLSelectElement>}
+            value={value}
+            name={name}
+            error={fieldError?.message}
+            onChange={onChangeMemo}
+          />
+        );
+      },
     [props, handleChange]
   );
 

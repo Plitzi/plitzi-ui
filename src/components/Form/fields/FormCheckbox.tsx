@@ -14,27 +14,32 @@ export type FormCheckboxProps<T extends FieldValues, TName extends FieldPath<T>>
 
 const FormCheckbox = <T extends FieldValues, TName extends FieldPath<T>>(props: FormCheckboxProps<T, TName>) => {
   const { control } = useFormContext<T>();
+  const { onChange: onChangeProp } = props;
 
   const handleChange = useCallback(
     (onChange: (...event: any[]) => void) => (value: ChangeEvent<HTMLInputElement>) => {
       onChange(value);
-      props.onChange?.(value);
+      onChangeProp?.(value);
     },
-    [props]
+    [onChangeProp]
   );
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
-      ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
-        <Checkbox
-          {...props}
-          ref={ref as unknown as RefObject<HTMLInputElement>}
-          value={value}
-          name={name}
-          error={fieldError?.message}
-          onChange={handleChange(onChange)}
-        />
-      ),
+      function Render({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) {
+        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange]);
+
+        return (
+          <Checkbox
+            {...props}
+            ref={ref as unknown as RefObject<HTMLInputElement>}
+            value={value}
+            name={name}
+            error={fieldError?.message}
+            onChange={onChangeMemo}
+          />
+        );
+      },
     [props, handleChange]
   );
 

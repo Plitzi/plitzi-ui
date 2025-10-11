@@ -14,27 +14,32 @@ export type FormTextAreaProps<T extends FieldValues, TName extends FieldPath<T>>
 
 const FormTextArea = <T extends FieldValues, TName extends FieldPath<T>>(props: FormTextAreaProps<T, TName>) => {
   const { control } = useFormContext<T>();
+  const { onChange: onChangeProp } = props;
 
   const handleChange = useCallback(
     (onChange: (...event: any[]) => void) => (value: string) => {
       onChange(value);
-      props.onChange?.(value);
+      onChangeProp?.(value);
     },
-    [props]
+    [onChangeProp]
   );
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
-      ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
-        <TextArea
-          {...props}
-          ref={ref as unknown as RefObject<HTMLTextAreaElement>}
-          value={value}
-          name={name}
-          error={fieldError?.message}
-          onChange={handleChange(onChange)}
-        />
-      ),
+      function Render({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) {
+        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange]);
+
+        return (
+          <TextArea
+            {...props}
+            ref={ref as unknown as RefObject<HTMLTextAreaElement>}
+            value={value}
+            name={name}
+            error={fieldError?.message}
+            onChange={onChangeMemo}
+          />
+        );
+      },
     [props, handleChange]
   );
 

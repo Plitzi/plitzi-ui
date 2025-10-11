@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, memo } from 'react';
 
 import ContainerFloating from '@components/ContainerFloating';
 import Flex from '@components/Flex';
@@ -315,4 +315,4 @@ const Select2 = (props: Select2Props) => {
   );
 };
 
-export default Select2;
+export default memo(Select2);

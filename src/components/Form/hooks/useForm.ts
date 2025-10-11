@@ -1,5 +1,6 @@
 // import { zodResolver } from '@hookform/resolvers/zod'; // waiting from the next version of hookform/resolvers
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
+import { useMemo } from 'react';
 import { useForm as useReactHookForm } from 'react-hook-form';
 
 import useValueMemo from '@hooks/useValueMemo';
@@ -37,16 +38,14 @@ const useForm = <T extends ZodFormSchema>({
 }: UseFormProps<T>): UseFormReturn<T> => {
   const defaultValues = useValueMemo(defaultValuesProp);
   const config = useValueMemo(configProp, 'hard', { skipFunctions: true });
+  const resolver = useMemo(
+    () => standardSchemaResolver<z.core.output<T>, unknown, z.core.output<T>>(config.schema),
+    [config.schema]
+  );
 
-  const methods = useReactHookForm<z.infer<T>>({
-    ...props,
-    defaultValues,
-    context: undefined,
-    errors,
-    resolver: standardSchemaResolver(config.schema)
-  });
+  const formMethods = useReactHookForm<z.infer<T>>({ ...props, defaultValues, context: undefined, errors, resolver });
 
-  return { formMethods: methods, config };
+  return { formMethods, config };
 };
 
 export default useForm;

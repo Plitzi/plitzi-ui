@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import omit from 'lodash/omit.js';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
@@ -89,4 +89,4 @@ const Switch = ({
   );
 };
 
-export default Switch;
+export default memo(Switch);

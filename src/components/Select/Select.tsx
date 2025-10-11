@@ -1,4 +1,4 @@
-import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
+import { Children, cloneElement, isValidElement, useCallback, useMemo, memo } from 'react';
 
 import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
@@ -118,4 +118,4 @@ const Select = ({
 Select.Icon = Icon;
 Select.Option = SelectOption;
 
-export default Select;
+export default memo(Select);

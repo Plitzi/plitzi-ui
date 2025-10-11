@@ -14,27 +14,32 @@ export type FormSwitchProps<T extends FieldValues, TName extends FieldPath<T>> =
 
 const FormSwitch = <T extends FieldValues, TName extends FieldPath<T>>(props: FormSwitchProps<T, TName>) => {
   const { control } = useFormContext<T>();
+  const { onChange: onChangeProp } = props;
 
   const handleChange = useCallback(
     (onChange: (...event: any[]) => void) => (e: ChangeEvent<HTMLInputElement>) => {
       onChange(e.target.checked);
-      props.onChange?.(e);
+      onChangeProp?.(e);
     },
-    [props]
+    [onChangeProp]
   );
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
-      ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
-        <Switch
-          {...props}
-          ref={ref as unknown as RefObject<HTMLInputElement>}
-          value={value}
-          name={name}
-          error={fieldError?.message}
-          onChange={handleChange(onChange)}
-        />
-      ),
+      function Render({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) {
+        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange]);
+
+        return (
+          <Switch
+            {...props}
+            ref={ref as unknown as RefObject<HTMLInputElement>}
+            value={value}
+            name={name}
+            error={fieldError?.message}
+            onChange={onChangeMemo}
+          />
+        );
+      },
     [props, handleChange]
   );
 

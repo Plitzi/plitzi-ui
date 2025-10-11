@@ -14,21 +14,22 @@ export type FormFileUploadProps<T extends FieldValues, TName extends FieldPath<T
 
 const FormFileUpload = <T extends FieldValues, TName extends FieldPath<T>>(props: FormFileUploadProps<T, TName>) => {
   const { control, setError, clearErrors } = useFormContext<T>();
+  const { multiple, name, onChange: onChangeProp } = props;
 
   const handleChange = useCallback(
     (onChange: (...event: any[]) => void) => (value?: File | File[]) => {
       onChange(value);
-      if (props.multiple) {
-        props.onChange?.(value as File[] | undefined);
+      if (multiple) {
+        onChangeProp?.(value as File[] | undefined);
       } else {
-        props.onChange?.(value as File | undefined);
+        onChangeProp?.(value as File | undefined);
       }
 
-      if (props.name) {
-        clearErrors(props.name);
+      if (name) {
+        clearErrors(name);
       }
     },
-    [clearErrors, props]
+    [clearErrors, multiple, name, onChangeProp]
   );
 
   const handleError = useCallback(
@@ -37,22 +38,26 @@ const FormFileUpload = <T extends FieldValues, TName extends FieldPath<T>>(props
         setError(props.name, { type: 'custom', message: error });
       }
     },
-    [props, setError]
+    [props.name, setError]
   );
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
-      ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
-        <FileUpload
-          {...props}
-          ref={ref as unknown as RefObject<HTMLInputElement>}
-          value={value}
-          name={name}
-          error={fieldError?.message}
-          onChange={handleChange(onChange)}
-          onError={handleError}
-        />
-      ),
+      function Render({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) {
+        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange]);
+
+        return (
+          <FileUpload
+            {...props}
+            ref={ref as unknown as RefObject<HTMLInputElement>}
+            value={value}
+            name={name}
+            error={fieldError?.message}
+            onChange={onChangeMemo}
+            onError={handleError}
+          />
+        );
+      },
     [props, handleChange, handleError]
   );
 

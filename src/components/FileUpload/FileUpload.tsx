@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useCallback, useEffect, useImperativeHandle, useRef } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useRef, memo } from 'react';
 
 import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
@@ -291,4 +291,4 @@ const FileUpload = (props: FileUploadProps) => {
   );
 };
 
-export default FileUpload;
+export default memo(FileUpload);

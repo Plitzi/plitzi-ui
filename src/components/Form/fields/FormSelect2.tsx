@@ -14,31 +14,36 @@ export type FormSelect2Props<T extends FieldValues, TName extends FieldPath<T>> 
 
 const FormSelect2 = <T extends FieldValues, TName extends FieldPath<T>>(props: FormSelect2Props<T, TName>) => {
   const { control } = useFormContext<T>();
+  const { valueAsString, onChange: onChangeProp } = props;
 
   const handleChange = useCallback(
     (onChange: (...event: any[]) => void) => (value: any) => {
       onChange(value);
-      if (props.valueAsString) {
-        props.onChange?.(value as string);
+      if (valueAsString) {
+        onChangeProp?.(value as string);
       } else {
-        props.onChange?.(value as Exclude<Option, OptionGroup>);
+        onChangeProp?.(value as Exclude<Option, OptionGroup>);
       }
     },
-    [props]
+    [valueAsString, onChangeProp]
   );
 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
-      ({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) => (
-        <Select2
-          {...props}
-          ref={ref as unknown as RefObject<HTMLDivElement | null>}
-          value={value}
-          name={name}
-          error={fieldError?.message}
-          onChange={handleChange(onChange)}
-        />
-      ),
+      function Render({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) {
+        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange]);
+
+        return (
+          <Select2
+            {...props}
+            ref={ref as unknown as RefObject<HTMLDivElement | null>}
+            value={value}
+            name={name}
+            error={fieldError?.message}
+            onChange={onChangeMemo}
+          />
+        );
+      },
     [props, handleChange]
   );
 

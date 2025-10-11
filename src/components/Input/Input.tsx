@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, memo } from 'react';
 
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
@@ -96,4 +96,4 @@ const Input = ({
 
 Input.Icon = Icon;
 
-export default Input;
+export default memo(Input);

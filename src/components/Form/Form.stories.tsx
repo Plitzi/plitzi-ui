@@ -137,7 +137,6 @@ export const Primary: Story = {
               { label: 'Option 3', value: 'option-3' }
             ]}
           />
-          {/* <Form.FileUpload name="files" multiple clearable /> */}
           <Form.FileUpload name="files" multiple clearable canDragAndDrop label="Select a resource file to upload" />
         </Form.Body>
         <Form.Footer>
