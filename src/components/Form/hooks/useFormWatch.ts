@@ -45,7 +45,7 @@ function useFormWatch<T extends FieldValues>(form: UseFormReturn<T>, names?: Pat
 
     if (!mounted) {
       if (typeof finalNames === 'string') {
-        setValue(form.getValues([finalNames]));
+        setValue(form.getValues(finalNames));
       } else {
         setValue(form.getValues(finalNames));
       }
