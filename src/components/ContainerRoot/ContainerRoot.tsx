@@ -17,7 +17,11 @@ const ContainerRoot = ({ className = '', children, ssrMode = false, ...otherProp
   }, []);
 
   if (ssrMode) {
-    return children;
+    return (
+      <div {...otherProps} className={className}>
+        {children}
+      </div>
+    );
   }
 
   return (
