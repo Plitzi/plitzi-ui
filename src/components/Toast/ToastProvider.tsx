@@ -12,15 +12,17 @@ export type ToastProviderProps = {
   classNameToast?: string;
   classNameContainer?: string;
   isFixed?: boolean;
+  containerId?: string;
 };
 
 const ToastProvider = ({
   children,
   classNameToast = '',
   classNameContainer = '',
-  isFixed = true
+  isFixed = true,
+  containerId
 }: ToastProviderProps) => {
-  const id = useMemo(() => crypto.randomUUID(), []);
+  const id = useMemo(() => containerId ?? crypto.randomUUID(), [containerId]);
 
   const addToast = useCallback(
     async (
