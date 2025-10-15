@@ -6,23 +6,13 @@ import type { ReactNode } from 'react';
 
 export type ContainerRootProps = { className?: string; children?: ReactNode; ssrMode?: boolean };
 
-const ContainerRoot = ({ className = '', children, ssrMode = false, ...otherProps }: ContainerRootProps) => {
+const ContainerRoot = ({ className = '', children, ...otherProps }: ContainerRootProps) => {
   const [rootDOM, setRootDOM] = useState(null);
   const ref = useRef(null);
 
   useEffect(() => {
     setRootDOM(ref.current);
-
-    return () => {};
   }, []);
-
-  if (ssrMode) {
-    return (
-      <div {...otherProps} className={className}>
-        {children}
-      </div>
-    );
-  }
 
   return (
     <div {...otherProps} ref={ref} className={className}>
