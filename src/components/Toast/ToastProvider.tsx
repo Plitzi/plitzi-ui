@@ -7,6 +7,8 @@ import ToastContext from './ToastContext';
 import type { ReactNode } from 'react';
 import type { Id, Theme, ToastContent, ToastIcon, ToastOptions, ToastPosition, TypeOptions } from 'react-toastify';
 
+export type { ToastPosition, ToastIcon, Theme as ToastTheme, TypeOptions as ToastTypeOptions };
+
 export type ToastProviderProps = {
   children?: ReactNode;
   classNameToast?: string;
