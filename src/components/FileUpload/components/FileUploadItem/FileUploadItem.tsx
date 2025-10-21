@@ -41,7 +41,7 @@ const FileUploadItem = ({
       <div className="flex items-center gap-2">
         {clearable && (
           <Button size="xs" intent="danger" className="border-none remove-file" title="Remove" onClick={onRemove}>
-            <Button.Icon icon="fas fa-trash-alt" size={size} />
+            <Button.Icon icon="fas fa-trash-alt" size="xs" />
           </Button>
         )}
         <span className={classNameTheme.itemLabel} title={value.name}>

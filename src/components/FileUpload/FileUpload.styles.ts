@@ -66,13 +66,24 @@ export default {
     compoundVariants: [],
     defaultVariants: {}
   }),
-  items: cva('flex w-full gap-4 flex-wrap justify-center'),
+  items: cva('flex w-full gap-4 flex-wrap', {
+    variants: {
+      canDragAndDrop: {
+        true: 'justify-center',
+        false: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      canDragAndDrop: false
+    }
+  }),
   item: cva('flex flex-col overflow-hidden gap-1 shrink-0', {
     variants: {
       size: {
-        md: 'w-30',
-        sm: 'w-25 text-sm',
-        xs: 'w-20 text-xs',
+        md: '',
+        sm: 'text-sm',
+        xs: 'text-xs',
         custom: ''
       }
     },

@@ -151,28 +151,29 @@ const FileUpload = (props: FileUploadProps) => {
     }
   }, [props, value, multiple, onChange]);
 
+  const syncInput = useCallback(() => {
+    if (!inputRef.current) {
+      return;
+    }
+
+    const dt = new DataTransfer();
+    const files = props.multiple ? (props.value ?? []) : props.value ? [props.value] : [];
+    files.flat().forEach(f => dt.items.add(f));
+    inputRef.current.files = dt.files;
+  }, [props.multiple, props.value]);
+
   const handleClickRemove = useCallback(
     (index: number) => () => {
-      if (!value) {
-        return;
-      }
-
       if (props.multiple && props.value) {
         const currentFiles = props.value.toSpliced(index, 1);
         props.onChange?.(currentFiles);
-        if (inputRef.current) {
-          const dt = new DataTransfer();
-          currentFiles.forEach(file => dt.items.add(file));
-          inputRef.current.files = dt.files;
-        }
+        // if (inputRef.current) {
       } else {
-        onChange?.(undefined);
-        if (inputRef.current) {
-          inputRef.current.value = '';
-        }
+        props.onChange?.(undefined);
       }
     },
-    [onChange, props, value]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.onChange, props.multiple, props.value]
   );
 
   const dragging = useDragging({
@@ -185,15 +186,8 @@ const FileUpload = (props: FileUploadProps) => {
   });
 
   useEffect(() => {
-    if (!props.value || !inputRef.current || (props.multiple && !props.value.length)) {
-      return;
-    }
-
-    const dt = new DataTransfer();
-    const files = props.multiple ? props.value : [props.value];
-    files.forEach(f => dt.items.add(f));
-    inputRef.current.files = dt.files;
-  }, [props.multiple, props.value]);
+    syncInput();
+  }, [syncInput]);
 
   useEffect(() => {
     onDraggingStateChange?.(dragging);
@@ -240,7 +234,7 @@ const FileUpload = (props: FileUploadProps) => {
             multiple={multiple}
             className={classNameTheme.input}
           />
-          {hasFiles && showPreview && (
+          {hasFiles && Array.isArray(props.value) && props.value.length > 1 && showPreview && (
             <FileUploadItems
               value={value}
               intent={intent}
@@ -249,7 +243,7 @@ const FileUpload = (props: FileUploadProps) => {
               error={error}
               canDragAndDrop={canDragAndDrop}
               onRemove={handleClickRemove}
-              clearable={clearable && multiple}
+              clearable={clearable}
             />
           )}
         </div>
@@ -295,7 +289,7 @@ const FileUpload = (props: FileUploadProps) => {
           <DrawTypes className={classNameTheme.subLabel} types={types} minSize={minSize} maxSize={maxSize} />
         )}
       </div>
-      {value && showPreview && (
+      {hasFiles && showPreview && (
         <FileUploadItems
           value={value}
           intent={intent}
