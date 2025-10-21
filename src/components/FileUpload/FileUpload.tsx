@@ -185,6 +185,17 @@ const FileUpload = (props: FileUploadProps) => {
   });
 
   useEffect(() => {
+    if (!props.value || !inputRef.current || (props.multiple && !props.value.length)) {
+      return;
+    }
+
+    const dt = new DataTransfer();
+    const files = props.multiple ? props.value : [props.value];
+    files.forEach(f => dt.items.add(f));
+    inputRef.current.files = dt.files;
+  }, [props.multiple, props.value]);
+
+  useEffect(() => {
     onDraggingStateChange?.(dragging);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragging]);
@@ -274,7 +285,7 @@ const FileUpload = (props: FileUploadProps) => {
         <FileUploadMessage
           label={label}
           disabled={disabled}
-          hasFiles={hasFiles}
+          hasFiles={hasFiles && showPreview}
           error={dragging ? undefined : error}
           intent={intent}
           size={size}
