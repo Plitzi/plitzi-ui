@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     label: 'Select a resource file to upload',
-    types: ['jpeg', 'jpg', 'png', 'json'],
+    types: ['jpeg', 'jpg', 'png', 'json', 'zip'],
     maxSize: 10240000,
     // error: 'Test',
     // disabled: true,

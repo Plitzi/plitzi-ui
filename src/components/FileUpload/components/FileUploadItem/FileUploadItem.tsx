@@ -40,7 +40,7 @@ const FileUploadItem = ({
       {isImage && <img src={URL.createObjectURL(value)} alt={value.name} className={classNameTheme.itemImg} />}
       <div className="flex items-center gap-2">
         {clearable && (
-          <Button size="xs" intent="danger" className="border-none" title="Remove" onClick={onRemove}>
+          <Button size="xs" intent="danger" className="border-none remove-file" title="Remove" onClick={onRemove}>
             <Button.Icon icon="fas fa-trash-alt" size={size} />
           </Button>
         )}

@@ -15,7 +15,20 @@ export default function useDragging(props: UseDraggingProps) {
   const { labelRef, inputRef, disabled = false } = props;
   const [dragging, setDragging] = useState(false);
 
-  const handleClick = useCallback(() => !disabled && inputRef.current?.click(), [disabled, inputRef]);
+  const handleClick = useCallback(
+    (e: MouseEvent) => {
+      if (
+        disabled ||
+        (e.target as HTMLElement).closest('.remove-file') ||
+        (e.target as HTMLElement).closest('.file-list')
+      ) {
+        return;
+      }
+
+      inputRef.current?.click();
+    },
+    [disabled, inputRef]
+  );
 
   const handleDragIn = useCallback((ev: DragEvent) => {
     ev.preventDefault();

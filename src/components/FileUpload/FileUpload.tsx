@@ -158,9 +158,18 @@ const FileUpload = (props: FileUploadProps) => {
       }
 
       if (props.multiple && props.value) {
-        props.onChange?.(props.value.toSpliced(index, 1));
+        const currentFiles = props.value.toSpliced(index, 1);
+        props.onChange?.(currentFiles);
+        if (inputRef.current) {
+          const dt = new DataTransfer();
+          currentFiles.forEach(file => dt.items.add(file));
+          inputRef.current.files = dt.files;
+        }
       } else {
         onChange?.(undefined);
+        if (inputRef.current) {
+          inputRef.current.value = '';
+        }
       }
     },
     [onChange, props, value]

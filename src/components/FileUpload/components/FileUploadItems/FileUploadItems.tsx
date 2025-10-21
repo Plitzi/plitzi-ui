@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { useMemo } from 'react';
 
 import useTheme from '@hooks/useTheme';
@@ -37,7 +38,7 @@ const FileUploadItems = ({
   const valueParsed = useMemo(() => (Array.isArray(value) ? value : value ? [value] : []).filter(Boolean), [value]);
 
   return (
-    <div className={classNameTheme.items}>
+    <div className={classNames(classNameTheme.items, 'file-list')}>
       {Array.isArray(valueParsed) &&
         valueParsed.map((file, i) => (
           <FileUploadItem
