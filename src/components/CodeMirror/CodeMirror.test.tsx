@@ -1,7 +1,27 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, afterEach, expect, vi } from 'vitest';
+import { describe, it, afterEach, expect, vi, beforeAll } from 'vitest';
 
 import CodeMirror from './CodeMirror';
+
+beforeAll(() => {
+  global.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+
+  global.IntersectionObserver = class {
+    root = null;
+    rootMargin = '';
+    thresholds = [];
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() {
+      return [];
+    }
+  };
+});
 
 describe('CodeMirror', () => {
   afterEach(() => {
@@ -20,7 +40,7 @@ describe('CodeMirror', () => {
 
   it('trigger events', () => {
     // Test 1
-    const handleChange = vi.fn();
+    const handleChange = vi.fn(() => {});
     const component = render(<CodeMirror onChange={handleChange} />);
     expect(component).toBeTruthy();
     // const input = component.container.getElementsByTagName('textarea')[0];

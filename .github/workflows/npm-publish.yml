@@ -14,21 +14,23 @@ on:
 
 jobs:
   packages:
+    name: Yarn packages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the repo
+        uses: actions/checkout@v4
 
       - name: Enable Corepack
         run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          registry-url: https://npm.pkg.github.com
+          node-version: 24
+          registry-url: 'https://npm.pkg.github.com'
           scope: '@plitzi'
 
-      - name: Cache multiple paths
-        id: cache-packages
+      - name: Cache Yarn
+        id: cache-yarn-packages
         uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
@@ -36,31 +38,29 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Setup .yarnrc.yml
+      - name: Yarn Token
         run: |
-          yarn config set npmScopes.plitzi.npmRegistryServer "https://npm.pkg.github.com"
-          yarn config set npmScopes.plitzi.npmAlwaysAuth true
-          yarn config set npmScopes.plitzi.npmAuthToken $NPM_AUTH_TOKEN
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "npmAuthToken: ${{ secrets.NPM_AUTH_TOKEN }}" >> $HOME/.yarnrc.yml
 
       - name: Yarn Install
-        if: steps.cache-packages.outputs.cache-hit != 'true'
-        run: yarn install
+        if: steps.cache-yarn-packages.outputs.cache-hit != 'true'
+        run: yarn install # --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
   lint:
     needs: packages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the repo
+        uses: actions/checkout@v4
 
       - name: Enable Corepack
         run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          registry-url: https://npm.pkg.github.com/plitzi
+          node-version: 24
 
       - name: Restore Cache
         uses: actions/cache@v4
@@ -80,15 +80,15 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the repo
+        uses: actions/checkout@v4
 
       - name: Enable Corepack
         run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          registry-url: https://npm.pkg.github.com/plitzi
+          node-version: 24
 
       - name: Restore Cache
         uses: actions/cache@v4
@@ -106,16 +106,15 @@ jobs:
     needs: tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the repo
+        uses: actions/checkout@v4
 
       - name: Enable Corepack
         run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          registry-url: https://npm.pkg.github.com/plitzi
-          scope: '@plitzi'
+          node-version: 24
 
       - name: Restore Cache
         uses: actions/cache@v4
@@ -128,11 +127,9 @@ jobs:
       - name: Yarn Build
         run: yarn build:prod
 
-      - name: Setup .yarnrc.yml
+      - name: Yarn Token
         run: |
-          yarn config set npmScopes.plitzi.npmRegistryServer "https://npm.pkg.github.com"
-          yarn config set npmScopes.plitzi.npmAlwaysAuth true
-          yarn config set npmScopes.plitzi.npmAuthToken $NPM_AUTH_TOKEN
+          echo "npmAuthToken: ${{ secrets.NPM_AUTH_TOKEN }}" >> $HOME/.yarnrc.yml
         env:
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
