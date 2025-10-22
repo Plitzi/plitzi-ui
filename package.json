@@ -112,7 +112,7 @@
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.65.0",
     "react-markdown": "^10.1.0",
-    "react-syntax-highlighter": "^16.0.0",
+    "react-syntax-highlighter": "^15.6.6",
     "react-toastify": "^11.0.5",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
@@ -170,7 +170,7 @@
     "vite": "^7.1.11",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-static-copy": "^3.1.4",
-    "vitest": "^3.2.4",
+    "vitest": "^4.0.1",
     "vitest-fetch-mock": "^0.4.5"
   },
   "scripts": {
