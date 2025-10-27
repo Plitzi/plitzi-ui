@@ -10,7 +10,7 @@ const meta = {
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: {}
+  args: { intent: 'success' }
 } satisfies Meta<typeof Alert>;
 
 export default meta;
@@ -19,5 +19,34 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {},
-  render: args => <Alert {...args}>Alert Message</Alert>
+  render: args => {
+    return (
+      <div className="flex flex-col gap-4">
+        <Alert {...args} size="xs">
+          Alert Message
+        </Alert>
+        <Alert {...args} size="sm">
+          Alert Message
+        </Alert>
+        <Alert {...args} size="md">
+          Alert Message
+        </Alert>
+        <Alert {...args} size="xl">
+          Alert Message
+        </Alert>
+        <Alert {...args} size="xs" solid={false}>
+          Alert Message
+        </Alert>
+        <Alert {...args} size="sm" solid={false}>
+          Alert Message
+        </Alert>
+        <Alert {...args} size="md" solid={false}>
+          Alert Message
+        </Alert>
+        <Alert {...args} size="xl" solid={false}>
+          Alert Message
+        </Alert>
+      </div>
+    );
+  }
 };

@@ -10,14 +10,13 @@ export type AlertProps = {
   children?: React.ReactNode;
   containerClassName?: string;
   iconClassName?: string;
-  intent?: 'success' | 'error' | 'warning' | 'info';
 } & useThemeSharedProps<typeof AlertStyles, typeof variantKeys>;
 
-const Alert = ({ children, className = '', iconClassName = '', intent = 'success', size }: AlertProps) => {
+const Alert = ({ children, className = '', iconClassName = '', intent = 'success', solid, size }: AlertProps) => {
   const classNameTheme = useTheme<typeof AlertStyles, typeof variantKeys>('Alert', {
     className,
     componentKey: ['root', 'iconContainer', 'content'],
-    variants: { intent, size }
+    variants: { intent, size, solid }
   });
 
   return (
