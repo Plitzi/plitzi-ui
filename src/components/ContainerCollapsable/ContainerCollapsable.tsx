@@ -18,7 +18,7 @@ export type ContainerCollapsableProps = {
   collapsed?: boolean;
   children?: ReactNode;
   onChange?: (collapsed: boolean) => void;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'className'> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className' | 'onChange'> &
   useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const ContainerCollapsable = ({
