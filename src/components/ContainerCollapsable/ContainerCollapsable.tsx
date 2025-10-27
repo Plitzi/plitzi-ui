@@ -12,13 +12,14 @@ import type { variantKeys } from './ContainerCollapsable.styles';
 import type { ContainerCollapsableHeaderProps } from './ContainerCollapsableHeader';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEventHandler, ReactElement, ReactNode } from 'react';
+import type { HTMLAttributes, MouseEventHandler, ReactElement, ReactNode } from 'react';
 
 export type ContainerCollapsableProps = {
   collapsed?: boolean;
   children?: ReactNode;
   onChange?: (collapsed: boolean) => void;
-} & useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys & typeof variantKeysFlex>;
+} & HTMLAttributes<HTMLDivElement> &
+  useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const ContainerCollapsable = ({
   className = '',
@@ -32,7 +33,8 @@ const ContainerCollapsable = ({
   grow,
   shrink,
   basis,
-  onChange
+  onChange,
+  ...otherProps
 }: ContainerCollapsableProps) => {
   const [collapsed, setCollapsed] = useState(collapsedProp);
   className = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys>('ContainerCollapsable', {
@@ -84,6 +86,7 @@ const ContainerCollapsable = ({
       shrink={shrink}
       basis={basis}
       grow={grow ? !collapsed : false}
+      {...otherProps}
     >
       {header}
       {!collapsed && content}

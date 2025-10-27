@@ -203,7 +203,7 @@ export default {
         16: 'gap-16'
       },
       shrink: {
-        1: 'flex-shrink',
+        1: 'shrink',
         0: ''
       },
       alignItems: {

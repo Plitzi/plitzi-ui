@@ -3,7 +3,7 @@ import useTheme from '@hooks/useTheme';
 import type ContainerCollapsableStyles from './ContainerCollapsable.styles';
 import type { variantKeys } from './ContainerCollapsable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEventHandler, ReactNode } from 'react';
+import type { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 
 export type ContainerCollapsableHeaderProps = {
   children?: ReactNode;
@@ -13,7 +13,8 @@ export type ContainerCollapsableHeaderProps = {
   iconCollapsed?: ReactNode;
   iconExpanded?: ReactNode;
   onClick?: MouseEventHandler<HTMLDivElement>;
-} & useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys>;
+} & HTMLAttributes<HTMLDivElement> &
+  useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys>;
 
 const iconCollapsedDefault = <i className="fas fa-plus" />;
 const iconExpandedDefault = <i className="fas fa-minus" />;
@@ -26,7 +27,8 @@ const ContainerCollapsableHeader = ({
   iconCollapsed = iconCollapsedDefault,
   iconExpanded = iconExpandedDefault,
   placement = 'left',
-  onClick
+  onClick,
+  ...otherProps
 }: ContainerCollapsableHeaderProps) => {
   const classNameTheme = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys>('ContainerCollapsable', {
     className,
@@ -41,7 +43,7 @@ const ContainerCollapsableHeader = ({
   });
 
   return (
-    <div className={classNameTheme.header} onClick={onClick}>
+    <div className={classNameTheme.header} onClick={onClick} {...otherProps}>
       <div className={classNameTheme.headerContainer}>
         {placement === 'left' && (
           <div className={classNameTheme.headerIconContainer}>

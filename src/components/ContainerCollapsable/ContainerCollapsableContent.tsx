@@ -5,11 +5,12 @@ import type ContainerCollapsableStyles from './ContainerCollapsable.styles';
 import type { variantKeys } from './ContainerCollapsable.styles';
 import type { variantKeys as variantKeysFlex } from '@components/Flex/Flex.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 export type ContainerCollapsableContentProps = {
   children?: ReactNode;
-} & useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys & typeof variantKeysFlex>;
+} & HTMLAttributes<HTMLDivElement> &
+  useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const ContainerCollapsableContent = ({
   className,
@@ -21,7 +22,8 @@ const ContainerCollapsableContent = ({
   gap,
   grow,
   shrink,
-  basis
+  basis,
+  ...otherProps
 }: ContainerCollapsableContentProps) => {
   className = useTheme<typeof ContainerCollapsableStyles, typeof variantKeys>('ContainerCollapsable', {
     className,
@@ -39,6 +41,7 @@ const ContainerCollapsableContent = ({
       shrink={shrink}
       basis={basis}
       grow={grow}
+      {...otherProps}
     >
       {children}
     </Flex>
