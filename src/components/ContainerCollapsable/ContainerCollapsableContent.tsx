@@ -9,7 +9,7 @@ import type { HTMLAttributes, ReactNode } from 'react';
 
 export type ContainerCollapsableContentProps = {
   children?: ReactNode;
-} & HTMLAttributes<HTMLDivElement> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className'> &
   useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const ContainerCollapsableContent = ({

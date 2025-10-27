@@ -13,7 +13,7 @@ export type ContainerCollapsableHeaderProps = {
   iconCollapsed?: ReactNode;
   iconExpanded?: ReactNode;
   onClick?: MouseEventHandler<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className' | 'title'> &
   useThemeSharedProps<typeof ContainerCollapsableStyles, typeof variantKeys>;
 
 const iconCollapsedDefault = <i className="fas fa-plus" />;
