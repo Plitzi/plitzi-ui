@@ -17,7 +17,7 @@ export type CardHeaderProps = {
   testId?: string;
   closeable?: boolean;
   onClose?: (e: MouseEvent) => void;
-} & HTMLAttributes<HTMLDivElement> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className'> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const CardHeader = ({
@@ -25,7 +25,6 @@ const CardHeader = ({
   className,
   children,
   closeable,
-  onClose,
   testId,
   intent,
   size,
@@ -38,6 +37,7 @@ const CardHeader = ({
   justify = 'between',
   alignItems,
   gap = 2,
+  onClose,
   ...props
 }: CardHeaderProps) => {
   const classNameTheme = useTheme<typeof CardStyles, typeof variantKeys>('Card', {

@@ -9,9 +9,9 @@ import type { HTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type CardFooterProps = {
   ref?: RefObject<HTMLDivElement | null>;
-  hildren?: ReactNode;
+  children?: ReactNode;
   testId?: string;
-} & HTMLAttributes<HTMLDivElement> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className'> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const CardFooter = ({

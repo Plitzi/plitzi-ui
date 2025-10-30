@@ -8,7 +8,7 @@ import useTheme from '@hooks/useTheme';
 import type ModalStyles from './Modal.styles';
 import type { variantKeys } from './Modal.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, MouseEvent, ReactNode, RefObject } from 'react';
+import type { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, RefObject } from 'react';
 
 export type ModalProps = {
   ref?: RefObject<HTMLDivElement>;
@@ -21,7 +21,8 @@ export type ModalProps = {
   duration?: number;
   isClosing?: boolean;
   onClose?: (e?: MouseEvent) => void | Promise<void>;
-} & useThemeSharedProps<typeof ModalStyles, typeof variantKeys>;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className'> &
+  useThemeSharedProps<typeof ModalStyles, typeof variantKeys>;
 
 const Modal = ({
   ref,
@@ -35,7 +36,8 @@ const Modal = ({
   open,
   isClosing = false,
   size,
-  onClose
+  onClose,
+  ...otherProps
 }: ModalProps) => {
   const classNameTheme = useTheme<typeof ModalStyles, typeof variantKeys>('Modal', {
     className,
@@ -67,7 +69,7 @@ const Modal = ({
   }
 
   return createPortal(
-    <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root}>
+    <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root} {...otherProps}>
       <div className={classNameTheme.background} onClick={handleClose} />
       <Card
         className={classNames(classNameTheme.card, {

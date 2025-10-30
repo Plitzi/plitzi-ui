@@ -11,7 +11,7 @@ export type CardBodyProps = {
   ref?: RefObject<HTMLDivElement | null>;
   children?: ReactNode;
   testId?: string;
-} & HTMLAttributes<HTMLDivElement> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className'> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys & typeof variantKeysFlex>;
 
 const CardBody = ({

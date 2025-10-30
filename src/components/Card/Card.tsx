@@ -21,7 +21,7 @@ export type CardProps = {
   testId?: string;
   closeable?: boolean;
   onClose?: (e: MouseEvent) => void;
-} & HTMLAttributes<HTMLDivElement> &
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className'> &
   useThemeSharedProps<typeof CardStyles, typeof variantKeys>;
 
 const Card = ({
