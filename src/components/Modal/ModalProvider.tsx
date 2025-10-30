@@ -22,9 +22,15 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
       id: string,
       settings?: Pick<ModalProps, 'duration' | 'animation'>,
       resolve?: (value?: TValue) => void,
-      mode: 'cancel' | 'submit' = 'cancel'
+      mode: 'cancel' | 'submit' = 'cancel',
+      stopPropagation?: boolean
     ) =>
-      (value?: TValue) => {
+      (e?: MouseEvent | React.MouseEvent, value?: TValue) => {
+        if (e && stopPropagation) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+
         if (mode === 'cancel') {
           value = undefined;
         }
@@ -48,13 +54,14 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
       header: ReactNode | ProviderModalSlot<TValue>,
       body: ReactNode | ProviderModalSlot<TValue>,
       footer?: ReactNode | ProviderModalSlot<TValue>,
-      settings?: ProviderModalProps
+      settings?: ProviderModalProps,
+      stopPropagation: boolean = true
     ) => {
       const key = new Date().getTime().toString();
 
       return new Promise<TValue | undefined>(resolve => {
-        const onClose = close(key, settings, resolve, 'cancel');
-        const onSubmit = close(key, settings, resolve, 'submit');
+        const onClose = close(key, settings, resolve, 'cancel', stopPropagation);
+        const onSubmit = close(key, settings, resolve, 'submit', stopPropagation);
         if (typeof header === 'function') {
           header = header({ onSubmit, onClose });
         }
@@ -94,7 +101,7 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
       if (!footer) {
         footer = ({ onSubmit, onClose }) => (
           <Modal.Footer gap={3} justify="end">
-            <Button onClick={() => onSubmit(successValue)} size={settings?.size}>
+            <Button onClick={(e: React.MouseEvent) => onSubmit(e, successValue)} size={settings?.size}>
               Accept
             </Button>
             <Button onClick={onClose} size={settings?.size}>

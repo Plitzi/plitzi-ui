@@ -7,8 +7,8 @@ export type ProviderModalSlot<TValue = unknown> = ({
   onSubmit,
   onClose
 }: {
-  onSubmit: (value?: TValue) => void;
-  onClose: () => void;
+  onSubmit: (e?: MouseEvent | React.MouseEvent, value?: TValue) => void;
+  onClose: (e?: MouseEvent | React.MouseEvent) => void;
 }) => ReactNode;
 
 export type ProviderModalProps = Omit<ModalProps, 'children' | 'onClose' | 'isClosing' | 'open' | 'id'>;
@@ -18,7 +18,8 @@ export type ModalContextValue = {
     header: ReactNode | ProviderModalSlot<TValue>,
     body: ReactNode | ProviderModalSlot<TValue>,
     footer?: ReactNode | ProviderModalSlot<TValue>,
-    settings?: ProviderModalProps
+    settings?: ProviderModalProps,
+    stopPropagation?: boolean
   ) => Promise<TValue | undefined>;
   showDialog: <TValue = unknown>(
     header: ReactNode | ProviderModalSlot<TValue>,

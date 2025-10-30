@@ -159,7 +159,7 @@ const InnerComponent = ({ settings }: { settings: ModalProps }) => {
         ({ onSubmit, onClose }) => (
           <Modal.Body>
             <div className="flex gap-2">
-              <Button onClick={() => onSubmit('nice')}>Yes</Button>
+              <Button onClick={(e: MouseEvent) => onSubmit(e, 'nice')}>Yes</Button>
               <Button onClick={onClose}>No</Button>
             </div>
           </Modal.Body>
