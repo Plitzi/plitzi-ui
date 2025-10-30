@@ -5,18 +5,19 @@ export type UseDisclosureProps<TValue = unknown, TState = unknown> = {
   open?: boolean;
   defaultOpen?: boolean;
   delay?: number;
-  onOpen?: (initialState?: TState) => void;
+  onOpen?: (e?: MouseEvent | React.MouseEvent, initialState?: TState) => void;
   onClose?:
-    | ((value?: TValue, state?: TState) => boolean | Promise<boolean>)
-    | ((value?: TValue, state?: TState) => void | Promise<void>);
+    | ((e?: MouseEvent | React.MouseEvent, value?: TValue, state?: TState) => boolean | Promise<boolean>)
+    | ((e?: MouseEvent | React.MouseEvent, value?: TValue, state?: TState) => void | Promise<void>);
+  stopEventPropagation?: boolean;
 };
 
 export type UseDisclosureReturn<TValue = unknown, TState = unknown> = [
   id: string,
   open: boolean,
-  onOpen: (initialState?: TState) => void,
-  onClose: (value?: TValue) => Promise<void>,
-  onToggle: () => void,
+  onOpen: (e?: MouseEvent | React.MouseEvent, initialState?: TState) => void,
+  onClose: (e?: MouseEvent | React.MouseEvent, value?: TValue) => Promise<void>,
+  onToggle: (e?: MouseEvent | React.MouseEvent) => void,
   state: TState,
   delayState: {
     delay: number;
@@ -30,7 +31,8 @@ const useDisclosure = <TValue = unknown, TState = unknown>({
   open: openProp,
   defaultOpen,
   id: idProp,
-  delay = 0
+  delay = 0,
+  stopEventPropagation = true
 }: UseDisclosureProps<TValue, TState> = {}): UseDisclosureReturn<TValue, TState> => {
   const [open, setOpen] = useState(openProp ?? defaultOpen ?? false);
   const [isClosing, setIsClosing] = useState(false);
@@ -40,7 +42,12 @@ const useDisclosure = <TValue = unknown, TState = unknown>({
   const id = idProp ?? `disclosure-${uid}`;
 
   const onClose = useCallback(
-    async (value?: TValue) => {
+    async (e?: MouseEvent | React.MouseEvent, value?: TValue) => {
+      if (stopEventPropagation) {
+        e?.stopPropagation();
+        e?.preventDefault();
+      }
+
       if (delay && !isClosing) {
         setIsClosing(true);
         setIsClosingValue(value);
@@ -52,7 +59,7 @@ const useDisclosure = <TValue = unknown, TState = unknown>({
         value = isClosingValue;
       }
 
-      const response = await onCloseProp?.(value, state);
+      const response = await onCloseProp?.(e, value, state);
       if (response === false) {
         return;
       }
@@ -62,22 +69,30 @@ const useDisclosure = <TValue = unknown, TState = unknown>({
         setOpen(false);
       }
     },
-    [delay, isClosing, isClosingValue, onCloseProp, state, openProp]
+    [stopEventPropagation, delay, isClosing, isClosingValue, onCloseProp, state, openProp]
   );
 
   const onOpen = useCallback(
-    (initialState?: TState) => {
+    (e?: MouseEvent | React.MouseEvent, initialState?: TState) => {
+      if (stopEventPropagation) {
+        e?.stopPropagation();
+        e?.preventDefault();
+      }
+
       if (openProp === undefined) {
         setOpen(true);
       }
 
-      onOpenProp?.(initialState);
+      onOpenProp?.(e, initialState);
       setState(initialState as TState);
     },
-    [openProp, onOpenProp]
+    [stopEventPropagation, openProp, onOpenProp]
   );
 
-  const onToggle = useCallback(() => (open ? onClose() : onOpen()), [open, onOpen, onClose]);
+  const onToggle = useCallback(
+    (e?: MouseEvent | React.MouseEvent) => (open ? onClose(e) : onOpen(e)),
+    [open, onOpen, onClose]
+  );
 
   useEffect(() => {
     return () => {

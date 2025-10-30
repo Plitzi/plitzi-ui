@@ -105,7 +105,7 @@ export const Dialog: Story = {
           </Modal.Header>
           <Modal.Body>Fancy Content Here</Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => void onClose({ test: 'abc' })}>Close</Button>
+            <Button onClick={(e: MouseEvent) => void onClose(e, { test: 'abc' })}>Close</Button>
           </Modal.Footer>
         </Modal>
       </Flex>
@@ -137,7 +137,7 @@ export const DialogAnimated: Story = {
           </Modal.Header>
           <Modal.Body>Fancy Content Here</Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => void onClose({ test: 'abc' })}>Close</Button>
+            <Button onClick={(e: MouseEvent) => void onClose(e, { test: 'abc' })}>Close</Button>
           </Modal.Footer>
         </Modal>
       </Flex>
