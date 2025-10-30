@@ -8,7 +8,7 @@ import useTheme from '@hooks/useTheme';
 import type ModalStyles from './Modal.styles';
 import type { variantKeys } from './Modal.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, ReactNode, RefObject } from 'react';
+import type { CSSProperties, MouseEvent, ReactNode, RefObject } from 'react';
 
 export type ModalProps = {
   ref?: RefObject<HTMLDivElement>;
@@ -20,7 +20,7 @@ export type ModalProps = {
   animation?: 'zoom' | 'fade' | 'flip' | 'door' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight';
   duration?: number;
   isClosing?: boolean;
-  onClose?: () => void | Promise<void>;
+  onClose?: (e?: MouseEvent) => void | Promise<void>;
 } & useThemeSharedProps<typeof ModalStyles, typeof variantKeys>;
 
 const Modal = ({
@@ -43,7 +43,7 @@ const Modal = ({
   });
   const id = useId();
 
-  const handleClose = useCallback(() => void onClose?.(), [onClose]);
+  const handleClose = useCallback((e: MouseEvent) => void onClose?.(e), [onClose]);
 
   const handleAnimationEnd = useCallback(
     () => animation && isClosing && void onClose?.(),
