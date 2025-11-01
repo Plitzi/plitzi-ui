@@ -1,6 +1,6 @@
 {
   "name": "@plitzi/plitzi-ui",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "homepage": "./",
   "license": "MIT",
   "files": [
@@ -110,7 +110,7 @@
     "react": "^19.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^19.2.0",
-    "react-hook-form": "^7.65.0",
+    "react-hook-form": "^7.66.0",
     "react-markdown": "^10.1.0",
     "react-syntax-highlighter": "^16.1.0",
     "react-toastify": "^11.0.5",
@@ -125,7 +125,7 @@
     "@codemirror/view": "^6.38.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
+    "@eslint/js": "^9.39.0",
     "@storybook/addon-actions": "^9.0.8",
     "@storybook/addon-controls": "^9.0.8",
     "@storybook/addon-links": "^10.0.2",
@@ -146,7 +146,7 @@
     "@types/tinycolor2": "^1.4.6",
     "@vitejs/plugin-react": "^5.1.0",
     "cssnano": "^7.1.2",
-    "eslint": "9.38.0",
+    "eslint": "9.39.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
@@ -154,12 +154,12 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-storybook": "^10.0.2",
     "flow-bin": "^0.289.0",
-    "globals": "^16.4.0",
-    "jsdom": "^27.0.1",
+    "globals": "^16.5.0",
+    "jsdom": "^27.1.0",
     "postcss": "^8.5.6",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.6.2",
-    "sass": "^1.93.2",
+    "sass": "^1.93.3",
     "storybook": "^10.0.2",
     "stylelint": "^16.25.0",
     "stylelint-order": "^7.0.0",
@@ -170,7 +170,7 @@
     "vite": "^7.1.12",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-static-copy": "^3.1.4",
-    "vitest": "^4.0.5",
+    "vitest": "^4.0.6",
     "vitest-fetch-mock": "^0.4.5"
   },
   "scripts": {

@@ -68,12 +68,7 @@ const ColorPicker = ({
   const pureColor = useMemo(() => (isValid ? `#${parsedColor.toHex()}` : ''), [parsedColor, isValid]);
 
   useDidUpdateEffect(() => {
-    const pColor = tinycolor(value);
-    if (pColor.isValid()) {
-      setColor(value);
-    } else {
-      setColor('#ffffff');
-    }
+    setColor(value);
   }, [value]);
 
   const objectToHex = useCallback((color: SketchPickerValue) => {
