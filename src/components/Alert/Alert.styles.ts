@@ -19,11 +19,11 @@ export default {
         info: ''
       },
       size: {
-        xs: 'p-1.5 text-xs',
-        sm: 'p-2 text-sm',
-        md: 'p-2.5',
-        lg: 'p-3',
-        xl: 'p-4'
+        xs: 'p-1.5 text-xs gap-1.5',
+        sm: 'p-2 text-sm gap-2',
+        md: 'p-2.5 gap-2.5',
+        lg: 'p-3 gap-3',
+        xl: 'p-4 gap-4'
       },
       solid: {
         true: '',
@@ -51,11 +51,11 @@ export default {
   iconContainer: cva('flex items-center', {
     variants: {
       size: {
-        xs: 'mr-1.5',
-        sm: 'mr-2',
-        md: 'mr-2.5',
-        lg: 'mr-3',
-        xl: 'mr-4'
+        xs: '',
+        sm: '',
+        md: '',
+        lg: '',
+        xl: ''
       }
     },
     compoundVariants: [],
@@ -83,6 +83,21 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
+      size: 'md'
+    }
+  }),
+  closeIconContainer: cva('flex items-start cursor-pointer', {
+    variants: {
+      size: {
+        xs: 'p-0.5',
+        sm: 'p-0.5',
+        md: 'p-0.5',
+        lg: 'p-0.5',
+        xl: 'p-0.5'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
       size: 'md'
     }
   }),

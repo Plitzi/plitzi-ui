@@ -22,7 +22,7 @@ export type SwitchProps = {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   readOnly?: boolean;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
-} & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
+} & Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'className'> &
   Omit<useThemeSharedProps<typeof SwitchyStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const Switch = ({
