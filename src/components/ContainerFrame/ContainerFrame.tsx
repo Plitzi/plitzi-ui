@@ -26,6 +26,7 @@ export type ContainerFrameProps = {
   contentDidMount?: () => void;
   contentDidDismount?: () => void;
   contentDidUpdate?: () => void;
+  onLoad?: (iframe: HTMLIFrameElement | null) => void;
 } & useThemeSharedProps<typeof ContainerFrameStyles, typeof variantKeys>;
 
 const ContainerFrame = ({
@@ -41,7 +42,8 @@ const ContainerFrame = ({
   children,
   contentDidMount: contentDidMountProp,
   contentDidDismount,
-  contentDidUpdate
+  contentDidUpdate,
+  onLoad
 }: ContainerFrameProps) => {
   className = useTheme<typeof ContainerFrameStyles, typeof variantKeys>('ContainerFrame', {
     className,
@@ -115,7 +117,7 @@ const ContainerFrame = ({
 
   const [initialHead] = useState(() => getAssetsAsString(assets));
 
-  const contentDidMount = () => contentDidMountProp?.();
+  const contentDidMount = useCallback(() => contentDidMountProp?.(), [contentDidMountProp]);
 
   useEffect(() => {
     if (iframeLoaded && myDocument) {
@@ -128,8 +130,9 @@ const ContainerFrame = ({
       return;
     }
 
+    onLoad?.(iframeRef.current);
     setIframeLoaded(true);
-  }, [iframeLoaded]);
+  }, [iframeLoaded, onLoad]);
 
   useEffect(() => {
     if (myDocument) {
