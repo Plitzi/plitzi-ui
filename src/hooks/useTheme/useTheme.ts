@@ -1,5 +1,4 @@
 import get from 'lodash/get.js';
-import isString from 'lodash/isString.js';
 import set from 'lodash/set.js';
 import { use, useCallback, useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -87,7 +86,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
 
     if (componentKey && Array.isArray(componentKey)) {
       const classNameObj = {};
-      componentKey.filter(isString).forEach((key, i) => {
+      (componentKey as string[]).forEach((key, i) => {
         let classNameValue;
         if (typeof className === 'object') {
           classNameValue = get(className, key);
