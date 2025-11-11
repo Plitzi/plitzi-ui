@@ -69,7 +69,7 @@ export default defineConfig((env: ConfigEnv) => ({
   ],
   resolve: {
     alias: {
-      '@icons': resolve(__dirname, './src/icons'),
+      '@uiIcons': resolve(__dirname, './src/icons'),
       '@components': path.resolve(__dirname, './src/components'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@': resolve(__dirname, './src')

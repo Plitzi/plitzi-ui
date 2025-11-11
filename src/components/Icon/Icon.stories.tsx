@@ -1,5 +1,5 @@
 import Flex from '@components/Flex';
-import DesktopWithMobile from '@icons/DesktopWithMobile';
+import DesktopWithMobile from '@uiIcons/DesktopWithMobile';
 
 import Icon from './Icon';
 

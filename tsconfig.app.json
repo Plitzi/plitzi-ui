@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@icons/*": ["./src/icons/*"],
+      "@uiIcons/*": ["./src/icons/*"],
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@/*": ["./src/*"]

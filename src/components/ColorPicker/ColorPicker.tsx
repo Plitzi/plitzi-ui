@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useCallback, useMemo, useState, memo } from 'react';
-// @ts-ignore
-import SketchPicker from 'react-color/lib/Sketch.js';
+import { SketchPicker } from 'react-color';
 import tinycolor from 'tinycolor2';
 
 import ContainerFloating from '@components/ContainerFloating';
@@ -15,6 +13,7 @@ import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from 'react';
+import type { ColorResult } from 'react-color';
 
 export type ColorPickerProps = {
   ref?: RefObject<HTMLInputElement>;
@@ -29,15 +28,6 @@ export type ColorPickerProps = {
   onChange?: (value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &
   useThemeSharedProps<typeof ColorPickerStyles & typeof InputStyles, typeof variantKeys>;
-
-type SketchPickerValue = {
-  hex: string;
-  hsl: { h: number; s: number; l: number; a: number };
-  rgb: { r: number; g: number; b: number; a: number };
-  hsv: { h: number; s: number; v: number; a: number };
-  oldHue: number;
-  source: 'hsv';
-};
 
 const ColorPicker = ({
   ref,
@@ -71,20 +61,17 @@ const ColorPicker = ({
     setColor(value);
   }, [value]);
 
-  const objectToHex = useCallback((color: SketchPickerValue) => {
+  const objectToHex = useCallback((color: ColorResult) => {
     const { r, g, b, a } = color.rgb;
     const pColor = tinycolor(`rgba(${r}, ${g}, ${b}, ${a})`);
 
     return `#${a === 1 ? pColor.toHex() : pColor.toHex8()}`;
   }, []);
 
-  const handlePickerChange = useCallback(
-    (newColor: SketchPickerValue) => setColor(objectToHex(newColor)),
-    [objectToHex]
-  );
+  const handlePickerChange = useCallback((newColor: ColorResult) => setColor(objectToHex(newColor)), [objectToHex]);
 
   const handlePickerChangeComplete = useCallback(
-    (newColor: SketchPickerValue) => {
+    (newColor: ColorResult) => {
       const hexNewColor = objectToHex(newColor);
       onChange?.(hexNewColor);
       setColor(hexNewColor);
@@ -126,7 +113,7 @@ const ColorPicker = ({
             <div className="h-full grow basis-0" style={{ backgroundColor: pureColor }} />
             <div className="h-full grow basis-0" style={{ backgroundColor: isValid ? color : '' }} />
           </ContainerFloating.Trigger>
-          <ContainerFloating.Content className="z-[802]">
+          <ContainerFloating.Content className="z-802">
             <SketchPicker color={color} onChange={handlePickerChange} onChangeComplete={handlePickerChangeComplete} />
           </ContainerFloating.Content>
         </ContainerFloating>

@@ -64,7 +64,7 @@ export default tsEslint.config({
       {
         groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index'], 'type'],
         pathGroups: [
-          { pattern: '@icons/**', group: 'internal' },
+          { pattern: '@uiIcons/**', group: 'internal' },
           { pattern: '@components/**', group: 'internal' },
           { pattern: '@hooks/**', group: 'internal' },
           { pattern: '@/**', group: 'internal' } // , position: 'before'
