@@ -5,7 +5,7 @@ __metadata:
   version: 8
   cacheKey: 10
 
-"@acemir/cssom@npm:^0.9.19":
+"@acemir/cssom@npm:^0.9.23":
   version: 0.9.23
   resolution: "@acemir/cssom@npm:0.9.23"
   checksum: 10/752294359ddf691f402bf871f347c1d5ea8532ead5e197cf60eeb7ab25bdd6f6e98fc7fad74042f2e423bb45fe7e4a049db645e01fa0781a0ed4ea2cec911047
@@ -32,7 +32,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@asamuzakjp/dom-selector@npm:^6.7.3":
+"@asamuzakjp/dom-selector@npm:^6.7.4":
   version: 6.7.4
   resolution: "@asamuzakjp/dom-selector@npm:6.7.4"
   dependencies:
@@ -70,7 +70,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.24.4, @babel/core@npm:^7.28.0, @babel/core@npm:^7.28.4":
+"@babel/core@npm:^7.24.4, @babel/core@npm:^7.28.0, @babel/core@npm:^7.28.5":
   version: 7.28.5
   resolution: "@babel/core@npm:7.28.5"
   dependencies:
@@ -1354,7 +1354,7 @@ __metadata:
     "@storybook/addon-actions": "npm:^9.0.8"
     "@storybook/addon-controls": "npm:^9.0.8"
     "@storybook/addon-links": "npm:^10.0.7"
-    "@storybook/addon-styling-webpack": "npm:^2.0.0"
+    "@storybook/addon-styling-webpack": "npm:^3.0.0"
     "@storybook/react": "npm:^10.0.7"
     "@storybook/react-vite": "npm:^10.0.7"
     "@storybook/test": "npm:^8.6.14"
@@ -1363,13 +1363,13 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:^16.3.0"
     "@types/lodash": "npm:^4.17.20"
-    "@types/node": "npm:^24.10.0"
-    "@types/react": "npm:^19.2.3"
+    "@types/node": "npm:^24.10.1"
+    "@types/react": "npm:^19.2.4"
     "@types/react-color": "npm:^3.0.13"
-    "@types/react-dom": "npm:^19.2.2"
+    "@types/react-dom": "npm:^19.2.3"
     "@types/react-syntax-highlighter": "npm:^15.5.13"
     "@types/tinycolor2": "npm:^1.4.6"
-    "@vitejs/plugin-react": "npm:^5.1.0"
+    "@vitejs/plugin-react": "npm:^5.1.1"
     class-variance-authority: "npm:^0.7.1"
     classnames: "npm:^2.5.1"
     cssnano: "npm:^7.1.2"
@@ -1383,7 +1383,7 @@ __metadata:
     flow-bin: "npm:^0.291.0"
     globals: "npm:^16.5.0"
     immer: "npm:^10.2.0"
-    jsdom: "npm:^27.1.0"
+    jsdom: "npm:^27.2.0"
     lodash: "npm:^4.17.21"
     moment: "npm:^2.30.1"
     postcss: "npm:^8.5.6"
@@ -1418,10 +1418,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@rolldown/pluginutils@npm:1.0.0-beta.43":
-  version: 1.0.0-beta.43
-  resolution: "@rolldown/pluginutils@npm:1.0.0-beta.43"
-  checksum: 10/1088a4461585921ec74689cf614fd162c3a138eea32a6640050c2f4cc3b2a888f3c15084871fd6deec673aaa22de6eab569c1e1fc7135e1b4186bc8fdf0f0214
+"@rolldown/pluginutils@npm:1.0.0-beta.47":
+  version: 1.0.0-beta.47
+  resolution: "@rolldown/pluginutils@npm:1.0.0-beta.47"
+  checksum: 10/c1794cb39642e644dc7194043543780fd9f83e58052f1e5608d9d063a74592577bcb3b1283e3928db99ff52b208f7d5c47342f376de823f9fd584f189a371ed4
   languageName: node
   linkType: hard
 
@@ -1716,13 +1716,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-styling-webpack@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@storybook/addon-styling-webpack@npm:2.0.0"
+"@storybook/addon-styling-webpack@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@storybook/addon-styling-webpack@npm:3.0.0"
   peerDependencies:
-    storybook: ^9.0.0
+    storybook: ^10.0.0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0
     webpack: ^5.0.0
-  checksum: 10/ce72b1ac76b969dabea45838ad197bc03912c3d21c99baa9178a403df2c6df4d72b67301e25c8a6d69fc9fe21a40364a3eb3747c7dd6539eff63c9508a6130dc
+  checksum: 10/31cc7a3cecd9f45c57ac13d8647bcd62e508e1975ccee820972cb2abcc2e1166d9a356d629f1f01c88801617744c112976176e92fdf6f382a16efe506f2e5eb3
   languageName: node
   linkType: hard
 
@@ -2277,12 +2277,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.10.0":
-  version: 24.10.0
-  resolution: "@types/node@npm:24.10.0"
+"@types/node@npm:^24.10.1":
+  version: 24.10.1
+  resolution: "@types/node@npm:24.10.1"
   dependencies:
     undici-types: "npm:~7.16.0"
-  checksum: 10/bc3abd9adc61423b1a72324208f3fcfe4f957b9fc8b9e81bf3fed584deb0b40f0e2af63cd0e2afa8f408d06f14bdba899ac638ac619f646badf8e72de246c052
+  checksum: 10/ddac8c97be5f7401e31ea0e9316c6e864993c6cd06689b7f9874ecfb576ef8349f2d14298248a08b94a6dd029570a46a285cddc4d50e524817f1a3730b29a86e
   languageName: node
   linkType: hard
 
@@ -2304,12 +2304,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^19.2.2":
-  version: 19.2.2
-  resolution: "@types/react-dom@npm:19.2.2"
+"@types/react-dom@npm:^19.2.3":
+  version: 19.2.3
+  resolution: "@types/react-dom@npm:19.2.3"
   peerDependencies:
     "@types/react": ^19.2.0
-  checksum: 10/73d5671e57ab73cb3f2acd7992faee8f90d5b4d155b972e76e91fa13e5871ebb5e224960b05039d57ea502cb3370746eb98beda5fa44e9712b4aee52653c237a
+  checksum: 10/616c4a8aee250ea05fb1e7b98e7e00475dd3a6c1c30d7be18b4b93caba832f4203106b3a496a6b147e5acc2da14575eca47bce234c633bca1f8430ef8ffb234a
   languageName: node
   linkType: hard
 
@@ -2322,12 +2322,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^19.2.3":
+"@types/react@npm:*":
   version: 19.2.3
   resolution: "@types/react@npm:19.2.3"
   dependencies:
     csstype: "npm:^3.0.2"
   checksum: 10/b75aa49a8fdaf4ffd14050e8bca2b31f7ed6634880f1a0dd90511060fe052b0418688191980c7baeda2572fb993930a13090fcbc05f6d6f8981d03f372dd30ec
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^19.2.4":
+  version: 19.2.4
+  resolution: "@types/react@npm:19.2.4"
+  dependencies:
+    csstype: "npm:^3.0.2"
+  checksum: 10/99905270fe1ac5726f3447db5b8f4d5444e2a268cfd239bd3a379f65dc01d7ac6f8984f501e4edd4240e8533eaad30dd812a8443af7e356abb712aded427988e
   languageName: node
   linkType: hard
 
@@ -2512,19 +2521,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "@vitejs/plugin-react@npm:5.1.0"
+"@vitejs/plugin-react@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@vitejs/plugin-react@npm:5.1.1"
   dependencies:
-    "@babel/core": "npm:^7.28.4"
+    "@babel/core": "npm:^7.28.5"
     "@babel/plugin-transform-react-jsx-self": "npm:^7.27.1"
     "@babel/plugin-transform-react-jsx-source": "npm:^7.27.1"
-    "@rolldown/pluginutils": "npm:1.0.0-beta.43"
+    "@rolldown/pluginutils": "npm:1.0.0-beta.47"
     "@types/babel__core": "npm:^7.20.5"
     react-refresh: "npm:^0.18.0"
   peerDependencies:
     vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
-  checksum: 10/d6c499126397fe0efe9155f73d0f8903df4f16c3da44580d42f917b3068a1cf706729058c63725cbbdb72662b9158e1cbf3582406748380bf7a196057216d45f
+  checksum: 10/e975ccb9f8e258b91d9a3ff58a3864053b0b7f63d641b070508bb38f6ffb93015fd2421d36cee7b90fd123da962ceb3d2951df359fc906c920037923854a621d
   languageName: node
   linkType: hard
 
@@ -3747,7 +3756,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssstyle@npm:^5.3.2":
+"cssstyle@npm:^5.3.3":
   version: 5.3.3
   resolution: "cssstyle@npm:5.3.3"
   dependencies:
@@ -5895,13 +5904,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^27.1.0":
-  version: 27.1.0
-  resolution: "jsdom@npm:27.1.0"
+"jsdom@npm:^27.2.0":
+  version: 27.2.0
+  resolution: "jsdom@npm:27.2.0"
   dependencies:
-    "@acemir/cssom": "npm:^0.9.19"
-    "@asamuzakjp/dom-selector": "npm:^6.7.3"
-    cssstyle: "npm:^5.3.2"
+    "@acemir/cssom": "npm:^0.9.23"
+    "@asamuzakjp/dom-selector": "npm:^6.7.4"
+    cssstyle: "npm:^5.3.3"
     data-urls: "npm:^6.0.0"
     decimal.js: "npm:^10.6.0"
     html-encoding-sniffer: "npm:^4.0.0"
@@ -5924,7 +5933,7 @@ __metadata:
   peerDependenciesMeta:
     canvas:
       optional: true
-  checksum: 10/9e2bd9824abed594da64fc58f1bdb817c7f82ba3025cef4817e6709807f886ac71b7b6a0f4f69ba604e9137bbcd6b7246b98dec53bde95500f5ac4b39a8ebb00
+  checksum: 10/78458e0230fd18ceef1e8753ab44eadf436654540a3d1dc5068f49b87c2bd1752b8fff25c9e1f30ee406ae3e80cc3f81668f778b8220a7bf9386a0a826dee088
   languageName: node
   linkType: hard
 

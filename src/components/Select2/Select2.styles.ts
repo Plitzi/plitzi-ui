@@ -37,6 +37,7 @@ export default {
       size: 'md'
     }
   }),
+  trigger: cva('w-full'),
   placeholder: cva('text-gray-500'),
   searchInput: cva('mx-2.5 mt-2.5'),
   list: cva('p-2.5 max-h-[400px] overflow-y-auto'),

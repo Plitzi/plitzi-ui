@@ -83,6 +83,7 @@ export const BasicUsage: Story = {
           onChange={option => updateArgs({ value: option })}
           error="This is an error"
           clearable
+          className="w-[450px]"
         />
         <Select2
           {...args}
@@ -91,6 +92,7 @@ export const BasicUsage: Story = {
           value={value}
           options={options}
           onChange={option => updateArgs({ value: option })}
+          className={{ trigger: 'w-[300px]' }}
         />
       </div>
     );

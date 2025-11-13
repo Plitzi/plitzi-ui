@@ -34,7 +34,6 @@ export type OptionGroup = {
 
 type Select2PropsBase = {
   ref?: RefObject<HTMLDivElement | null>;
-  className?: string;
   id?: string;
   name?: string;
   value?: Exclude<Option, OptionGroup> | string;
@@ -88,7 +87,7 @@ const Select2 = (props: Select2Props) => {
   const [open, setOpen] = useState(openProp);
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
-    componentKey: ['inputContainer', 'placeholder', 'listMessage'],
+    componentKey: ['root', 'inputContainer', 'placeholder', 'listMessage', 'trigger'],
     variants: { size }
   });
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -251,7 +250,7 @@ const Select2 = (props: Select2Props) => {
       loading={loading}
       disabled={disabled}
     >
-      <ContainerFloating.Trigger className="w-full">
+      <ContainerFloating.Trigger className={classNameTheme.trigger}>
         <InputContainer
           id={id}
           size={size}
