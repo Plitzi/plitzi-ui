@@ -2,29 +2,19 @@ import classNames from 'classnames';
 
 import useTheme from '@hooks/useTheme';
 
-import type AlertStyles from './Alert.styles';
-import type { variantKeys } from './Alert.styles';
+import type BadgeStyles from './Badge.styles';
+import type { variantKeys } from './Badge.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ReactNode } from 'react';
 
-export type AlertProps = {
+export type BadgeProps = {
   children?: ReactNode;
-  closeable?: boolean;
-  onClick?: () => void;
-} & useThemeSharedProps<typeof AlertStyles, typeof variantKeys>;
+} & useThemeSharedProps<typeof BadgeStyles, typeof variantKeys>;
 
-const Alert = ({
-  children,
-  className = '',
-  intent = 'success',
-  solid,
-  size,
-  closeable = false,
-  onClick
-}: AlertProps) => {
-  const classNameTheme = useTheme<typeof AlertStyles, typeof variantKeys>('Alert', {
+const Badge = ({ children, className = '', intent = 'success', solid, size }: BadgeProps) => {
+  const classNameTheme = useTheme<typeof BadgeStyles, typeof variantKeys>('Badge', {
     className,
-    componentKey: ['root', 'iconContainer', 'icon', 'content', 'closeIconContainer'],
+    componentKey: ['root', 'iconContainer', 'content', 'icon'],
     variants: { intent, size, solid }
   });
 
@@ -37,13 +27,8 @@ const Alert = ({
         {intent === 'info' && <i className={classNames('fas fa-info-circle', classNameTheme.icon)} />}
       </div>
       <div className={classNameTheme.content}>{children}</div>
-      {closeable && (
-        <div className={classNameTheme.closeIconContainer}>
-          <i className={classNames('fa-solid fa-xmark', classNameTheme.icon)} onClick={onClick} />
-        </div>
-      )}
     </div>
   );
 };
 
-export default Alert;
+export default Badge;

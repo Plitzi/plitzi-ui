@@ -6,10 +6,10 @@ export const variantKeys = {
   solid: [true, false]
 } as const;
 
-export const STYLES_COMPONENT_NAME = 'Alert';
+export const STYLES_COMPONENT_NAME = 'Badge';
 
 export default {
-  root: cva('w-full flex relative rounded-sm', {
+  root: cva('flex relative rounded-sm', {
     variants: {
       intent: {
         default: '',
@@ -86,21 +86,6 @@ export default {
     compoundVariants: [],
     defaultVariants: {
       intent: 'default',
-      size: 'md'
-    }
-  }),
-  closeIconContainer: cva('flex items-start cursor-pointer', {
-    variants: {
-      size: {
-        xs: 'p-0.5',
-        sm: 'p-0.5',
-        md: 'p-0.5',
-        lg: 'p-0.5',
-        xl: 'p-0.5'
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
       size: 'md'
     }
   }),
