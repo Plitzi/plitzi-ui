@@ -1,7 +1,7 @@
 import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
-  intent: ['default', 'success', 'error', 'warning', 'info', 'other'],
+  intent: ['default', 'success', 'error', 'warning', 'info', 'custom'],
   size: ['xs', 'sm', 'md', 'lg', 'xl'],
   solid: [true, false]
 } as const;
@@ -17,7 +17,7 @@ export default {
         error: '',
         warning: '',
         info: '',
-        other: ''
+        custom: ''
       },
       size: {
         xs: 'p-1.5 text-xs gap-1.5',
@@ -41,9 +41,7 @@ export default {
       { solid: true, intent: 'warning', className: 'bg-orange-400' },
       { solid: false, intent: 'warning', className: 'bg-orange-500/10 border-orange-500 border text-orange-600' },
       { solid: true, intent: 'error', className: 'bg-red-400' },
-      { solid: false, intent: 'error', className: 'bg-red-500/10 border-red-500 border text-red-600' },
-      { solid: true, intent: 'other', className: 'bg-gray-400' },
-      { solid: false, intent: 'other', className: 'bg-gray-500/10 border-gray-500 border text-gray-600' }
+      { solid: false, intent: 'error', className: 'bg-red-500/10 border-red-500 border text-red-600' }
     ],
     defaultVariants: {
       intent: 'success',
