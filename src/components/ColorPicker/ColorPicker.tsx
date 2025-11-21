@@ -1,4 +1,4 @@
-import { Sketch } from '@uiw/react-color';
+import Sketch from '@uiw/react-color-sketch';
 import debounce from 'lodash/debounce.js';
 import { useCallback, useMemo, useState, memo } from 'react';
 import tinycolor from 'tinycolor2';
@@ -15,7 +15,7 @@ import type { variantKeys } from './ColorPicker.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ColorResult } from '@uiw/react-color';
+import type { ColorResult } from '@uiw/color-convert';
 import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type ColorPickerProps = {

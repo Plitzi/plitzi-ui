@@ -1,6 +1,6 @@
 import tinycolor from 'tinycolor2';
 
-import type { ColorResult } from '@uiw/react-color';
+import type { ColorResult } from '@uiw/color-convert';
 
 export const objectToHex = (color: ColorResult) => {
   const { r, g, b, a } = color.rgba;
