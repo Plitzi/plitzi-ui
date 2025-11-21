@@ -1,3 +1,5 @@
+import { useCallback, useState } from 'react';
+
 import ColorPicker from './ColorPicker';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -19,13 +21,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {},
-  render: args => (
-    <div className="flex flex-col gap-2">
-      <ColorPicker {...args} />
-      <ColorPicker {...args} size="sm" />
-      <ColorPicker {...args} size="xs" />
-    </div>
-  )
+  render: function Render(args) {
+    const [value, setValue] = useState('#ff0000');
+
+    const handleChange = useCallback((newValue: string) => {
+      console.log('Selected Color:', newValue);
+      setValue(newValue);
+    }, []);
+
+    return (
+      <div className="flex flex-col gap-2">
+        <ColorPicker {...args} value={value} onChange={handleChange} />
+        <ColorPicker {...args} size="sm" value={value} onChange={handleChange} />
+        <ColorPicker {...args} size="xs" value={value} onChange={handleChange} />
+      </div>
+    );
+  }
 };
 
 export const Error: Story = {
