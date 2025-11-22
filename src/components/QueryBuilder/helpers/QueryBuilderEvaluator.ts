@@ -1,5 +1,5 @@
-import get from 'lodash/get.js';
-import set from 'lodash/set.js';
+import get from 'lodash-es/get.js';
+import set from 'lodash-es/set.js';
 import moment from 'moment';
 
 import { isDate, isNumeric, isRuleGroup } from './QueryBuilderHelper';

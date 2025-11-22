@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/refs */
 import { produce } from 'immer';
-import get from 'lodash/get.js';
-import set from 'lodash/set.js';
+import get from 'lodash-es/get.js';
+import set from 'lodash-es/set.js';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 import { storageProxy } from './useStorageHelper';

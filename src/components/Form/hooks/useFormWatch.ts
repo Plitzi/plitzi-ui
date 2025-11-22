@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import get from 'lodash/get.js';
+import get from 'lodash-es/get.js';
 import { useEffect, useMemo, useState } from 'react';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';

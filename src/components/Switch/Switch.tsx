@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import omit from 'lodash/omit.js';
+import omit from 'lodash-es/omit.js';
 import { useMemo, memo } from 'react';
 
 import InputContainer from '@components/Input/InputContainer';

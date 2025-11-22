@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import debounce from 'lodash/debounce.js';
+import debounce from 'lodash-es/debounce.js';
 import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle } from 'react';
 
 import useTheme from '@hooks/useTheme';

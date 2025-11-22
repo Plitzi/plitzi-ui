@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import get from 'lodash/get.js';
-import omit from 'lodash/omit.js';
+import get from 'lodash-es/get.js';
+import omit from 'lodash-es/omit.js';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';

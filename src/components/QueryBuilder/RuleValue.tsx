@@ -1,4 +1,4 @@
-import get from 'lodash/get.js';
+import get from 'lodash-es/get.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import Checkbox from '@components/Checkbox';

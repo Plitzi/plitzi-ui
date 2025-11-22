@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import get from 'lodash/get.js';
+import get from 'lodash-es/get.js';
 
 import { isInViewport } from '@/helpers/utils';
 

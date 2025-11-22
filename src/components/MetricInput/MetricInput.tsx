@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import get from 'lodash/get.js';
+import get from 'lodash-es/get.js';
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
 import Icon from '@components/Icon';

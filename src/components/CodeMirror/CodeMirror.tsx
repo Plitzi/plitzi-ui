@@ -7,7 +7,7 @@ import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { json, jsonLanguage } from '@codemirror/lang-json';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
-import omit from 'lodash/omit.js';
+import omit from 'lodash-es/omit.js';
 import { useCallback, useMemo, useRef } from 'react';
 
 import InputContainer from '@components/Input/InputContainer';
