@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback, useEffect, useRef } from 'react';
 
 import Input from '@components/Input';
@@ -64,7 +64,7 @@ const SelectInput = ({
   return (
     <Input
       ref={ref}
-      className={classNames('select2__input', className)}
+      className={clsx('select2__input', className)}
       placeholder={placeholder}
       value={value}
       disabled={disabled}

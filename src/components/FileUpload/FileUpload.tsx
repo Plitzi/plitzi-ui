@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback, useEffect, useImperativeHandle, useRef, memo } from 'react';
 
 import Icon from '@components/Icon';
@@ -254,7 +254,7 @@ const FileUpload = (props: FileUploadProps) => {
   return (
     <div
       ref={labelRef}
-      className={classNames(classNameTheme.root, {
+      className={clsx(classNameTheme.root, {
         'border-primary-500 bg-primary-100': dragging,
         'border-red-500': error && !dragging
       })}

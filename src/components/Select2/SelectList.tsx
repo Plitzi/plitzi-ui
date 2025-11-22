@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
@@ -27,7 +27,7 @@ const SelectList = ({ className = '', options, value = '', size, onChange }: Sel
   });
 
   return (
-    <Flex direction="column" className={classNames('select2__list', className)}>
+    <Flex direction="column" className={clsx('select2__list', className)}>
       {options?.map((option, index) => {
         const { label, icon } = option;
         if (isOptionGroup(option)) {

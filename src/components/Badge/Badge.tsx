@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useMemo } from 'react';
 
 import useTheme from '@hooks/useTheme';
@@ -44,7 +44,7 @@ const Badge = ({ children, icon: iconProp = '', className = '', intent = 'succes
     <div className={classNameTheme.root}>
       {icon && (
         <div className={classNameTheme.iconContainer}>
-          <i className={classNames(icon, classNameTheme.icon)} />
+          <i className={clsx(icon, classNameTheme.icon)} />
         </div>
       )}
       <div className={classNameTheme.content}>{children}</div>

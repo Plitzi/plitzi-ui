@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import debounce from 'lodash-es/debounce.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -293,7 +293,7 @@ const ContainerDraggable = ({
 
   return (
     <Card
-      className={classNames('component__container-draggable', className)}
+      className={clsx('component__container-draggable', className)}
       intent="white"
       rounded="none"
       shadow="dark"

@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import useTheme from '@hooks/useTheme';
 
@@ -35,7 +35,7 @@ const Breadcrumb = ({
         children.map((child, i) => (
           <div
             key={i}
-            className={classNames(
+            className={clsx(
               classNameTheme.listItem,
               {
                 "[&:not(:first-child)]:before:content-['>']": separator === '>',

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import get from 'lodash-es/get.js';
 import omit from 'lodash-es/omit.js';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -212,7 +212,7 @@ const PopupProvider = ({
           {children}
           {renderFloatingPopup && !!popupsRef.current.floating.length && (
             <PopupFloatingArea
-              className={classNames(
+              className={clsx(
                 'pr-20 z-50 flex justify-end items-end pointer-events-none overflow-visible',
                 { 'fixed top-0 left-0': floatingFixedArea },
                 floatingClassName

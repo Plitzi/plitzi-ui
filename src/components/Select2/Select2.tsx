@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, memo } from 'react';
 
 import ContainerFloating from '@components/ContainerFloating';
@@ -266,7 +266,7 @@ const Select2 = (props: Select2Props) => {
           <input type="hidden" name={name} className="hidden invisible" />
           <Flex justify="between" items="center" className="min-w-0" grow>
             <div
-              className={classNames('truncate select-none', {
+              className={clsx('truncate select-none', {
                 'mr-8': !!error || loading,
                 [classNameTheme.placeholder]: !optionSelected?.label
               })}

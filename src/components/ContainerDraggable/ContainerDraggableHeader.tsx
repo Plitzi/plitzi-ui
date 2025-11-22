@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback } from 'react';
 
 import Button from '@components/Button';
@@ -82,7 +82,7 @@ const ContainerDraggableHeader = ({
           size="custom"
           border="none"
           items={collapsed ? 'center' : 'end'}
-          className={classNames('', classNameTheme.btn)}
+          className={clsx('', classNameTheme.btn)}
           title="Collapse / Expand"
           onClick={handleClickCollapse}
         >
@@ -105,7 +105,7 @@ const ContainerDraggableHeader = ({
             intent="custom"
             size="custom"
             border="none"
-            className={classNames(' text-red-400 hover:text-red-500', classNameTheme.btn)}
+            className={clsx(' text-red-400 hover:text-red-500', classNameTheme.btn)}
             title="Close"
             onClick={handleClickClose}
           >

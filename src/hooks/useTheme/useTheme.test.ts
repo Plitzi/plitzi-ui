@@ -50,7 +50,7 @@ describe('useTheme', () => {
     expect(result.current).toEqual('text-red-500');
   });
 
-  it('should allow prioritize classNames that comes from props', () => {
+  it('should allow prioritize clsx that comes from props', () => {
     const { result } = renderHook(
       () =>
         useTheme<typeof dummyStyles, typeof dummyVariantKeys>('Dummy', {

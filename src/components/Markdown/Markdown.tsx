@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import omit from 'lodash-es/omit.js';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -30,7 +30,7 @@ const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers 
   });
 
   return (
-    <div className={classNames('markdown', className)}>
+    <div className={clsx('markdown', className)}>
       <ReactMarkdown
         remarkPlugins={remarkPlugins}
         rehypePlugins={rehypePlugins}

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Children, cloneElement, isValidElement, use, useCallback, useMemo, useRef, useState } from 'react';
 
 import Icon from '@components/Icon';
@@ -118,7 +118,7 @@ const MenuItem = ({ className, children, value, disabled, testId, onSelect }: Me
   return (
     <div
       ref={ref}
-      className={classNames(classNameTheme.menuItem, { relative: !!subMenu })}
+      className={clsx(classNameTheme.menuItem, { relative: !!subMenu })}
       data-testid={testId}
       onClick={handleClick}
     >

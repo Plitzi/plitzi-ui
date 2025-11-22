@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
@@ -27,7 +27,7 @@ const ListGroup = ({ className, options, icon, label = '', value = '', size, onC
   });
 
   return (
-    <Flex direction="column" className={classNames('select2__list-group', classNameTheme.listGroup)}>
+    <Flex direction="column" className={clsx('select2__list-group', classNameTheme.listGroup)}>
       <div className={classNameTheme.listGroupLabel}>
         {icon}
         {label}

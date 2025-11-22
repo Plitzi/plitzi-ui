@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 
 import SizeFromDOM from './helpers/SizeFromDOM';
@@ -55,7 +55,7 @@ const ContainerAutoScale = ({
   }
 
   return (
-    <div ref={containerRef} className={classNames(className)} style={{ position: 'relative' }}>
+    <div ref={containerRef} className={clsx(className)} style={{ position: 'relative' }}>
       <div
         style={{
           position: 'absolute',

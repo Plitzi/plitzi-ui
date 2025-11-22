@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import get from 'lodash-es/get.js';
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
@@ -169,7 +169,7 @@ const MetricInput = ({
 
       if (child.type === Icon) {
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
-          className: classNames(classNameTheme.icon, (child.props as IconProps).className),
+          className: clsx(classNameTheme.icon, (child.props as IconProps).className),
           size,
           intent: 'custom'
         });
@@ -202,8 +202,8 @@ const MetricInput = ({
         />
         {(error || loading) && (
           <div className={classNameTheme.iconFloatingContainer}>
-            {error && <i className={classNames('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
-            {loading && <i className={classNames('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />}
+            {error && <i className={clsx('fa-solid fa-circle-exclamation', classNameTheme.iconError)} />}
+            {loading && <i className={clsx('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />}
           </div>
         )}
         <div className={classNameTheme.divider} />

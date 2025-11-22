@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import debounce from 'lodash-es/debounce.js';
 import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle } from 'react';
 
@@ -281,14 +281,10 @@ const ContainerResizable = ({
   }
 
   return (
-    <div
-      {...props}
-      ref={containerRef}
-      className={classNames(classNameTheme.root, { 'group-5': hoverMode, grow: autoGrow })}
-    >
+    <div {...props} ref={containerRef} className={clsx(classNameTheme.root, { 'group-5': hoverMode, grow: autoGrow })}>
       <div
         ref={containerInternalRef}
-        className={classNames(classNameTheme.rootInternal, {
+        className={clsx(classNameTheme.rootInternal, {
           'pt-1': resizeHandles.includes('n'),
           'pb-1': resizeHandles.includes('s'),
           'pl-1': resizeHandles.includes('w'),

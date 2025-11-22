@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import Flex from '@components/Flex';
 import Icon from '@components/Icon';
@@ -65,7 +65,7 @@ const ItemHeader = ({
       grow={grow}
       onClick={onClick}
     >
-      <div className={classNames('flex items-center gap-4', { 'flex-row-reverse': direction === 'row-reverse' })}>
+      <div className={clsx('flex items-center gap-4', { 'flex-row-reverse': direction === 'row-reverse' })}>
         {iconCollapsed && iconExpanded && (
           <div className={classNameTheme.itemHeaderIcon}>
             {!isOpen && iconCollapsed}

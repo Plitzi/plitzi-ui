@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback, useMemo } from 'react';
 
 import useTheme from '@hooks/useTheme';
@@ -67,7 +67,7 @@ const ListItem = ({
   }, [label, prefix, suffix]);
 
   return (
-    <div className={classNames('select2__list-item', className)} onClick={handleClick}>
+    <div className={clsx('select2__list-item', className)} onClick={handleClick}>
       {icon}
       {labelParsed}
     </div>

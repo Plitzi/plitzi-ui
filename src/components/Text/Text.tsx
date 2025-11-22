@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import DynamicComponent from '@/helpers/DynamicComponent';
 import useTheme from '@hooks/useTheme';
@@ -36,12 +36,7 @@ const Text = ({
   });
 
   return (
-    <DynamicComponent
-      {...props}
-      tag={as}
-      data-testid={testId}
-      className={classNames(className, { truncate: isTruncated })}
-    >
+    <DynamicComponent {...props} tag={as} data-testid={testId} className={clsx(className, { truncate: isTruncated })}>
       {children}
     </DynamicComponent>
   );

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback, useMemo } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -79,7 +79,7 @@ const ToastProvider = ({
       <ToastContainer
         containerId={id}
         pauseOnFocusLoss={false}
-        className={classNames(classNameContainer, { 'toast-container--absolute': !isFixed })}
+        className={clsx(classNameContainer, { 'toast-container--absolute': !isFixed })}
       />
       {children}
     </ToastContext>

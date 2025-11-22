@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
 import useTheme from '@hooks/useTheme';
@@ -56,7 +56,7 @@ const Icon = ({
       }
 
       components.iconChildren = cloneElement<childProps>(child as ReactElement<childProps>, {
-        className: classNames(className, (child.props as childProps).className),
+        className: clsx(className, (child.props as childProps).className),
         ...props,
         title
       });
@@ -69,7 +69,7 @@ const Icon = ({
     return iconChildren;
   }
 
-  return <i {...props} title={title} data-testid={testId} className={classNames(icon, className)} />;
+  return <i {...props} title={title} data-testid={testId} className={clsx(icon, className)} />;
 };
 
 export default Icon;

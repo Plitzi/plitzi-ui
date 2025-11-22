@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { cloneElement, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import Contenteditable from '@components/ContentEditable';
@@ -221,7 +221,7 @@ const TreeNodeOriginal = ({
     return cloneElement<IconProps>(icon as ReactElement<IconProps>, {
       ...(icon.props as IconProps),
       size,
-      className: classNames((icon.props as IconProps).className, classNameTheme.icon)
+      className: clsx((icon.props as IconProps).className, classNameTheme.icon)
     });
   }, [icon, size, classNameTheme.icon]);
 
@@ -261,7 +261,7 @@ const TreeNodeOriginal = ({
         {iconChildren}
         <div className="flex relative grow basis-0 overflow-hidden">
           <Contenteditable
-            className={classNames(classNameTheme.containerEditable, {
+            className={clsx(classNameTheme.containerEditable, {
               'opacity-30': dragHovered && dropPosition !== 'inside'
             })}
             size={size}

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
 import ErrorMessage from '@components/ErrorMessage';
@@ -74,7 +74,7 @@ const InputContainer = ({
       if (child.type === Icon) {
         const childProps = child.props as IconProps;
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
-          className: classNames(classNameTheme.icon, childProps.className),
+          className: clsx(classNameTheme.icon, childProps.className),
           size,
           ...childProps,
           intent: childProps.intent ?? 'custom'

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import omit from 'lodash-es/omit.js';
 import { useMemo, memo } from 'react';
 
@@ -71,7 +71,7 @@ const Switch = ({
       value={value}
     >
       {children}
-      <div className={classNames('switch', classNameTheme.switch)}>
+      <div className={clsx('switch', classNameTheme.switch)}>
         <input
           {...inputProps}
           id={id}
@@ -83,7 +83,7 @@ const Switch = ({
           className={classNameTheme.input}
           disabled={disabled}
         />
-        <span className={classNames('slider', classNameTheme.slider)} />
+        <span className={clsx('slider', classNameTheme.slider)} />
       </div>
     </InputContainer>
   );

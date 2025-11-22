@@ -1357,7 +1357,7 @@ __metadata:
     "@uiw/react-color-sketch": "npm:^2.9.2"
     "@vitejs/plugin-react": "npm:^5.1.1"
     class-variance-authority: "npm:^0.7.1"
-    classnames: "npm:^2.5.1"
+    clsx: "npm:^2.1.1"
     cssnano: "npm:^7.1.2"
     eslint: "npm:9.39.1"
     eslint-plugin-import: "npm:^2.32.0"
@@ -3593,13 +3593,6 @@ __metadata:
   dependencies:
     clsx: "npm:^2.1.1"
   checksum: 10/27a1face3f5ee88caa7813743461977aef5110830dc8e8960e7c9570598b37ffb8b2760b4e5d738dc827b0eb9058ddd204e9002e9af0ef39b6851f6ea9aa82c1
-  languageName: node
-  linkType: hard
-
-"classnames@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "classnames@npm:2.5.1"
-  checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
   languageName: node
   linkType: hard
 

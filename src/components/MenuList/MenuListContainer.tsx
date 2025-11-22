@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { use, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -115,7 +115,7 @@ const MenuListContainer = ({ className, children, open = false, asSubMenu = fals
     <div
       ref={containerRef}
       style={containerStyle}
-      className={classNames('menu', className, {
+      className={clsx('menu', className, {
         'opacity-0 pointer-events-none': position.top === undefined || position.left === undefined || !open,
         '-translate-x-full': asSubMenu && (placement === 'top-right' || placement === 'bottom-right')
       })}

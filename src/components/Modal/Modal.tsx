@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useCallback, useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -72,7 +72,7 @@ const Modal = ({
     <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root} {...otherProps}>
       <div className={classNameTheme.background} onClick={handleClose} />
       <Card
-        className={classNames(classNameTheme.card, {
+        className={clsx(classNameTheme.card, {
           [`modal--${animation}-${isClosing ? 'leave' : 'enter'}`]: animation
         })}
         intent="modal"

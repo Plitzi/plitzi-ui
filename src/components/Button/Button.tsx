@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 
 import Icon from '@components/Icon';
@@ -64,7 +64,7 @@ const Button = ({
       if (child.type === Icon) {
         const childProps = child.props as IconProps;
         components.iconChildren = cloneElement<IconProps>(child as ReactElement<IconProps>, {
-          className: classNames(classNameTheme.icon, childProps.className),
+          className: clsx(classNameTheme.icon, childProps.className),
           size,
           testId: testId ? `${testId}-icon` : undefined,
           ...childProps,
@@ -75,7 +75,7 @@ const Button = ({
         components.iconChildren = cloneElement<IconProps & { 'data-testid'?: string }>(
           child as ReactElement<IconProps>,
           {
-            className: classNames(classNameTheme.icon, childProps.className),
+            className: clsx(classNameTheme.icon, childProps.className),
             size,
             'data-testid': testId ? `${testId}-icon` : undefined,
             ...childProps,

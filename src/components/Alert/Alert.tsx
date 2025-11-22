@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import useTheme from '@hooks/useTheme';
 
@@ -31,15 +31,15 @@ const Alert = ({
   return (
     <div className={classNameTheme.root}>
       <div className={classNameTheme.iconContainer}>
-        {intent === 'success' && <i className={classNames('fas fa-check', classNameTheme.icon)} />}
-        {intent === 'error' && <i className={classNames('fas fa-fire', classNameTheme.icon)} />}
-        {intent === 'warning' && <i className={classNames('fas fa-exclamation-triangle', classNameTheme.icon)} />}
-        {intent === 'info' && <i className={classNames('fas fa-info-circle', classNameTheme.icon)} />}
+        {intent === 'success' && <i className={clsx('fas fa-check', classNameTheme.icon)} />}
+        {intent === 'error' && <i className={clsx('fas fa-fire', classNameTheme.icon)} />}
+        {intent === 'warning' && <i className={clsx('fas fa-exclamation-triangle', classNameTheme.icon)} />}
+        {intent === 'info' && <i className={clsx('fas fa-info-circle', classNameTheme.icon)} />}
       </div>
       <div className={classNameTheme.content}>{children}</div>
       {closeable && (
         <div className={classNameTheme.closeIconContainer}>
-          <i className={classNames('fa-solid fa-xmark', classNameTheme.icon)} onClick={onClick} />
+          <i className={clsx('fa-solid fa-xmark', classNameTheme.icon)} onClick={onClick} />
         </div>
       )}
     </div>
