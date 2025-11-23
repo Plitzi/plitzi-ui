@@ -1,6 +1,8 @@
 import get from 'lodash-es/get.js';
 
-import { isDate, isNumeric } from '../QueryBuilderHelper';
+import { isDate } from '@/helpers/formatDate';
+
+import { isNumeric } from '../QueryBuilderHelper';
 
 import type { QueryBuilderParams, Rule, RuleGroup } from '../../QueryBuilder';
 

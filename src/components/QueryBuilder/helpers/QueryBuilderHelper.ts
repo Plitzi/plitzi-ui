@@ -1,9 +1,4 @@
-import moment from 'moment';
-
 import type { Rule, RuleGroup } from '../QueryBuilder';
-
-export const isDate = (value: unknown): value is Date =>
-  typeof value === 'string' && moment(value, 'YYYY-MM-DD', true).isValid();
 
 export const isNumeric = (value: unknown): value is number | string =>
   typeof value === 'number' || (typeof value === 'string' && !value.includes(',') && !Number.isNaN(parseFloat(value)));

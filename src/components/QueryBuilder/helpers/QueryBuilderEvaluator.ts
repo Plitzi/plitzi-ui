@@ -1,8 +1,9 @@
 import get from 'lodash-es/get.js';
 import set from 'lodash-es/set.js';
-import moment from 'moment';
 
-import { isDate, isNumeric, isRuleGroup } from './QueryBuilderHelper';
+import { isDate, toUnixSeconds } from '@/helpers/formatDate';
+
+import { isNumeric, isRuleGroup } from './QueryBuilderHelper';
 
 import type { Rule, RuleGroup, RuleValue } from '../QueryBuilder';
 
@@ -78,8 +79,8 @@ export const evaluateGreaterThan = (value: RuleValue, valueToCompare: RuleValue)
   }
 
   if (isDate(value) && isDate(valueToCompare)) {
-    value = moment(value, 'YYYY-MM-DD').format('X');
-    valueToCompare = moment(valueToCompare, 'YYYY-MM-DD').format('X');
+    value = toUnixSeconds(value);
+    valueToCompare = toUnixSeconds(valueToCompare);
 
     return parseFloat(valueToCompare) > parseFloat(value);
   }
@@ -103,8 +104,8 @@ export const evaluateLessThan = (value: RuleValue, valueToCompare: RuleValue) =>
   }
 
   if (isDate(value) && isDate(valueToCompare)) {
-    value = moment(value).format('X');
-    valueToCompare = moment(valueToCompare).format('X');
+    value = toUnixSeconds(value);
+    valueToCompare = toUnixSeconds(valueToCompare);
 
     return parseFloat(valueToCompare) < parseFloat(value);
   }
