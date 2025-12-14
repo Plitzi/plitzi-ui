@@ -160,7 +160,7 @@ const ContainerNested = () => {
         </button>
       </div>
       <PopupSidePanel
-        className="overflow-y-auto max-h-[calc(_100vh_-_48px)]"
+        className="overflow-y-auto max-h-[calc(100vh-48px)]"
         placementTabs="right"
         minWidth={320}
         maxWidth={540}
@@ -263,7 +263,7 @@ export const SidePanelSeparated: Story = {
             />
             <PopupSidePanel
               showSidebar={false}
-              className="overflow-y-auto max-h-[calc(_100vh_-_48px)]"
+              className="overflow-y-auto max-h-[calc(100vh-48px)]"
               placementTabs="left"
               placement="left"
               separatorsBefore={['popup-4']}
@@ -297,7 +297,7 @@ export const NestedProvider: Story = {
             <PopupProvider renderLeftPopup={false} renderRightPopup={false} renderFloatingPopup={false}>
               <div>Hello World</div>
               <PopupSidePanel
-                className="overflow-y-auto max-h-[calc(_100vh_-_48px)]"
+                className="overflow-y-auto max-h-[calc(100vh-48px)]"
                 placementTabs="right"
                 minWidth={320}
                 maxWidth={540}

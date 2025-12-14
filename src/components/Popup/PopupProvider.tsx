@@ -39,9 +39,9 @@ export type PopupProviderProps = {
   popups?: Popups;
   limitMode?: ContainerDraggableProps['limitMode'];
   leftMinWidth?: number;
-  leftMaxWidth: number;
-  rightMinWidth: number;
-  rightMaxWidth: number;
+  leftMaxWidth?: number;
+  rightMinWidth?: number;
+  rightMaxWidth?: number;
   onChange?: (value: Popups) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
