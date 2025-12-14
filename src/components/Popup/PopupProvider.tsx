@@ -38,6 +38,10 @@ export type PopupProviderProps = {
   canHide?: boolean;
   popups?: Popups;
   limitMode?: ContainerDraggableProps['limitMode'];
+  leftMinWidth?: number;
+  leftMaxWidth: number;
+  rightMinWidth: number;
+  rightMaxWidth: number;
   onChange?: (value: Popups) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
@@ -53,6 +57,10 @@ const PopupProvider = ({
   popups,
   limitMode = 'window' as const,
   size,
+  leftMinWidth,
+  leftMaxWidth,
+  rightMinWidth,
+  rightMaxWidth,
   onChange
 }: PopupProviderProps) => {
   const [, setRerender] = useState(0);
@@ -207,7 +215,15 @@ const PopupProvider = ({
       <PopupContextLeft value={popupContextValueLeft}>
         <PopupContextRight value={popupContextValueRight}>
           {renderLeftPopup && !!popupsRef.current.left.length && (
-            <PopupSidePanel placement="left" placementTabs="left" multi={multi} canHide={canHide} size={size} />
+            <PopupSidePanel
+              placement="left"
+              placementTabs="left"
+              multi={multi}
+              canHide={canHide}
+              size={size}
+              minWidth={leftMinWidth}
+              maxWidth={leftMaxWidth}
+            />
           )}
           {children}
           {renderFloatingPopup && !!popupsRef.current.floating.length && (
@@ -220,7 +236,13 @@ const PopupProvider = ({
             />
           )}
           {renderRightPopup && !!popupsRef.current.right.length && (
-            <PopupSidePanel multi={multi} canHide={canHide} size={size} />
+            <PopupSidePanel
+              multi={multi}
+              canHide={canHide}
+              size={size}
+              minWidth={rightMinWidth}
+              maxWidth={rightMaxWidth}
+            />
           )}
         </PopupContextRight>
       </PopupContextLeft>
