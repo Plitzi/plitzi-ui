@@ -1,4 +1,3 @@
-import { fn } from '@storybook/test';
 import { useCallback } from 'react';
 import { useArgs } from 'storybook/preview-api';
 
@@ -25,10 +24,9 @@ export const Primary: Story = {
   args: {
     label: 'Select a resource file to upload',
     types: ['jpeg', 'jpg', 'png', 'json', 'zip'],
-    maxSize: 10240000,
+    maxSize: 10240000
     // error: 'Test',
     // disabled: true,
-    onDraggingStateChange: fn()
   },
   render: function Render(args) {
     const [{ value, error }, updateArgs] = useArgs<typeof args>();
