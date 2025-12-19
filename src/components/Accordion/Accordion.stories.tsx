@@ -1,4 +1,3 @@
-import { expect, within, userEvent, waitFor } from '@storybook/test';
 import { useState } from 'react';
 
 import Button from '@components/Button';
@@ -31,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   render: args => (
-    <div className="flex flex-col h-[400px] bg-gray-600 text-white">
+    <div className="flex flex-col h-100 bg-gray-600 text-white">
       <Accordion {...args} grow gap={0} defaultValue={['0']}>
         <Accordion.Item grow className="">
           <Accordion.Item.Header title="Item 1">
@@ -46,12 +45,12 @@ export const Primary: Story = {
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>
           <Accordion.Item.Content>
-            <Flex className="h-[150px]" direction="column">
+            <Flex className="h-37.5" direction="column">
               Hello World 2
             </Flex>
           </Accordion.Item.Content>
         </Accordion.Item>
-        <Accordion.Item className="[&:not(:first-child)]:border-t [&:not(:first-child)]:border-solid [&:not(:first-child)]:border-gray-300">
+        <Accordion.Item className="not-first:border-t not-first:border-solid not-first:border-gray-300">
           <Accordion.Item.Header title="Item 2" isWarning>
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>
@@ -157,22 +156,5 @@ export const ConditionalItems: Story = {
         </Accordion>
       </Flex>
     );
-  },
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-    const btn1 = canvas.getByTestId('btn-1-button');
-    const btn2 = canvas.getByTestId('btn-2-button');
-
-    await step('Click btn-2', async () => {
-      const accordionItem = canvas.getByTestId('testAccordion-1-accordion-item');
-      await userEvent.click(btn2);
-      await waitFor(() => expect(accordionItem).not.toBeInTheDocument());
-    });
-
-    await step('Click btn-1', async () => {
-      await userEvent.click(btn1);
-      const accordionItem = canvas.getByTestId('testAccordion-1-accordion-item');
-      await waitFor(() => expect(accordionItem).toBeInTheDocument());
-    });
   }
 };

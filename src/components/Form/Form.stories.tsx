@@ -172,8 +172,8 @@ export const DiscriminateUnion: Story = {
       config: { schema: conditionalFormSchema }
     });
 
-    const [category, field1, field2] = useFormWatch(form.formMethods);
-    console.log(category, field1, field2);
+    const [field1, field2] = useFormWatch(form.formMethods);
+    console.log(field1, field2);
 
     const handleSubmit = useCallback(async (values: z.infer<SchemaConditional>) => {
       console.log('submitted', values);
@@ -188,8 +188,12 @@ export const DiscriminateUnion: Story = {
             <option value="option-1">Option 1</option>
             <option value="option-2">Option 2</option>
           </Form.Select>
-          {category === 'option-1' && <Form.Input name="field1" label="Field 1" />}
-          {category === 'option-2' && <Form.Input name="field2" label="Field 2" />}
+          <Form.Conditional when="category" is="option-1">
+            <Form.Input name="field1" label="Field 1" />
+          </Form.Conditional>
+          <Form.Conditional when="category" is="option-2">
+            <Form.Input name="field2" label="Field 2" />
+          </Form.Conditional>
         </Form.Body>
         <Form.Footer>
           <Button type="submit">Submit</Button>
