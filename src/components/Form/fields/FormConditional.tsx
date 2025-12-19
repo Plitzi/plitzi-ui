@@ -7,7 +7,7 @@ import type { FieldValues, FieldPath, FieldPathValue } from 'react-hook-form';
 
 export type FormConditionalProps<T extends FieldValues, TName extends FieldPath<T>> = {
   when: TName;
-  is: FieldPathValue<T, TName> | ((value: FieldPathValue<T, TName>) => boolean);
+  is: FieldPathValue<T, TName> | FieldPathValue<T, TName>[] | ((value: FieldPathValue<T, TName>) => boolean);
   children: ReactNode;
 } & Omit<BaseFormFieldType<T, TName>, 'name'>;
 
@@ -25,7 +25,11 @@ const FormConditional = <T extends FieldValues, TName extends FieldPath<T>>({
       return (is as (value: FieldPathValue<T, TName>) => boolean)(value);
     }
 
-    return value === is;
+    if (Array.isArray(is)) {
+      return (is as FieldPathValue<T, TName>[]).includes(value);
+    }
+
+    return value === (is as FieldPathValue<T, TName>);
   }, [value, is]);
 
   return shouldRender ? children : undefined;
