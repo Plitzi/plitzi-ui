@@ -27,7 +27,8 @@ const FormCheckbox = <T extends FieldValues, TName extends FieldPath<T>>(props: 
   const renderMemo = useMemo<ControllerProps<T>['render']>(
     () =>
       function Render({ field: { ref, value, onChange, name }, fieldState: { error: fieldError } }) {
-        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const onChangeMemo = useMemo(() => handleChange(onChange), [onChange, handleChange]);
 
         return (
           <Checkbox
