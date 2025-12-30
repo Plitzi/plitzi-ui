@@ -27,7 +27,7 @@ export default {
       size: 'md'
     }
   }),
-  inputContainer: cva('border-0 p-0'),
+  inputContainer: cva('border-0 p-0 bg-transparent'),
   slider: cva(
     [
       'round absolute top-0 bottom-0 left-0 right-0 duration-[0.4s]',
@@ -41,10 +41,10 @@ export default {
           danger: ''
         },
         size: {
-          lg: 'before:w-5 before:h-5 peer-checked:before:translate-x-[20px]',
-          md: 'before:w-4 before:h-4 peer-checked:before:translate-x-[16px]',
-          sm: 'before:w-3 before:h-3 peer-checked:before:translate-x-[12px]',
-          xs: 'before:w-2 before:h-2 peer-checked:before:translate-x-[8px]',
+          lg: 'before:w-5 before:h-5 peer-checked:before:translate-x-5',
+          md: 'before:w-4 before:h-4 peer-checked:before:translate-x-4',
+          sm: 'before:w-3 before:h-3 peer-checked:before:translate-x-3',
+          xs: 'before:w-2 before:h-2 peer-checked:before:translate-x-2',
           custom: ''
         },
         rounded: {
@@ -64,17 +64,17 @@ export default {
         {
           intent: 'primary',
           disabled: false,
-          className: 'bg-gray-300 peer-checked:bg-primary-500 hover:before:bg-primary-500'
+          className: 'bg-gray-300 peer-checked:bg-primary-500 hover:before:bg-primary-300'
         },
         {
           intent: 'secondary',
           disabled: false,
-          className: 'bg-gray-300 peer-checked:bg-secondary-500 hover:before:bg-secondary-500'
+          className: 'bg-gray-300 peer-checked:bg-secondary-500 hover:before:bg-secondary-300'
         },
         {
           intent: 'danger',
           disabled: false,
-          className: 'bg-gray-300 peer-checked:bg-red-500 hover:before:bg-red-500'
+          className: 'bg-gray-300 peer-checked:bg-red-500 hover:before:bg-red-300'
         }
       ],
       defaultVariants: {

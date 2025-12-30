@@ -87,13 +87,15 @@ const RuleValue = ({
   switch (type) {
     case 'checkbox':
       return (
-        <Checkbox
-          className={className}
-          size={size}
-          checked={finalValue as boolean}
-          disabled={disabled}
-          onChange={handleChangeCheckbox}
-        />
+        <div className="flex items-center">
+          <Checkbox
+            className={className}
+            size={size}
+            checked={finalValue as boolean}
+            disabled={disabled}
+            onChange={handleChangeCheckbox}
+          />
+        </div>
       );
 
     case 'radio':

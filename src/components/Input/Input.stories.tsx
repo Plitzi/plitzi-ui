@@ -54,9 +54,9 @@ export const Builder: Story = {
   },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
-      <Input {...args} size="md" className={{ input: 'w-[50px]' }} />
-      <Input {...args} size="sm" className={{ input: 'w-[50px]' }} />
-      <Input {...args} size="xs" className={{ input: 'w-[50px]' }} />
+      <Input {...args} size="md" className={{ input: 'w-12.5' }} />
+      <Input {...args} size="sm" className={{ input: 'w-12.5' }} />
+      <Input {...args} size="xs" className={{ input: 'w-12.5' }} />
     </div>
   )
 };

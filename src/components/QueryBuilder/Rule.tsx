@@ -126,15 +126,17 @@ const Rule = ({
   return (
     <Flex gap={2} className={classNameTheme.rule}>
       <Flex grow basis={0} gap={2} className={classNameTheme.ruleField}>
-        <Select2
-          placeholder="Select a field"
-          options={fieldsOptions}
-          value={field}
-          size={size}
-          onChange={handleChangeField}
-          allowCreateOptions
-          error={error}
-        />
+        <div className="basis-0 grow min-w-0">
+          <Select2
+            placeholder="Select a field"
+            options={fieldsOptions}
+            value={field}
+            size={size}
+            onChange={handleChangeField}
+            allowCreateOptions
+            error={error}
+          />
+        </div>
         {direction === 'vertical' && (
           <>
             <Button size={size} intent="danger" className="rounded-sm" onClick={handleRemove}>
@@ -153,7 +155,7 @@ const Rule = ({
         <Flex grow basis={0} gap={2} className="min-w-0">
           {!['between', 'notBetween'].includes(operator) && !isBinding && (
             <RuleValue
-              className="w-full"
+              className="w-full basis-0 grow"
               placeholder={placeholder ? placeholder : `Enter ${label ? label : 'a value'}`}
               type={inputType}
               options={options}
