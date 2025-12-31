@@ -32,7 +32,7 @@ const popups = {
   left: [
     {
       id: 'popup-1',
-      component: <div className="h-[600px] bg-red-300">Hello World 1</div>,
+      component: <div className="h-150 bg-red-300">Hello World 1</div>,
       active: false,
       settings: {
         icon: <i className="fa-solid fa-sliders text-base" />,
@@ -127,7 +127,7 @@ export const Primary: Story = {
     return (
       <div className="flex border border-solid border-gray-300 relative">
         <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
-          <div className="flex grow h-[500px] bg-gray-200"></div>
+          <div className="flex grow h-125 bg-gray-200"></div>
         </PopupProvider>
       </div>
     );
@@ -275,7 +275,7 @@ export const SidePanelSeparated: Story = {
               onChange={handleChangeLeft}
             />
           </div>
-          <div className="flex grow h-[500px] bg-gray-200 items-center justify-center">
+          <div className="flex grow h-125 bg-gray-200 items-center justify-center">
             <Container />
           </div>
         </PopupProvider>
@@ -323,7 +323,7 @@ export const NestedProvider: Story = {
     return (
       <div className="flex border border-solid border-gray-300">
         <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
-          <div className="flex grow h-[500px] bg-gray-200"></div>
+          <div className="flex grow h-125 bg-gray-200"></div>
         </PopupProvider>
       </div>
     );
@@ -335,7 +335,7 @@ const getPopups = (id: string) => {
     left: [
       {
         id: 'popup-1',
-        component: <div className="h-[600px] bg-red-300">Hello World 1 {id}</div>,
+        component: <div className="h-150 bg-red-300">Hello World 1 {id}</div>,
         active: true,
         settings: {
           icon: <i className="fa-solid fa-sliders text-base" />,
@@ -349,7 +349,7 @@ const getPopups = (id: string) => {
     right: [
       {
         id: 'popup-2',
-        component: <div className="h-[600px] bg-red-300">Hello World 2 {id}</div>,
+        component: <div className="h-150 bg-red-300">Hello World 2 {id}</div>,
         active: false,
         settings: {
           icon: <i className="fa-solid fa-sliders text-base" />,
@@ -382,7 +382,7 @@ export const DynamicPopups: Story = {
     return (
       <div className="flex border border-solid border-gray-300">
         <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
-          <div className="flex grow h-[500px] bg-gray-200 items-center justify-center">
+          <div className="flex grow h-125 bg-gray-200 items-center justify-center">
             <Button onClick={handleClick}>Click Me</Button>
           </div>
         </PopupProvider>
