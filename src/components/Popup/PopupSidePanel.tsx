@@ -19,7 +19,6 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 const popupsActiveDefault: string[] = [];
 
 export type PopupSidePanelProps = {
-  className?: string;
   placement?: 'left' | 'right';
   placementTabs?: 'left' | 'right';
   canHide?: boolean;
