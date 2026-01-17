@@ -24,7 +24,7 @@ const ContainerWindow = ({
   children,
   onClose
 }: ContainerWindowProps) => {
-  const { getHost } = useContainerRoot();
+  const { getHost } = useContainerRoot() as { getHost?: () => Node | undefined };
   const containerEl = useMemo(() => {
     const elementDOM = document.createElement('div');
     elementDOM.setAttribute('stype', 'display:flex;flex-direction:column;min-height:100vh;');
@@ -59,7 +59,7 @@ const ContainerWindow = ({
     if (externalWindow.current) {
       externalWindow.current.document.body.appendChild(containerEl);
       externalWindow.current.document.title = title;
-      copyStyles(getHost() as Document, externalWindow.current.document);
+      copyStyles((getHost?.() ?? containerEl.getRootNode()) as Document, externalWindow.current.document);
       // update the state in the parent component if the user closes the
       // new window
       if (onClose) {
