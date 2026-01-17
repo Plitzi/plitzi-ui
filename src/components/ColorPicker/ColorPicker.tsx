@@ -8,7 +8,7 @@ import InputContainer from '@components/Input/InputContainer';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
-import { objectToHex } from './ColorPickerHelper';
+import { isValidVariable, objectToHex } from './ColorPickerHelper';
 
 import type ColorPickerStyles from './ColorPicker.styles';
 import type { variantKeys } from './ColorPicker.styles';
@@ -26,6 +26,7 @@ export type ColorPickerProps = {
   readOnly?: boolean;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   showAlpha?: boolean;
+  allowVariables?: boolean;
   required?: boolean;
   value?: string;
   delayOnChange?: number;
@@ -43,6 +44,7 @@ const ColorPicker = ({
   required = false,
   disabled = false,
   showAlpha = true,
+  allowVariables = false,
   value = '#ffffff',
   error,
   size,
@@ -53,7 +55,7 @@ const ColorPicker = ({
 }: ColorPickerProps) => {
   const classNameTheme = useTheme<typeof ColorPickerStyles, typeof variantKeys>('ColorPicker', {
     className,
-    componentKey: ['inputColorContainer', 'input', 'divider', 'colorContainer', 'alpha'],
+    componentKey: ['inputColorContainer', 'input', 'divider', 'colorContainer', 'alpha', 'alphaContainer'],
     variants: { intent, size }
   });
   const [color, setColor] = useState(value);
@@ -87,13 +89,13 @@ const ColorPicker = ({
   }, []);
 
   const handleBlur = useCallback(() => {
-    if (isValid) {
+    if (isValid || (allowVariables && isValidVariable(color))) {
       onChange?.(color);
     } else {
       onChange?.('#ffffff');
       setColor('#ffffff');
     }
-  }, [color, isValid, onChange]);
+  }, [allowVariables, color, isValid, onChange]);
 
   return (
     <InputContainer
@@ -133,11 +135,11 @@ const ColorPicker = ({
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        {showAlpha && (
-          <>
+        {showAlpha && isValid && (
+          <div className={classNameTheme.alphaContainer}>
             <div className={classNameTheme.divider} />
             <div className={classNameTheme.alpha}>{`A: ${alpha}`}</div>
-          </>
+          </div>
         )}
       </div>
     </InputContainer>

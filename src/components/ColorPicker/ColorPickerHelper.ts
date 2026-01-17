@@ -8,3 +8,7 @@ export const objectToHex = (color: ColorResult) => {
 
   return `#${a === 1 ? pColor.toHex() : pColor.toHex8()}`;
 };
+
+const COLOR_REGEX = /^(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})|var\(--[a-zA-Z0-9_-]+\)|--[a-zA-Z0-9_-]+)$/;
+
+export const isValidVariable = (value: string): boolean => COLOR_REGEX.test(value.trim());

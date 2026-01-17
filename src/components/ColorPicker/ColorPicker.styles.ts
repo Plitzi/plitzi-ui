@@ -52,7 +52,7 @@ export default {
     }
   ),
   divider: cva('bg-gray-300 w-px self-stretch shrink-0'),
-  input: cva('p-0 border-0 outline-none focus:ring-0 basis-0 grow min-w-0', {
+  input: cva('p-0 border-0 outline-none focus:ring-0 basis-0 grow min-w-2', {
     variants: {
       intent: {
         primary: 'bg-white'
@@ -80,7 +80,20 @@ export default {
       // error: false
     }
   }),
-  alpha: cva('flex items-center justify-center whitespace-nowrap shrink-0', {
+  alphaContainer: cva('flex items-center overflow-hidden', {
+    variants: {
+      size: {
+        md: 'gap-2',
+        sm: 'gap-1.5',
+        xs: 'gap-1'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
+  alpha: cva('block whitespace-nowrap truncate basis-0 grow', {
     variants: {
       size: {
         md: '',
