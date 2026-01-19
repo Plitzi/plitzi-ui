@@ -1,4 +1,4 @@
-import { Children, isValidElement, useMemo, cloneElement, useRef } from 'react';
+import { Children, isValidElement, useMemo, cloneElement, useRef, useCallback } from 'react';
 
 import ContainerFloatingContainer from './ContainerFloatingContainer';
 import ContainerFloatingContent from './ContainerFloatingContent';
@@ -12,7 +12,7 @@ import type { ContainerFloatingContentProps } from './ContainerFloatingContent';
 import type { ContainerFloatingContextValue } from './ContainerFloatingContext';
 import type { ContainerFloatingTriggerProps } from './ContainerFloatingTrigger';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactElement, ReactNode, RefObject } from 'react';
+import type { MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type ContainerFloatingProps = {
   ref?: RefObject<HTMLDivElement | null>;
@@ -35,6 +35,7 @@ const ContainerFloating = ({
   open: openProp,
   disabled = false,
   loading = false,
+  closeOnClick = true,
   testId,
   placement,
   container,
@@ -47,6 +48,20 @@ const ContainerFloating = ({
     loading,
     disabled
   });
+
+  const handleClickContent = useCallback(
+    (originalEvent?: (e: MouseEvent<HTMLDivElement>) => void) => (e: MouseEvent<HTMLDivElement>) => {
+      originalEvent?.(e);
+      if (e.isPropagationStopped()) {
+        return;
+      }
+
+      if (closeOnClick) {
+        setOpen(false);
+      }
+    },
+    [closeOnClick, setOpen]
+  );
 
   const { trigger, content } = useMemo(() => {
     const components: { trigger?: ReactNode; content?: ReactNode } = {};
@@ -70,13 +85,17 @@ const ContainerFloating = ({
         const childProps = child.props as ContainerFloatingContentProps;
         components.content = cloneElement<ContainerFloatingContentProps>(
           child as ReactElement<ContainerFloatingContentProps>,
-          { testId: testId ? `${testId}-content` : undefined, ...childProps }
+          {
+            testId: testId ? `${testId}-content` : undefined,
+            ...childProps,
+            onClick: handleClickContent(childProps.onClick)
+          }
         );
       }
     });
 
     return components;
-  }, [children, handleClickTrigger, testId, triggerRef]);
+  }, [children, handleClickTrigger, handleClickContent, testId, triggerRef]);
 
   const containerFloatingContextValue = useMemo<ContainerFloatingContextValue>(
     () => ({

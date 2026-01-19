@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {},
   render: args => (
-    <div className="w-[400px] h-[400px] border border-gray-400">
+    <div className="w-100 h-100 border border-gray-400">
       <Flex className="h-full" direction="column" justify="between">
         <Flex justify="between">
           <ContainerFloating {...args} placement="bottom-left" className="w-full" closeOnClick={false}>

@@ -32,7 +32,7 @@ export default {
       disabled: false
     }
   }),
-  container: cva('fixed z-[801]', {
+  container: cva('fixed z-801', {
     variants: {
       placement: {
         'top-left': '-translate-y-full',

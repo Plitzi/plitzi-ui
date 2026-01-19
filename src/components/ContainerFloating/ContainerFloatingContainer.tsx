@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import { use, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 import ContainerFloatingContext from './ContainerFloatingContext';
@@ -43,7 +43,7 @@ const ContainerFloatingContainer = ({
   const containerRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   useImperativeHandle(ref, () => containerRef.current!, []);
-  const [position, setPosition] = useState<{ top?: number; left?: number }>({ top: undefined, left: undefined });
+  const [position, setPosition] = useState<{ top: number; left: number } | undefined>(undefined);
 
   const updatePosition = useCallback(() => {
     if (!triggerRef || !triggerRef.current) {
@@ -100,9 +100,11 @@ const ContainerFloatingContainer = ({
     };
   }, [open, handleScroll]);
 
-  useEffect(() => {
+  useDidUpdateEffect(() => {
     if (open) {
       updatePosition();
+    } else {
+      setPosition(undefined);
     }
 
     onOpenChange?.(open);
@@ -110,12 +112,15 @@ const ContainerFloatingContainer = ({
 
   const handleClickClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const containerStyle: CSSProperties = useMemo(() => ({ top: position.top, left: position.left }), [position]);
+  const containerStyle: CSSProperties = useMemo(
+    () => ({ ...position, ...(position ? { visibility: 'visible' } : { visibility: 'hidden', pointerEvent: 'none' }) }),
+    [position]
+  );
 
   return createPortal(
     <>
       {open && <div className="absolute top-0 bottom-0 left-0 right-0" onClick={handleClickClose} />}
-      {open && position.top !== undefined && position.left !== undefined && (
+      {open && (
         <div ref={containerRef} style={containerStyle} className={className}>
           {children}
         </div>
