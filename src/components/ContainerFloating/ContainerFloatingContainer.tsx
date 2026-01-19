@@ -10,7 +10,7 @@ import type { ContainerFloatingProps } from './ContainerFloating';
 import type ContainerFloatingStyles from './ContainerFloating.styles';
 import type { variantKeys } from './ContainerFloating.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties, ReactNode, RefObject } from 'react';
+import type { CSSProperties, MouseEvent, ReactNode, RefObject } from 'react';
 
 type ContainerFloatingContainerProps = {
   ref?: RefObject<HTMLDivElement | null>;
@@ -110,7 +110,14 @@ const ContainerFloatingContainer = ({
     onOpenChange?.(open);
   }, [open, updatePosition, onOpenChange]);
 
-  const handleClickClose = useCallback(() => setOpen(false), [setOpen]);
+  const handleClickClose = useCallback(
+    (e: MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      setOpen(false);
+    },
+    [setOpen]
+  );
 
   const containerStyle: CSSProperties = useMemo(
     () => ({ ...position, ...(position ? { visibility: 'visible' } : { visibility: 'hidden', pointerEvent: 'none' }) }),
