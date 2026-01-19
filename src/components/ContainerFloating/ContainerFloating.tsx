@@ -57,6 +57,8 @@ const ContainerFloating = ({
       }
 
       if (closeOnClick) {
+        e.stopPropagation();
+        e.preventDefault();
         setOpen(false);
       }
     },
