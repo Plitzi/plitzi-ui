@@ -50,7 +50,7 @@ export default {
       size: 'md'
     }
   }),
-  input: cva('p-0 outline-none focus:ring-0 basis-0 grow min-w-0', {
+  input: cva('p-0 outline-none focus:ring-0 basis-0 grow min-w-0 border-none', {
     variants: {
       intent: {
         default: '',

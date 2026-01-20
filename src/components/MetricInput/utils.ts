@@ -1,3 +1,6 @@
+export const cssVarFullRegex = /^var\(--[a-zA-Z0-9-_]+\)$/;
+export const cssVarPartialRegex = /^v$|^va$|^var$|^var\($|^var\(--?[a-zA-Z0-9-_]*$/i;
+
 export const generateRegexFromWord = (words?: string | string[], asSubRegex = false): RegExp | undefined => {
   if (!words) {
     return undefined;

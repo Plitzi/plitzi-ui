@@ -6,7 +6,13 @@ import Icon from '@components/Icon';
 import MenuList from '@components/MenuList';
 import useTheme from '@hooks/useTheme';
 
-import { countDecimals, generateMetricRegex, generateRegexFromWord } from './utils';
+import {
+  countDecimals,
+  cssVarFullRegex,
+  cssVarPartialRegex,
+  generateMetricRegex,
+  generateRegexFromWord
+} from './utils';
 
 import type MetricInputStyles from './MetricInput.styles';
 import type { variantKeys } from './MetricInput.styles';
@@ -28,6 +34,7 @@ export type MetricInputProps = {
   max?: number;
   value?: string;
   allowedWords?: string[];
+  allowVariables?: boolean;
   onChange?: (value: string) => void;
 } & useThemeSharedProps<typeof MetricInputStyles, typeof variantKeys>;
 
@@ -46,6 +53,7 @@ const MetricInput = ({
   intent = 'default',
   value: valueProp = '',
   allowedWords,
+  allowVariables = false,
   step = 1,
   min = 0,
   max = Infinity,
@@ -70,6 +78,10 @@ const MetricInput = ({
 
   const getValueParts = useCallback(
     (value: string): [string, string, boolean] => {
+      if (allowVariables && (cssVarFullRegex.test(value) || cssVarPartialRegex.test(value))) {
+        return [value, '', true];
+      }
+
       const match = unitsRegex.exec(value);
       const unit = get(match, 'groups.unit', get(units, '0.value', ''));
       const amount = get(match, 'groups.amount', '');
@@ -77,14 +89,21 @@ const MetricInput = ({
 
       return [amount, hasAllowedWord ? '' : unit, hasAllowedWord];
     },
-    [allowedWordRegex, units, unitsRegex]
+    [allowVariables, allowedWordRegex, units, unitsRegex]
   );
 
   const [value, unit, hasAllowedWord] = useMemo(() => getValueParts(valueProp), [getValueParts, valueProp]);
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const [newValue, , newHasAllowedWord] = getValueParts(e.target.value);
+      const rawValue = e.target.value;
+      const [newValue, , newHasAllowedWord] = getValueParts(rawValue);
+      if (allowVariables && (cssVarFullRegex.test(rawValue) || cssVarPartialRegex.test(rawValue))) {
+        onChange?.(rawValue);
+
+        return;
+      }
+
       if (!Number.isNaN(newValue) && (Number(newValue) < min || (max !== Infinity && Number(newValue) > max))) {
         return;
       }
@@ -93,7 +112,7 @@ const MetricInput = ({
       const finalValue = newValue && newUnit && !newHasAllowedWord ? `${newValue}${newUnit}` : newValue;
       if (
         value === newValue ||
-        (e.target.value.length > value.length && !newValue) || // newValue is invalid, skip
+        (rawValue.length > value.length && !newValue) || // newValue is invalid, skip
         (finalValue && !unitsRegex.exec(finalValue))
       ) {
         return;
@@ -101,8 +120,36 @@ const MetricInput = ({
 
       onChange?.(finalValue);
     },
-    [getValueParts, hasAllowedWord, units, unit, value, unitsRegex, min, max, onChange]
+    [getValueParts, allowVariables, min, max, hasAllowedWord, units, unit, value, unitsRegex, onChange]
   );
+
+  const handleBlur = useCallback(() => {
+    if (allowVariables && value && !cssVarFullRegex.test(value)) {
+      onChange?.('');
+
+      return;
+    }
+
+    // if (!value) {
+    //   onChange?.('');
+    //   return;
+    // }
+
+    // let newValue = Number(value);
+    // if (Number.isNaN(newValue)) {
+    //   newValue = min;
+    // } else {
+    //   if (newValue < min) {
+    //     newValue = min;
+    //   } else if (newValue > max) {
+    //     newValue = max;
+    //   }
+    // }
+
+    // if (value !== `${newValue}`) {
+    //   onChange?.(unit ? `${newValue}${unit}` : `${newValue}${get(units, '0.value', '')}`);
+    // }
+  }, [allowVariables, value, onChange]);
 
   const handleChangeUnit = useCallback(
     (unit?: string) => {
@@ -125,6 +172,10 @@ const MetricInput = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      if (allowVariables && (cssVarFullRegex.test(value) || cssVarPartialRegex.test(value))) {
+        return;
+      }
+
       if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
         return;
       }
@@ -154,7 +205,7 @@ const MetricInput = ({
         onChange?.(unit ? `${newValue}${unit}` : `${newValue}${get(units, '0.value', '')}`);
       }
     },
-    [value, step, max, min, onChange, unit, units]
+    [allowVariables, value, step, max, min, onChange, unit, units]
   );
 
   const { iconChildren } = useMemo(() => {
@@ -198,6 +249,7 @@ const MetricInput = ({
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
           {...(inputProps as React.JSX.IntrinsicElements['input'])}
         />
         {(error || loading) && (

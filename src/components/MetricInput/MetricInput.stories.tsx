@@ -41,7 +41,7 @@ export const Primary: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <MetricInput {...args} size="md" value={value} onChange={handleChange} max={5} step={0.2}>
+        <MetricInput {...args} size="md" value={value} onChange={handleChange} max={50} step={0.2} allowVariables>
           <MetricInput.Icon icon="fa-solid fa-check" />
         </MetricInput>
         <MetricInput {...args} size="sm">
@@ -50,7 +50,7 @@ export const Primary: Story = {
         <MetricInput {...args} size="xs">
           <MetricInput.Icon icon="fa-solid fa-check" />
         </MetricInput>
-        <div className="flex w-[300px] gap-2">
+        <div className="flex w-75 gap-2">
           <MetricInput {...args} size="sm" className="min-w-0 grow">
             <MetricInput.Icon icon="fa-solid fa-check" />
           </MetricInput>
@@ -111,9 +111,9 @@ export const Builder: Story = {
   },
   render: args => (
     <div className="flex flex-col gap-4 items-center justify-center">
-      <MetricInput {...args} size="md" className={{ input: 'w-[50px]' }} />
-      <MetricInput {...args} size="sm" className={{ input: 'w-[50px]' }} />
-      <MetricInput {...args} size="xs" className={{ input: 'w-[50px]' }} />
+      <MetricInput {...args} size="md" className={{ input: 'w-12.5' }} />
+      <MetricInput {...args} size="sm" className={{ input: 'w-12.5' }} />
+      <MetricInput {...args} size="xs" className={{ input: 'w-12.5' }} />
     </div>
   )
 };
