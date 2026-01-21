@@ -9,7 +9,8 @@ import { storageProxy } from './useStorageHelper';
 function useLocalStorage<T = unknown>(
   keyProp: string,
   initialValue: T,
-  mode: 'localStorage' | 'sessionStorage' = 'localStorage'
+  mode: 'localStorage' | 'sessionStorage' = 'localStorage',
+  autoSync: boolean = true
 ) {
   const [key, path] = useMemo(() => {
     if (keyProp.includes('.')) {
@@ -90,7 +91,7 @@ function useLocalStorage<T = unknown>(
 
   // Sync external changes
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === 'undefined' || !autoSync) {
       return;
     }
 
@@ -101,7 +102,7 @@ function useLocalStorage<T = unknown>(
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('customstorage-changed', handleCustomStorageChange as EventListener);
     };
-  }, [handleStorageChange, handleCustomStorageChange, mode]);
+  }, [handleStorageChange, handleCustomStorageChange, mode, autoSync]);
 
   return [value, setValue] as const;
 }
