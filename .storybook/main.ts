@@ -3,8 +3,8 @@ import type { StorybookConfig } from '@storybook/react-vite';
 const config: StorybookConfig = {
   stories: [
     {
-      directory: '../src/components/**',
-      files: '*.stories.*',
+      directory: '../src/components',
+      files: '**/*.stories.@(js|jsx|ts|tsx)',
       titlePrefix: 'Components'
     }
   ],

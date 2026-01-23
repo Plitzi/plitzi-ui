@@ -124,7 +124,7 @@ const MetricInput = ({
   );
 
   const handleBlur = useCallback(() => {
-    if (allowVariables && value && !cssVarFullRegex.test(value)) {
+    if (allowVariables && value && cssVarPartialRegex.test(value) && !cssVarFullRegex.test(value)) {
       onChange?.('');
 
       return;
