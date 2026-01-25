@@ -4,6 +4,8 @@ import get from 'lodash-es/get.js';
 import set from 'lodash-es/set.js';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
+
 import { storageProxy } from './useStorageHelper';
 
 function useLocalStorage<T = unknown>(
@@ -23,11 +25,35 @@ function useLocalStorage<T = unknown>(
     return [keyProp, ''];
   }, [keyProp]);
 
-  const storageRef = useRef(mode === 'localStorage' ? storageProxy(localStorage) : storageProxy(sessionStorage));
-  storageRef.current = mode === 'localStorage' ? storageProxy(localStorage) : storageProxy(sessionStorage);
+  const storageRef = useRef<Storage | undefined>(
+    mode === 'localStorage'
+      ? typeof localStorage !== 'undefined'
+        ? storageProxy(localStorage)
+        : undefined
+      : typeof sessionStorage !== 'undefined'
+        ? storageProxy(sessionStorage)
+        : undefined
+  );
+
+  useDidUpdateEffect(() => {
+    if (
+      (mode === 'localStorage' && typeof localStorage === 'undefined') ||
+      (mode === 'sessionStorage' && typeof sessionStorage === 'undefined')
+    ) {
+      storageRef.current = undefined;
+
+      return;
+    }
+
+    storageRef.current = mode === 'localStorage' ? storageProxy(localStorage) : storageProxy(sessionStorage);
+  }, [mode]);
 
   const [value, setValue] = useState<T>(() => {
     try {
+      if (!storageRef.current) {
+        return initialValue;
+      }
+
       const storedValue = storageRef.current.getItem(key);
       if (!storedValue) {
         return initialValue;
@@ -42,6 +68,10 @@ function useLocalStorage<T = unknown>(
 
   useEffect(() => {
     try {
+      if (!storageRef.current) {
+        return;
+      }
+
       let newState: unknown = value;
       if (path) {
         const storedValue = storageRef.current.getItem(key);
