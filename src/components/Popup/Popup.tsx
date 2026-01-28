@@ -25,7 +25,7 @@ export type PopupProps = {
   allowResize?: boolean;
   allowLeftSide?: boolean;
   allowRightSide?: boolean;
-  allowFloatingSide?: boolean;
+  allowFloatingSide?: boolean; // used in PopupSidePanel
   allowClose?: boolean;
   allowExternal?: boolean;
   resizeHandles?: ResizeHandle[];

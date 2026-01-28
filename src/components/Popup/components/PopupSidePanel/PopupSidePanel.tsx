@@ -2,17 +2,17 @@ import { use, useMemo, useState, useCallback, memo } from 'react';
 
 import { arrayDifference, emptyArray } from '@/helpers/utils';
 import Accordion from '@components/Accordion';
-import Button from '@components/Button';
 import ContainerResizable from '@components/ContainerResizable';
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
-import PopupSidebar from './PopupSidebar';
-import usePopup from './usePopup';
+import PopupSidePanelItem from './PopupSidePanelItem';
+import PopupSidebar from '../../PopupSidebar';
+import usePopup from '../../usePopup';
 
-import type PopupStyles from './Popup.styles';
-import type { variantKeys } from './Popup.styles';
+import type PopupStyles from '../../Popup.styles';
+import type { variantKeys } from '../../Popup.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
@@ -47,7 +47,7 @@ const PopupSidePanel = ({
 }: PopupSidePanelProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
-    componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer', 'sidePanelContainerHeader'],
+    componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
     variants: { placement: placementTabs, size }
   });
   const { placementPopup, popups, popupIds, popupActiveIds } = usePopup(placement);
@@ -98,7 +98,7 @@ const PopupSidePanel = ({
   );
 
   const handleClickFloating = useCallback(
-    (popupId: string) => () => {
+    (popupId: string) => {
       placementPopup(popupId, 'floating');
       const newValue = popupsActiveFiltered.filter(item => item !== popupId);
       setPopupsActive(newValue);
@@ -108,7 +108,7 @@ const PopupSidePanel = ({
   );
 
   const handleClickCollapse = useCallback(
-    (popupId: string) => () => {
+    (popupId: string) => {
       const newValue = popupsActiveFiltered.filter(item => item !== popupId);
       setPopupsActive(newValue);
       onChange?.(newValue);
@@ -170,47 +170,19 @@ const PopupSidePanel = ({
           multi={multi}
           defaultValue={popupsActiveFiltered.length > 0 ? popupsActiveFiltered.slice(0, 1) : [popups[0].id]}
         >
-          {popupsFiltered.map((popup, i) => {
-            return (
-              <Accordion.Item
-                key={popup.id}
-                id={popup.id}
-                grow
-                className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
-              >
-                <Accordion.Item.Header
-                  className={classNameTheme.sidePanelContainerHeader}
-                  title={popup.settings.title}
-                  iconExpanded={null}
-                  iconCollapsed={null}
-                >
-                  {popup.settings.allowFloatingSide !== false && (
-                    <Button
-                      intent="custom"
-                      size="custom"
-                      border="none"
-                      className={classNameTheme.btn}
-                      title="Floating Popup"
-                      onClick={handleClickFloating(popup.id)}
-                    >
-                      <Button.Icon icon="fas fa-window-restore" />
-                    </Button>
-                  )}
-                  <Button
-                    intent="custom"
-                    size="custom"
-                    border="none"
-                    className={classNameTheme.btn}
-                    title="Hide"
-                    onClick={handleClickCollapse(popup.id)}
-                  >
-                    <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />
-                  </Button>
-                </Accordion.Item.Header>
-                <Accordion.Item.Content size={popup.size}>{popup.component}</Accordion.Item.Content>
-              </Accordion.Item>
-            );
-          })}
+          {popupsFiltered.map((popup, i) => (
+            <PopupSidePanelItem
+              key={i}
+              className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
+              id={popup.id}
+              title={popup.settings.title}
+              placement={placement}
+              size={size}
+              allowFloatingSide={popup.settings.allowFloatingSide}
+              onClickFloating={handleClickFloating}
+              onClickCollapse={handleClickCollapse}
+            />
+          ))}
         </Accordion>
       </div>
     </ContainerResizable>

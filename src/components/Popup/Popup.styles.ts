@@ -50,7 +50,8 @@ export default {
       placement: 'right'
     }
   }),
-  sidePanelContainerHeader: cva('border-gray-300 border-solid mx-1.5 px-0', {
+  sidePanelItem: cva(''),
+  sidePanelItemHeader: cva('border-gray-300 border-solid mx-1.5 px-0', {
     variants: {
       expanded: {
         true: 'border-b',

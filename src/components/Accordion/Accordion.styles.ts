@@ -42,13 +42,6 @@ export default {
   itemHeaderIconWarning: cva('flex items-center justify-center text-orange-500'),
   itemContent: cva('flex', {
     variants: {
-      size: {
-        xs: 'p-0.5',
-        sm: 'p-1',
-        md: 'p-1.5',
-        lg: 'p-2',
-        custom: ''
-      },
       grow: {
         true: 'overflow-auto basis-0 grow',
         false: ''
@@ -56,8 +49,7 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      grow: true,
-      size: 'md'
+      grow: true
     }
   }),
   itemDivider: cva(

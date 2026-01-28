@@ -11,11 +11,11 @@ export type ItemContentProps = {
   onClick?: () => void;
 } & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys>;
 
-const ItemContent = ({ className, children, testId = '', intent, size, grow }: ItemContentProps) => {
+const ItemContent = ({ className, children, testId = '', grow }: ItemContentProps) => {
   className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: 'itemContent',
     className,
-    variants: { intent, size, grow }
+    variants: { grow }
   });
 
   return (

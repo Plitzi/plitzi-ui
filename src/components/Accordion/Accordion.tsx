@@ -72,7 +72,6 @@ const Accordion = ({
         openItems={openItems}
         setOpenItems={setOpenItems}
         onChange={onChange}
-        // containerRef={containerRef}
       >
         {children}
       </AccordionProvider>
@@ -81,4 +80,5 @@ const Accordion = ({
 };
 
 Accordion.Item = AccordionItem;
+
 export default Accordion;

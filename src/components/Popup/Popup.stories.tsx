@@ -2,10 +2,10 @@ import { useCallback, useMemo, useState } from 'react';
 
 import Button from '@components/Button';
 
+import PopupSidePanel from './components/PopupSidePanel';
 import Popup from './Popup';
 import PopupProvider from './PopupProvider';
 import PopupSidebar from './PopupSidebar';
-import PopupSidePanel from './PopupSidePanel';
 import usePopup from './usePopup';
 
 import type { Popups } from './PopupProvider';

@@ -5,9 +5,9 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
+import PopupSidePanel from './components/PopupSidePanel';
 import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
 import PopupFloatingArea from './PopupFloatingArea';
-import PopupSidePanel from './PopupSidePanel';
 
 import type { PopupPlacement, PopupSettings } from './Popup';
 import type PopupStyles from './Popup.styles';
