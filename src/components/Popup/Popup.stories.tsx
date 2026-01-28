@@ -57,7 +57,7 @@ const popups = {
     {
       id: 'popup-7',
       component: undefined,
-      active: true,
+      active: false,
       settings: {
         icon: <i className="fa-solid fa-plus" />,
         title: 'Popup 7',

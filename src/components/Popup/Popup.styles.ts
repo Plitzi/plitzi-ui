@@ -2,7 +2,8 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   placement: ['left', 'right', 'floating'],
-  size: ['xs', 'md', 'sm', 'lg', 'custom']
+  size: ['xs', 'md', 'sm', 'lg', 'custom'],
+  expanded: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Popup';
@@ -49,6 +50,17 @@ export default {
       placement: 'right'
     }
   }),
-  sidePanelContainerHeader: cva('border-b border-gray-300 border-solid mx-1.5 px-0'),
+  sidePanelContainerHeader: cva('border-gray-300 border-solid mx-1.5 px-0', {
+    variants: {
+      expanded: {
+        true: 'border-b',
+        false: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      expanded: false
+    }
+  }),
   sidebar: cva('')
 };
