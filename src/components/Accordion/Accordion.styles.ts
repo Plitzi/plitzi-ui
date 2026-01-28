@@ -3,8 +3,7 @@ import { cva } from 'class-variance-authority';
 export const variantKeys = {
   intent: ['default'],
   grow: [true, false],
-  size: ['xs', 'md', 'sm', 'lg', 'custom'],
-  resizing: [true, false]
+  size: ['xs', 'md', 'sm', 'lg', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Accordion';
@@ -14,16 +13,11 @@ export default {
     variants: {
       intent: {
         default: []
-      },
-      resizing: {
-        true: 'select-none',
-        false: ''
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'default',
-      resizing: false
+      intent: 'default'
     }
   }),
   item: cva(''),

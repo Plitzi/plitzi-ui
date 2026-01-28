@@ -1,109 +1,151 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import sortItemsByDOMOrder from '../helpers/sortItemsByDOMOrder';
+import updateDOMStyles from '../helpers/updateDOMStyles';
+
 import type { RefObject } from 'react';
 
-export type UseResizeProps = {
-  panels: { size: number; minSize: number }[];
-  containerRef: RefObject<HTMLDivElement | null>;
-  updatePanelStyles?: (containerRef: RefObject<HTMLDivElement | null>, sizes: number[]) => void;
-};
+type Panel = { id: string; el: HTMLElement; hasManualSize: boolean; frozen: boolean };
 
-export type UseResizeResponse = [RefObject<number[]>, () => void, boolean];
+export type UseResizeOptions = { containerRef: RefObject<HTMLElement | null>; minSize?: number };
 
-const updatePanelStylesDefault = (containerRef: RefObject<HTMLDivElement | null>, sizes: number[]) => {
-  const panelElements = Array.from(containerRef.current?.children ?? []) as HTMLElement[];
-  panelElements.forEach((panel, index) => {
-    panel.style.flexBasis = `${sizes[index]}px`;
-  });
-};
-
-const useResize = ({
-  panels,
-  containerRef,
-  updatePanelStyles = updatePanelStylesDefault
-}: UseResizeProps): UseResizeResponse => {
-  const [resizing, setResizing] = useState(false);
-  const sizes = useRef<number[]>(panels.map(panel => panel.size));
-  const startY = useRef<number>(0);
-  const currentIndex = useRef<number>(0);
-
-  const handleResize = useCallback(
-    (index: number, delta: number) => {
-      const minSizes = panels.map(panel => panel.minSize);
-      const currentSize = sizes.current[index] + delta;
-      const nextSize = sizes.current[index + 1] - delta;
-      if (currentSize >= minSizes[index] && nextSize >= minSizes[index + 1]) {
-        sizes.current[index] = currentSize;
-        sizes.current[index + 1] = nextSize;
-        updatePanelStyles(containerRef, sizes.current);
-      }
-    },
-    [containerRef, panels, updatePanelStyles]
+export default function useResize({ containerRef, minSize = 64 }: UseResizeOptions) {
+  const panels = useRef<Panel[]>([]);
+  const draggingData = useRef<{ startY: number; panelA: Panel; startA: number; panelB: Panel; startB: number } | null>(
+    null
   );
+  const [dragging, setDragging] = useState<boolean>(false);
 
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      const delta = e.clientY - startY.current;
-      handleResize(currentIndex.current, delta);
-      startY.current = e.clientY;
-      setResizing(true);
-    },
-    [handleResize]
-  );
+  const resyncLayout = useCallback((ids?: string[]) => {
+    const panelsAlive: Panel[] = [];
+    panels.current.forEach(panel => {
+      const found = ids?.includes(panel.id) ?? false;
+      panel.frozen = !found;
 
-  const handleMouseUp = useCallback(
-    (e: MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      window.removeEventListener('mousemove', handleMouseMove);
-      // eslint-disable-next-line react-hooks/immutability
-      window.removeEventListener('mouseup', handleMouseUp);
-      setResizing(false);
-    },
-    [handleMouseMove]
-  );
-
-  const handleMouseDown = useCallback(
-    (e: MouseEvent, index: number) => {
-      e.preventDefault();
-      e.stopPropagation();
-      startY.current = e.clientY;
-      currentIndex.current = index;
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-    },
-    [handleMouseMove, handleMouseUp]
-  );
-
-  useEffect(() => {
-    const panelElements = Array.from(containerRef.current?.children ?? []) as HTMLElement[];
-    startY.current = 0;
-    currentIndex.current = 0;
-
-    panelElements.forEach((panel, index) => {
-      setTimeout(() => {
-        sizes.current[index] = panel.offsetHeight;
-      }, 200); // 150ms transition duration, 50ms more just in case
-      if (index < panels.length - 1) {
-        const divider = panel.querySelector('.divider');
-        divider?.addEventListener('mousedown', e => handleMouseDown(e as MouseEvent, index));
+      if (panel.hasManualSize && !found) {
+        updateDOMStyles(panel.el, { flexGrow: '', flexBasis: '' });
+        panel.hasManualSize = false;
+      } else if (found) {
+        panelsAlive.push(panel);
       }
     });
 
-    return () => {
-      panelElements.forEach(panel => {
-        const divider = panel.querySelector('.divider');
-        divider?.removeEventListener('mousedown', handleMouseDown as EventListener);
-      });
-    };
-  }, [containerRef, panels, handleResize, handleMouseDown]);
+    if (panelsAlive.length > 0) {
+      for (let i = panelsAlive.length - 1; i >= 0; i--) {
+        const panel = panelsAlive[i];
+        if (panel.hasManualSize) {
+          updateDOMStyles(panel.el, { flexGrow: '', flexBasis: '' });
+          panel.hasManualSize = false;
 
-  const updatePanels = useCallback(
-    () => updatePanelStyles(containerRef, sizes.current),
-    [containerRef, updatePanelStyles]
+          break;
+        }
+      }
+    }
+  }, []);
+
+  const registerPanel = useCallback((id: string, el: HTMLElement | null = null, frozen: boolean = false) => {
+    if (!el || panels.current.find(p => p.id === id)) {
+      return;
+    }
+
+    panels.current.push({ id, el, hasManualSize: false, frozen });
+    panels.current = sortItemsByDOMOrder(panels.current);
+  }, []);
+
+  const unregisterPanel = useCallback((id: string) => {
+    panels.current = panels.current.filter(p => p.id !== id);
+  }, []);
+
+  const onResizeStart = useCallback(
+    (id: string) => (e: React.MouseEvent) => {
+      const index = panels.current.findIndex(p => p.id === id);
+      if (
+        index === -1 ||
+        index === panels.current.length - 1 ||
+        !containerRef.current ||
+        panels.current.filter(p => !p.frozen).length <= 1
+      ) {
+        return;
+      }
+
+      const panelA = panels.current[index];
+      let panelB = panels.current[index + 1] as Panel | undefined;
+      if (panelB && panelB.frozen) {
+        panelB = panels.current.find((p, i) => !p.frozen && p.id !== panelA.id && i > index);
+      }
+
+      if (!panelB) {
+        return;
+      }
+
+      draggingData.current = {
+        startY: e.clientY,
+        panelA,
+        startA: panelA.el.offsetHeight,
+        panelB,
+        startB: panelB.el.offsetHeight
+      };
+      updateDOMStyles(containerRef.current, { userSelect: 'none', cursor: 'row-resize' });
+      updateDOMStyles(panelA.el, { flexBasis: `${panelA.el.offsetHeight}px`, flexGrow: '0' });
+      updateDOMStyles(panelB.el, { flexBasis: `${panelB.el.offsetHeight}px`, flexGrow: '0' });
+      setDragging(true);
+      e.preventDefault();
+    },
+    [containerRef]
   );
 
-  return [sizes, updatePanels, resizing];
-};
+  const onMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!draggingData.current) {
+        return;
+      }
 
-export default useResize;
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+
+      const { startY, panelA, startA, panelB, startB } = draggingData.current;
+      const delta = e.clientY - startY;
+      const newA = startA + delta;
+      const newB = startB - delta;
+      if (newA < minSize || newB < minSize) {
+        return;
+      }
+
+      panelA.hasManualSize = true;
+      updateDOMStyles(panelA.el, { flexBasis: `${newA}px` });
+
+      panelB.hasManualSize = true;
+      updateDOMStyles(panelB.el, { flexBasis: `${newB}px` });
+    },
+    [containerRef, minSize]
+  );
+
+  const onMouseUp = useCallback(() => {
+    setDragging(false);
+    updateDOMStyles(containerRef.current, { userSelect: '', cursor: '' });
+    draggingData.current = null;
+  }, [containerRef]);
+
+  useEffect(() => {
+    if (!dragging) {
+      return;
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [dragging, onMouseMove, onMouseUp]);
+
+  return {
+    registerPanel,
+    unregisterPanel,
+    onResizeStart,
+    resyncLayout
+  };
+}
