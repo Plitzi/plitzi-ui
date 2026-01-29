@@ -1369,14 +1369,14 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:^16.3.2"
     "@types/lodash-es": "npm:^4.17.12"
-    "@types/node": "npm:^25.0.10"
+    "@types/node": "npm:^25.1.0"
     "@types/react": "npm:^19.2.10"
     "@types/react-color": "npm:^3.0.13"
     "@types/react-dom": "npm:^19.2.3"
     "@types/react-syntax-highlighter": "npm:^15.5.13"
     "@types/tinycolor2": "npm:^1.4.6"
-    "@uiw/color-convert": "npm:^2.9.2"
-    "@uiw/react-color-sketch": "npm:^2.9.2"
+    "@uiw/color-convert": "npm:^2.9.3"
+    "@uiw/react-color-sketch": "npm:^2.9.3"
     "@vitejs/plugin-react": "npm:^5.1.2"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
@@ -1389,7 +1389,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^7.0.1"
     eslint-plugin-react-refresh: "npm:^0.4.26"
     eslint-plugin-storybook: "npm:^10.2.1"
-    flow-bin: "npm:^0.298.0"
+    flow-bin: "npm:^0.299.0"
     globals: "npm:^17.2.0"
     immer: "npm:^11.1.3"
     jsdom: "npm:^27.4.0"
@@ -2269,12 +2269,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^25.0.10":
-  version: 25.0.10
-  resolution: "@types/node@npm:25.0.10"
+"@types/node@npm:^25.1.0":
+  version: 25.1.0
+  resolution: "@types/node@npm:25.1.0"
   dependencies:
     undici-types: "npm:~7.16.0"
-  checksum: 10/e5fc1fe0e585957f91ff3ad8ee01b051ce0c9da9658c5ba68d11d557522450783ab61ac2778355e8f566b83bc3bd18e78576569162e9729ed52af36999f81c9a
+  checksum: 10/ad15db75cfaec9e6311a1db7f3a91799be4c2698e1cfb0f74cc4d6e4398361550d00a4070921e1de7d9a10db83e41fd29f3a640dfacdabbd1c74ae16d8ce943a
   languageName: node
   linkType: hard
 
@@ -2495,122 +2495,122 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uiw/color-convert@npm:2.9.2, @uiw/color-convert@npm:^2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/color-convert@npm:2.9.2"
+"@uiw/color-convert@npm:2.9.3, @uiw/color-convert@npm:^2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/color-convert@npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
-  checksum: 10/94eab0fbdbb2b3be135e8d81e52be6cb706fe49db7dec60c3d72cea1b4b3457a7578f1a99f19faaa5dd78db59661dae983b2b8caadd0f23926c5e1a8f214a7d9
+  checksum: 10/b33dc54d2d6fe0a7547b723289cb019b799c8c060fe51f4560624afdd47d425f917abd33eea8ccec66259a4df54aed47d107c3e4525b89acc8b0b26fb55b3ae0
   languageName: node
   linkType: hard
 
-"@uiw/react-color-alpha@npm:2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-color-alpha@npm:2.9.2"
+"@uiw/react-color-alpha@npm:2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-color-alpha@npm:2.9.3"
   dependencies:
-    "@uiw/color-convert": "npm:2.9.2"
-    "@uiw/react-drag-event-interactive": "npm:2.9.2"
+    "@uiw/color-convert": "npm:2.9.3"
+    "@uiw/react-drag-event-interactive": "npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/2ca33abeba4e5ae5cc35c42b502097ef5bef95aa555848a5dc9fff5e254522976fbee3edb8970a862d6a73796ece1fd3d4595676aa0ff7709386c0dc50fdba94
+  checksum: 10/5182312a00da70bde7b428bcf36db2e9fdc7e3b6f5c89e2b1cbaf45ed4644136207bf3aeeb67838dda8865a6cc6f77d81dea6ca00ba10016facbb6e7ee280733
   languageName: node
   linkType: hard
 
-"@uiw/react-color-editable-input-rgba@npm:2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-color-editable-input-rgba@npm:2.9.2"
+"@uiw/react-color-editable-input-rgba@npm:2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-color-editable-input-rgba@npm:2.9.3"
   dependencies:
-    "@uiw/color-convert": "npm:2.9.2"
-    "@uiw/react-color-editable-input": "npm:2.9.2"
+    "@uiw/color-convert": "npm:2.9.3"
+    "@uiw/react-color-editable-input": "npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/b19bffe298a856457f0b52fe5134733e57db43c8a94c1c99dd4b3131ba7b5e7e9dc7fb69c7a34ef49127f0052e37f21326e74e057e693f615ef39e36c49c7c64
+  checksum: 10/55208f9e0e2f72e8de98d016382d33f233bbee48b0e6c630a9e7f0f7d92800545e1836c88d04d67f4001fc5706da22c580faae98ec193a10e65ed181b3ec758a
   languageName: node
   linkType: hard
 
-"@uiw/react-color-editable-input@npm:2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-color-editable-input@npm:2.9.2"
+"@uiw/react-color-editable-input@npm:2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-color-editable-input@npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/42e97b72ce6d427b679fe5a56c36b1cc608052b3ffba86866b62d4bc410ae13816dbf1176cf0248719443f3c89235d87bd9f56b88dcf36321d4a52dfd596058e
+  checksum: 10/9471e14eb670378336aecc1d82fa6c75ae2dad94d23f5e2bd8bdbade033cddb3e9958c53a38ca21079e20ad090a7c69145b60c7d2c331df2526c236395be5fad
   languageName: node
   linkType: hard
 
-"@uiw/react-color-hue@npm:2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-color-hue@npm:2.9.2"
+"@uiw/react-color-hue@npm:2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-color-hue@npm:2.9.3"
   dependencies:
-    "@uiw/color-convert": "npm:2.9.2"
-    "@uiw/react-color-alpha": "npm:2.9.2"
+    "@uiw/color-convert": "npm:2.9.3"
+    "@uiw/react-color-alpha": "npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/baff81c3eab7ff4995e0e3f4589f9b3e1bc2d417dba052592810195568f7c5259967af47f22fdc398cde5d35a07830065e0770585cfa6f4b624611ae64a44b1b
+  checksum: 10/762b2c43d3c70fa506ce6784884285d717ffc669c199bae018e74b9d69be8fd63e222dfee45462c2da48c9c4eb2f7a8a547f08ebd0592c651af1af328fff0380
   languageName: node
   linkType: hard
 
-"@uiw/react-color-saturation@npm:2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-color-saturation@npm:2.9.2"
+"@uiw/react-color-saturation@npm:2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-color-saturation@npm:2.9.3"
   dependencies:
-    "@uiw/color-convert": "npm:2.9.2"
-    "@uiw/react-drag-event-interactive": "npm:2.9.2"
+    "@uiw/color-convert": "npm:2.9.3"
+    "@uiw/react-drag-event-interactive": "npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/965fd3ac85691729f4b09984392f6da1afbf6c219ccdfa8d62b84c673a7f8af0deaa10c6ea85df778f23fe9e9b482a94b0f0b94d924b7aa474078becd418cd51
+  checksum: 10/68cd78fb2a72e39f00defd2e780b727ec72a3d642454cc3feb3988a93e9439ebef1264720e03420f64e29e1b81c21f011c83bb2a29aec77664c0dc31b0df6523
   languageName: node
   linkType: hard
 
-"@uiw/react-color-sketch@npm:^2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-color-sketch@npm:2.9.2"
+"@uiw/react-color-sketch@npm:^2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-color-sketch@npm:2.9.3"
   dependencies:
-    "@uiw/color-convert": "npm:2.9.2"
-    "@uiw/react-color-alpha": "npm:2.9.2"
-    "@uiw/react-color-editable-input": "npm:2.9.2"
-    "@uiw/react-color-editable-input-rgba": "npm:2.9.2"
-    "@uiw/react-color-hue": "npm:2.9.2"
-    "@uiw/react-color-saturation": "npm:2.9.2"
-    "@uiw/react-color-swatch": "npm:2.9.2"
+    "@uiw/color-convert": "npm:2.9.3"
+    "@uiw/react-color-alpha": "npm:2.9.3"
+    "@uiw/react-color-editable-input": "npm:2.9.3"
+    "@uiw/react-color-editable-input-rgba": "npm:2.9.3"
+    "@uiw/react-color-hue": "npm:2.9.3"
+    "@uiw/react-color-saturation": "npm:2.9.3"
+    "@uiw/react-color-swatch": "npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/c1d5e8d0f2be1bcd625c67cc5eadd8c8dc9a37111e3af6f23da8db532e62ace31349f3dfb384d33ec084585e5c2cef6f7981c56a829a5cd267105301b11a102d
+  checksum: 10/4fb84c7526cf04f62501fb4da8d0fb440f21f5fe8ebec5c38e8875811cdff33987dcea14fde0b3aeb81e31c52a45cada46a59c05da43542be950e0f09ed9618f
   languageName: node
   linkType: hard
 
-"@uiw/react-color-swatch@npm:2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-color-swatch@npm:2.9.2"
+"@uiw/react-color-swatch@npm:2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-color-swatch@npm:2.9.3"
   dependencies:
-    "@uiw/color-convert": "npm:2.9.2"
+    "@uiw/color-convert": "npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/0f374687816c8458091d88cfb6f2a1324e611986497d3740fb0108dde58afea4abeb23a246013a6535dcbc0ca9e10cfcf83bb8754ea90ae851121b5f4f066b59
+  checksum: 10/84c55c6b5586a4484d90e05a20875b4133510713e96789a85026dd172ef865de2e35097f141c7b7826aca1777fb42671ccc66f4cbb1aed5bd6d881ffa4f1d4d3
   languageName: node
   linkType: hard
 
-"@uiw/react-drag-event-interactive@npm:2.9.2":
-  version: 2.9.2
-  resolution: "@uiw/react-drag-event-interactive@npm:2.9.2"
+"@uiw/react-drag-event-interactive@npm:2.9.3":
+  version: 2.9.3
+  resolution: "@uiw/react-drag-event-interactive@npm:2.9.3"
   peerDependencies:
     "@babel/runtime": ">=7.19.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/0991c9214c50f13c0ef567f84a24d00f1cfcad5431814e02ea89c2912a8565dd7ee0b982e56ad813cbee4a7ac10a8cfa4d730a48c8d0982fc4cd65687d6155e5
+  checksum: 10/f930ab8d048c882d9b4adc82da5d03c4b9aca2335977abe9046ad780e13241f54457090f11dc082bb8930ed2175649541db102403c48fc0ac0437ddc35a09da9
   languageName: node
   linkType: hard
 
@@ -3214,11 +3214,11 @@ __metadata:
   linkType: hard
 
 "baseline-browser-mapping@npm:^2.9.0":
-  version: 2.9.18
-  resolution: "baseline-browser-mapping@npm:2.9.18"
+  version: 2.9.19
+  resolution: "baseline-browser-mapping@npm:2.9.19"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: 10/7607ae6cad62e013787f13f52856899ebc81d4fc47c311ed513619ade9c83a317b8c0e17092e6de96a0d26f2c6bbf10e1c37db84d419cfb2e4a5485fa5af0d93
+  checksum: 10/8d7bbb7fe3d1ad50e04b127c819ba6d059c01ed0d2a7a5fc3327e23a8c42855fa3a8b510550c1fe1e37916147e6a390243566d3ef85bf6130c8ddfe5cc3db530
   languageName: node
   linkType: hard
 
@@ -4051,9 +4051,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.263":
-  version: 1.5.279
-  resolution: "electron-to-chromium@npm:1.5.279"
-  checksum: 10/debb143e6d5482a0f4cff7535bdb5725d58625f65bfa3704a5d1074052d934a72b20f253e7db124acad9cd40f404f14a53eb671db11cc10d69833960483be70d
+  version: 1.5.282
+  resolution: "electron-to-chromium@npm:1.5.282"
+  checksum: 10/5d32107084ab72199088f2b67ddd632d3c69671ee1ae958cf16f7b9bc1f664cd4c587bb8c45cbd019e15ad49fcc80711c55119040c961c2e48dcf7ddae4961dd
   languageName: node
   linkType: hard
 
@@ -4862,12 +4862,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flow-bin@npm:^0.298.0":
-  version: 0.298.0
-  resolution: "flow-bin@npm:0.298.0"
+"flow-bin@npm:^0.299.0":
+  version: 0.299.0
+  resolution: "flow-bin@npm:0.299.0"
   bin:
     flow: cli.js
-  checksum: 10/a9731d194f12e690f774ba51cb502d9dd476efa680bace64c5b60fcb6c3b33ba7802e0463d4055a8a610c4bd285e2e72f1253c7efee93018d5363e11e0c1058b
+  checksum: 10/9b9624360338b3d4e8f7f8191841ca78e4d0abf89956c6753bc5b7799b03726a859dc5af5497984c09c1aed7e894902a782951f3292e4c048931359071ae6c5f
   languageName: node
   linkType: hard
 
@@ -8918,12 +8918,12 @@ __metadata:
   linkType: hard
 
 "string-width@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "string-width@npm:8.1.0"
+  version: 8.1.1
+  resolution: "string-width@npm:8.1.1"
   dependencies:
     get-east-asian-width: "npm:^1.3.0"
     strip-ansi: "npm:^7.1.0"
-  checksum: 10/51ee97c4ffee7b94f8a2ee785fac14f81ec9809b9fcec9a4db44e25c717c263af0cc4387c111aef76195c0718dc43766f3678c07fb542294fb0244f7bfbde883
+  checksum: 10/65efd6279165c846bb9c9b5f815821fc67695e4f71c713a288a570a926ed5b7594c8c75bd46baba040448a3625b81853017858f2293ca6a08dcf13037df5a728
   languageName: node
   linkType: hard
 

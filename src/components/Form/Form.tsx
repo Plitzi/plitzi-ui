@@ -15,7 +15,7 @@ import type { FormFooterProps } from './FormFooter';
 import type { FormHeaderProps } from './FormHeader';
 import type { UseFormReturn, ZodFormSchema } from './hooks/useForm';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { FormEvent, ReactElement, ReactNode, RefObject } from 'react';
+import type { ReactElement, ReactNode, RefObject, SyntheticEvent } from 'react';
 import type { Control, FieldPath, FieldValues, SubmitHandler } from 'react-hook-form';
 import type { z } from 'zod';
 
@@ -27,7 +27,7 @@ export type BaseFormFieldType<T extends FieldValues, TName extends FieldPath<T>>
 export type FormProps<T extends ZodFormSchema> = {
   testId?: string;
   form: UseFormReturn<T>;
-  onReset?: (e: FormEvent) => void;
+  onReset?: (e: SyntheticEvent<HTMLFormElement>) => void;
   onSubmit?: SubmitHandler<z.infer<T>>;
   children?: ReactNode;
   ref?: RefObject<HTMLFormElement>;
@@ -80,7 +80,7 @@ const BaseForm = <T extends ZodFormSchema>({
   }, [children, scrollable, testId]);
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    (e: SyntheticEvent<HTMLFormElement>) => {
       if (onSubmit) {
         void form.formMethods.handleSubmit(onSubmit)(e);
       }

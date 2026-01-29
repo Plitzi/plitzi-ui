@@ -5,7 +5,7 @@ import useTheme from '@hooks/useTheme';
 import type ContentEditableStyles from './ContentEditable.styles';
 import type { variantKeys } from './ContentEditable.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, KeyboardEvent } from 'react';
+import type { InputEvent, KeyboardEvent } from 'react';
 
 export type ContentEditableProps = {
   myWindow?: Window | null;
@@ -20,7 +20,7 @@ export type ContentEditableProps = {
 } & useThemeSharedProps<typeof ContentEditableStyles, typeof variantKeys>;
 
 const ContentEditable = ({
-  className = 'focus-visible:px-1 focus-visible:m-[1px] focus-visible:outline-dashed focus-visible:outline-1',
+  className = 'focus-visible:px-1 focus-visible:m-px focus-visible:outline-dashed focus-visible:outline-1',
   myWindow,
   value = '',
   exitOnEnter = true,
@@ -59,9 +59,9 @@ const ContentEditable = ({
   }, [value]);
 
   const handleChange = useCallback(
-    (e: ChangeEvent<HTMLDivElement>) => {
+    (e: InputEvent<HTMLDivElement>) => {
       if (updateMode === 'change') {
-        onChange?.(e.target.textContent);
+        onChange?.((e.target as HTMLDivElement).textContent);
       }
     },
     [onChange, updateMode]
