@@ -81,7 +81,8 @@ export default defineConfig((env: ConfigEnv) => ({
       entry: [
         resolve(__dirname, './src/index.ts'),
         resolve(__dirname, './src/components/ContainerFloating/index.ts'),
-        resolve(__dirname, './src/components/Form/index.ts')
+        resolve(__dirname, './src/components/Form/index.ts'),
+        resolve(__dirname, './src/components/Popup/index.ts')
       ],
       name: 'plitzi-ui'
     },
