@@ -11,7 +11,7 @@ export type PopupContextValue = {
   popupActiveIds: string[];
   limitMode?: ContainerDraggableProps['limitMode'];
   addPopup: (id: string, component: ReactNode, settings?: PopupSettings) => void;
-  focusPopup: (popupId: string, sort?: number) => void;
+  focusPopup: (popupId: string) => void;
   placementPopup: (popupId: string, placement: PopupPlacement) => void;
   existsPopup: (popupId: string) => boolean;
   removePopup: (popupId: string) => void;

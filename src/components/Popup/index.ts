@@ -1,10 +1,10 @@
+import PopupSidePanel from './components/PopupSidePanel';
+import usePopup from './hooks/usePopup';
 import Popup from './Popup';
 import PopupProvider from './PopupProvider';
-import PopupSidePanel from './PopupSidePanel';
-import usePopup from './usePopup';
 
-export * from './PopupSidePanel';
-export * from './usePopup';
+export * from './components/PopupSidePanel';
+export * from './hooks/usePopup';
 export * from './Popup';
 export * from './PopupProvider';
 export * from './PopupContext';

@@ -25,7 +25,6 @@ export type PopupProps = {
   allowResize?: boolean;
   allowLeftSide?: boolean;
   allowRightSide?: boolean;
-  allowFloatingSide?: boolean; // used in PopupSidePanel
   allowClose?: boolean;
   allowExternal?: boolean;
   resizeHandles?: ResizeHandle[];
@@ -36,7 +35,7 @@ export type PopupProps = {
   removePopup?: (popupId: string) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
-export type PopupSettings = { placement?: PopupPlacement } & Omit<PopupProps, 'id' | 'placement'>;
+export type PopupSettings = { placement?: PopupPlacement; allowFloatingSide?: boolean } & Omit<PopupProps, 'id'>;
 
 const Popup = ({
   className,

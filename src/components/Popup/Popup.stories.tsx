@@ -3,10 +3,10 @@ import { useCallback, useMemo, useState } from 'react';
 import Button from '@components/Button';
 
 import PopupSidePanel from './components/PopupSidePanel';
+import usePopup from './hooks/usePopup';
 import Popup from './Popup';
 import PopupProvider from './PopupProvider';
 import PopupSidebar from './PopupSidebar';
-import usePopup from './usePopup';
 
 import type { Popups } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
@@ -49,6 +49,19 @@ const popups = {
       settings: {
         icon: <i className="fa-solid fa-plus" />,
         title: 'Popup 4',
+        allowLeftSide: true,
+        allowRightSide: true,
+        resizeHandles: ['se'] as ResizeHandle[]
+      }
+    },
+    {
+      id: 'popup-8',
+      component: <div>Hello World 8</div>,
+      active: true,
+      position: 1,
+      settings: {
+        icon: <i className="fa-solid fa-house" />,
+        title: 'Popup 8',
         allowLeftSide: true,
         allowRightSide: true,
         resizeHandles: ['se'] as ResizeHandle[]

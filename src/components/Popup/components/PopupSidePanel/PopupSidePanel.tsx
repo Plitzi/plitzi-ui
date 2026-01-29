@@ -8,8 +8,8 @@ import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 import PopupSidePanelItem from './PopupSidePanelItem';
+import usePopup from '../../hooks/usePopup';
 import PopupSidebar from '../../PopupSidebar';
-import usePopup from '../../usePopup';
 
 import type PopupStyles from '../../Popup.styles';
 import type { variantKeys } from '../../Popup.styles';
@@ -172,7 +172,7 @@ const PopupSidePanel = ({
         >
           {popupsFiltered.map((popup, i) => (
             <PopupSidePanelItem
-              key={i}
+              key={popup.id}
               className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
               id={popup.id}
               title={popup.settings.title}

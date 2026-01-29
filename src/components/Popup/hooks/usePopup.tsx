@@ -1,9 +1,9 @@
 import { use } from 'react';
 
-import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
+import { PopupContextFloating, PopupContextLeft, PopupContextRight } from '../PopupContext';
 
-import type { PopupPlacement } from './Popup';
-import type { PopupContextValue } from './PopupContext';
+import type { PopupPlacement } from '../Popup';
+import type { PopupContextValue } from '../PopupContext';
 
 const usePopup = (placement?: PopupPlacement): PopupContextValue => {
   let context;

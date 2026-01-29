@@ -5,7 +5,7 @@ import Sidebar from '@components/Sidebar';
 import SidebarIcon from '@components/Sidebar/SidebarIcon';
 import useTheme from '@hooks/useTheme';
 
-import usePopup from './usePopup';
+import usePopup from './hooks/usePopup';
 
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';

@@ -2,8 +2,8 @@ import { memo, use } from 'react';
 
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
 
+import usePopup from './hooks/usePopup';
 import Popup from './Popup';
-import usePopup from './usePopup';
 
 export type PopupFloatingAreaProps = {
   className?: string;
