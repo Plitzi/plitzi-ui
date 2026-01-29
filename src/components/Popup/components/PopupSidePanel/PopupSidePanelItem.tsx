@@ -10,21 +10,21 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ReactNode } from 'react';
 
 export type PopupSidePanelItemProps = {
+  children?: ReactNode;
   id: string;
   title?: ReactNode;
   allowFloatingSide?: boolean;
-  component?: ReactNode;
   onClickFloating?: (id: string) => void;
   onClickCollapse?: (id: string) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupSidePanelItem = ({
+  children,
   id,
   className,
   title = '',
   allowFloatingSide = true,
   placement,
-  component,
   size,
   onClickCollapse,
   onClickFloating
@@ -72,7 +72,7 @@ const PopupSidePanelItem = ({
           <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />
         </Button>
       </Accordion.Item.Header>
-      <Accordion.Item.Content size={size}>{component}</Accordion.Item.Content>
+      <Accordion.Item.Content size={size}>{children}</Accordion.Item.Content>
     </Accordion.Item>
   );
 };

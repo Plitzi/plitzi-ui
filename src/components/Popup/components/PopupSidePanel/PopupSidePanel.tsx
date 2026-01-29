@@ -181,7 +181,9 @@ const PopupSidePanel = ({
               allowFloatingSide={popup.settings.allowFloatingSide}
               onClickFloating={handleClickFloating}
               onClickCollapse={handleClickCollapse}
-            />
+            >
+              {popup.component}
+            </PopupSidePanelItem>
           ))}
         </Accordion>
       </div>
