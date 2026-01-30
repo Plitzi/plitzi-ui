@@ -12,6 +12,8 @@ export type PopupContextValue = {
   popupIds: string[];
   popupActiveIds: string[];
   limitMode?: ContainerDraggableProps['limitMode'];
+  multi: boolean;
+  multiExpanded: boolean;
   addPopup: (id: string, component: ReactNode, settings?: PopupSettings) => void;
   focusPopup: (popupId: string) => void;
   existsPopup: (popupId: string) => boolean;
@@ -24,6 +26,8 @@ const popupDefaultValue = {
   popupIds: [],
   popupActiveIds: [],
   limitMode: 'window' as const,
+  multi: false,
+  multiExpanded: false,
   addPopup: () => {},
   focusPopup: () => {},
   existsPopup: () => false,

@@ -7,11 +7,15 @@ import type { PopupInstance } from '../PopupProvider';
 
 /* ---------- helpers ---------- */
 
-const createPopup = (id: string, position?: number, active: boolean = true): PopupInstance => ({
+const createPopup = (
+  id: string,
+  { position, active = true, multi }: { position?: number; active?: boolean; multi?: boolean } = {}
+): PopupInstance => ({
   id,
   component: null,
   active,
   position,
+  multi,
   settings: {} as PopupSettings
 });
 
@@ -25,15 +29,15 @@ describe('PopupManager', () => {
   });
 
   it('adds a popup to a placement', () => {
-    expect(manager.add('left', createPopup('a', 1))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 1 }))).toBe(true);
 
     expect(manager.get('left')).toHaveLength(1);
     expect(manager.get('left')[0].id).toBe('a');
   });
 
   it('sorts popups by position', () => {
-    expect(manager.add('left', createPopup('a', 2))).toBe(true);
-    expect(manager.add('left', createPopup('b', 1))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 2 }))).toBe(true);
+    expect(manager.add('left', createPopup('b', { position: 1 }))).toBe(true);
     expect(manager.add('left', createPopup('c'))).toBe(true);
 
     expect(manager.get('left').map(p => p.id)).toEqual(['b', 'a', 'c']);
@@ -82,8 +86,8 @@ describe('PopupManager', () => {
   });
 
   it('re-sorts when a popup is updated', () => {
-    expect(manager.add('left', createPopup('a', 2))).toBe(true);
-    expect(manager.add('left', createPopup('b', 1))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 2 }))).toBe(true);
+    expect(manager.add('left', createPopup('b', { position: 1 }))).toBe(true);
 
     expect(manager.update('a', p => ({ ...p, position: 0 }))).toBe(true);
 
@@ -120,7 +124,7 @@ describe('PopupManager', () => {
   });
 
   it('does nothing when moving a popup to the same placement', () => {
-    expect(manager.add('left', createPopup('a', 1))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 1 }))).toBe(true);
 
     expect(manager.move('a', 'left', 'left')).toBe(false);
 
@@ -145,16 +149,16 @@ describe('PopupManager', () => {
   });
 
   it('keeps stable order when multiple popups share the same position', () => {
-    expect(manager.add('left', createPopup('a', 1))).toBe(true);
-    expect(manager.add('left', createPopup('b', 1))).toBe(true);
-    expect(manager.add('left', createPopup('c', 1))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 1 }))).toBe(true);
+    expect(manager.add('left', createPopup('b', { position: 1 }))).toBe(true);
+    expect(manager.add('left', createPopup('c', { position: 1 }))).toBe(true);
 
     expect(manager.get('left').map(p => p.id)).toEqual(['a', 'b', 'c']);
   });
 
   it('places popups without position after positioned ones', () => {
     expect(manager.add('left', createPopup('a'))).toBe(true);
-    expect(manager.add('left', createPopup('b', 1))).toBe(true);
+    expect(manager.add('left', createPopup('b', { position: 1 }))).toBe(true);
     expect(manager.add('left', createPopup('c'))).toBe(true);
 
     expect(manager.get('left').map(p => p.id)).toEqual(['b', 'a', 'c']);
@@ -167,7 +171,7 @@ describe('PopupManager', () => {
   });
 
   it('allows update without changing position', () => {
-    expect(manager.add('left', createPopup('a', 1))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 1 }))).toBe(true);
 
     expect(manager.update('a', p => ({ ...p, active: false }))).toBe(true);
 
@@ -192,8 +196,8 @@ describe('PopupManager', () => {
   });
 
   it('preserves order when moving between placements', () => {
-    expect(manager.add('right', createPopup('a', 2))).toBe(true);
-    expect(manager.add('right', createPopup('b', 1))).toBe(true);
+    expect(manager.add('right', createPopup('a', { position: 2 }))).toBe(true);
+    expect(manager.add('right', createPopup('b', { position: 1 }))).toBe(true);
 
     expect(manager.changePlacement('b', 'left')).toBe(true);
     expect(manager.changePlacement('a', 'left')).toBe(true);
@@ -338,8 +342,8 @@ describe('PopupManager', () => {
   });
 
   it('setActive does not change popup order', () => {
-    expect(manager.add('left', createPopup('a', 1))).toBe(true);
-    expect(manager.add('left', createPopup('b', 2))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 1 }))).toBe(true);
+    expect(manager.add('left', createPopup('b', { position: 2 }))).toBe(true);
 
     const before = manager.get('left').map(p => p.id);
 
@@ -384,7 +388,7 @@ describe('PopupManager', () => {
   });
 
   it('setActiveForPlacement ignores ids that do not exist', () => {
-    expect(manager.add('left', createPopup('a', undefined, false))).toBe(true);
+    expect(manager.add('left', createPopup('a', { active: false }))).toBe(true);
 
     expect(manager.setActiveMany(['a', 'missing'], 'left')).toBe(true);
 
@@ -392,9 +396,9 @@ describe('PopupManager', () => {
   });
 
   it('setActiveForPlacement does not change popup order', () => {
-    expect(manager.add('left', createPopup('a', 1))).toBe(true);
-    expect(manager.add('left', createPopup('b', 2))).toBe(true);
-    expect(manager.add('left', createPopup('c', 3))).toBe(true);
+    expect(manager.add('left', createPopup('a', { position: 1 }))).toBe(true);
+    expect(manager.add('left', createPopup('b', { position: 2 }))).toBe(true);
+    expect(manager.add('left', createPopup('c', { position: 3 }))).toBe(true);
 
     const before = manager.get('left').map(p => p.id);
 
@@ -433,9 +437,9 @@ describe('PopupManager', () => {
 
   it('allows only one active popup per placement', () => {
     const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
-    manager.add('left', createPopup('a', undefined, true));
-    manager.add('left', createPopup('b', undefined, true));
-    manager.add('left', createPopup('c', undefined, false));
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('left', createPopup('b', { active: true }));
+    manager.add('left', createPopup('c', { active: false }));
 
     const actives = manager
       .get('left')
@@ -446,8 +450,8 @@ describe('PopupManager', () => {
 
   it('activating one popup deactivates the others', () => {
     const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
-    manager.add('left', createPopup('a', undefined, true));
-    manager.add('left', createPopup('b', undefined, false));
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('left', createPopup('b', { active: false }));
 
     manager.setActive('b', true, 'left');
 
@@ -457,8 +461,8 @@ describe('PopupManager', () => {
 
   it('deactivating a popup does not activate others', () => {
     const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
-    manager.add('left', createPopup('a', undefined, true));
-    manager.add('left', createPopup('b', undefined, false));
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('left', createPopup('b', { active: false }));
 
     manager.setActive('a', false, 'left');
 
@@ -466,23 +470,27 @@ describe('PopupManager', () => {
     expect(manager.get('left', 'b')?.active).toBe(false);
   });
 
-  it('setActiveMany activates only the first id when multi is false', () => {
+  it('setActiveMany activates only the last id when multi is false', () => {
     const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
-    manager.add('left', createPopup('a', undefined, false));
-    manager.add('left', createPopup('b', undefined, false));
-    manager.add('left', createPopup('c', undefined, false));
+    manager.add('left', createPopup('a', { active: false }));
+    manager.add('left', createPopup('b', { active: false }));
+    manager.add('left', createPopup('c', { active: false }));
 
     manager.setActiveMany(['b', 'c'], 'left');
 
-    expect(manager.get('left', 'b')?.active).toBe(true);
-    expect(manager.get('left', 'c')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(true);
   });
 
   it('constructor normalizes multiple active popups to a single active one', () => {
     const manager = new PopupManager(
       ['left'] as const,
       {
-        left: [createPopup('a', undefined, true), createPopup('b', undefined, true), createPopup('c', undefined, true)]
+        left: [
+          createPopup('a', { active: true }),
+          createPopup('b', { active: true }),
+          createPopup('c', { active: true })
+        ]
       },
       { multi: false }
     );
@@ -496,12 +504,12 @@ describe('PopupManager', () => {
 
   it('changing placement respects manager mode independently per placement', () => {
     const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
-    manager.add('left', createPopup('a', undefined, true));
-    manager.add('left', createPopup('b', undefined, true));
-    manager.add('left', createPopup('c', undefined, true));
-    manager.add('right', createPopup('d', undefined, true));
-    manager.add('right', createPopup('e', undefined, true));
-    manager.add('right', createPopup('f', undefined, true));
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('left', createPopup('b', { active: true }));
+    manager.add('left', createPopup('c', { active: true }));
+    manager.add('right', createPopup('d', { active: true }));
+    manager.add('right', createPopup('e', { active: true }));
+    manager.add('right', createPopup('f', { active: true }));
 
     expect(manager.get('left', 'a')?.active).toBe(true);
     expect(manager.get('left', 'b')?.active).toBe(false);
@@ -523,8 +531,8 @@ describe('PopupManager', () => {
 
   it('add does not auto-deactivate existing active popup (only enforced on activate)', () => {
     const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
-    manager.add('left', createPopup('a', undefined, true));
-    manager.add('left', createPopup('b', undefined, true));
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('left', createPopup('b', { active: true }));
 
     const actives = manager
       .get('left')
@@ -572,5 +580,62 @@ describe('PopupManager', () => {
 
   it('getPlacement returns undefined for a non-existing popup', () => {
     expect(manager.getPlacement('missing')).toBeUndefined();
+  });
+
+  it('setActiveMany activates only the id when popup multi is false', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: true });
+    manager.add('left', createPopup('a', { active: false }));
+    manager.add('left', createPopup('b', { active: false, multi: false }));
+    manager.add('left', createPopup('c', { active: false }));
+    manager.add('left', createPopup('d', { active: false, multi: false }));
+
+    manager.setActiveMany(['a', 'c'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(true);
+    expect(manager.get('left', 'c')?.active).toBe(true);
+
+    manager.setActiveMany(['b'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(true);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+
+    manager.setActiveMany(['c'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(true);
+
+    manager.setActiveMany(['b'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(true);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+
+    manager.setActiveMany(['c', 'b'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(true);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+
+    manager.setActiveMany(['a', 'c'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(true);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(true);
+
+    manager.setActiveMany(['b', 'd'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+    expect(manager.get('left', 'd')?.active).toBe(true);
+
+    manager.setActiveMany(['d', 'a'], 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(true);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+    expect(manager.get('left', 'd')?.active).toBe(false);
   });
 });

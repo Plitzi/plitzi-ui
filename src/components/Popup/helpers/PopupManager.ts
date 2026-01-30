@@ -325,71 +325,34 @@ export class PopupManager<P extends PopupPlacement> {
   }
 
   setActive(id: string, active: boolean, placement?: P): boolean {
-    // Fast path: placement is known
-    if (placement !== undefined) {
-      this.assertPlacement(placement);
+    for (const placementKey in this.store) {
+      if (placement && placement !== placementKey) {
+        continue;
+      }
 
-      const list = this.store[placement];
+      let list = this.store[placementKey];
       const index = list.findIndex(popup => popup.id === id);
-
       if (index === -1) {
-        return false;
+        continue;
       }
 
       const popup = list[index];
-
-      // no-op if value is the same
       if (popup.active === active) {
         return false;
       }
 
-      // if multi is disabled and activating, deactivate others
-      let next = list;
-
-      if (!this.multi && active) {
-        next = list.map(p => (p.id === id ? { ...p, active: true } : { ...p, active: false }));
+      const multi = this.multi && (popup.multi === undefined || popup.multi);
+      if (!multi && active) {
+        list = list.map(p => (p.id === id ? { ...p, active: true } : { ...p, active: false }));
       } else {
         const updated: PopupInstance = { ...popup, active };
-        next = [...list.slice(0, index), updated, ...list.slice(index + 1)];
+        list = [...list.slice(0, index), updated, ...list.slice(index + 1)];
       }
 
-      this.store[placement] = next;
+      this.store[placementKey] = list;
+      this.touch(placementKey);
 
-      this.touch(placement);
       return true;
-    }
-
-    // Slow path: unknown placement
-    for (const p in this.store) {
-      const placementKey = p as P;
-      const list = this.store[placementKey];
-      const index = list.findIndex(popup => popup.id === id);
-
-      if (index !== -1) {
-        const popup = list[index];
-
-        if (popup.active === active) {
-          return false;
-        }
-
-        let next = list;
-
-        if (!this.multi && active) {
-          next = list.map(p => (p.id === id ? { ...p, active: true } : { ...p, active: false }));
-        } else {
-          const updated: PopupInstance = {
-            ...popup,
-            active
-          };
-
-          next = [...list.slice(0, index), updated, ...list.slice(index + 1)];
-        }
-
-        this.store[placementKey] = next;
-
-        this.touch(placementKey);
-        return true;
-      }
     }
 
     return false;
@@ -398,17 +361,24 @@ export class PopupManager<P extends PopupPlacement> {
   setActiveMany(ids: string[], placement: P): boolean {
     this.assertPlacement(placement);
 
+    const lastId = ids[ids.length - 1];
     if (!this.multi) {
-      // only one active allowed when multi is false
-      const firstId = ids[0];
-
-      return firstId ? this.setActive(firstId, true, placement) : false;
+      return lastId ? this.setActive(lastId, true, placement) : false;
     }
 
-    const list = this.store[placement];
+    let list = this.store[placement];
     let changed = false as boolean;
+
+    const lastPopup = list.find(p => p.id === lastId);
+    if (lastPopup && lastPopup.multi === false) {
+      ids = [lastPopup.id];
+    } else {
+      const popupIdsSingleMode = list.filter(p => p.multi === false).map(p => p.id);
+      ids = ids.filter(id => !popupIdsSingleMode.includes(id));
+    }
+
     const idSet = new Set(ids);
-    const next = list.map(popup => {
+    list = list.map(popup => {
       const shouldBeActive = idSet.has(popup.id);
       if (popup.active === shouldBeActive) {
         return popup;
@@ -423,7 +393,7 @@ export class PopupManager<P extends PopupPlacement> {
       return false;
     }
 
-    this.store[placement] = next;
+    this.store[placement] = list;
     this.touch(placement);
 
     return true;

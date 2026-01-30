@@ -19,6 +19,7 @@ export type PopupInstance = {
   component: ReactNode;
   active: boolean;
   position?: number;
+  multi?: boolean;
   size?: AccordionProps['size'];
   settings: PopupSettings;
 };
@@ -116,6 +117,8 @@ const PopupProvider = ({
   const popupContextValueFloating = useMemo(
     () => ({
       popupManager,
+      multi,
+      multiExpanded,
       popups: popupManager.get('floating'),
       popupIds: popupManager.get('floating').map(popup => popup.id),
       popupActiveIds: popupManager
@@ -129,12 +132,24 @@ const PopupProvider = ({
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('floating')]
+    [
+      addPopup,
+      focusPopup,
+      existsPopup,
+      removePopup,
+      limitMode,
+      multi,
+      multiExpanded,
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      popupManager.getLastUpdate('floating')
+    ]
   );
 
   const popupContextValueLeft = useMemo(
     () => ({
       popupManager,
+      multi,
+      multiExpanded,
       popups: popupManager.get('left'),
       popupIds: popupManager.get('left').map(popup => popup.id),
       popupActiveIds: popupManager
@@ -148,12 +163,24 @@ const PopupProvider = ({
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('left')]
+    [
+      addPopup,
+      focusPopup,
+      existsPopup,
+      removePopup,
+      limitMode,
+      multi,
+      multiExpanded,
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      popupManager.getLastUpdate('left')
+    ]
   );
 
   const popupContextValueRight = useMemo(
     () => ({
       popupManager,
+      multi,
+      multiExpanded,
       popups: popupManager.get('right'),
       popupIds: popupManager.get('right').map(popup => popup.id),
       popupActiveIds: popupManager
@@ -167,7 +194,17 @@ const PopupProvider = ({
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('right')]
+    [
+      addPopup,
+      focusPopup,
+      existsPopup,
+      removePopup,
+      limitMode,
+      multi,
+      multiExpanded,
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      popupManager.getLastUpdate('right')
+    ]
   );
 
   return (
@@ -178,8 +215,6 @@ const PopupProvider = ({
             <PopupSidePanel
               placement="left"
               placementTabs="left"
-              multi={multi}
-              multiExpanded={multiExpanded}
               canHide={canHide}
               size={size}
               minWidth={leftMinWidth}
@@ -197,14 +232,7 @@ const PopupProvider = ({
             />
           )}
           {renderRightPopup && !!popupManager.getCount('right') && (
-            <PopupSidePanel
-              multi={multi}
-              multiExpanded={multiExpanded}
-              canHide={canHide}
-              size={size}
-              minWidth={rightMinWidth}
-              maxWidth={rightMaxWidth}
-            />
+            <PopupSidePanel canHide={canHide} size={size} minWidth={rightMinWidth} maxWidth={rightMaxWidth} />
           )}
         </PopupContextRight>
       </PopupContextLeft>

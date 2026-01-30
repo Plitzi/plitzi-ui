@@ -185,8 +185,6 @@ const ContainerNested = () => {
         minWidth={320}
         maxWidth={540}
         canHide
-        multi
-        // onChange={handleChange}
       />
     </div>
   );
@@ -292,7 +290,6 @@ export const SidePanelSeparated: Story = {
               minWidth={335}
               maxWidth={540}
               canHide
-              multi
               onChange={handleChangeLeft}
             />
           </div>
@@ -323,8 +320,6 @@ export const NestedProvider: Story = {
                 minWidth={320}
                 maxWidth={540}
                 canHide
-                multi
-                // onChange={handleChange}
               />
             </PopupProvider>
           ),

@@ -19,8 +19,6 @@ export type PopupSidePanelProps = {
   placement?: 'left' | 'right';
   placementTabs?: 'left' | 'right';
   canHide?: boolean;
-  multi?: boolean;
-  multiExpanded?: boolean;
   showSidebar?: boolean;
   minWidth?: number;
   maxWidth?: number;
@@ -33,8 +31,6 @@ const PopupSidePanel = ({
   placement = 'right',
   placementTabs = 'right',
   canHide = false,
-  multi = false,
-  multiExpanded = false,
   showSidebar = true,
   minWidth = 280,
   maxWidth = 500,
@@ -48,7 +44,7 @@ const PopupSidePanel = ({
     variants: { placement: placementTabs, size }
   });
   const { rootDOM } = use(ContainerRootContext);
-  const { popupManager, popups, popupActiveIds } = usePopup(placement);
+  const { popupManager, popups, popupActiveIds, multi, multiExpanded } = usePopup(placement);
   const resizeHandles = useMemo<ResizeHandle[]>(() => (placementTabs === 'left' ? ['e'] : ['w']), [placementTabs]);
 
   const handleChangeTabs = useCallback(
@@ -95,7 +91,6 @@ const PopupSidePanel = ({
       <PopupSidebar
         placement={placementTabs}
         value={popupActiveIds}
-        multi={multi}
         canEmpty={canHide}
         size={size}
         separatorsBefore={separatorsBefore}
@@ -120,7 +115,6 @@ const PopupSidePanel = ({
           <PopupSidebar
             placement={placementTabs}
             value={popupActiveIds}
-            multi={multi}
             canEmpty={canHide}
             size={size}
             separatorsBefore={separatorsBefore}

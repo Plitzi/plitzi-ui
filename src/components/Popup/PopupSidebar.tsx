@@ -19,7 +19,7 @@ export type PopupSidebarProps = {
   canHide?: boolean;
   exclude?: string[];
   separatorsBefore?: string[];
-} & Omit<SidebarProps, 'placement'> &
+} & Omit<SidebarProps, 'placement' | 'multi'> &
   useThemeSharedProps<typeof PopupStyles, Omit<typeof variantKeys, 'placement'>>;
 
 const PopupSidebar = ({
@@ -27,7 +27,6 @@ const PopupSidebar = ({
   value,
   canEmpty = true,
   canHide = false,
-  multi = true,
   placement = 'right',
   exclude = emptyArray,
   separatorsBefore = emptyArray,
@@ -41,7 +40,7 @@ const PopupSidebar = ({
     componentKey: 'sidebar',
     variants: { placement, size }
   });
-  const { popups } = usePopup(placement);
+  const { popups, multi } = usePopup(placement);
 
   const popupsMemoised = useMemo(
     () =>
