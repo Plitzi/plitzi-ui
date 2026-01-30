@@ -50,8 +50,12 @@ const Sidebar = ({
       return [];
     }
 
+    if (!multi) {
+      return value.slice(0, 1);
+    }
+
     return value;
-  }, [value]);
+  }, [multi, value]);
 
   const handleChange = useCallback(
     (id: string) => {

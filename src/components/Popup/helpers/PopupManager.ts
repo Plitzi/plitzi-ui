@@ -5,16 +5,39 @@ type PopupStore<P extends PopupPlacement> = {
   [K in P]: PopupInstance[];
 };
 
+type PopupUpdateListener<P extends PopupPlacement> = (placement: P, timestamp: number) => void;
+
 export class PopupManager<P extends PopupPlacement> {
   private store: PopupStore<P>;
   private lastUpdate: Record<P, number>;
+  private listeners = new Set<PopupUpdateListener<P>>();
+  private multi: boolean;
 
-  constructor(placements: readonly P[], popups?: Partial<PopupStore<P>>) {
+  constructor(placements: readonly P[], popups?: Partial<PopupStore<P>>, options?: { multi?: boolean }) {
     this.store = {} as PopupStore<P>;
     this.lastUpdate = {} as Record<P, number>;
+    this.multi = options?.multi ?? true;
 
     for (const placement of placements) {
-      this.store[placement] = this.sortByPosition(popups?.[placement] ?? [], placement);
+      const sorted = this.sortByPosition(popups?.[placement] ?? [], placement);
+      if (this.multi) {
+        this.store[placement] = sorted;
+      } else {
+        let foundActive = false;
+        this.store[placement] = sorted.map(popup => {
+          if (popup.active && !foundActive) {
+            foundActive = true;
+            return popup;
+          }
+
+          if (popup.active && foundActive) {
+            return { ...popup, active: false };
+          }
+
+          return popup;
+        });
+      }
+
       this.lastUpdate[placement] = Date.now();
     }
   }
@@ -57,14 +80,32 @@ export class PopupManager<P extends PopupPlacement> {
     }
   }
 
+  onUpdate(listener: PopupUpdateListener<P>): () => void {
+    this.listeners.add(listener);
+
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
+
   private touch(placement: P): void {
-    this.lastUpdate[placement] = Date.now();
+    const ts = Date.now();
+    this.lastUpdate[placement] = ts;
+
+    for (const listener of this.listeners) {
+      listener(placement, ts);
+    }
   }
 
   /* ---------- public API ---------- */
 
   getAll(): PopupStore<P> {
-    return structuredClone(this.store);
+    const result = {} as PopupStore<P>;
+    for (const placement in this.store) {
+      result[placement] = [...this.store[placement]];
+    }
+
+    return result;
   }
 
   /* ---------- get overloads ---------- */
@@ -72,7 +113,6 @@ export class PopupManager<P extends PopupPlacement> {
   get(placement: P, popupId: string): PopupInstance | undefined;
   get(placement: P, popupId?: string): PopupInstance[] | PopupInstance | undefined {
     this.assertPlacement(placement);
-
     if (popupId !== undefined) {
       return this.store[placement].find(popup => popup.id === popupId);
     }
@@ -125,7 +165,24 @@ export class PopupManager<P extends PopupPlacement> {
       return false;
     }
 
-    this.store[placement] = this.sortByPosition([...this.store[placement], popup], placement);
+    let next = [...this.store[placement], popup];
+    if (!this.multi && popup.active) {
+      let foundActive = false;
+      next = next.map(p => {
+        if (p.active && !foundActive) {
+          foundActive = true;
+          return p;
+        }
+
+        if (p.active && foundActive) {
+          return { ...p, active: false };
+        }
+
+        return p;
+      });
+    }
+
+    this.store[placement] = this.sortByPosition(next, placement);
     this.touch(placement);
 
     return true;
@@ -185,28 +242,44 @@ export class PopupManager<P extends PopupPlacement> {
 
   changePlacement(id: string, to: P): boolean {
     this.assertPlacement(to);
+
+    // cannot move if popup already exists in target placement
     if (this.store[to].some(popup => popup.id === id)) {
       return false;
     }
 
     for (const placement in this.store) {
       const from = placement as P;
-      const index = this.store[from].findIndex(p => p.id === id);
-
-      if (index !== -1) {
-        const popup = this.store[from][index];
-
-        // remove from current placement
-        this.store[from] = this.store[from].filter(p => p.id !== id);
-
-        // add to target placement
-        this.store[to] = this.sortByPosition([...this.store[to], popup], to);
-
-        this.touch(from);
-        this.touch(to);
-
-        return true;
+      if (from === to) {
+        continue;
       }
+
+      const index = this.store[from].findIndex(p => p.id === id);
+      if (index === -1) {
+        continue;
+      }
+
+      const popup = this.store[from][index];
+
+      // remove from source placement
+      this.store[from] = this.store[from].filter(p => p.id !== id);
+      if (popup.active && !this.multi && this.store[from].length > 0) {
+        this.store[from][0].active = true;
+      }
+
+      // enforce single-active rule on target if needed
+      let nextTarget = [...this.store[to], popup];
+
+      if (!this.multi && popup.active) {
+        nextTarget = nextTarget.map(p => (p.id === popup.id ? p : { ...p, active: false }));
+      }
+
+      this.store[to] = this.sortByPosition(nextTarget, to);
+
+      this.touch(from);
+      this.touch(to);
+
+      return true;
     }
 
     return false;
@@ -228,6 +301,111 @@ export class PopupManager<P extends PopupPlacement> {
       }
     }
     return false;
+  }
+
+  setActive(id: string, active: boolean, placement?: P): boolean {
+    // Fast path: placement is known
+    if (placement !== undefined) {
+      this.assertPlacement(placement);
+
+      const list = this.store[placement];
+      const index = list.findIndex(popup => popup.id === id);
+
+      if (index === -1) {
+        return false;
+      }
+
+      const popup = list[index];
+
+      // no-op if value is the same
+      if (popup.active === active) {
+        return false;
+      }
+
+      // if multi is disabled and activating, deactivate others
+      let next = list;
+
+      if (!this.multi && active) {
+        next = list.map(p => (p.id === id ? { ...p, active: true } : { ...p, active: false }));
+      } else {
+        const updated: PopupInstance = { ...popup, active };
+        next = [...list.slice(0, index), updated, ...list.slice(index + 1)];
+      }
+
+      this.store[placement] = next;
+
+      this.touch(placement);
+      return true;
+    }
+
+    // Slow path: unknown placement
+    for (const p in this.store) {
+      const placementKey = p as P;
+      const list = this.store[placementKey];
+      const index = list.findIndex(popup => popup.id === id);
+
+      if (index !== -1) {
+        const popup = list[index];
+
+        if (popup.active === active) {
+          return false;
+        }
+
+        let next = list;
+
+        if (!this.multi && active) {
+          next = list.map(p => (p.id === id ? { ...p, active: true } : { ...p, active: false }));
+        } else {
+          const updated: PopupInstance = {
+            ...popup,
+            active
+          };
+
+          next = [...list.slice(0, index), updated, ...list.slice(index + 1)];
+        }
+
+        this.store[placementKey] = next;
+
+        this.touch(placementKey);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  setActiveMany(ids: string[], placement: P): boolean {
+    this.assertPlacement(placement);
+
+    if (!this.multi) {
+      // only one active allowed when multi is false
+      const firstId = ids[0];
+
+      return firstId ? this.setActive(firstId, true, placement) : false;
+    }
+
+    const list = this.store[placement];
+    let changed = false as boolean;
+    const idSet = new Set(ids);
+    const next = list.map(popup => {
+      const shouldBeActive = idSet.has(popup.id);
+      if (popup.active === shouldBeActive) {
+        return popup;
+      }
+
+      changed = true;
+
+      return { ...popup, active: shouldBeActive };
+    });
+
+    if (!changed) {
+      return false;
+    }
+
+    this.store[placement] = next;
+    this.touch(placement);
+
+    return true;
   }
 
   clear(placement?: P): void {

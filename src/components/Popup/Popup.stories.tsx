@@ -139,7 +139,7 @@ export const Primary: Story = {
   render: () => {
     return (
       <div className="flex border border-solid border-gray-300 relative">
-        <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
+        <PopupProvider popups={popups} multi multiExpanded canHide onChange={(value: Popups) => console.log(value)}>
           <div className="flex grow h-125 bg-gray-200"></div>
         </PopupProvider>
       </div>
@@ -179,7 +179,6 @@ const ContainerNested = () => {
         maxWidth={540}
         canHide
         multi
-        value={[]}
         // onChange={handleChange}
       />
     </div>
@@ -284,7 +283,6 @@ export const SidePanelSeparated: Story = {
               maxWidth={540}
               canHide
               multi
-              value={popupsActiveLeft}
               onChange={handleChangeLeft}
             />
           </div>
@@ -316,7 +314,6 @@ export const NestedProvider: Story = {
                 maxWidth={540}
                 canHide
                 multi
-                value={[]}
                 // onChange={handleChange}
               />
             </PopupProvider>

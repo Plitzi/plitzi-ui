@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
@@ -35,6 +35,7 @@ export type PopupProviderProps = {
   renderRightPopup?: boolean;
   renderFloatingPopup?: boolean;
   multi?: boolean;
+  multiExpanded?: boolean;
   canHide?: boolean;
   popups?: Popups;
   limitMode?: ContainerDraggableProps['limitMode'];
@@ -53,6 +54,7 @@ const PopupProvider = ({
   renderRightPopup = true,
   renderFloatingPopup = true,
   multi = false,
+  multiExpanded = false,
   canHide = true,
   popups,
   limitMode = 'window' as const,
@@ -64,7 +66,10 @@ const PopupProvider = ({
   onChange
 }: PopupProviderProps) => {
   const [, setRerender] = useState(0);
-  const popupManager = useMemo(() => new PopupManager(['left', 'right', 'floating'], popups), [popups]);
+  const popupManager = useMemo(
+    () => new PopupManager(['left', 'right', 'floating'], popups, { multi }),
+    [popups, multi]
+  );
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
   const placementCacheRef = useRef<{ [key: string]: PopupPlacement | undefined }>(popupManager.getPlacementByPopup());
@@ -72,6 +77,12 @@ const PopupProvider = ({
   useDidUpdateEffect(() => {
     placementCacheRef.current = popupManager.getPlacementByPopup();
     setRerender(Date.now());
+  }, [popupManager]);
+
+  useEffect(() => {
+    return popupManager.onUpdate((_placement: PopupPlacement, timestamp: number) => {
+      setRerender(timestamp);
+    });
   }, [popupManager]);
 
   const addPopup = useCallback(
@@ -126,6 +137,7 @@ const PopupProvider = ({
 
   const popupContextValueFloating = useMemo(
     () => ({
+      popupManager,
       popups: popupManager.get('floating'),
       popupIds: popupManager.get('floating').map(popup => popup.id),
       popupActiveIds: popupManager
@@ -145,6 +157,7 @@ const PopupProvider = ({
 
   const popupContextValueLeft = useMemo(
     () => ({
+      popupManager,
       popups: popupManager.get('left'),
       popupIds: popupManager.get('left').map(popup => popup.id),
       popupActiveIds: popupManager
@@ -164,6 +177,7 @@ const PopupProvider = ({
 
   const popupContextValueRight = useMemo(
     () => ({
+      popupManager,
       popups: popupManager.get('right'),
       popupIds: popupManager.get('right').map(popup => popup.id),
       popupActiveIds: popupManager
@@ -190,6 +204,7 @@ const PopupProvider = ({
               placement="left"
               placementTabs="left"
               multi={multi}
+              multiExpanded={multiExpanded}
               canHide={canHide}
               size={size}
               minWidth={leftMinWidth}
@@ -209,6 +224,7 @@ const PopupProvider = ({
           {renderRightPopup && !!popupManager.getCount('right') && (
             <PopupSidePanel
               multi={multi}
+              multiExpanded={multiExpanded}
               canHide={canHide}
               size={size}
               minWidth={rightMinWidth}

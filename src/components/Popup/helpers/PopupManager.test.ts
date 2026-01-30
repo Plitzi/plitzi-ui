@@ -7,10 +7,10 @@ import type { PopupInstance } from '../PopupProvider';
 
 /* ---------- helpers ---------- */
 
-const createPopup = (id: string, position?: number): PopupInstance => ({
+const createPopup = (id: string, position?: number, active: boolean = true): PopupInstance => ({
   id,
   component: null,
-  active: true,
+  active,
   position,
   settings: {} as PopupSettings
 });
@@ -301,5 +301,235 @@ describe('PopupManager', () => {
     manager.remove('a');
     const afterRemove = manager.getLastUpdate('left');
     expect(afterRemove).toBeGreaterThan(after);
+  });
+
+  it('setActive activates/deactivates a popup when placement is known', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+
+    expect(manager.setActive('a', false, 'left')).toBe(true);
+    expect(manager.get('left', 'a')?.active).toBe(false);
+
+    expect(manager.setActive('a', true, 'left')).toBe(true);
+    expect(manager.get('left', 'a')?.active).toBe(true);
+  });
+
+  it('setActive works when placement is unknown', () => {
+    expect(manager.add('right', createPopup('b'))).toBe(true);
+
+    expect(manager.setActive('b', false)).toBe(true);
+    expect(manager.get('right', 'b')?.active).toBe(false);
+  });
+
+  it('setActive returns false if popup does not exist', () => {
+    expect(manager.setActive('missing', false)).toBe(false);
+  });
+
+  it('setActive returns false if popup does not exist in given placement', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+
+    expect(manager.setActive('a', false, 'right')).toBe(false);
+    expect(manager.get('left', 'a')?.active).toBe(true);
+  });
+
+  it('setActive returns false if active value does not change', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+
+    expect(manager.setActive('a', true, 'left')).toBe(false);
+  });
+
+  it('setActive does not change popup order', () => {
+    expect(manager.add('left', createPopup('a', 1))).toBe(true);
+    expect(manager.add('left', createPopup('b', 2))).toBe(true);
+
+    const before = manager.get('left').map(p => p.id);
+
+    expect(manager.setActive('a', false, 'left')).toBe(true);
+
+    const after = manager.get('left').map(p => p.id);
+    expect(after).toEqual(before);
+  });
+
+  it('setActive updates lastUpdate for the affected placement', async () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+
+    const before = manager.getLastUpdate('left');
+    await new Promise(r => setTimeout(r, 2));
+
+    expect(manager.setActive('a', false, 'left')).toBe(true);
+
+    const after = manager.getLastUpdate('left');
+    expect(after).toBeGreaterThan(before);
+  });
+
+  it('setActiveForPlacement activates only the provided ids', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+    expect(manager.add('left', createPopup('b'))).toBe(true);
+    expect(manager.add('left', createPopup('c'))).toBe(true);
+
+    expect(manager.setActiveMany(['a', 'c'], 'left')).toBe(true);
+
+    expect(manager.get('left', 'a')?.active).toBe(true);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(true);
+  });
+
+  it('setActiveForPlacement deactivates all when ids array is empty', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+    expect(manager.add('left', createPopup('b'))).toBe(true);
+
+    expect(manager.setActiveMany([], 'left')).toBe(true);
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+  });
+
+  it('setActiveForPlacement ignores ids that do not exist', () => {
+    expect(manager.add('left', createPopup('a', undefined, false))).toBe(true);
+
+    expect(manager.setActiveMany(['a', 'missing'], 'left')).toBe(true);
+
+    expect(manager.get('left', 'a')?.active).toBe(true);
+  });
+
+  it('setActiveForPlacement does not change popup order', () => {
+    expect(manager.add('left', createPopup('a', 1))).toBe(true);
+    expect(manager.add('left', createPopup('b', 2))).toBe(true);
+    expect(manager.add('left', createPopup('c', 3))).toBe(true);
+
+    const before = manager.get('left').map(p => p.id);
+
+    expect(manager.setActiveMany(['b'], 'left')).toBe(true);
+
+    const after = manager.get('left').map(p => p.id);
+    expect(after).toEqual(before);
+  });
+
+  it('setActiveForPlacement returns false if placement is empty or does not exist', () => {
+    expect(manager.setActiveMany(['a'], 'left')).toBe(false);
+  });
+
+  it('setActiveForPlacement returns false if no active state changes', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+    expect(manager.add('left', createPopup('b'))).toBe(true);
+
+    // a active true, b active false already
+    manager.setActive('b', false, 'left');
+
+    expect(manager.setActiveMany(['a'], 'left')).toBe(false);
+  });
+
+  it('setActiveForPlacement updates lastUpdate only when changes occur', async () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+    expect(manager.add('left', createPopup('b'))).toBe(true);
+
+    const before = manager.getLastUpdate('left');
+    await new Promise(r => setTimeout(r, 2));
+
+    expect(manager.setActiveMany(['b'], 'left')).toBe(true);
+
+    const after = manager.getLastUpdate('left');
+    expect(after).toBeGreaterThan(before);
+  });
+
+  it('allows only one active popup per placement', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
+    manager.add('left', createPopup('a', undefined, true));
+    manager.add('left', createPopup('b', undefined, true));
+    manager.add('left', createPopup('c', undefined, false));
+
+    const actives = manager
+      .get('left')
+      .filter(p => p.active)
+      .map(p => p.id);
+    expect(actives).toEqual(['a']);
+  });
+
+  it('activating one popup deactivates the others', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
+    manager.add('left', createPopup('a', undefined, true));
+    manager.add('left', createPopup('b', undefined, false));
+
+    manager.setActive('b', true, 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(true);
+  });
+
+  it('deactivating a popup does not activate others', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
+    manager.add('left', createPopup('a', undefined, true));
+    manager.add('left', createPopup('b', undefined, false));
+
+    manager.setActive('a', false, 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+  });
+
+  it('setActiveMany activates only the first id when multi is false', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
+    manager.add('left', createPopup('a', undefined, false));
+    manager.add('left', createPopup('b', undefined, false));
+    manager.add('left', createPopup('c', undefined, false));
+
+    manager.setActiveMany(['b', 'c'], 'left');
+
+    expect(manager.get('left', 'b')?.active).toBe(true);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+  });
+
+  it('constructor normalizes multiple active popups to a single active one', () => {
+    const manager = new PopupManager(
+      ['left'] as const,
+      {
+        left: [createPopup('a', undefined, true), createPopup('b', undefined, true), createPopup('c', undefined, true)]
+      },
+      { multi: false }
+    );
+
+    const actives = manager
+      .get('left')
+      .filter(p => p.active)
+      .map(p => p.id);
+    expect(actives).toEqual(['a']);
+  });
+
+  it('changing placement respects manager mode independently per placement', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
+    manager.add('left', createPopup('a', undefined, true));
+    manager.add('left', createPopup('b', undefined, true));
+    manager.add('left', createPopup('c', undefined, true));
+    manager.add('right', createPopup('d', undefined, true));
+    manager.add('right', createPopup('e', undefined, true));
+    manager.add('right', createPopup('f', undefined, true));
+
+    expect(manager.get('left', 'a')?.active).toBe(true);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+    expect(manager.get('right', 'd')?.active).toBe(true);
+    expect(manager.get('right', 'e')?.active).toBe(false);
+    expect(manager.get('right', 'f')?.active).toBe(false);
+
+    // move b into left, should deactivate a
+    manager.changePlacement('d', 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(false);
+    expect(manager.get('left', 'd')?.active).toBe(true);
+    expect(manager.get('right', 'e')?.active).toBe(true);
+    expect(manager.get('right', 'f')?.active).toBe(false);
+  });
+
+  it('add does not auto-deactivate existing active popup (only enforced on activate)', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
+    manager.add('left', createPopup('a', undefined, true));
+    manager.add('left', createPopup('b', undefined, true));
+
+    const actives = manager
+      .get('left')
+      .filter(p => p.active)
+      .map(p => p.id);
+    expect(actives).toEqual(['a']);
   });
 });

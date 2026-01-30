@@ -1,10 +1,9 @@
-import { use, useMemo, useState, useCallback, memo } from 'react';
+import { use, useMemo, useCallback, memo } from 'react';
 
-import { arrayDifference, emptyArray } from '@/helpers/utils';
+import { emptyArray } from '@/helpers/utils';
 import Accordion from '@components/Accordion';
 import ContainerResizable from '@components/ContainerResizable';
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
-import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 import PopupSidePanelItem from './PopupSidePanelItem';
@@ -16,18 +15,16 @@ import type { variantKeys } from '../../Popup.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
-const popupsActiveDefault: string[] = [];
-
 export type PopupSidePanelProps = {
   placement?: 'left' | 'right';
   placementTabs?: 'left' | 'right';
   canHide?: boolean;
   multi?: boolean;
+  multiExpanded?: boolean;
   showSidebar?: boolean;
   minWidth?: number;
   maxWidth?: number;
   separatorsBefore?: string[];
-  value?: string[];
   onChange?: (value: string[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
@@ -37,10 +34,10 @@ const PopupSidePanel = ({
   placementTabs = 'right',
   canHide = false,
   multi = false,
+  multiExpanded = false,
   showSidebar = true,
   minWidth = 280,
   maxWidth = 500,
-  value: valueProp = popupsActiveDefault,
   separatorsBefore = emptyArray,
   size,
   onChange
@@ -50,78 +47,50 @@ const PopupSidePanel = ({
     componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
     variants: { placement: placementTabs, size }
   });
-  const { placementPopup, popups, popupIds, popupActiveIds } = usePopup(placement);
-  const [popupsActive, setPopupsActive] = useState(() => {
-    const popupsSelected = valueProp.length > 0 ? valueProp : popupActiveIds;
-    if (multi) {
-      return popupsSelected;
-    }
-
-    if (popupsSelected.length > 0) {
-      return [popupsSelected[0]];
-    }
-
-    return [];
-  });
-  const popupsActiveFiltered = useMemo(
-    () => popupsActive.filter(val => popupIds.includes(val)),
-    [popupsActive, popupIds]
-  );
-  const resizeHandles = useMemo<ResizeHandle[]>(() => {
-    if (placementTabs === 'left') {
-      return ['e'];
-    }
-
-    return ['w'];
-  }, [placementTabs]);
   const { rootDOM } = use(ContainerRootContext);
-
-  useDidUpdateEffect(() => {
-    setPopupsActive(valueProp);
-  }, [valueProp]);
-
-  useDidUpdateEffect(
-    prevState => {
-      const newPopupsIds = [...popupsActiveFiltered, ...arrayDifference(prevState[0] as string[], popupActiveIds)];
-      onChange?.(newPopupsIds);
-      setPopupsActive(newPopupsIds);
-    },
-    [popupActiveIds]
-  );
+  const { popupManager, placementPopup, popups, popupActiveIds } = usePopup(placement);
+  const resizeHandles = useMemo<ResizeHandle[]>(() => (placementTabs === 'left' ? ['e'] : ['w']), [placementTabs]);
 
   const handleChangeTabs = useCallback(
     (popsActive: string[]) => {
       onChange?.(popsActive);
-      setPopupsActive(popsActive);
+      // setPopupsActive(popsActive);
+      popupManager.setActiveMany(popsActive, placement);
     },
-    [onChange]
+    [onChange, placement, popupManager]
   );
 
   const handleClickFloating = useCallback(
     (popupId: string) => {
       placementPopup(popupId, 'floating');
-      const newValue = popupsActiveFiltered.filter(item => item !== popupId);
-      setPopupsActive(newValue);
+      const newValue = popupActiveIds.filter(item => item !== popupId);
+      // setPopupsActive(newValue);
       onChange?.(newValue);
     },
-    [onChange, placementPopup, popupsActiveFiltered]
+    [onChange, placementPopup, popupActiveIds]
   );
 
   const handleClickCollapse = useCallback(
     (popupId: string) => {
-      const newValue = popupsActiveFiltered.filter(item => item !== popupId);
-      setPopupsActive(newValue);
+      const newValue = popupActiveIds.filter(item => item !== popupId);
+      console.log('called', newValue);
+      // setPopupsActive(newValue);
+      popupManager.setActive(popupId, true, placement);
       onChange?.(newValue);
     },
-    [popupsActiveFiltered, onChange]
+    [popupActiveIds, popupManager, placement, onChange]
   );
 
-  const popupsFiltered = useMemo(
-    () => popups.filter(pop => popupsActiveFiltered.includes(pop.id) && !!pop.component),
-    [popups, popupsActiveFiltered]
-  );
+  const popupsFiltered = useMemo(() => {
+    const pops = popups.filter(pop => popupActiveIds.includes(pop.id) && !!pop.component);
+    if (!multi) {
+      return pops.slice(0, 1);
+    }
 
-  if (!popups.length || (popupsActiveFiltered.length === 0 && !showSidebar)) {
+    return pops;
+  }, [multi, popupActiveIds, popups]);
+
+  if (!popups.length || (popupActiveIds.length === 0 && !showSidebar)) {
     return undefined;
   }
 
@@ -129,7 +98,7 @@ const PopupSidePanel = ({
     return (
       <PopupSidebar
         placement={placementTabs}
-        value={popupsActiveFiltered}
+        value={popupActiveIds}
         multi={multi}
         canEmpty={canHide}
         size={size}
@@ -154,7 +123,7 @@ const PopupSidePanel = ({
         {showSidebar && (
           <PopupSidebar
             placement={placementTabs}
-            value={popupsActiveFiltered}
+            value={popupActiveIds}
             multi={multi}
             canEmpty={canHide}
             size={size}
@@ -166,9 +135,10 @@ const PopupSidePanel = ({
           className={classNameTheme.sidePanelContainer}
           size={size}
           grow
-          gap={0}
           multi={multi}
-          defaultValue={popupsActiveFiltered.length > 0 ? popupsActiveFiltered.slice(0, 1) : [popups[0].id]}
+          defaultValue={
+            popupActiveIds.length > 1 ? (multiExpanded ? popupActiveIds : popupActiveIds.slice(0, 1)) : popupActiveIds
+          }
         >
           {popupsFiltered.map((popup, i) => (
             <PopupSidePanelItem
