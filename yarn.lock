@@ -422,14 +422,14 @@ __metadata:
   linkType: hard
 
 "@codemirror/view@npm:^6.38.1":
-  version: 6.39.11
-  resolution: "@codemirror/view@npm:6.39.11"
+  version: 6.39.12
+  resolution: "@codemirror/view@npm:6.39.12"
   dependencies:
     "@codemirror/state": "npm:^6.5.0"
     crelt: "npm:^1.0.6"
     style-mod: "npm:^4.1.0"
     w3c-keyname: "npm:^2.2.4"
-  checksum: 10/691825e783a1ac720411f59fface596fe1ba0fbf0344ed61af84937c7dd4337298b1a91fbff93cee076dc1b1c5c6f7bd73b8660fa417fb484f157946ecac9986
+  checksum: 10/acd476d485914095fe38009bb29c7a6ac4cf3de2d3921172e27fc40639eb5bce0534766fd6e093c94aa60f076f263ce90a670a8052e220244bf4065f95c064bb
   languageName: node
   linkType: hard
 
@@ -1354,7 +1354,7 @@ __metadata:
     "@codemirror/search": "npm:^6.6.0"
     "@codemirror/state": "npm:^6.5.4"
     "@codemirror/theme-one-dark": "npm:^6.1.3"
-    "@codemirror/view": "npm:^6.39.11"
+    "@codemirror/view": "npm:^6.39.12"
     "@eslint/js": "npm:^9.39.2"
     "@hookform/resolvers": "npm:^5.2.2"
     "@storybook/addon-actions": "npm:^9.0.8"
