@@ -9,7 +9,7 @@ import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 
 const resizeHandlesDefault: ResizeHandle[] = ['s'];
 
@@ -68,9 +68,23 @@ const Popup = ({
     [width, height]
   );
 
-  const handleClickEmbedLeft = useCallback(() => placementPopup?.(id, 'left'), [placementPopup, id]);
+  const handleClickEmbedLeft = useCallback(
+    (e: MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      placementPopup?.(id, 'left');
+    },
+    [placementPopup, id]
+  );
 
-  const handleClickEmbedRight = useCallback(() => placementPopup?.(id, 'right'), [placementPopup, id]);
+  const handleClickEmbedRight = useCallback(
+    (e: MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      placementPopup?.(id, 'right');
+    },
+    [placementPopup, id]
+  );
 
   const handleFocus = useCallback(() => onFocus?.(id), [id, onFocus]);
 

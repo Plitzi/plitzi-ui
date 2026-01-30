@@ -48,13 +48,12 @@ const PopupSidePanel = ({
     variants: { placement: placementTabs, size }
   });
   const { rootDOM } = use(ContainerRootContext);
-  const { popupManager, placementPopup, popups, popupActiveIds } = usePopup(placement);
+  const { popupManager, popups, popupActiveIds } = usePopup(placement);
   const resizeHandles = useMemo<ResizeHandle[]>(() => (placementTabs === 'left' ? ['e'] : ['w']), [placementTabs]);
 
   const handleChangeTabs = useCallback(
     (popsActive: string[]) => {
       onChange?.(popsActive);
-      // setPopupsActive(popsActive);
       popupManager.setActiveMany(popsActive, placement);
     },
     [onChange, placement, popupManager]
@@ -62,20 +61,17 @@ const PopupSidePanel = ({
 
   const handleClickFloating = useCallback(
     (popupId: string) => {
-      placementPopup(popupId, 'floating');
+      popupManager.changePlacement(popupId, 'floating');
       const newValue = popupActiveIds.filter(item => item !== popupId);
-      // setPopupsActive(newValue);
       onChange?.(newValue);
     },
-    [onChange, placementPopup, popupActiveIds]
+    [onChange, popupActiveIds, popupManager]
   );
 
   const handleClickCollapse = useCallback(
     (popupId: string) => {
+      popupManager.setActive(popupId, false, placement);
       const newValue = popupActiveIds.filter(item => item !== popupId);
-      console.log('called', newValue);
-      // setPopupsActive(newValue);
-      popupManager.setActive(popupId, true, placement);
       onChange?.(newValue);
     },
     [popupActiveIds, popupManager, placement, onChange]

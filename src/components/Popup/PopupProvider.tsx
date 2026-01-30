@@ -1,8 +1,6 @@
 import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
-
 import PopupSidePanel from './components/PopupSidePanel';
 import PopupManager from './helpers/PopupManager';
 import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
@@ -72,16 +70,11 @@ const PopupProvider = ({
   );
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
-  const placementCacheRef = useRef<{ [key: string]: PopupPlacement | undefined }>(popupManager.getPlacementByPopup());
-
-  useDidUpdateEffect(() => {
-    placementCacheRef.current = popupManager.getPlacementByPopup();
-    setRerender(Date.now());
-  }, [popupManager]);
 
   useEffect(() => {
     return popupManager.onUpdate((_placement: PopupPlacement, timestamp: number) => {
       setRerender(timestamp);
+      onChangeRef.current?.(popupManager.getAll());
     });
   }, [popupManager]);
 
@@ -91,7 +84,6 @@ const PopupProvider = ({
         return;
       }
 
-      placementCacheRef.current = popupManager.getPlacementByPopup();
       setRerender(Date.now());
       onChangeRef.current?.(popupManager.getAll());
     },
@@ -104,7 +96,6 @@ const PopupProvider = ({
         return;
       }
 
-      placementCacheRef.current = popupManager.getPlacementByPopup();
       setRerender(Date.now());
       onChangeRef.current?.(popupManager.getAll());
     },
@@ -112,20 +103,6 @@ const PopupProvider = ({
   );
 
   const existsPopup = useCallback((popupId: string) => popupManager.exists(popupId), [popupManager]);
-
-  const placementPopup = useCallback(
-    (popupId: string, placement: PopupPlacement) => {
-      const currentPlacement = placementCacheRef.current[popupId];
-      if (!currentPlacement || !popupManager.changePlacement(popupId, placement)) {
-        return;
-      }
-
-      placementCacheRef.current = popupManager.getPlacementByPopup();
-      setRerender(Date.now());
-      onChangeRef.current?.(popupManager.getAll());
-    },
-    [popupManager]
-  );
 
   const focusPopup = useCallback(
     (popupId: string) => {
@@ -147,12 +124,11 @@ const PopupProvider = ({
       limitMode,
       addPopup,
       focusPopup,
-      placementPopup,
       existsPopup,
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('floating')]
+    [addPopup, focusPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('floating')]
   );
 
   const popupContextValueLeft = useMemo(
@@ -167,12 +143,11 @@ const PopupProvider = ({
       limitMode,
       addPopup,
       focusPopup,
-      placementPopup,
       existsPopup,
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('left')]
+    [addPopup, focusPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('left')]
   );
 
   const popupContextValueRight = useMemo(
@@ -187,12 +162,11 @@ const PopupProvider = ({
       limitMode,
       addPopup,
       focusPopup,
-      placementPopup,
       existsPopup,
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, placementPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('right')]
+    [addPopup, focusPopup, existsPopup, removePopup, limitMode, popupManager.getLastUpdate('right')]
   );
 
   return (

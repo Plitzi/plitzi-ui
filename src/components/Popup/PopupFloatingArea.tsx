@@ -1,16 +1,24 @@
-import { memo, use } from 'react';
+import { memo, use, useCallback } from 'react';
 
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
 
 import usePopup from './hooks/usePopup';
 import Popup from './Popup';
 
+import type { PopupPlacement } from './Popup';
+
 export type PopupFloatingAreaProps = {
   className?: string;
 };
 const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
   const { rootDOM } = use(ContainerRootContext);
-  const { placementPopup, popups, removePopup, focusPopup, limitMode } = usePopup('floating');
+  const { popupManager, popups, removePopup, focusPopup, limitMode } = usePopup('floating');
+
+  const handleChangePlacement = useCallback(
+    (id: string, placement: PopupPlacement) => popupManager.changePlacement(id, placement),
+    [popupManager]
+  );
+
   if (!popups.length) {
     return undefined;
   }
@@ -26,7 +34,7 @@ const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
             key={popup.id}
             id={popup.id}
             title={title}
-            placementPopup={placementPopup}
+            placementPopup={handleChangePlacement}
             onFocus={focusPopup}
             removePopup={removePopup}
             limitMode={limitMode}

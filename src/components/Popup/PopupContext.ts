@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 import type PopupManager from './helpers/PopupManager';
-import type { PopupPlacement, PopupSettings } from './Popup';
+import type { PopupSettings } from './Popup';
 import type { PopupInstance } from './PopupProvider';
 import type { ContainerDraggableProps } from '@components/ContainerDraggable';
 import type { ReactNode } from 'react';
@@ -14,7 +14,6 @@ export type PopupContextValue = {
   limitMode?: ContainerDraggableProps['limitMode'];
   addPopup: (id: string, component: ReactNode, settings?: PopupSettings) => void;
   focusPopup: (popupId: string) => void;
-  placementPopup: (popupId: string, placement: PopupPlacement) => void;
   existsPopup: (popupId: string) => boolean;
   removePopup: (popupId: string) => void;
 };
@@ -27,7 +26,6 @@ const popupDefaultValue = {
   limitMode: 'window' as const,
   addPopup: () => {},
   focusPopup: () => {},
-  placementPopup: () => {},
   existsPopup: () => false,
   removePopup: () => {}
 } as PopupContextValue;

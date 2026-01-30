@@ -7,7 +7,7 @@ import useTheme from '@hooks/useTheme';
 import type PopupStyles from '../../Popup.styles';
 import type { variantKeys } from '../../Popup.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 
 export type PopupSidePanelItemProps = {
   children?: ReactNode;
@@ -37,9 +37,23 @@ const PopupSidePanelItem = ({
     variants: { size, expanded: isOpen(id) }
   });
 
-  const handleClickCollapse = useCallback(() => onClickCollapse?.(id), [id, onClickCollapse]);
+  const handleClickCollapse = useCallback(
+    (e: MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      onClickCollapse?.(id);
+    },
+    [id, onClickCollapse]
+  );
 
-  const handleClickFloating = useCallback(() => onClickFloating?.(id), [id, onClickFloating]);
+  const handleClickFloating = useCallback(
+    (e: MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      onClickFloating?.(id);
+    },
+    [id, onClickFloating]
+  );
 
   return (
     <Accordion.Item key={id} id={id} grow className={classNameTheme.sidePanelItem}>

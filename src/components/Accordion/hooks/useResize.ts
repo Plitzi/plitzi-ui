@@ -43,18 +43,14 @@ export default function useResize({ containerRef, minSize = 64 }: UseResizeOptio
     }
   }, []);
 
-  const registerPanel = useCallback(
-    (id: string, el: HTMLElement | null = null, frozen: boolean = false) => {
-      if (!el || panels.current.find(p => p.id === id)) {
-        return;
-      }
+  const registerPanel = useCallback((id: string, el: HTMLElement | null = null, frozen: boolean = false) => {
+    if (!el || panels.current.find(p => p.id === id)) {
+      return;
+    }
 
-      panels.current.push({ id, el, hasManualSize: false, frozen });
-      panels.current = sortItemsByDOMOrder(panels.current);
-      resyncLayout();
-    },
-    [resyncLayout]
-  );
+    panels.current.push({ id, el, hasManualSize: false, frozen });
+    panels.current = sortItemsByDOMOrder(panels.current);
+  }, []);
 
   const unregisterPanel = useCallback(
     (id: string) => {
