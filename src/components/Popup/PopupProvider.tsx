@@ -41,7 +41,7 @@ export type PopupProviderProps = {
   leftMaxWidth?: number;
   rightMinWidth?: number;
   rightMaxWidth?: number;
-  onChange?: (placement: PopupPlacement, value: PopupInstance[]) => void;
+  onChange?: (placement: PopupPlacement, value: PopupInstance[], fullValue: Popups) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupProvider = ({
@@ -74,7 +74,7 @@ const PopupProvider = ({
   useEffect(() => {
     return popupManager.onUpdate((placement: PopupPlacement, timestamp: number) => {
       setRerender(timestamp);
-      onChangeRef.current?.(placement, popupManager.get(placement));
+      onChangeRef.current?.(placement, popupManager.get(placement), popupManager.getAll());
     });
   }, [popupManager]);
 
@@ -85,7 +85,7 @@ const PopupProvider = ({
       }
 
       setRerender(Date.now());
-      onChangeRef.current?.(settings.placement, popupManager.get(settings.placement));
+      onChangeRef.current?.(settings.placement, popupManager.get(settings.placement), popupManager.getAll());
     },
     [popupManager]
   );
@@ -98,7 +98,7 @@ const PopupProvider = ({
       }
 
       setRerender(Date.now());
-      onChangeRef.current?.(placement, popupManager.get(placement));
+      onChangeRef.current?.(placement, popupManager.get(placement), popupManager.getAll());
     },
     [popupManager]
   );
