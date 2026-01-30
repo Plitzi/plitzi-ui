@@ -23,7 +23,7 @@ export type PopupInstance = {
   settings: PopupSettings;
 };
 
-export type Popups = Record<string, PopupInstance[]>;
+export type Popups = Record<PopupPlacement, PopupInstance[]>;
 
 export type PopupProviderProps = {
   children?: ReactNode;
@@ -41,7 +41,7 @@ export type PopupProviderProps = {
   leftMaxWidth?: number;
   rightMinWidth?: number;
   rightMaxWidth?: number;
-  onChange?: (value: Popups) => void;
+  onChange?: (placement: PopupPlacement, value: PopupInstance[]) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupProvider = ({
@@ -72,9 +72,9 @@ const PopupProvider = ({
   onChangeRef.current = onChange;
 
   useEffect(() => {
-    return popupManager.onUpdate((_placement: PopupPlacement, timestamp: number) => {
+    return popupManager.onUpdate((placement: PopupPlacement, timestamp: number) => {
       setRerender(timestamp);
-      onChangeRef.current?.(popupManager.getAll());
+      onChangeRef.current?.(placement, popupManager.get(placement));
     });
   }, [popupManager]);
 
@@ -85,19 +85,20 @@ const PopupProvider = ({
       }
 
       setRerender(Date.now());
-      onChangeRef.current?.(popupManager.getAll());
+      onChangeRef.current?.(settings.placement, popupManager.get(settings.placement));
     },
     [popupManager]
   );
 
   const removePopup = useCallback(
     (popupId: string) => {
-      if (!popupManager.remove(popupId)) {
+      const placement = popupManager.getPlacement(popupId);
+      if (!placement || !popupManager.remove(popupId)) {
         return;
       }
 
       setRerender(Date.now());
-      onChangeRef.current?.(popupManager.getAll());
+      onChangeRef.current?.(placement, popupManager.get(placement));
     },
     [popupManager]
   );

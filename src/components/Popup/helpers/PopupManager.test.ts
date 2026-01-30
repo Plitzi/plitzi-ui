@@ -532,4 +532,45 @@ describe('PopupManager', () => {
       .map(p => p.id);
     expect(actives).toEqual(['a']);
   });
+
+  it('get returns all popups for a given placement', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+    expect(manager.add('left', createPopup('b'))).toBe(true);
+
+    const popups = manager.get('left');
+    expect(popups.map(p => p.id)).toEqual(['a', 'b']);
+  });
+
+  it('get returns a popup by id when placement is specified', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+
+    const popup = manager.get('left', 'a');
+    expect(popup?.id).toBe('a');
+  });
+
+  it('get returns a popup by id when placement is undefined', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+    expect(manager.add('right', createPopup('b'))).toBe(true);
+
+    const popupA = manager.get(undefined, 'a');
+    const popupB = manager.get(undefined, 'b');
+    expect(popupA?.id).toBe('a');
+    expect(popupB?.id).toBe('b');
+  });
+
+  it('get returns undefined for unknown popupId', () => {
+    expect(manager.get(undefined, 'unknown')).toBeUndefined();
+  });
+
+  it('getPlacement returns the correct placement for a given popupId', () => {
+    expect(manager.add('left', createPopup('a'))).toBe(true);
+    expect(manager.add('right', createPopup('b'))).toBe(true);
+
+    expect(manager.getPlacement('a')).toBe('left');
+    expect(manager.getPlacement('b')).toBe('right');
+  });
+
+  it('getPlacement returns undefined for a non-existing popup', () => {
+    expect(manager.getPlacement('missing')).toBeUndefined();
+  });
 });

@@ -8,7 +8,8 @@ import Popup from './Popup';
 import PopupProvider from './PopupProvider';
 import PopupSidebar from './PopupSidebar';
 
-import type { Popups } from './PopupProvider';
+import type { PopupPlacement } from './Popup';
+import type { PopupInstance } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MouseEvent } from 'react';
@@ -139,7 +140,13 @@ export const Primary: Story = {
   render: () => {
     return (
       <div className="flex border border-solid border-gray-300 relative">
-        <PopupProvider popups={popups} multi multiExpanded canHide onChange={(value: Popups) => console.log(value)}>
+        <PopupProvider
+          popups={popups}
+          multi
+          multiExpanded
+          canHide
+          onChange={(placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value)}
+        >
           <div className="flex grow h-125 bg-gray-200"></div>
         </PopupProvider>
       </div>
@@ -256,7 +263,10 @@ export const SidePanelSeparated: Story = {
   render: function Render() {
     const [popupsActiveLeft, setPopupsActiveLeft] = useState<string[]>([]);
 
-    const handleChangeProvider = useCallback((value: Popups) => console.log(value), []);
+    const handleChangeProvider = useCallback(
+      (placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value),
+      []
+    );
 
     const handleChangeLeft = useCallback((popups: string[]) => setPopupsActiveLeft(popups), []);
 
@@ -332,7 +342,12 @@ export const NestedProvider: Story = {
 
     return (
       <div className="flex border border-solid border-gray-300">
-        <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
+        <PopupProvider
+          popups={popups}
+          multi
+          canHide
+          onChange={(placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value)}
+        >
           <div className="flex grow h-125 bg-gray-200"></div>
         </PopupProvider>
       </div>
@@ -391,7 +406,12 @@ export const DynamicPopups: Story = {
 
     return (
       <div className="flex border border-solid border-gray-300">
-        <PopupProvider popups={popups} multi canHide onChange={(value: Popups) => console.log(value)}>
+        <PopupProvider
+          popups={popups}
+          multi
+          canHide
+          onChange={(placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value)}
+        >
           <div className="flex grow h-125 bg-gray-200 items-center justify-center">
             <Button onClick={handleClick}>Click Me</Button>
           </div>

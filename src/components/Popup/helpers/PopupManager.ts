@@ -110,14 +110,35 @@ export class PopupManager<P extends PopupPlacement> {
 
   /* ---------- get overloads ---------- */
   get(placement: P): PopupInstance[];
-  get(placement: P, popupId: string): PopupInstance | undefined;
-  get(placement: P, popupId?: string): PopupInstance[] | PopupInstance | undefined {
+  get(placement: P | undefined, popupId: string): PopupInstance | undefined;
+  get(placement: P | undefined, popupId?: string): PopupInstance[] | PopupInstance | undefined {
+    if (!placement) {
+      for (const placementAux in this.store) {
+        const popup = this.store[placementAux].find(p => p.id === popupId);
+        if (popup) {
+          return popup;
+        }
+      }
+
+      return undefined;
+    }
+
     this.assertPlacement(placement);
     if (popupId !== undefined) {
       return this.store[placement].find(popup => popup.id === popupId);
     }
 
     return [...this.store[placement]];
+  }
+
+  getPlacement(popupId: string): P | undefined {
+    for (const placement in this.store) {
+      if (this.store[placement].some(p => p.id === popupId)) {
+        return placement;
+      }
+    }
+
+    return undefined;
   }
 
   getCount(placement: P): number {
