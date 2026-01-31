@@ -16,7 +16,7 @@ export type AccordionContextValue = {
   getIndex: (id: string) => number;
   onResizeStart: (id: string) => (e: MouseEvent) => void;
   toggle: (id: string) => void;
-  register: (id: string, ref: RefObject<HTMLElement | null>) => void;
+  register: (id: string, ref: RefObject<HTMLElement | null>, settings: { minSize?: number; maxSize?: number }) => void;
   unregister: (id: string) => void;
 };
 

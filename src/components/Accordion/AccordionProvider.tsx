@@ -43,7 +43,7 @@ const AccordionProvider = ({
   const openItemsRef = useRef<string[]>(openItems);
   // eslint-disable-next-line react-hooks/refs
   openItemsRef.current = openItems;
-  const { registerPanel, unregisterPanel, resyncLayout, onResizeStart } = useResize({ containerRef, minSize: 80 });
+  const { registerPanel, unregisterPanel, resyncLayout, onResizeStart } = useResize({ containerRef });
 
   const isOpen = useCallback((id: string) => openItems.includes(id), [openItems]);
 
@@ -75,14 +75,14 @@ const AccordionProvider = ({
   );
 
   const register = useCallback(
-    (id: string, ref: RefObject<HTMLElement | null>) => {
+    (id: string, ref: RefObject<HTMLElement | null>, settings: { minSize?: number; maxSize?: number }) => {
       const item = { id, ref };
       setRegisteredItems(state => {
         if (state.find(i => i.id === id)) {
           return state;
         }
 
-        registerPanel(id, ref.current, !openItemsRef.current.includes(id));
+        registerPanel(id, ref.current, { ...settings, frozen: !openItemsRef.current.includes(id) });
         const newState = sortRefsByDOMOrder<typeof item>([...state, item]);
 
         return newState;

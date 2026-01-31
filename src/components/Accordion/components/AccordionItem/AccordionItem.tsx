@@ -20,6 +20,8 @@ export type AccordionItemProps = {
   id?: string;
   isOpen?: boolean;
   resizable?: boolean;
+  minSize?: number;
+  maxSize?: number;
   testId?: string;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 } & useThemeSharedProps<typeof AccordionStyles, typeof variantKeys & typeof variantKeysFlex>;
@@ -31,6 +33,8 @@ const AccordionItem = ({
   testId: testIdProp = '',
   isOpen: isOpenProp,
   resizable: resizableProp = true,
+  minSize,
+  maxSize,
   intent: intentProp,
   direction = 'column',
   wrap,
@@ -67,10 +71,10 @@ const AccordionItem = ({
   });
 
   useEffect(() => {
-    register(id, ref);
+    register(id, ref, { minSize, maxSize });
 
     return () => unregister(id);
-  }, [id, register, unregister]);
+  }, [id, maxSize, minSize, register, unregister]);
 
   const isOpen = isOpenProp === undefined ? isOpenFn(id) : isOpenProp;
 

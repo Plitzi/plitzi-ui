@@ -5,11 +5,18 @@ import updateDOMStyles from '../helpers/updateDOMStyles';
 
 import type { RefObject } from 'react';
 
-type Panel = { id: string; el: HTMLElement; hasManualSize: boolean; frozen: boolean };
+type Panel = {
+  id: string;
+  el: HTMLElement;
+  hasManualSize: boolean;
+  frozen: boolean;
+  minSize: number;
+  maxSize?: number;
+};
 
-export type UseResizeOptions = { containerRef: RefObject<HTMLElement | null>; minSize?: number };
+export type UseResizeOptions = { containerRef: RefObject<HTMLElement | null> };
 
-export default function useResize({ containerRef, minSize = 64 }: UseResizeOptions) {
+export default function useResize({ containerRef }: UseResizeOptions) {
   const panels = useRef<Panel[]>([]);
   const draggingData = useRef<{ startY: number; panelA: Panel; startA: number; panelB: Panel; startB: number } | null>(
     null
@@ -43,14 +50,23 @@ export default function useResize({ containerRef, minSize = 64 }: UseResizeOptio
     }
   }, []);
 
-  const registerPanel = useCallback((id: string, el: HTMLElement | null = null, frozen: boolean = false) => {
-    if (!el || panels.current.find(p => p.id === id)) {
-      return;
-    }
+  const registerPanel = useCallback(
+    (id: string, el: HTMLElement | null = null, settings: { frozen?: boolean; minSize?: number }) => {
+      if (!el || panels.current.find(p => p.id === id)) {
+        return;
+      }
 
-    panels.current.push({ id, el, hasManualSize: false, frozen });
-    panels.current = sortItemsByDOMOrder(panels.current);
-  }, []);
+      panels.current.push({
+        id,
+        el,
+        hasManualSize: false,
+        frozen: settings.frozen ?? false,
+        minSize: settings.minSize ?? 80
+      });
+      panels.current = sortItemsByDOMOrder(panels.current);
+    },
+    []
+  );
 
   const unregisterPanel = useCallback(
     (id: string) => {
@@ -82,16 +98,18 @@ export default function useResize({ containerRef, minSize = 64 }: UseResizeOptio
         return;
       }
 
-      draggingData.current = {
-        startY: e.clientY,
-        panelA,
-        startA: panelA.el.offsetHeight,
-        panelB,
-        startB: panelB.el.offsetHeight
-      };
+      let deltaA = 0;
+      if (panelA.el.offsetHeight < panelA.minSize) {
+        deltaA = Math.abs(panelA.el.offsetHeight - panelA.minSize);
+      }
+
+      const startA = panelA.el.offsetHeight + deltaA;
+      const startB = panelB.el.offsetHeight;
+
+      draggingData.current = { startY: e.clientY + deltaA / 2, panelA, startA, panelB, startB };
       updateDOMStyles(containerRef.current, { userSelect: 'none', cursor: 'row-resize' });
-      updateDOMStyles(panelA.el, { flexBasis: `${panelA.el.offsetHeight}px`, flexGrow: '0' });
-      updateDOMStyles(panelB.el, { flexBasis: `${panelB.el.offsetHeight}px`, flexGrow: '0' });
+      updateDOMStyles(panelA.el, { flexBasis: `${startA}px`, flexGrow: '0' });
+      updateDOMStyles(panelB.el, { flexBasis: `${startB}px`, flexGrow: '0' });
       setDragging(true);
       e.preventDefault();
     },
@@ -113,7 +131,7 @@ export default function useResize({ containerRef, minSize = 64 }: UseResizeOptio
       const delta = e.clientY - startY;
       const newA = startA + delta;
       const newB = startB - delta;
-      if (newA < minSize || newB < minSize) {
+      if (newA < panelA.minSize || newB < panelB.minSize) {
         return;
       }
 
@@ -123,7 +141,7 @@ export default function useResize({ containerRef, minSize = 64 }: UseResizeOptio
       panelB.hasManualSize = true;
       updateDOMStyles(panelB.el, { flexBasis: `${newB}px` });
     },
-    [containerRef, minSize]
+    [containerRef]
   );
 
   const onMouseUp = useCallback(() => {

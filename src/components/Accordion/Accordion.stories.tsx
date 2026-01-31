@@ -42,13 +42,16 @@ const CustomItem = () => (
 export const Primary: Story = {
   render: args => (
     <div className="flex flex-col h-100 bg-gray-600 text-white">
-      <Accordion {...args} grow gap={0} defaultValue={['item-0', 'item-1', 'item-3']}>
-        <Accordion.Item id="item-0" grow className="">
+      <Accordion {...args} grow gap={0} defaultValue={['item-0', 'item-1']}>
+        <Accordion.Item id="item-0" grow className="" minSize={150}>
           <Accordion.Item.Header title="Item 1">
             <div className="border border-white px-2 py-1">Header Slot</div>
           </Accordion.Item.Header>
           <Accordion.Item.Content>
-            <Flex direction="column">Hello World</Flex>
+            <Flex>
+              Hello World
+              <div className="h-25.5 w-37.5 bg-red-500"></div>
+            </Flex>
           </Accordion.Item.Content>
         </Accordion.Item>
         <Accordion.Item id="item-1" className="border-t border-solid border-gray-300">
