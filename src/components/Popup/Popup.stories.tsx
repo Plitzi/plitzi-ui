@@ -9,7 +9,7 @@ import PopupProvider from './PopupProvider';
 import PopupSidebar from './PopupSidebar';
 
 import type { PopupPlacement } from './Popup';
-import type { PopupInstance } from './PopupProvider';
+import type { PopupInstance, Popups } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MouseEvent } from 'react';
@@ -29,7 +29,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const popups = {
+const popups: Popups = {
   left: [
     {
       id: 'popup-1',
@@ -59,7 +59,9 @@ const popups = {
       id: 'popup-8',
       component: <div>Hello World 8</div>,
       active: true,
-      position: 1,
+      placementSettings: {
+        left: { position: 1, minSize: 150 }
+      },
       settings: {
         icon: <i className="fa-solid fa-house" />,
         title: 'Popup 8',

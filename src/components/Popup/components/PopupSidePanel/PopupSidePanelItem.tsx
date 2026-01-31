@@ -14,6 +14,8 @@ export type PopupSidePanelItemProps = {
   id: string;
   title?: ReactNode;
   allowFloatingSide?: boolean;
+  minSize?: number;
+  maxSize?: number;
   onClickFloating?: (id: string) => void;
   onClickCollapse?: (id: string) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
@@ -24,6 +26,8 @@ const PopupSidePanelItem = ({
   className,
   title = '',
   allowFloatingSide = true,
+  minSize,
+  maxSize,
   placement,
   size,
   onClickCollapse,
@@ -56,7 +60,7 @@ const PopupSidePanelItem = ({
   );
 
   return (
-    <Accordion.Item key={id} id={id} grow className={classNameTheme.sidePanelItem}>
+    <Accordion.Item key={id} id={id} grow className={classNameTheme.sidePanelItem} minSize={minSize} maxSize={maxSize}>
       <Accordion.Item.Header
         className={classNameTheme.sidePanelItemHeader}
         title={title}

@@ -18,8 +18,9 @@ export type PopupInstance = {
   id: string;
   component: ReactNode;
   active: boolean;
-  position?: number;
-  multi?: boolean;
+  placementSettings?: Partial<
+    Record<PopupPlacement, { position?: number; multi?: boolean; minSize?: number; maxSize?: number }>
+  >;
   size?: AccordionProps['size'];
   settings: PopupSettings;
 };

@@ -14,8 +14,11 @@ const createPopup = (
   id,
   component: null,
   active,
-  position,
-  multi,
+  placementSettings: {
+    left: { position, multi },
+    right: { position, multi },
+    floating: { position, multi }
+  },
   settings: {} as PopupSettings
 });
 
@@ -89,7 +92,12 @@ describe('PopupManager', () => {
     expect(manager.add('left', createPopup('a', { position: 2 }))).toBe(true);
     expect(manager.add('left', createPopup('b', { position: 1 }))).toBe(true);
 
-    expect(manager.update('a', p => ({ ...p, position: 0 }))).toBe(true);
+    expect(
+      manager.update('a', p => ({
+        ...p,
+        placementSettings: { ...p.placementSettings, left: { ...p.placementSettings?.left, position: 0 } }
+      }))
+    ).toBe(true);
 
     expect(manager.get('left').map(p => p.id)).toEqual(['a', 'b']);
   });
@@ -637,5 +645,85 @@ describe('PopupManager', () => {
     expect(manager.get('left', 'b')?.active).toBe(false);
     expect(manager.get('left', 'c')?.active).toBe(false);
     expect(manager.get('left', 'd')?.active).toBe(false);
+  });
+
+  it('move preserves sorting by position in target placement', () => {
+    manager.add('left', createPopup('a', { position: 2 }));
+    manager.add('left', createPopup('b', { position: 1 }));
+    manager.add('right', createPopup('c', { position: 3 }));
+
+    manager.move('b', 'left', 'right');
+
+    expect(manager.get('right').map(p => p.id)).toEqual(['b', 'c']);
+    expect(manager.get('left').map(p => p.id)).toEqual(['a']);
+  });
+
+  it('move to floating respects reverse position order', () => {
+    manager.add('left', createPopup('a', { position: 1 }));
+    manager.add('floating', createPopup('b', { position: 1 }));
+    manager.add('floating', createPopup('c', { position: 2 }));
+
+    manager.move('a', 'left', 'floating');
+
+    expect(manager.get('floating').map(p => p.id)).toEqual(['c', 'b', 'a']);
+  });
+
+  it('move keeps popup active state', () => {
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('right', createPopup('b', { active: false }));
+
+    manager.move('a', 'left', 'right');
+
+    expect(manager.get('right', 'a')?.active).toBe(true);
+  });
+
+  it('move enforces single active when multi is false', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: false });
+
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('right', createPopup('b', { active: true }));
+
+    manager.move('a', 'left', 'right');
+
+    expect(manager.get('right', 'a')?.active).toBe(true);
+    expect(manager.get('right', 'b')?.active).toBe(false);
+  });
+
+  it('popup with multi=false behaves as single (fullscreen-like)', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: true });
+
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('left', createPopup('b', { active: true }));
+    manager.add('left', createPopup('c', { active: false, multi: false }));
+
+    manager.setActive('c', true, 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(false);
+    expect(manager.get('left', 'c')?.active).toBe(true);
+  });
+
+  it('moving single-mode popup deactivates others in target placement', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: true });
+
+    manager.add('left', createPopup('a', { active: true, multi: false }));
+    manager.add('right', createPopup('b', { active: true }));
+    manager.add('right', createPopup('c', { active: true }));
+
+    manager.move('a', 'left', 'right');
+
+    expect(manager.get('right', 'a')?.active).toBe(true);
+    expect(manager.get('right', 'b')?.active).toBe(false);
+    expect(manager.get('right', 'c')?.active).toBe(false);
+  });
+
+  it('activating another popup deactivates fullscreen popup', () => {
+    manager.add('left', createPopup('a', { active: true, multi: false }));
+    manager.add('left', createPopup('b', { active: false }));
+
+    manager.setActive('b', true, 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(false);
+    expect(manager.get('left', 'b')?.active).toBe(true);
   });
 });

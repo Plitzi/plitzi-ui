@@ -44,14 +44,14 @@ export class PopupManager<P extends PopupPlacement> {
 
   /* ---------- helpers ---------- */
 
-  private sortByPosition(list: PopupInstance[], placement?: P): PopupInstance[] {
+  private sortByPosition(list: PopupInstance[], placement: P): PopupInstance[] {
     const isFloating = placement === ('floating' as P);
 
     return list
       .map((popup, index) => ({ popup, index }))
       .sort((a, b) => {
-        const pa = a.popup.position;
-        const pb = b.popup.position;
+        const pa = a.popup.placementSettings?.[placement]?.position;
+        const pb = b.popup.placementSettings?.[placement]?.position;
 
         // both have position
         if (typeof pa === 'number' && typeof pb === 'number') {
@@ -236,8 +236,10 @@ export class PopupManager<P extends PopupPlacement> {
 
     this.store[from] = this.store[from].filter(p => p.id !== id);
     this.store[to] = this.sortByPosition([...this.store[to], popup], to);
+    this.setActive(id, true, to, true);
     this.touch(from);
     this.touch(to);
+
     return true;
   }
 
@@ -324,7 +326,7 @@ export class PopupManager<P extends PopupPlacement> {
     return false;
   }
 
-  setActive(id: string, active: boolean, placement?: P): boolean {
+  setActive(id: string, active: boolean, placement?: P, isMoving = false): boolean {
     for (const placementKey in this.store) {
       if (placement && placement !== placementKey) {
         continue;
@@ -337,16 +339,21 @@ export class PopupManager<P extends PopupPlacement> {
       }
 
       const popup = list[index];
-      if (popup.active === active) {
+      if (popup.active === active && !isMoving) {
         return false;
       }
 
-      const multi = this.multi && (popup.multi === undefined || popup.multi);
+      const multi =
+        this.multi &&
+        (popup.placementSettings?.[placementKey]?.multi === undefined || popup.placementSettings[placementKey].multi);
       if (!multi && active) {
         list = list.map(p => (p.id === id ? { ...p, active: true } : { ...p, active: false }));
       } else {
         const updated: PopupInstance = { ...popup, active };
         list = [...list.slice(0, index), updated, ...list.slice(index + 1)];
+        if (active) {
+          list = list.map(p => (p.id === id ? { ...p, active: true } : { ...p, active: false }));
+        }
       }
 
       this.store[placementKey] = list;
@@ -370,10 +377,10 @@ export class PopupManager<P extends PopupPlacement> {
     let changed = false as boolean;
 
     const lastPopup = list.find(p => p.id === lastId);
-    if (lastPopup && lastPopup.multi === false) {
+    if (lastPopup && lastPopup.placementSettings?.[placement]?.multi === false) {
       ids = [lastPopup.id];
     } else {
-      const popupIdsSingleMode = list.filter(p => p.multi === false).map(p => p.id);
+      const popupIdsSingleMode = list.filter(p => p.placementSettings?.[placement]?.multi === false).map(p => p.id);
       ids = ids.filter(id => !popupIdsSingleMode.includes(id));
     }
 
