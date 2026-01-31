@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
+
 import { AccordionContext } from './AccordionContext';
 import { sortRefsByDOMOrder } from './helpers/sortItemsByDOMOrder';
 import useResize from './hooks/useResize';
@@ -97,6 +99,12 @@ const AccordionProvider = ({
     },
     [setOpenItems, unregisterPanel]
   );
+
+  useDidUpdateEffect(() => {
+    if (alwaysOpen && !openItems.length && registeredItems.length > 0) {
+      setOpenItems([registeredItems[0].id]);
+    }
+  }, [alwaysOpen, registeredItems.length, setOpenItems]);
 
   useEffect(() => {
     if (value) {
