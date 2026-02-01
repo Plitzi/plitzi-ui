@@ -31,7 +31,7 @@ export type PopupProps = {
   limitMode?: 'window' | 'parent' | 'none';
   parentElement?: HTMLElement | null;
   placementPopup?: (popupId: string, placement: PopupPlacement) => void;
-  onFocus?: (popupId: string, sort?: number) => void;
+  onFocus?: (popupId: string) => void;
   removePopup?: (popupId: string) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 

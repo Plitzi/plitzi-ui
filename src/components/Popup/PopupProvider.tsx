@@ -82,12 +82,11 @@ const PopupProvider = ({
 
   const addPopup = useCallback(
     (id: string, component: ReactNode, settings: PopupSettings = {} as PopupSettings, active: boolean = true) => {
-      if (!settings.placement || !popupManager.add(settings.placement, { id, component, active, settings })) {
+      if (!settings.placement) {
         return;
       }
 
-      setRerender(Date.now());
-      onChangeRef.current?.(settings.placement, popupManager.get(settings.placement), popupManager.getAll());
+      popupManager.add(settings.placement, { id, component, active, settings });
     },
     [popupManager]
   );
@@ -95,25 +94,16 @@ const PopupProvider = ({
   const removePopup = useCallback(
     (popupId: string) => {
       const placement = popupManager.getPlacement(popupId);
-      if (!placement || !popupManager.remove(popupId)) {
+      if (!placement) {
         return;
       }
 
-      setRerender(Date.now());
-      onChangeRef.current?.(placement, popupManager.get(placement), popupManager.getAll());
+      popupManager.remove(popupId);
     },
     [popupManager]
   );
 
   const existsPopup = useCallback((popupId: string) => popupManager.exists(popupId), [popupManager]);
-
-  const focusPopup = useCallback(
-    (popupId: string) => {
-      popupManager.focusFloating(popupId);
-      setRerender(Date.now());
-    },
-    [popupManager]
-  );
 
   const popupContextValueFloating = useMemo(
     () => ({
@@ -128,12 +118,11 @@ const PopupProvider = ({
         .map(popup => popup.id),
       limitMode,
       addPopup,
-      focusPopup,
       existsPopup,
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.floating]
+    [addPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.floating]
   );
 
   const popupContextValueLeft = useMemo(
@@ -149,12 +138,11 @@ const PopupProvider = ({
         .map(popup => popup.id),
       limitMode,
       addPopup,
-      focusPopup,
       existsPopup,
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.left]
+    [addPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.left]
   );
 
   const popupContextValueRight = useMemo(
@@ -170,12 +158,11 @@ const PopupProvider = ({
         .map(popup => popup.id),
       limitMode,
       addPopup,
-      focusPopup,
       existsPopup,
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addPopup, focusPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.right]
+    [addPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.right]
   );
 
   return (

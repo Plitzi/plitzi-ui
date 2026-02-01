@@ -12,12 +12,14 @@ export type PopupFloatingAreaProps = {
 };
 const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
   const { rootDOM } = use(ContainerRootContext);
-  const { popupManager, popups, removePopup, focusPopup, limitMode } = usePopup('floating');
+  const { popupManager, popups, removePopup, limitMode } = usePopup('floating');
 
   const handleChangePlacement = useCallback(
     (id: string, placement: PopupPlacement) => popupManager.changePlacement(id, placement),
     [popupManager]
   );
+
+  const handleFocus = useCallback((id: string) => popupManager.focusFloating(id), [popupManager]);
 
   if (!popups.length) {
     return undefined;
@@ -35,7 +37,7 @@ const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
             id={popup.id}
             title={title}
             placementPopup={handleChangePlacement}
-            onFocus={focusPopup}
+            onFocus={handleFocus}
             removePopup={removePopup}
             limitMode={limitMode}
             parentElement={rootDOM}

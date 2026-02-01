@@ -15,7 +15,6 @@ export type PopupContextValue = {
   multi: boolean;
   multiExpanded: boolean;
   addPopup: (id: string, component: ReactNode, settings?: PopupSettings) => void;
-  focusPopup: (popupId: string) => void;
   existsPopup: (popupId: string) => boolean;
   removePopup: (popupId: string) => void;
 };
@@ -29,7 +28,6 @@ const popupDefaultValue = {
   multi: false,
   multiExpanded: false,
   addPopup: () => {},
-  focusPopup: () => {},
   existsPopup: () => false,
   removePopup: () => {}
 } as PopupContextValue;

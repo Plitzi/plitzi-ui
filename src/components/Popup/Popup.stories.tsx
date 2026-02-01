@@ -366,6 +366,18 @@ const getPopups = (id: string) => {
           allowRightSide: true,
           resizeHandles: ['se'] as ResizeHandle[]
         }
+      },
+      {
+        id: 'popup-3',
+        component: <div>Hello World 3</div>,
+        active: true,
+        settings: {
+          icon: <i className="fa-solid fa-plus" />,
+          title: 'Popup 3',
+          allowLeftSide: true,
+          allowRightSide: true,
+          resizeHandles: ['se'] as ResizeHandle[]
+        }
       }
     ],
     right: [
@@ -386,9 +398,28 @@ const getPopups = (id: string) => {
   };
 };
 
+const NestedComponent = () => {
+  const { addPopup } = usePopup();
+
+  const handleClick = useCallback(() => {
+    addPopup('element-tools', <div>Hello Dynamic World</div>, {
+      icon: <i className="fas fa-tools text-base" />,
+      title: 'Tools',
+      resizeHandles: ['se'],
+      width: 350,
+      allowLeftSide: true,
+      allowRightSide: true,
+      placement: 'right'
+    });
+  }, [addPopup]);
+
+  return <Button onClick={handleClick}>Add Popup</Button>;
+};
+
 export const DynamicPopups: Story = {
   args: {},
   render: function Render() {
+    const [, setValue] = useState<Popups>({ left: [], right: [], floating: [] });
     const [id, setId] = useState('Hello');
 
     const popups = useMemo(() => getPopups(id), [id]);
@@ -407,10 +438,14 @@ export const DynamicPopups: Story = {
           popups={popups}
           multi
           canHide
-          onChange={(placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value)}
+          onChange={(placement: PopupPlacement, value: PopupInstance[], fullValue) => {
+            console.log(placement, value);
+            setValue(fullValue);
+          }}
         >
-          <div className="flex grow h-125 bg-gray-200 items-center justify-center">
+          <div className="flex grow h-125 bg-gray-200 items-center justify-center gap-2">
             <Button onClick={handleClick}>Click Me</Button>
+            <NestedComponent />
           </div>
         </PopupProvider>
       </div>
