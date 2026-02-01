@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
+
 import PopupSidePanel from './components/PopupSidePanel';
 import PopupManager from './helpers/PopupManager';
 import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
@@ -66,12 +68,16 @@ const PopupProvider = ({
   onChange
 }: PopupProviderProps) => {
   const [, setRerender] = useState(0);
-  const popupManager = useMemo(
-    () => new PopupManager(['left', 'right', 'floating'], popups, { multi }),
-    [popups, multi]
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const popupManager = useMemo(() => new PopupManager(['left', 'right', 'floating'], popups, { multi }), [multi]);
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
+
+  useDidUpdateEffect(() => {
+    if (popups) {
+      popupManager.resync(popups);
+    }
+  }, [popups]);
 
   useEffect(() => {
     return popupManager.onUpdate((placement: PopupPlacement, timestamp: number) => {

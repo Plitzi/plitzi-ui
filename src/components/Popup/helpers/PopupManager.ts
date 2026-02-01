@@ -1,17 +1,15 @@
 import type { PopupPlacement } from '../Popup';
 import type { PopupInstance } from '../PopupProvider';
 
-type PopupStore<P extends PopupPlacement> = {
-  [K in P]: PopupInstance[];
-};
-
-type PopupUpdateListener<P extends PopupPlacement> = (placement: P, timestamp: number) => void;
+export type PopupStore<P extends PopupPlacement> = { [K in P]: PopupInstance[] };
+export type PopupUpdateListener<P extends PopupPlacement> = (placement: P, timestamp: number) => void;
 
 export class PopupManager<P extends PopupPlacement> {
   private store: PopupStore<P>;
   lastUpdate: Record<P, number>;
   private listeners = new Set<PopupUpdateListener<P>>();
   private multi: boolean;
+  private popupsAddedManually: string[] = [];
 
   constructor(placements: readonly P[], popups?: Partial<PopupStore<P>>, options?: { multi?: boolean }) {
     this.store = {} as PopupStore<P>;
@@ -23,29 +21,41 @@ export class PopupManager<P extends PopupPlacement> {
       if (this.multi) {
         this.store[placement] = sorted;
       } else {
-        let foundActive = false;
-        this.store[placement] = sorted.map(popup => {
-          if (popup.active && !foundActive) {
-            foundActive = true;
-            return popup;
-          }
-
-          if (popup.active && foundActive) {
-            return { ...popup, active: false };
-          }
-
-          return popup;
-        });
+        const popupActive = sorted.find(p => p.active);
+        this.store[placement] = sorted.map(p => ({ ...p, active: popupActive?.id === p.id ? true : false }));
       }
 
       this.lastUpdate[placement] = Date.now();
     }
   }
 
+  resync(popups: PopupStore<P>) {
+    for (const placement in popups) {
+      const popupsToKeep = this.store[placement].filter(p => this.popupsAddedManually.includes(p.id));
+      const sorted = this.sortByPosition([...popups[placement], ...popupsToKeep], placement);
+      if (this.multi) {
+        this.store[placement] = sorted;
+      } else {
+        const popupActive = sorted.find(p => p.active);
+        this.store[placement] = sorted.map(p => ({ ...p, active: popupActive?.id === p.id ? true : false }));
+      }
+
+      this.lastUpdate[placement] = Date.now();
+    }
+  }
+
+  onUpdate(listener: PopupUpdateListener<P>): () => void {
+    this.listeners.add(listener);
+
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
+
   /* ---------- helpers ---------- */
 
   private sortByPosition(list: PopupInstance[], placement: P): PopupInstance[] {
-    const isFloating = placement === ('floating' as P);
+    const isFloating = placement === 'floating';
 
     return list
       .map((popup, index) => ({ popup, index }))
@@ -80,14 +90,6 @@ export class PopupManager<P extends PopupPlacement> {
     }
   }
 
-  onUpdate(listener: PopupUpdateListener<P>): () => void {
-    this.listeners.add(listener);
-
-    return () => {
-      this.listeners.delete(listener);
-    };
-  }
-
   private touch(placement: P): void {
     const ts = Date.now();
     this.lastUpdate[placement] = ts;
@@ -108,7 +110,6 @@ export class PopupManager<P extends PopupPlacement> {
     return result;
   }
 
-  /* ---------- get overloads ---------- */
   get(placement: P): PopupInstance[];
   get(placement: P | undefined, popupId: string): PopupInstance | undefined;
   get(placement: P | undefined, popupId?: string): PopupInstance[] | PopupInstance | undefined {
@@ -166,7 +167,7 @@ export class PopupManager<P extends PopupPlacement> {
     }
 
     for (const p in this.store) {
-      if (this.store[p as P].some(popup => popup.id === id)) {
+      if (this.store[p].some(popup => popup.id === id)) {
         return true;
       }
     }
@@ -198,6 +199,7 @@ export class PopupManager<P extends PopupPlacement> {
     }
 
     this.store[placement] = this.sortByPosition(next, placement);
+    this.popupsAddedManually = [...this.popupsAddedManually, popup.id];
     this.touch(placement);
 
     return true;
@@ -206,13 +208,18 @@ export class PopupManager<P extends PopupPlacement> {
   remove(id: string): boolean {
     let removed = false;
     for (const placement in this.store) {
-      const originalLength = this.store[placement as P].length;
-      this.store[placement as P] = this.store[placement as P].filter(p => p.id !== id);
-      if (this.store[placement as P].length !== originalLength) {
+      const originalLength = this.store[placement].length;
+      this.store[placement] = this.store[placement].filter(p => p.id !== id);
+      if (this.store[placement].length !== originalLength) {
         removed = true;
-        this.touch(placement as P);
+        this.touch(placement);
       }
     }
+
+    if (removed) {
+      this.popupsAddedManually = this.popupsAddedManually.filter(popupId => popupId !== id);
+    }
+
     return removed;
   }
 
@@ -266,7 +273,7 @@ export class PopupManager<P extends PopupPlacement> {
     }
 
     for (const placement in this.store) {
-      const from = placement as P;
+      const from = placement;
       if (from === to) {
         continue;
       }
@@ -304,15 +311,15 @@ export class PopupManager<P extends PopupPlacement> {
 
   update(id: string, updater: (popup: PopupInstance) => PopupInstance): boolean {
     for (const placement in this.store) {
-      const list = this.store[placement as P];
+      const list = this.store[placement];
       const index = list.findIndex(p => p.id === id);
       if (index !== -1) {
         const updated = updater(list[index]);
-        this.store[placement as P] = this.sortByPosition(
+        this.store[placement] = this.sortByPosition(
           [...list.slice(0, index), updated, ...list.slice(index + 1)],
-          placement as P
+          placement
         );
-        this.touch(placement as P);
+        this.touch(placement);
 
         return true;
       }
@@ -403,15 +410,19 @@ export class PopupManager<P extends PopupPlacement> {
   clear(placement?: P): void {
     if (placement) {
       this.assertPlacement(placement);
+
+      const popupIds = this.store[placement].map(p => p.id);
+      this.popupsAddedManually = this.popupsAddedManually.filter(popupId => !popupIds.includes(popupId));
       this.store[placement] = [];
       this.touch(placement);
 
       return;
     }
 
+    this.popupsAddedManually = [];
     for (const p in this.store) {
-      this.store[p as P] = [];
-      this.touch(p as P);
+      this.store[p] = [];
+      this.touch(p);
     }
   }
 }

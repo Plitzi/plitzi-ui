@@ -2,8 +2,9 @@ import { describe, it, expect, beforeEach } from 'vitest';
 
 import PopupManager from './PopupManager';
 
+import type { PopupStore } from './PopupManager';
 import type { PopupPlacement, PopupSettings } from '../Popup';
-import type { PopupInstance } from '../PopupProvider';
+import type { PopupInstance, Popups } from '../PopupProvider';
 
 /* ---------- helpers ---------- */
 
@@ -725,5 +726,51 @@ describe('PopupManager', () => {
 
     expect(manager.get('left', 'a')?.active).toBe(false);
     expect(manager.get('left', 'b')?.active).toBe(true);
+  });
+
+  it('keeps manually added popups after resync and clears them on clear()', () => {
+    const initialPopups: Popups = {
+      left: [createPopup('a')],
+      right: [],
+      floating: []
+    };
+
+    const manager = new PopupManager(['left', 'right', 'floating'], initialPopups, {
+      multi: true
+    });
+
+    // sanity check
+    expect(manager.get('left').map(p => p.id)).toEqual(['a']);
+
+    // add popup manually
+    const manualPopup = createPopup('manual');
+    manager.add('left', manualPopup);
+
+    expect(manager.get('left').map(p => p.id)).toEqual(['a', 'manual']);
+
+    // resync with new external popups (manual should persist)
+    const newPopups: Popups = {
+      left: [createPopup('b')],
+      right: [],
+      floating: []
+    };
+
+    manager.resync(newPopups);
+
+    const idsAfterResync = manager.get('left').map(p => p.id);
+    expect(idsAfterResync).toContain('b');
+    expect(idsAfterResync).toContain('manual');
+    expect(idsAfterResync).not.toContain('a'); // replaced by resync
+
+    // clear should remove everything AND clean popupsAddedManually
+    manager.clear();
+
+    expect(manager.get('left')).toEqual([]);
+    expect(manager.get('right')).toEqual([]);
+
+    // indirect assertion: manual popup should NOT reappear on resync
+    manager.resync(newPopups as PopupStore<'left' | 'right' | 'floating'>);
+
+    expect(manager.get('left').map(p => p.id)).toEqual(['b']);
   });
 });
