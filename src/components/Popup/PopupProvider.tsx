@@ -67,6 +67,7 @@ const PopupProvider = ({
   rightMaxWidth,
   onChange
 }: PopupProviderProps) => {
+  const [ready, setReady] = useState(false);
   const [, setRerender] = useState(0);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const popupManager = useMemo(() => new PopupManager(['left', 'right', 'floating'], popups, { multi }), [multi]);
@@ -80,6 +81,8 @@ const PopupProvider = ({
   }, [popups]);
 
   useEffect(() => {
+    setReady(true);
+
     return popupManager.onUpdate((placement: PopupPlacement, timestamp: number) => {
       setRerender(timestamp);
       onChangeRef.current?.(placement, popupManager.get(placement), popupManager.getAll());
@@ -185,7 +188,7 @@ const PopupProvider = ({
               maxWidth={leftMaxWidth}
             />
           )}
-          {children}
+          {ready && children}
           {renderFloatingPopup && !!popupManager.getCount('floating') && (
             <PopupFloatingArea
               className={clsx(

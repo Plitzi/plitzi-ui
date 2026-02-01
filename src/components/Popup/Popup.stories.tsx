@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Button from '@components/Button';
 
@@ -402,7 +402,19 @@ const NestedComponent = () => {
   const { addPopup } = usePopup();
 
   const handleClick = useCallback(() => {
-    addPopup('element-tools', <div>Hello Dynamic World</div>, {
+    addPopup('popup-10', <div>Hello Dynamic World 10</div>, {
+      icon: <i className="fas fa-tools text-base" />,
+      title: 'Tools',
+      resizeHandles: ['se'],
+      width: 350,
+      allowLeftSide: true,
+      allowRightSide: true,
+      placement: 'right'
+    });
+  }, [addPopup]);
+
+  useEffect(() => {
+    addPopup('popup-20', <div>Hello Dynamic World 20</div>, {
       icon: <i className="fas fa-tools text-base" />,
       title: 'Tools',
       resizeHandles: ['se'],
