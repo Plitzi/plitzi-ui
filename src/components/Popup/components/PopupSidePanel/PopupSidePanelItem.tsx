@@ -33,12 +33,12 @@ const PopupSidePanelItem = ({
   onClickCollapse,
   onClickFloating
 }: PopupSidePanelItemProps) => {
-  const { isOpen } = useAccordion();
+  const { accordionManager } = useAccordion();
 
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
     componentKey: ['sidePanelItem', 'sidePanelItemHeader', 'btn'],
-    variants: { size, expanded: isOpen(id) }
+    variants: { size, expanded: accordionManager.isOpen(id) }
   });
 
   const handleClickCollapse = useCallback(

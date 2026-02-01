@@ -64,8 +64,9 @@ export default function useResize({ containerRef }: UseResizeOptions) {
         minSize: settings.minSize ?? 80
       });
       panels.current = sortItemsByDOMOrder(panels.current);
+      resyncLayout(panels.current.map(p => p.id));
     },
-    []
+    [resyncLayout]
   );
 
   const unregisterPanel = useCallback(

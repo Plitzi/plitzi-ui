@@ -133,17 +133,7 @@ const PopupProvider = ({
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      addPopup,
-      focusPopup,
-      existsPopup,
-      removePopup,
-      limitMode,
-      multi,
-      multiExpanded,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      popupManager.getLastUpdate('floating')
-    ]
+    [addPopup, focusPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.floating]
   );
 
   const popupContextValueLeft = useMemo(
@@ -164,17 +154,7 @@ const PopupProvider = ({
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      addPopup,
-      focusPopup,
-      existsPopup,
-      removePopup,
-      limitMode,
-      multi,
-      multiExpanded,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      popupManager.getLastUpdate('left')
-    ]
+    [addPopup, focusPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.left]
   );
 
   const popupContextValueRight = useMemo(
@@ -195,17 +175,7 @@ const PopupProvider = ({
       removePopup
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      addPopup,
-      focusPopup,
-      existsPopup,
-      removePopup,
-      limitMode,
-      multi,
-      multiExpanded,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      popupManager.getLastUpdate('right')
-    ]
+    [addPopup, focusPopup, existsPopup, removePopup, limitMode, multi, multiExpanded, popupManager.lastUpdate.right]
   );
 
   return (

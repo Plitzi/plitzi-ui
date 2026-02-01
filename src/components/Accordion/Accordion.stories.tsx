@@ -40,8 +40,9 @@ const CustomItem = () => (
 );
 
 export const Primary: Story = {
+  args: {},
   render: args => (
-    <div className="flex flex-col h-100 bg-gray-600 text-white">
+    <div className="flex flex-col h-120 bg-gray-600 text-white">
       <Accordion {...args} grow gap={0} defaultValue={['item-0', 'item-1']}>
         <Accordion.Item id="item-0" grow className="" minSize={150}>
           <Accordion.Item.Header title="Item 1">

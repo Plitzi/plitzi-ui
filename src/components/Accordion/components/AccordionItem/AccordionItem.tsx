@@ -50,19 +50,7 @@ const AccordionItem = ({
   const reactId = useId();
   const id = idProp || `accordion-item-${reactId}`;
   const ref = useRef<HTMLDivElement>(undefined) as RefObject<HTMLDivElement>;
-  const {
-    registeredItems,
-    openItems,
-    intent,
-    size,
-    resizable,
-    testId,
-    isOpen: isOpenFn,
-    onResizeStart,
-    toggle,
-    register,
-    unregister
-  } = useAccordion();
+  const { accordionManager, intent, size, testId } = useAccordion();
   const testidFinal = testIdProp || testId;
   const classNameTheme = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: ['item', 'itemDivider'],
@@ -71,19 +59,19 @@ const AccordionItem = ({
   });
 
   useEffect(() => {
-    register(id, ref, { minSize, maxSize });
+    accordionManager.register(id, ref, { minSize, maxSize });
 
-    return () => unregister(id);
-  }, [id, maxSize, minSize, register, unregister]);
+    return () => accordionManager.unregister(id);
+  }, [accordionManager, id, maxSize, minSize]);
 
-  const isOpen = isOpenProp === undefined ? isOpenFn(id) : isOpenProp;
+  const isOpen = isOpenProp === undefined ? accordionManager.isOpen(id) : isOpenProp;
 
   const handleClick = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
       onClick?.(e);
-      toggle(id);
+      accordionManager.toggle(id);
     },
-    [onClick, toggle, id]
+    [onClick, accordionManager, id]
   );
 
   const { header, content } = useMemo(() => {
@@ -118,21 +106,11 @@ const AccordionItem = ({
     return components;
   }, [children, intent, size, isOpen, testidFinal, id, handleClick, grow]);
 
-  const canResize = useMemo(() => {
-    if (!isOpen || !resizableProp || !resizable) {
-      return false;
-    }
-
-    const index = registeredItems.findIndex(i => i.id === id);
-    if (index === -1 || index === registeredItems.length - 1) {
-      return false;
-    }
-
-    return (
-      openItems.includes(registeredItems[index + 1].id) ||
-      registeredItems.find((i, pos) => openItems.includes(i.id) && i.id !== id && pos > index)
-    );
-  }, [id, isOpen, openItems, registeredItems, resizable, resizableProp]);
+  const canResize = useMemo(
+    () => resizableProp && isOpen && accordionManager.canResize(id),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, isOpen, accordionManager.lastUpdateActive, accordionManager, resizableProp]
+  );
 
   return (
     <Flex
@@ -151,7 +129,7 @@ const AccordionItem = ({
     >
       {header}
       {isOpen && content}
-      {canResize && <div className={classNameTheme.itemDivider} onMouseDown={onResizeStart(id)} />}
+      {canResize && <div className={classNameTheme.itemDivider} onMouseDown={accordionManager.onResizeStart(id)} />}
     </Flex>
   );
 };

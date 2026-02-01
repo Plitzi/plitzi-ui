@@ -9,7 +9,7 @@ type PopupUpdateListener<P extends PopupPlacement> = (placement: P, timestamp: n
 
 export class PopupManager<P extends PopupPlacement> {
   private store: PopupStore<P>;
-  private lastUpdate: Record<P, number>;
+  lastUpdate: Record<P, number>;
   private listeners = new Set<PopupUpdateListener<P>>();
   private multi: boolean;
 
@@ -145,12 +145,6 @@ export class PopupManager<P extends PopupPlacement> {
     this.assertPlacement(placement);
 
     return this.store[placement].length;
-  }
-
-  getLastUpdate(placement: P): number {
-    this.assertPlacement(placement);
-
-    return this.lastUpdate[placement];
   }
 
   getPlacementByPopup(): Record<string, P> {

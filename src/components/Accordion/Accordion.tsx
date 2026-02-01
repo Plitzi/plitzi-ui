@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-import AccordionProvider from './AccordionProvider';
+import { AccordionContext } from './AccordionContext';
 import AccordionItem from './components/AccordionItem';
+import AccordionManager from './helpers/AccordionManager';
 
 import type { variantKeys } from './Accordion.styles';
 import type AccordionStyles from './Accordion.styles';
@@ -26,7 +27,7 @@ const Accordion = ({
   className,
   children,
   defaultValue,
-  value,
+  // value,
   multi = false,
   alwaysOpen = true,
   testId = '',
@@ -40,14 +41,49 @@ const Accordion = ({
   size,
   onChange
 }: AccordionProps) => {
-  const containerRef = useRef<HTMLDivElement>(null) as RefObject<HTMLDivElement>;
-  const [openItems, setOpenItems] = useState<string[]>(defaultValue ?? []);
-
   className = useTheme<typeof AccordionStyles, typeof variantKeys>('Accordion', {
     componentKey: 'root',
     className,
     variants: { intent, size }
   });
+  const [ready, setReady] = useState(false);
+  const [, setRerender] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null) as RefObject<HTMLDivElement>;
+
+  const accordionManager = useMemo(
+    () => new AccordionManager(containerRef, { multi, alwaysOpen, defaultActive: defaultValue }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [alwaysOpen, multi]
+  );
+
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  useEffect(() => {
+    setReady(true);
+
+    return accordionManager.onUpdate((timestamp: number) => {
+      setRerender(timestamp);
+      onChangeRef.current?.(
+        accordionManager
+          .get()
+          .filter(p => p.active)
+          .map(p => p.id)
+      );
+    });
+  }, [accordionManager]);
+
+  const contextValue = useMemo(
+    () => ({
+      accordionManager,
+      intent,
+      size,
+      resizable: accordionManager.get().length > 1,
+      testId
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [accordionManager, intent, size, testId, accordionManager.lastUpdate]
+  );
 
   return (
     <Flex
@@ -59,22 +95,9 @@ const Accordion = ({
       items={flexItems}
       justify={justify}
       gap={gap}
-      grow={openItems.length > 0 ? grow : false}
+      grow={accordionManager.getActives().length > 0 ? grow : false}
     >
-      <AccordionProvider
-        containerRef={containerRef}
-        intent={intent}
-        size={size}
-        testId={testId}
-        multi={multi}
-        alwaysOpen={alwaysOpen}
-        value={value}
-        openItems={openItems}
-        setOpenItems={setOpenItems}
-        onChange={onChange}
-      >
-        {children}
-      </AccordionProvider>
+      {ready && <AccordionContext value={contextValue}>{children}</AccordionContext>}
     </Flex>
   );
 };

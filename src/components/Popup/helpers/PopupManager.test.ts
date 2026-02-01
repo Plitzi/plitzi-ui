@@ -302,16 +302,16 @@ describe('PopupManager', () => {
 
   it('getLastUpdate changes after mutations', async () => {
     expect(manager.add('left', createPopup('a'))).toBe(true);
-    const before = manager.getLastUpdate('left');
+    const before = manager.lastUpdate.left;
     // Wait so that time changes (simulate async)
     await new Promise(r => setTimeout(r, 2));
     manager.update('a', p => ({ ...p, active: false }));
-    const after = manager.getLastUpdate('left');
+    const after = manager.lastUpdate.left;
     expect(after).toBeGreaterThan(before);
     // Remove also updates
     await new Promise(r => setTimeout(r, 2));
     manager.remove('a');
-    const afterRemove = manager.getLastUpdate('left');
+    const afterRemove = manager.lastUpdate.left;
     expect(afterRemove).toBeGreaterThan(after);
   });
 
@@ -364,12 +364,12 @@ describe('PopupManager', () => {
   it('setActive updates lastUpdate for the affected placement', async () => {
     expect(manager.add('left', createPopup('a'))).toBe(true);
 
-    const before = manager.getLastUpdate('left');
+    const before = manager.lastUpdate.left;
     await new Promise(r => setTimeout(r, 2));
 
     expect(manager.setActive('a', false, 'left')).toBe(true);
 
-    const after = manager.getLastUpdate('left');
+    const after = manager.lastUpdate.left;
     expect(after).toBeGreaterThan(before);
   });
 
@@ -434,12 +434,12 @@ describe('PopupManager', () => {
     expect(manager.add('left', createPopup('a'))).toBe(true);
     expect(manager.add('left', createPopup('b'))).toBe(true);
 
-    const before = manager.getLastUpdate('left');
+    const before = manager.lastUpdate.left;
     await new Promise(r => setTimeout(r, 2));
 
     expect(manager.setActiveMany(['b'], 'left')).toBe(true);
 
-    const after = manager.getLastUpdate('left');
+    const after = manager.lastUpdate.left;
     expect(after).toBeGreaterThan(before);
   });
 
