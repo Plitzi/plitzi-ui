@@ -84,6 +84,42 @@ describe('AccordionManager', () => {
 
       expect(manager.canResize('a')).toBe(true);
     });
+
+    it('restores auto-grow when second panel is removed after resize', () => {
+      const refA = createRef();
+      const refB = createRef();
+
+      refA.current = document.createElement('div');
+      refB.current = document.createElement('div');
+
+      manager.register('a', refA);
+      manager.register('b', refB);
+
+      manager.toggle('a');
+      manager.toggle('b');
+
+      const panelA = manager.get('a');
+      expect(expect).not.toBe(undefined);
+      if (!panelA) {
+        return;
+      }
+
+      // Simulate resize (manual size applied)
+      refA.current.style.flexBasis = '200px';
+      refA.current.style.flexGrow = '0';
+      panelA.hasManualSize = true;
+
+      // Sanity check
+      expect(panelA.hasManualSize).toBe(true);
+
+      // Remove second panel
+      manager.unregister('b');
+
+      // Panel A should return to auto-grow
+      expect(panelA.hasManualSize).toBe(false);
+      expect(refA.current.style.flexBasis).toBe('');
+      expect(refA.current.style.flexGrow).toBe('');
+    });
   });
 
   /* ====================================================================== */

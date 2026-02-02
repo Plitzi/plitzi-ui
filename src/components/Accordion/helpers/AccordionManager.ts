@@ -85,6 +85,7 @@ class AccordionManager {
 
   unregister(id: string) {
     this.panels = this.panels.filter(p => p.id !== id);
+    this.resyncLayout();
     this.touch();
   }
 
