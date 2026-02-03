@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { produce } from 'immer';
 import get from 'lodash-es/get.js';
 import set from 'lodash-es/set.js';
@@ -20,7 +21,7 @@ import type { variantKeys } from './Tree.styles';
 import type { ItemControlsProps } from './TreeNode';
 import type { DragMetadata, DropPosition, TreeFlatItem, TreeItem } from './utils';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { DragEvent, ReactNode } from 'react';
+import type { DragEvent, HTMLAttributes, ReactNode } from 'react';
 
 export type { TreeItem, ItemControlsProps, DropPosition };
 
@@ -46,7 +47,8 @@ export type TreeProps = {
   items: TreeItem[];
   onChange?: (state: TreeChangeState) => void;
   isDragAllowed?: (id: string, dropPosition: DropPosition, parentId?: string) => boolean;
-} & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> &
+  useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
 const Tree = ({
   itemControls,
@@ -59,7 +61,8 @@ const Tree = ({
   intent,
   size,
   onChange,
-  isDragAllowed
+  isDragAllowed,
+  ...divProps
 }: TreeProps) => {
   className = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
     className,
@@ -181,11 +184,12 @@ const Tree = ({
 
   return (
     <div
-      className={className}
+      className={clsx('tree', className)}
       tabIndex={-1}
       data-testid={testId}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      {...divProps}
     >
       {itemsFiltered.map(item => {
         const { id, label, level, parentId, icon = 'fa-solid fa-shapes' } = item;

@@ -1,8 +1,9 @@
 import clsx from 'clsx';
-import { cloneElement, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { cloneElement, isValidElement, memo, useCallback, useMemo, useRef, useState } from 'react';
 
 import Contenteditable from '@components/ContentEditable';
 import Icon from '@components/Icon';
+import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
 import { getPaddingLeft } from './utils';
@@ -95,7 +96,7 @@ const TreeNodeOriginal = ({
 
   const handleClickSelect = useCallback(() => onSelect?.(id), [onSelect, id]);
 
-  useEffect(() => {
+  useDidUpdateEffect(() => {
     clientRect.current = ref.current?.getBoundingClientRect();
   }, [dragHovered]);
 
@@ -244,7 +245,7 @@ const TreeNodeOriginal = ({
   return (
     <div
       ref={ref}
-      className={classNameTheme.item}
+      className={clsx('tree-item', classNameTheme.item)}
       data-id={id}
       onClick={handleClickSelect}
       onDragStart={handleDragStart}

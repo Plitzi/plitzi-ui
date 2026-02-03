@@ -14,7 +14,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Tree';
 
 export default {
-  root: cva('builder_tree h-full relative grow basis-0 user-select-none overflow-auto group', {
+  root: cva('h-full relative grow basis-0 user-select-none overflow-auto group', {
     variants: {
       intent: {
         primary: ''
@@ -32,7 +32,7 @@ export default {
       size: 'md'
     }
   }),
-  item: cva('tree_node cursor-pointer flex', {
+  item: cva('cursor-pointer flex', {
     variants: {
       intent: {
         primary: '',
@@ -104,7 +104,7 @@ export default {
   }),
   containerEditable: cva(
     [
-      'focus-visible:outline-dashed focus-visible:outline-1 focus-visible:-outline-offset-[1px]',
+      'focus-visible:outline-dashed focus-visible:outline-1 focus-visible:-outline-offset-1',
       'truncate focus-visible:text-clip focus-visible:overflow-auto focus-visible:text-black focus-visible:outline-primary-500'
     ],
     {
@@ -243,7 +243,7 @@ export default {
     variants: {
       size: {
         md: 'w-4 h-4',
-        sm: 'w-[14px] h-[14px]',
+        sm: 'w-3.5 h-3.5',
         xs: 'w-3 h-3',
         custom: ''
       }

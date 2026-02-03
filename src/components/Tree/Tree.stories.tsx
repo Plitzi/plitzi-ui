@@ -6,6 +6,7 @@ import Tree from './Tree';
 import type { TreeChangeState } from './Tree';
 import type { ItemControlsProps } from './TreeNode';
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ClipboardEvent } from 'react';
 
 const meta = {
   title: 'Tree',
@@ -104,6 +105,10 @@ export const Primary: Story = {
       [updateArgs]
     );
 
+    const handleCopy = useCallback((e: ClipboardEvent<HTMLDivElement>) => {
+      console.log(e, (e.target as HTMLElement).closest('.tree'), (e.target as HTMLElement).closest('.tree-item'));
+    }, []);
+
     const controls = useMemo(() => <W />, []);
 
     return (
@@ -116,6 +121,7 @@ export const Primary: Story = {
         // controlsComponent={Tree.Controls}
         itemControls={controls}
         onChange={handleChange}
+        onCopy={handleCopy}
       />
     );
   }
