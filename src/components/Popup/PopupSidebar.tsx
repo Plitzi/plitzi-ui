@@ -99,4 +99,6 @@ const PopupSidebar = ({
   );
 };
 
+PopupSidebar.Icon = SidebarIcon;
+
 export default memo(PopupSidebar);
