@@ -126,6 +126,7 @@ const PopupSidePanel = ({
           size={size}
           grow
           multi={multi}
+          alwaysOpen
           defaultValue={
             popupActiveIds.length > 1 ? (multiExpanded ? popupActiveIds : popupActiveIds.slice(0, 1)) : popupActiveIds
           }

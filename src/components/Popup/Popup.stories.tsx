@@ -35,6 +35,7 @@ const popups: Popups = {
       id: 'popup-1',
       component: <div className="h-150 bg-red-300">Hello World 1</div>,
       active: false,
+      placementSettings: { left: { multi: false } },
       settings: {
         icon: <i className="fa-solid fa-sliders text-base" />,
         title: 'Popup 1',

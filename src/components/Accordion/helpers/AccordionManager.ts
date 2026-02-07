@@ -50,16 +50,24 @@ class AccordionManager {
   // Layout
 
   resyncLayout() {
+    let hasActive = false;
     for (let i = this.panels.length - 1; i >= 0; i--) {
       const panel = this.panels[i];
       if (panel.hasManualSize && panel.active) {
         this.updateDOMStyles(panel.ref.current, { flexGrow: '', flexBasis: '' });
         panel.hasManualSize = false;
+
         break;
       } else if (panel.active) {
         // at least one of them is not manual, so is auto-size
+        hasActive = true;
+
         break;
       }
+    }
+
+    if (!hasActive && this.settings.alwaysOpen && this.panels.length) {
+      this.panels[0].active = true;
     }
   }
 
@@ -71,8 +79,11 @@ class AccordionManager {
     }
 
     let active = this.settings.defaultActive.includes(id);
-    if (!this.settings.multi && this.getActives().length > 0) {
+    const activeCount = this.getActives().length;
+    if (!this.settings.multi && activeCount) {
       active = false;
+    } else if (!activeCount && this.settings.alwaysOpen) {
+      active = true;
     }
 
     const hasManualSize = !!ref.current.style.flexBasis && ref.current.style.flexBasis !== 'auto';

@@ -120,6 +120,75 @@ describe('AccordionManager', () => {
       expect(refA.current.style.flexBasis).toBe('');
       expect(refA.current.style.flexGrow).toBe('');
     });
+
+    it('alwaysOpen=true: removing one active keeps others active', () => {
+      const manager = new AccordionManager(containerRef, {
+        multi: true,
+        alwaysOpen: true,
+        defaultActive: ['a', 'b']
+      });
+
+      manager.register('a', createRef());
+      manager.register('b', createRef());
+      manager.register('c', createRef());
+
+      manager.unregister('a');
+
+      const actives = manager.getActives().map(p => p.id);
+      expect(actives).toEqual(['b']);
+    });
+
+    it('alwaysOpen=true: removing last active opens another panel', () => {
+      const manager = new AccordionManager(containerRef, {
+        multi: true,
+        alwaysOpen: true,
+        defaultActive: ['a']
+      });
+
+      manager.register('a', createRef());
+      manager.register('b', createRef());
+      manager.register('c', createRef());
+
+      manager.unregister('a');
+
+      expect(manager.getActives()).toHaveLength(1);
+      expect(manager.isOpen('b')).toBe(true);
+    });
+
+    it('removing the last panel leaves no actives even with alwaysOpen=true', () => {
+      const manager = new AccordionManager(containerRef, {
+        alwaysOpen: true,
+        defaultActive: ['a']
+      });
+
+      manager.register('a', createRef());
+
+      manager.unregister('a');
+
+      expect(manager.get()).toHaveLength(0);
+      expect(manager.getActives()).toHaveLength(0);
+    });
+
+    it('alwaysOpen=true: after removing all panels, newly added panel auto-opens', () => {
+      const manager = new AccordionManager(containerRef, {
+        multi: true,
+        alwaysOpen: true
+      });
+
+      manager.register('a', createRef());
+      manager.register('b', createRef());
+
+      manager.unregister('a');
+      manager.unregister('b');
+
+      expect(manager.get()).toHaveLength(0);
+      expect(manager.getActives()).toHaveLength(0);
+
+      manager.register('c', createRef());
+
+      expect(manager.getActives()).toHaveLength(1);
+      expect(manager.isOpen('c')).toBe(true);
+    });
   });
 
   /* ====================================================================== */
@@ -162,6 +231,72 @@ describe('AccordionManager', () => {
 
       expect(manager.canResize('a')).toBe(false);
     });
+
+    it('alwaysOpen=true: removing active panel opens another one', () => {
+      const manager = new AccordionManager(containerRef, {
+        multi: false,
+        alwaysOpen: true,
+        defaultActive: ['a']
+      });
+
+      manager.register('a', createRef());
+      manager.register('b', createRef());
+
+      expect(manager.getActives().map(p => p.id)).toEqual(['a']);
+
+      manager.unregister('a');
+
+      expect(manager.getActives()).toHaveLength(1);
+      expect(manager.isOpen('b')).toBe(true);
+    });
+
+    it('alwaysOpen=false: removing active panel leaves no active panels', () => {
+      const manager = new AccordionManager(containerRef, {
+        multi: false,
+        alwaysOpen: false,
+        defaultActive: ['a']
+      });
+
+      manager.register('a', createRef());
+      manager.register('b', createRef());
+
+      manager.unregister('a');
+
+      expect(manager.getActives()).toHaveLength(0);
+    });
+
+    it('unregistering a non-active panel does not change actives', () => {
+      const manager = new AccordionManager(containerRef, {
+        multi: false,
+        alwaysOpen: true,
+        defaultActive: ['a']
+      });
+
+      manager.register('a', createRef());
+      manager.register('b', createRef());
+
+      manager.unregister('b');
+
+      expect(manager.getActives().map(p => p.id)).toEqual(['a']);
+    });
+
+    it('alwaysOpen=true: after removing all panels, newly added panel auto-opens', () => {
+      const manager = new AccordionManager(containerRef, {
+        multi: false,
+        alwaysOpen: true
+      });
+
+      manager.register('a', createRef());
+      manager.unregister('a');
+
+      expect(manager.get()).toHaveLength(0);
+      expect(manager.getActives()).toHaveLength(0);
+
+      manager.register('b', createRef());
+
+      expect(manager.getActives()).toHaveLength(1);
+      expect(manager.isOpen('b')).toBe(true);
+    });
   });
 
   /* ====================================================================== */
@@ -173,7 +308,7 @@ describe('AccordionManager', () => {
       const manager = new AccordionManager(containerRef, { multi: false, alwaysOpen: true });
 
       manager.register('a', createRef());
-      expect(manager.isOpen('a')).toBe(false);
+      expect(manager.isOpen('a')).toBe(true);
 
       manager.toggle('a');
       expect(manager.isOpen('a')).toBe(true);
