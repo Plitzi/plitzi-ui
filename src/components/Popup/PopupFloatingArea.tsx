@@ -15,7 +15,7 @@ const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
   const { popupManager, popups, removePopup, limitMode } = usePopup('floating');
 
   const handleChangePlacement = useCallback(
-    (id: string, placement: PopupPlacement) => popupManager.changePlacement(id, placement),
+    (id: string, placement: PopupPlacement) => popupManager.move(id, undefined, placement),
     [popupManager]
   );
 

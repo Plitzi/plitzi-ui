@@ -8,8 +8,9 @@ import Popup from './Popup';
 import PopupProvider from './PopupProvider';
 import PopupSidebar from './PopupSidebar';
 
+import type { PopupUpdateState } from './helpers/PopupManager';
 import type { PopupPlacement } from './Popup';
-import type { PopupInstance, Popups } from './PopupProvider';
+import type { Popups } from './PopupProvider';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MouseEvent } from 'react';
@@ -148,7 +149,7 @@ export const Primary: Story = {
           multi
           multiExpanded
           canHide
-          onChange={(placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value)}
+          onChange={(placement: PopupPlacement, value: PopupUpdateState) => console.log(placement, value)}
         >
           <div className="flex grow h-125 bg-gray-200"></div>
         </PopupProvider>
@@ -265,7 +266,7 @@ export const SidePanelSeparated: Story = {
     const [popupsActiveLeft, setPopupsActiveLeft] = useState<string[]>([]);
 
     const handleChangeProvider = useCallback(
-      (placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value),
+      (placement: PopupPlacement, value: PopupUpdateState) => console.log(placement, value),
       []
     );
 
@@ -344,7 +345,7 @@ export const NestedProvider: Story = {
           popups={popups}
           multi
           canHide
-          onChange={(placement: PopupPlacement, value: PopupInstance[]) => console.log(placement, value)}
+          onChange={(placement: PopupPlacement, value: PopupUpdateState) => console.log(placement, value)}
         >
           <div className="flex grow h-125 bg-gray-200"></div>
         </PopupProvider>
@@ -451,7 +452,7 @@ export const DynamicPopups: Story = {
           popups={popups}
           multi
           canHide
-          onChange={(placement: PopupPlacement, value: PopupInstance[], fullValue) => {
+          onChange={(placement: PopupPlacement, value: PopupUpdateState, fullValue) => {
             console.log(placement, value);
             setValue(fullValue);
           }}

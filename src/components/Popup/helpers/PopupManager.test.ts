@@ -77,14 +77,14 @@ describe('PopupManager', () => {
   it('changes placement without knowing the source', () => {
     expect(manager.add('left', createPopup('a'))).toBe(true);
 
-    expect(manager.changePlacement('a', 'floating')).toBe(true);
+    expect(manager.move('a', undefined, 'floating')).toBe(true);
 
     expect(manager.get('left')).toHaveLength(0);
     expect(manager.get('floating')[0].id).toBe('a');
   });
 
-  it('does nothing if changePlacement is called with a missing id', () => {
-    expect(manager.changePlacement('missing', 'right')).toBe(false);
+  it('does nothing if move is called with a missing id', () => {
+    expect(manager.move('missing', undefined, 'right')).toBe(false);
 
     expect(manager.get('right')).toHaveLength(0);
   });
@@ -141,10 +141,10 @@ describe('PopupManager', () => {
     expect(manager.get('left')[0].id).toBe('a');
   });
 
-  it('does nothing when changePlacement is called with same placement', () => {
+  it('does nothing when move is called with same placement', () => {
     expect(manager.add('left', createPopup('a'))).toBe(true);
 
-    expect(manager.changePlacement('a', 'left')).toBe(false);
+    expect(manager.move('a', undefined, 'left')).toBe(false);
 
     expect(manager.get('left')).toHaveLength(1);
     expect(manager.get('floating')).toHaveLength(0);
@@ -198,7 +198,7 @@ describe('PopupManager', () => {
 
   it('never duplicates a popup across placements', () => {
     expect(manager.add('left', createPopup('a'))).toBe(true);
-    expect(manager.changePlacement('a', 'right')).toBe(true);
+    expect(manager.move('a', undefined, 'right')).toBe(true);
 
     expect(manager.get('left')).toHaveLength(0);
     expect(manager.get('right')).toHaveLength(1);
@@ -208,8 +208,8 @@ describe('PopupManager', () => {
     expect(manager.add('right', createPopup('a', { position: 2 }))).toBe(true);
     expect(manager.add('right', createPopup('b', { position: 1 }))).toBe(true);
 
-    expect(manager.changePlacement('b', 'left')).toBe(true);
-    expect(manager.changePlacement('a', 'left')).toBe(true);
+    expect(manager.move('b', undefined, 'left')).toBe(true);
+    expect(manager.move('a', undefined, 'left')).toBe(true);
 
     expect(manager.get('left').map(p => p.id)).toEqual(['b', 'a']);
   });
@@ -252,10 +252,10 @@ describe('PopupManager', () => {
     expect(manager.move('a', 'left', 'left')).toBe(false);
   });
 
-  it('changePlacement returns false if id not found or placement is same', () => {
-    expect(manager.changePlacement('not-there', 'left')).toBe(false);
+  it('move returns false if id not found or placement is same', () => {
+    expect(manager.move('not-there', undefined, 'left')).toBe(false);
     expect(manager.add('left', createPopup('x'))).toBe(true);
-    expect(manager.changePlacement('x', 'left')).toBe(false);
+    expect(manager.move('x', undefined, 'left')).toBe(false);
   });
 
   it('exists returns true for any placement if present, false otherwise', () => {
@@ -528,7 +528,7 @@ describe('PopupManager', () => {
     expect(manager.get('right', 'f')?.active).toBe(false);
 
     // move b into left, should deactivate a
-    manager.changePlacement('d', 'left');
+    manager.move('d', undefined, 'left');
 
     expect(manager.get('left', 'a')?.active).toBe(false);
     expect(manager.get('left', 'b')?.active).toBe(false);
@@ -716,6 +716,22 @@ describe('PopupManager', () => {
     expect(manager.get('right', 'a')?.active).toBe(true);
     expect(manager.get('right', 'b')?.active).toBe(false);
     expect(manager.get('right', 'c')?.active).toBe(false);
+  });
+
+  it('moving single-mode popup, when multi=true should stay active in target placement', () => {
+    const manager = new PopupManager(['left', 'right', 'floating'], undefined, { multi: true });
+
+    manager.add('left', createPopup('a', { active: true }));
+    manager.add('left', createPopup('b', { active: true }));
+    manager.add('right', createPopup('c', { active: true }));
+    manager.add('right', createPopup('d', { active: true }));
+
+    manager.move('c', 'right', 'left');
+
+    expect(manager.get('left', 'a')?.active).toBe(true);
+    expect(manager.get('left', 'b')?.active).toBe(true);
+    expect(manager.get('left', 'c')?.active).toBe(true);
+    expect(manager.get('right', 'd')?.active).toBe(true);
   });
 
   it('activating another popup deactivates fullscreen popup', () => {

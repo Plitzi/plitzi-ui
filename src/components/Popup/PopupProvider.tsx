@@ -8,6 +8,7 @@ import PopupManager from './helpers/PopupManager';
 import { PopupContextFloating, PopupContextLeft, PopupContextRight } from './PopupContext';
 import PopupFloatingArea from './PopupFloatingArea';
 
+import type { PopupUpdateState } from './helpers/PopupManager';
 import type { PopupPlacement, PopupSettings } from './Popup';
 import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
@@ -45,7 +46,7 @@ export type PopupProviderProps = {
   leftMaxWidth?: number;
   rightMinWidth?: number;
   rightMaxWidth?: number;
-  onChange?: (placement: PopupPlacement, value: PopupInstance[], fullValue: Popups) => void;
+  onChange?: (placement: PopupPlacement, value: PopupUpdateState, fullValue: Popups) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupProvider = ({
@@ -83,9 +84,9 @@ const PopupProvider = ({
   useEffect(() => {
     setReady(true);
 
-    return popupManager.onUpdate((placement: PopupPlacement, timestamp: number) => {
+    return popupManager.onUpdate((placement: PopupPlacement, timestamp: number, state: PopupUpdateState) => {
       setRerender(timestamp);
-      onChangeRef.current?.(placement, popupManager.get(placement), popupManager.getAll());
+      onChangeRef.current?.(placement, state, popupManager.getAll());
     });
   }, [popupManager]);
 

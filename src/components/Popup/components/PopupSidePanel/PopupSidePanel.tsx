@@ -57,7 +57,7 @@ const PopupSidePanel = ({
 
   const handleClickFloating = useCallback(
     (popupId: string) => {
-      popupManager.changePlacement(popupId, 'floating');
+      popupManager.move(popupId, undefined, 'floating');
       const newValue = popupActiveIds.filter(item => item !== popupId);
       onChange?.(newValue);
     },
