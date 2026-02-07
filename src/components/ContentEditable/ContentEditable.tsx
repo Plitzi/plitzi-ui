@@ -132,11 +132,9 @@ const ContentEditable = ({
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       e.stopPropagation();
-      // eslint-disable-next-line @typescript-eslint/no-deprecated
       if (exitOnEnter && e.keyCode === 13) {
         e.preventDefault();
         (e.target as HTMLElement).blur();
-        // eslint-disable-next-line @typescript-eslint/no-deprecated
       } else if (exitOnEscape && e.keyCode === 27) {
         e.preventDefault();
         (e.target as HTMLElement).textContent = value;

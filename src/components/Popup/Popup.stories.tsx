@@ -48,7 +48,7 @@ const popups: Popups = {
       component: <div>Hello World 4</div>,
       active: true,
       settings: {
-        icon: <i className="fa-solid fa-plus" />,
+        icon: 'fa-solid fa-plus',
         title: 'Popup 4',
         allowLeftSide: true,
         allowRightSide: true,

@@ -68,7 +68,7 @@ const useCache = <T = unknown>({
       const currentState = getCache() as Record<string, T>;
       let newState = currentState;
       if (path) {
-        newState = produce(currentState, draft => {
+        newState = produce(newState, draft => {
           set(draft, path, value);
         });
       } else {

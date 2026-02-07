@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import Button from '@components/Button';
+import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
 import ContainerDraggable from '../ContainerDraggable';
@@ -62,7 +63,7 @@ const Popup = ({
     className,
     componentKey: ['root', 'btn']
   });
-
+  const iconParsed = useMemo(() => (typeof icon === 'string' ? <Icon className={icon} /> : icon), [icon]);
   const { x, y } = useMemo(
     () => ({ x: (window.innerWidth - width) / 2, y: (window.innerHeight - height) / 2 }),
     [width, height]
@@ -131,7 +132,7 @@ const Popup = ({
     <ContainerDraggable
       key={id}
       className={classNameTheme.root}
-      icon={icon}
+      icon={iconParsed}
       title={title}
       width={width}
       height={height}
