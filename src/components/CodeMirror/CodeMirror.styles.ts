@@ -63,7 +63,7 @@ export default {
   iconFloatingContainer: cva('', {
     variants: {
       error: {
-        true: '!items-start',
+        true: 'items-start!',
         false: ''
       },
       size: {
@@ -81,7 +81,7 @@ export default {
   inputContainer: cva('border-none p-0 h-full w-full', {
     variants: {
       error: {
-        true: '!items-start',
+        true: 'items-start!',
         false: ''
       }
     },
