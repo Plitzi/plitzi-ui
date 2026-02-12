@@ -1,14 +1,9 @@
-/* eslint-disable react-hooks/refs */
 import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
 import { indentWithTab } from '@codemirror/commands';
-import { css, cssLanguage } from '@codemirror/lang-css';
-import { html, htmlLanguage } from '@codemirror/lang-html';
-import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
-import { json, jsonLanguage } from '@codemirror/lang-json';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import omit from 'lodash-es/omit.js';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
@@ -18,6 +13,7 @@ import useCodeMirror from './hooks/useCodeMirror';
 import type CodeMirrorStyles from './CodeMirror.styles';
 import type { variantKeys } from './CodeMirror.styles';
 import type { Completion, CompletionContext, CompletionSource } from '@codemirror/autocomplete';
+import type { Extension } from '@codemirror/state';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
@@ -162,7 +158,54 @@ const CodeMirror = ({
     [autoCompleteOptions]
   ) as CompletionSource;
 
-  const handleClickClear = useCallback(() => onChange?.(''), [onChange]);
+  const [languageExtension, setLanguageExtension] = useState<Extension[] | undefined>(undefined);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadLanguage() {
+      if (mode === 'js') {
+        const mod = await import('@codemirror/lang-javascript');
+        if (!active) {
+          return;
+        }
+
+        setLanguageExtension([
+          mod.javascript({ jsx: true }),
+          mod.javascriptLanguage.data.of({ autocomplete: autoCompleteHandler })
+        ]);
+      } else if (mode === 'css') {
+        const mod = await import('@codemirror/lang-css');
+        if (!active) {
+          return;
+        }
+
+        setLanguageExtension([mod.css(), mod.cssLanguage.data.of({ autocomplete: autoCompleteHandler })]);
+      } else if (mode === 'json') {
+        const mod = await import('@codemirror/lang-json');
+        if (!active) {
+          return;
+        }
+
+        setLanguageExtension([mod.json(), mod.jsonLanguage.data.of({ autocomplete: autoCompleteHandler })]);
+      } else if (mode === 'html') {
+        const mod = await import('@codemirror/lang-html');
+        if (!active) {
+          return;
+        }
+
+        setLanguageExtension([mod.html(), mod.htmlLanguage.data.of({ autocomplete: autoCompleteHandler })]);
+      } else {
+        setLanguageExtension([autocompletion({ override: [autoCompleteHandler] })]);
+      }
+    }
+
+    void loadLanguage();
+
+    return () => {
+      active = false;
+    };
+  }, [mode, autoCompleteHandler]);
 
   const extensions = useMemo(() => {
     const extensionsInternal = [
@@ -170,20 +213,9 @@ const CodeMirror = ({
       keymap.of([{ key: 'Tab', run: acceptCompletion }]),
       keymap.of([indentWithTab])
     ];
-    if (mode === 'js') {
-      extensionsInternal.push(javascript({ jsx: true }));
-      extensionsInternal.push(javascriptLanguage.data.of({ autocomplete: autoCompleteHandler }));
-    } else if (mode === 'css') {
-      extensionsInternal.push(css());
-      extensionsInternal.push(cssLanguage.data.of({ autocomplete: autoCompleteHandler }));
-    } else if (mode === 'json') {
-      extensionsInternal.push(json());
-      extensionsInternal.push(jsonLanguage.data.of({ autocomplete: autoCompleteHandler }));
-    } else if (mode === 'html') {
-      extensionsInternal.push(html());
-      extensionsInternal.push(htmlLanguage.data.of({ autocomplete: autoCompleteHandler }));
-    } else {
-      extensionsInternal.push(autocompletion({ override: [autoCompleteHandler] }));
+
+    if (languageExtension) {
+      extensionsInternal.push(...languageExtension);
     }
 
     if (lineWrapping) {
@@ -191,7 +223,7 @@ const CodeMirror = ({
     }
 
     return extensionsInternal;
-  }, [readOnlyTransactionFilter, mode, lineWrapping, autoCompleteHandler]);
+  }, [readOnlyTransactionFilter, lineWrapping, languageExtension]);
 
   const { editorRef } = useCodeMirror({
     extensions,
@@ -209,6 +241,8 @@ const CodeMirror = ({
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     e.stopPropagation();
   }, []);
+
+  const handleClickClear = useCallback(() => onChange?.(''), [onChange]);
 
   return (
     <InputContainer

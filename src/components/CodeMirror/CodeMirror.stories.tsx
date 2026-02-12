@@ -34,7 +34,7 @@ export const Primary: Story = {
   },
   render: function Render(args) {
     return (
-      <div className="flex flex-col min-h-[200px]">
+      <div className="flex flex-col min-h-50">
         <CodeMirror {...args} size="md" />
       </div>
     );
