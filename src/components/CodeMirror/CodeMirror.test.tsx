@@ -31,11 +31,8 @@ describe('CodeMirror', () => {
   it('Render Component', () => {
     render(<CodeMirror value="Hello World" />);
 
-    const description = screen.getByText('Hello');
+    const description = screen.getByText('Hello World');
     expect(description).toBeDefined();
-
-    const description2 = screen.getByText('World');
-    expect(description2).toBeDefined();
   });
 
   it('trigger events', () => {
