@@ -11,7 +11,7 @@ import markup from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
 import ts from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 import vscDarkPlus from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
-import rehypeRaw from 'rehype-raw';
+// import rehypeRaw from 'rehype-raw'; // disabled because we dont need to render RAW html
 import remarkGfm from 'remark-gfm';
 
 import useTheme from '@hooks/useTheme';
@@ -29,7 +29,7 @@ export type MarkdownProps = {
 } & useThemeSharedProps<typeof MarkdownStyles, typeof variantKeys>;
 
 const remarkPlugins = [remarkGfm];
-const rehypePlugins = [rehypeRaw];
+// const rehypePlugins = [rehypeRaw];
 
 SyntaxHighlighter.registerLanguage('javascript', js);
 SyntaxHighlighter.registerLanguage('typescript', ts);
@@ -51,7 +51,7 @@ const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers 
     <div className={clsx('markdown', className)}>
       <ReactMarkdown
         remarkPlugins={remarkPlugins}
-        rehypePlugins={rehypePlugins}
+        // rehypePlugins={rehypePlugins}
         components={{
           code(props) {
             const { children, className, ...rest } = props;
