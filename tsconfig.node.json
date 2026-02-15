@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "emitDeclarationOnly": true,
+    "declaration": true,
+    "declarationDir": "./dist",
 
     /* Linting */
     "strict": true,
