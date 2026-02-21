@@ -10,7 +10,7 @@ export const STYLES_COMPONENT_NAME = 'ContainerResizable';
 export default {
   root: cva('relative flex flex-col'),
   rootInternal: cva('flex flex-col grow overflow-auto'),
-  handlerContainer: cva('absolute flex justify-center items-center z-[40]', {
+  handlerContainer: cva('absolute flex justify-center items-center z-40', {
     variants: {
       intent: {},
       position: {

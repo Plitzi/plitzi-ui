@@ -3,18 +3,23 @@ import { describe, it, expect } from 'vitest';
 
 import Provider from '@components/Provider';
 
+import { switchTheme } from '.';
 import Switch from './Switch';
 
 describe('Switch Tests', () => {
   it('should render successfully', () => {
-    const component = render(<Switch />, { wrapper: Provider });
+    const component = render(<Switch />, {
+      wrapper: ({ children }) => <Provider components={{ Switch: switchTheme }}>{children}</Provider>
+    });
 
     expect(component.baseElement).toBeTruthy();
     expect(component.container.firstChild).toBeTruthy();
   });
 
   it('should render custom props successfully', () => {
-    const component = render(<Switch size="lg" className="customClass" />, { wrapper: Provider });
+    const component = render(<Switch size="lg" className="customClass" />, {
+      wrapper: ({ children }) => <Provider components={{ Switch: switchTheme }}>{children}</Provider>
+    });
 
     expect(component.container.firstChild).toBeTruthy();
     expect(component.container.getElementsByClassName('h-7 w-12').length).toBe(1);

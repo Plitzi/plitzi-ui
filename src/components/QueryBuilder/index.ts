@@ -3,6 +3,7 @@ import formatterSql from './helpers/formatters/formatterSql';
 import QueryBuilderEvaluator from './helpers/QueryBuilderEvaluator';
 import QueryBuilderFormatter from './helpers/QueryBuilderFormatter';
 import QueryBuilder from './QueryBuilder';
+import queriBuilderTheme from './QueryBuilder.styles';
 
 export * from './QueryBuilder';
 // Helpers
@@ -15,6 +16,6 @@ export * from './helpers/QueryBuilderHelper';
 export * from './helpers/formatters/formatterMongoDB';
 export * from './helpers/formatters/formatterSql';
 
-export { QueryBuilderFormatter, QueryBuilderEvaluator, formatterMongoDB, formatterSql };
+export { QueryBuilderFormatter, QueryBuilderEvaluator, formatterMongoDB, formatterSql, queriBuilderTheme };
 
 export default QueryBuilder;

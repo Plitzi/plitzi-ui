@@ -3,18 +3,23 @@ import { describe, it, expect } from 'vitest';
 
 import Provider from '@components/Provider';
 
+import { checkboxTheme } from '.';
 import Checkbox from './Checkbox';
 
 describe('Checkbox', () => {
   it('should render successfully', () => {
-    const component = render(<Checkbox />, { wrapper: Provider });
+    const component = render(<Checkbox />, {
+      wrapper: ({ children }) => <Provider components={{ Checkbox: checkboxTheme }}>{children}</Provider>
+    });
 
     expect(component.baseElement).toBeTruthy();
     expect(component.container.firstChild).toBeTruthy();
   });
 
   it('should render custom props successfully', () => {
-    const component = render(<Checkbox size="sm" className="customClass" />, { wrapper: Provider });
+    const component = render(<Checkbox size="sm" className="customClass" />, {
+      wrapper: ({ children }) => <Provider components={{ Checkbox: checkboxTheme }}>{children}</Provider>
+    });
 
     expect(component.container.firstChild).toBeTruthy();
     expect(component.container.getElementsByClassName('h-5 w-5').length).toBe(1);

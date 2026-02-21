@@ -2,6 +2,7 @@ import { useFormContext, useFieldArray } from 'react-hook-form';
 
 import * as fields from './fields';
 import Form from './Form';
+import formTheme from './Form.styles';
 import { useForm, useFormWatch } from './hooks';
 
 export * from './Form';
@@ -10,4 +11,4 @@ export * from './hooks';
 
 export default Form;
 
-export { fields, useForm, useFormWatch, useFormContext, useFieldArray };
+export { fields, useForm, useFormWatch, useFormContext, useFieldArray, formTheme };

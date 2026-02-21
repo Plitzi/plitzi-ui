@@ -7,12 +7,8 @@ export type ProviderProps = ThemeProviderProps & {
   children: ReactNode;
 };
 
-const Provider = ({ children, colors, components, sizes }: ProviderProps) => {
-  return (
-    <ThemeProvider colors={colors} components={components} sizes={sizes}>
-      {children}
-    </ThemeProvider>
-  );
+const Provider = ({ children, components }: ProviderProps) => {
+  return <ThemeProvider components={components}>{children}</ThemeProvider>;
 };
 
 export default Provider;
