@@ -11,6 +11,18 @@ describe('get', () => {
     }
   };
 
+  it('get value', () => {
+    type T = Record<string, object>;
+    const obj = {} as { [K in keyof T]?: string | undefined };
+    const value = get(obj, 'a');
+    expect(value).toBeUndefined();
+  });
+
+  it('empty path', () => {
+    expect(get(obj, '')).toBeUndefined();
+    expect(get(obj, '', 'default')).toBe('default');
+  });
+
   it('gets deep value', () => {
     expect(get(obj, 'a.b.c')).toBe(1);
   });
@@ -31,8 +43,28 @@ describe('get', () => {
     const arr = [{ name: 'john', details: { age: 30 } }];
     const name = get(arr, '[0].name');
     expect(name).toBe('john');
-    const age = get(arr, '[0].details.age');
+    const age = get(arr as typeof arr | undefined, '[0].details.age');
     expect(age).toBe(30);
+  });
+
+  it('nested objects are typed correctly', () => {
+    const obj = { a: { b: { c: 1, d: [{ name: 'test' }] } } };
+    const value = get(obj, 'a.b.d[0].name');
+    expect(value).toBe('test');
+  });
+
+  it('arrays', () => {
+    const arr = [{ name: 'john' }, { name: 'doe' }];
+    expect(get(arr, '[0].name')).toBe('john');
+    expect(get(arr, '[1].name')).toBe('doe');
+    expect(get(arr, '0')).toEqual({ name: 'john' });
+    expect(get(arr, '1')).toEqual({ name: 'doe' });
+
+    const arr2 = ['john', 'doe'];
+    expect(get(arr2, '[0]')).toBe('john');
+    expect(get(arr2, '[1]')).toBe('doe');
+    expect(get(arr2, '0')).toBe('john');
+    expect(get(arr2, '1')).toBe('doe');
   });
 });
 
@@ -42,6 +74,34 @@ describe('set', () => {
     set(obj, 'a.b.c', 5);
 
     expect(get(obj, 'a.b.c')).toBe(5);
+  });
+
+  it('creates nested arrays', () => {
+    const obj: Record<string, unknown> = {};
+    set(obj, 'list[0].name', 'john');
+
+    expect(get(obj, 'list[0].name')).toBe('john');
+  });
+
+  it('overwrites existing primitive with object', () => {
+    const obj: Record<string, unknown> = { a: 1 };
+    set(obj, 'a.b', 10);
+
+    expect(get(obj, 'a.b')).toBe(10);
+  });
+
+  it('handles array paths as arrays', () => {
+    const obj: Record<string, unknown> = {};
+    set(obj, ['a', 'b', 'c'], 15);
+
+    expect(get(obj, 'a.b.c')).toBe(15);
+  });
+
+  it('handles arrays', () => {
+    const obj = [] as { name: string }[];
+    set(obj, '[0].name', 'john');
+
+    expect(get(obj, '[0].name')).toBe('john');
   });
 });
 
@@ -200,6 +260,7 @@ describe('omit (deep cases)', () => {
 
 describe('edge cases', () => {
   it('get returns undefined for null object', () => {
+    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
     expect(get(null, 'a.b')).toBeUndefined();
   });
 
@@ -231,7 +292,8 @@ describe('edge cases', () => {
 describe('get additional cases', () => {
   it('supports path as array', () => {
     const obj = { a: { b: { c: 42 } } };
-    expect(get(obj, ['a', 'b', 'c'])).toBe(42);
+    const value = get(obj, ['a', 'b', 'c']);
+    expect(value).toBe(42);
   });
 
   it('returns undefined for empty path string', () => {
@@ -325,6 +387,8 @@ describe('comparison with lodash', () => {
     const obj = { a: { b: { c: 42 }, list: [{ x: 1 }] } };
 
     expect(get(obj, 'a.b.c')).toEqual(_.get(obj, 'a.b.c'));
+    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+    expect(get(obj, '')).toEqual(_.get(obj, ''));
     expect(get(obj, ['a', 'b', 'c'])).toEqual(_.get(obj, ['a', 'b', 'c']));
     expect(get(obj, 'a.list[0].x')).toEqual(_.get(obj, 'a.list[0].x'));
     expect(get(obj, 'a.missing', 'default')).toEqual(_.get(obj, 'a.missing', 'default'));

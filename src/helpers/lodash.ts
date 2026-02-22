@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 
@@ -6,62 +5,69 @@
 
 export type Path = string | readonly (string | number)[];
 
+// Helpers
+
+const PATH_REGEX = /[^.[\]]+/g;
+
+export function toPath(path: Path): string[] {
+  if (typeof path === 'string') {
+    return path.match(PATH_REGEX) ?? [];
+  }
+
+  // path is readonly (string | number)[]
+  const result = new Array(path.length) as string[];
+  for (let i = 0; i < path.length; i++) {
+    result[i] = String(path[i]);
+  }
+
+  return result;
+}
+
+// Get
+
 type Split<S extends string, Delimiter extends string> = S extends `${infer T}${Delimiter}${infer U}`
   ? [T, ...Split<U, Delimiter>]
   : S extends ''
     ? []
     : [S];
 
-type NormalizeArrayPath<S extends string> = S extends `${infer A}[${infer B}]${infer C}`
-  ? NormalizeArrayPath<`${A}.${B}${C}`>
-  : S;
+type NormalizeArrayPath<S extends string> = S extends `[${infer B}]${infer C}`
+  ? NormalizeArrayPath<`${B}${C}`>
+  : S extends `${infer A}[${infer B}]${infer C}`
+    ? NormalizeArrayPath<`${A}.${B}${C}`>
+    : S;
 
 type PathArray<S extends string> = Split<NormalizeArrayPath<S>, '.'>;
 
 type DeepValue<T, Keys extends readonly string[]> = Keys extends []
   ? T
   : Keys extends [infer K, ...infer Rest]
-    ? K extends keyof T
-      ? Rest extends readonly string[]
-        ? DeepValue<T[K], Rest>
-        : T[K]
-      : T extends readonly unknown[]
-        ? K extends `${number}`
+    ? K extends string
+      ? K extends `${number}`
+        ? T extends readonly (infer U)[]
           ? Rest extends readonly string[]
-            ? DeepValue<T[number], Rest>
-            : T[number]
+            ? DeepValue<U, Rest>
+            : U
           : unknown
-        : unknown
+        : K extends keyof T
+          ? Rest extends readonly string[]
+            ? DeepValue<T[K], Rest>
+            : T[K]
+          : unknown
+      : unknown
     : unknown;
-
-const PATH_REGEX = /[^.[\]]+/g;
-
-// Helpers
-
-export function toPath(path: Path): string[] {
-  if (typeof path === 'string') {
-    const matches = path.match(PATH_REGEX);
-
-    return matches ? [...matches] : [];
-  }
-
-  // path is readonly (string | number)[]
-  return Array.from(path, String);
-}
-
-// Methods
 
 export function get<T, P extends string, TDefault = undefined>(
   obj: T,
   path: P,
   defaultValue?: TDefault
-): DeepValue<T, PathArray<P>> | TDefault;
+): DeepValue<NonNullable<T>, PathArray<P>> | TDefault;
 
 export function get<T, TDefault = undefined>(
   obj: T,
   path: Exclude<Path, string>,
   defaultValue?: TDefault
-): unknown | TDefault;
+): Partial<T> | TDefault;
 
 export function get(obj: unknown, path: Path, defaultValue?: unknown) {
   if (obj == null || path === '') {
@@ -86,7 +92,11 @@ export function get(obj: unknown, path: Path, defaultValue?: unknown) {
   return current === undefined ? defaultValue : current;
 }
 
-export function set<T extends Record<string, unknown>>(obj: T, path: Path, value: unknown): T {
+export function set<T extends Record<string, unknown> | Record<string, unknown>[]>(
+  obj: T,
+  path: Path,
+  value: unknown
+): T {
   const keys = toPath(path);
   if (!keys.length) {
     return obj;
@@ -121,6 +131,8 @@ export function set<T extends Record<string, unknown>>(obj: T, path: Path, value
   return obj;
 }
 
+// Pick
+
 export function pick<T extends Record<string, unknown>, P extends Path>(obj: T, paths: readonly P[]): Partial<T> {
   const result: Partial<T> = {};
 
@@ -134,6 +146,8 @@ export function pick<T extends Record<string, unknown>, P extends Path>(obj: T, 
 
   return result;
 }
+
+// Omit
 
 export function omit<T extends Record<string, unknown>, P extends Path>(obj: T, paths: P | readonly P[]): Partial<T> {
   const clone = structuredClone(obj);
