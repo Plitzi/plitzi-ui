@@ -26,6 +26,14 @@ describe('get', () => {
   it('returns default', () => {
     expect(get(obj, 'a.x', 'default')).toBe('default');
   });
+
+  it('return value from array path', () => {
+    const arr = [{ name: 'john', details: { age: 30 } }];
+    const name = get(arr, '[0].name');
+    expect(name).toBe('john');
+    const age = get(arr, '[0].details.age');
+    expect(age).toBe(30);
+  });
 });
 
 describe('set', () => {
@@ -53,6 +61,15 @@ describe('pick / omit', () => {
   it('omit works with single string path', () => {
     const result = omit(obj, 'b');
     expect(result).toEqual({ a: 1, c: 3 });
+  });
+
+  it('omit works with dynamic key', () => {
+    const keyToOmit: string = 'b';
+    const result = omit(obj, keyToOmit);
+    expect(result).toEqual({ a: 1, c: 3 });
+
+    const result2 = omit(obj, [keyToOmit]);
+    expect(result2).toEqual({ a: 1, c: 3 });
   });
 
   it('optional values are handled correctly', () => {

@@ -69,9 +69,7 @@ export function get(obj: unknown, path: Path, defaultValue?: unknown) {
   }
 
   const keys = toPath(path);
-
   let current: unknown = obj;
-
   for (const key of keys) {
     if (current == null || typeof current !== 'object') {
       return defaultValue;
@@ -81,8 +79,7 @@ export function get(obj: unknown, path: Path, defaultValue?: unknown) {
       const index = Number(key);
       current = current[index];
     } else {
-      const record = current as Record<string, unknown>;
-      current = record[key];
+      current = (current as Record<string, unknown>)[key];
     }
   }
 
