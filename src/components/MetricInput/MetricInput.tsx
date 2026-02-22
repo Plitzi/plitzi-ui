@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import get from 'lodash-es/get.js';
 import { Children, cloneElement, isValidElement, useCallback, useMemo } from 'react';
 
 import Icon from '@components/Icon';
@@ -47,7 +46,7 @@ const MetricInput = ({
   disabled = false,
   error = false,
   prefix = '',
-  units: unitsProp = [],
+  units: unitsProp,
   type = 'text',
   size,
   intent = 'default',
@@ -67,8 +66,8 @@ const MetricInput = ({
   });
 
   const units = useMemo(() => {
-    if (!unitsProp.find(unit => unit.value === '' || unit.label === '-')) {
-      return [...unitsProp, { label: '-', value: '' }];
+    if (!unitsProp?.find(unit => unit.value === '' || unit.label === '-')) {
+      return unitsProp ? [...unitsProp, { label: '-', value: '' }] : [{ label: '-', value: '' }];
     }
 
     return unitsProp;
@@ -83,8 +82,8 @@ const MetricInput = ({
       }
 
       const match = unitsRegex.exec(value);
-      const unit = get(match, 'groups.unit', get(units, '0.value', ''));
-      const amount = get(match, 'groups.amount', '');
+      const unit = match?.groups?.unit ?? units[0].value;
+      const amount = match?.groups?.amount ?? '';
       const hasAllowedWord = allowedWordRegex?.exec(value) ? true : false;
 
       return [amount, hasAllowedWord ? '' : unit, hasAllowedWord];
@@ -108,7 +107,7 @@ const MetricInput = ({
         return;
       }
 
-      const newUnit = !newHasAllowedWord && hasAllowedWord ? get(units, '0.value', '') : unit;
+      const newUnit = !newHasAllowedWord && hasAllowedWord ? units[0].value : unit;
       const finalValue = newValue && newUnit && !newHasAllowedWord ? `${newValue}${newUnit}` : newValue;
       if (
         value === newValue ||
@@ -147,7 +146,7 @@ const MetricInput = ({
     // }
 
     // if (value !== `${newValue}`) {
-    //   onChange?.(unit ? `${newValue}${unit}` : `${newValue}${get(units, '0.value', '')}`);
+    //   onChange?.(unit ? `${newValue}${unit}` : `${newValue}${units[0].value}`);
     // }
   }, [allowVariables, value, onChange]);
 
@@ -202,7 +201,7 @@ const MetricInput = ({
       }
 
       if (value !== `${newValue}`) {
-        onChange?.(unit ? `${newValue}${unit}` : `${newValue}${get(units, '0.value', '')}`);
+        onChange?.(unit ? `${newValue}${unit}` : `${newValue}${units[0].value}`);
       }
     },
     [allowVariables, value, step, max, min, onChange, unit, units]
