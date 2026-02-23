@@ -7,6 +7,7 @@ import * as utils from './utils';
 import './assets/index.css';
 import './assets/scss/index.scss';
 
+export * from './helpers/lodash';
 export * from './components';
 export * from './hooks';
 export * from './tailwind';
