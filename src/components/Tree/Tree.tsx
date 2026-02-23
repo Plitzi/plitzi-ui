@@ -1,9 +1,8 @@
 import clsx from 'clsx';
 import { produce } from 'immer';
-import get from 'lodash-es/get.js';
-import set from 'lodash-es/set.js';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
+import { get, set } from '@/helpers/lodash';
 import useTheme from '@hooks/useTheme';
 
 import TreeNode from './TreeNode';
@@ -87,7 +86,7 @@ const Tree = ({
       }
 
       const newItems = produce(items, draft => {
-        set(draft, `${node.path}.label`, label);
+        set(draft as typeof items, `${node.path}.label`, label);
       });
 
       onChange?.({ action: 'itemChanged', data: { items: newItems, item: get(newItems, node.path) as TreeItem } });

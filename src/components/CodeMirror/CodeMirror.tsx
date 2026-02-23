@@ -2,9 +2,9 @@ import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
 import { indentWithTab } from '@codemirror/commands';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
-import omit from 'lodash-es/omit.js';
 import { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 
+import { omit } from '@/helpers/lodash';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 

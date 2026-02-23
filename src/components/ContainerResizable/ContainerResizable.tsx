@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import debounce from 'lodash-es/debounce.js';
 import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle } from 'react';
 
+import { debounce } from '@/helpers/lodash';
 import useTheme from '@hooks/useTheme';
 
 import ContainerResizableStyles from './ContainerResizable.styles';

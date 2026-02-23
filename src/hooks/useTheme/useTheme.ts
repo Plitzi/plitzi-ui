@@ -1,8 +1,7 @@
-import get from 'lodash-es/get.js';
-import set from 'lodash-es/set.js';
 import { use, useCallback, useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { get, set } from '@/helpers/lodash';
 import { ThemeContext } from '@components/Provider/providers/ThemeProvider';
 import useValueMemo from '@hooks/useValueMemo';
 
@@ -78,7 +77,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
   return useMemo(() => {
     if (componentKey && typeof componentKey === 'string') {
       if (className && typeof className === 'object') {
-        return twMerge(getClasses(componentKey, variants, get(className, componentKey, '')));
+        return twMerge(getClasses(componentKey, variants, get(className, componentKey, '') as string));
       }
 
       return twMerge(getClasses(componentKey, variants, className));
@@ -89,7 +88,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
       (componentKey as string[]).forEach((key, i) => {
         let classNameValue;
         if (typeof className === 'object') {
-          classNameValue = get(className, key);
+          classNameValue = get(className, key) as string | undefined;
         } else if (typeof className === 'string' && i === 0) {
           classNameValue = className;
         }

@@ -1,6 +1,6 @@
-import get from 'lodash-es/get.js';
 import { useCallback, useMemo, useState } from 'react';
 
+import { get } from '@/helpers/lodash';
 import Checkbox from '@components/Checkbox';
 import Input from '@components/Input';
 import Select from '@components/Select';
@@ -55,7 +55,7 @@ const RuleValue = ({
     if (Number.isInteger(valuePosition) && typeof value === 'string') {
       const valueParts: string[] = value.split(',');
 
-      return get(valueParts, `${valuePosition}`, value);
+      return get(valueParts, `${valuePosition as number}`, value);
     }
 
     return value as string;

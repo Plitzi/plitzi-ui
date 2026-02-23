@@ -1,6 +1,6 @@
 import { produce } from 'immer';
-import get from 'lodash-es/get.js';
 
+import { get } from '@/helpers/lodash';
 import { isInViewport } from '@/helpers/utils';
 
 import type { TreeProps } from './Tree';

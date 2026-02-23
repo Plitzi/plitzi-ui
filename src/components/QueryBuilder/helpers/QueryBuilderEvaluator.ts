@@ -1,7 +1,5 @@
-import get from 'lodash-es/get.js';
-import set from 'lodash-es/set.js';
-
 import { isDate, toUnixSeconds } from '@/helpers/formatDate';
+import { get, set } from '@/helpers/lodash';
 
 import { isNumeric, isRuleGroup } from './QueryBuilderHelper';
 

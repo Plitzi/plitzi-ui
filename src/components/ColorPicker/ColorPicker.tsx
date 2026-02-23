@@ -1,8 +1,8 @@
 import Sketch from '@uiw/react-color-sketch';
-import debounce from 'lodash-es/debounce.js';
 import { useCallback, useMemo, useState, memo } from 'react';
 import tinycolor from 'tinycolor2';
 
+import { debounce } from '@/helpers/lodash';
 import ContainerFloating from '@components/ContainerFloating';
 import InputContainer from '@components/Input/InputContainer';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';

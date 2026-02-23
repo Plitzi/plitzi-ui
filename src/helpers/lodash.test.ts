@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { describe, it, expect } from 'vitest';
 
-import { get, set, pick, omit } from './lodash';
+import { get, set, pick, omit, debounce } from './lodash';
 
 describe('get', () => {
   const obj = {
@@ -424,6 +424,100 @@ describe('comparison with lodash', () => {
 
     expect(result1).toEqual(result2);
   });
+
+  it('debounce basic behavior matches lodash', async () => {
+    let count1 = 0;
+    let count2 = 0;
+
+    const fn1 = debounce(() => {
+      count1++;
+    }, 50);
+
+    const fn2 = _.debounce(() => {
+      count2++;
+    }, 50);
+
+    fn1();
+    fn1();
+
+    fn2();
+    fn2();
+
+    await new Promise(r => setTimeout(r, 70));
+
+    expect(count1).toBe(count2);
+  });
+
+  it('debounce with leading matches lodash', async () => {
+    let count1 = 0;
+    let count2 = 0;
+
+    const options = { leading: true, trailing: false };
+
+    const fn1 = debounce(
+      () => {
+        count1++;
+      },
+      50,
+      options
+    );
+
+    const fn2 = _.debounce(
+      () => {
+        count2++;
+      },
+      50,
+      options
+    );
+
+    fn1();
+    fn1();
+
+    fn2();
+    fn2();
+
+    await new Promise(r => setTimeout(r, 70));
+
+    expect(count1).toBe(count2);
+  });
+
+  it('debounce with maxWait matches lodash', async () => {
+    let count1 = 0;
+    let count2 = 0;
+
+    const options = { maxWait: 120 };
+
+    const fn1 = debounce(
+      () => {
+        count1++;
+      },
+      50,
+      options
+    );
+
+    const fn2 = _.debounce(
+      () => {
+        count2++;
+      },
+      50,
+      options
+    );
+
+    fn1();
+    fn2();
+
+    await new Promise(r => setTimeout(r, 30));
+    fn1();
+    fn2();
+
+    await new Promise(r => setTimeout(r, 30));
+    fn1();
+    fn2();
+
+    await new Promise(r => setTimeout(r, 150));
+
+    expect(count1).toBe(count2);
+  });
 });
 
 describe('extended comparison with lodash', () => {
@@ -501,5 +595,145 @@ describe('extended comparison with lodash', () => {
     const result1 = pick(obj, arrayPaths);
     const result2 = _.pick(obj, arrayPaths); // Lodash accepts array of strings
     expect(result1).toEqual(result2);
+  });
+});
+
+describe('debounce', () => {
+  it('delays function execution', async () => {
+    let count = 0;
+    const fn = debounce(() => {
+      count++;
+    }, 50);
+
+    fn();
+    fn();
+    fn();
+
+    expect(count).toBe(0);
+
+    await new Promise(r => setTimeout(r, 70));
+    console.log('final count', count);
+    expect(count).toBe(1);
+  });
+
+  it('passes arguments correctly', async () => {
+    let result = 0;
+
+    const fn = debounce((value: number) => {
+      result = value;
+    }, 50);
+
+    fn(10);
+
+    await new Promise(r => setTimeout(r, 70));
+    expect(result).toBe(10);
+  });
+
+  it('respects leading option', async () => {
+    let count = 0;
+
+    const fn = debounce(
+      () => {
+        count++;
+      },
+      50,
+      { leading: true, trailing: false }
+    );
+
+    fn();
+    fn();
+    fn();
+
+    expect(count).toBe(1);
+
+    await new Promise(r => setTimeout(r, 70));
+    expect(count).toBe(1);
+  });
+
+  it('respects trailing option', async () => {
+    let count = 0;
+
+    const fn = debounce(
+      () => {
+        count++;
+      },
+      50,
+      { leading: false, trailing: true }
+    );
+
+    fn();
+    fn();
+
+    expect(count).toBe(0);
+
+    await new Promise(r => setTimeout(r, 70));
+    expect(count).toBe(1);
+  });
+
+  it('supports cancel', async () => {
+    let count = 0;
+
+    const fn = debounce(() => {
+      count++;
+    }, 50);
+
+    fn();
+    fn.cancel();
+
+    await new Promise(r => setTimeout(r, 70));
+    expect(count).toBe(0);
+  });
+
+  it('supports flush', () => {
+    let count = 0;
+
+    const fn = debounce(() => {
+      count++;
+
+      return count;
+    }, 50);
+
+    fn();
+    const flushed = fn.flush();
+
+    expect(flushed).toBe(1);
+    expect(count).toBe(1);
+  });
+
+  it('supports maxWait', async () => {
+    let count = 0;
+
+    const fn = debounce(
+      () => {
+        count++;
+      },
+      100,
+      { maxWait: 150 }
+    );
+
+    fn();
+    await new Promise(r => setTimeout(r, 30));
+    fn();
+    await new Promise(r => setTimeout(r, 30));
+    fn();
+
+    await new Promise(r => setTimeout(r, 160));
+    expect(count).toBe(1);
+  });
+
+  it('preserves this context', async () => {
+    type Ctx = { value: number };
+
+    const obj: Ctx & { inc: (amount: number) => void } = {
+      value: 0,
+      inc: debounce(function (this: Ctx, amount: number) {
+        this.value += amount;
+      }, 50)
+    };
+
+    obj.inc(5);
+
+    await new Promise(r => setTimeout(r, 70));
+    expect(obj.value).toBe(5);
   });
 });

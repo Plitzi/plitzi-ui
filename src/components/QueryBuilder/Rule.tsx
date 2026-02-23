@@ -1,6 +1,6 @@
-import get from 'lodash-es/get.js';
 import { useCallback, use, useMemo } from 'react';
 
+import { get } from '@/helpers/lodash';
 import Button from '@components/Button';
 import Flex from '@components/Flex';
 import Select2 from '@components/Select2';
@@ -28,6 +28,8 @@ export type RuleProps = {
   enabled?: boolean;
 } & useThemeSharedProps<typeof QueryBuilderStyles, typeof variantKeys>;
 
+type FieldOption = Option & { operators?: { label: string; value: Operator }[]; defaultValue?: TRuleValue };
+
 const Rule = ({
   className = '',
   id = '',
@@ -49,7 +51,7 @@ const Rule = ({
     variants: { size, showBranches, direction, error, intent }
   });
   const fieldsOptions = useMemo(() => {
-    const fieldsAux = Object.values(fields).reduce<Array<Option | OptionGroup>>((acum, field) => {
+    const fieldsAux = Object.values(fields).reduce<Array<FieldOption | OptionGroup>>((acum, field) => {
       const { name, label, operators, defaultValue, group: groupName = 'Others' } = field;
       if (groupName) {
         const group = acum.filter(option => 'options' in option).find(option => option.label === groupName);
@@ -73,7 +75,7 @@ const Rule = ({
   }, [fields]);
 
   const handleChangeField = useCallback(
-    (option?: Exclude<Option, OptionGroup>) => {
+    (option?: Exclude<FieldOption, OptionGroup>) => {
       if (!option) {
         update(id, { field: '', operator: '=', value: '' });
 
@@ -81,7 +83,7 @@ const Rule = ({
       }
 
       const { value, defaultValue, operators } = option;
-      const operator = get(operators, '0.name', get(defaultOperators, '0.name', '='));
+      const operator = get(operators, '0.value', get(defaultOperators, '0.value', '='));
       update(id, { field: value, operator, value: defaultValue ?? '' });
     },
     [update, id]

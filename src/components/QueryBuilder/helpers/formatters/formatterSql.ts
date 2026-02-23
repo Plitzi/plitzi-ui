@@ -1,6 +1,5 @@
-import get from 'lodash-es/get.js';
-
 import { isDate } from '@/helpers/formatDate';
+import { get } from '@/helpers/lodash';
 
 import { isNumeric } from '../QueryBuilderHelper';
 

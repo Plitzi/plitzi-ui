@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import debounce from 'lodash-es/debounce.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { debounce } from '@/helpers/lodash';
 import Card from '@components/Card';
 import ContainerWindow from '@components/ContainerWindow';
 import useTheme from '@hooks/useTheme';

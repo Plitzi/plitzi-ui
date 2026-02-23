@@ -1,7 +1,7 @@
-import get from 'lodash-es/get.js';
 import { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
+import { get } from '@/helpers/lodash';
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 

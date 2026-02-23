@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/refs */
 import { produce } from 'immer';
-import get from 'lodash-es/get.js';
-import set from 'lodash-es/set.js';
 import { useCallback, useMemo, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
+
+import { get, set } from '@/helpers/lodash';
 
 import { defaultCombinators } from './helpers/QueryBuilderContants';
 import { getQueryMap } from './helpers/QueryBuilderHelper';

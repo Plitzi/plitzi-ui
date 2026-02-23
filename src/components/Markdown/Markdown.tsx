@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import omit from 'lodash-es/omit.js';
 import ReactMarkdown from 'react-markdown';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
@@ -14,6 +13,7 @@ import vscDarkPlus from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark
 // import rehypeRaw from 'rehype-raw'; // disabled because we dont need to render RAW html
 import remarkGfm from 'remark-gfm';
 
+import { omit } from '@/helpers/lodash';
 import useTheme from '@hooks/useTheme';
 
 import type MarkdownStyles from './Markdown.styles';

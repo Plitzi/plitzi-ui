@@ -1,6 +1,6 @@
-import omit from 'lodash-es/omit.js';
 import { useCallback, useMemo, useState } from 'react';
 
+import { omit } from '@/helpers/lodash';
 import Button from '@components/Button';
 
 import Modal from './Modal';
@@ -15,7 +15,7 @@ export type ModalProviderProps = {
 };
 
 const ModalProvider = ({ children }: ModalProviderProps) => {
-  const [elements, setElements] = useState<Record<string, ModalProps>>({});
+  const [elements, setElements] = useState<Partial<Record<string, ModalProps>>>({});
 
   const close = useCallback(
     <TValue = unknown,>(
@@ -121,8 +121,8 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
   return (
     <ModalContext value={modalMemo}>
       {children}
-      {Object.values(elements).map(settings => (
-        <Modal key={settings.id} {...settings} />
+      {Object.values(elements).map((settings, i) => (
+        <Modal key={settings?.id ?? i} {...settings} />
       ))}
     </ModalContext>
   );

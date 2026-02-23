@@ -1,6 +1,6 @@
-import omit from 'lodash-es/omit.js';
 import { useCallback, useMemo } from 'react';
 
+import { omit } from '@/helpers/lodash';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 

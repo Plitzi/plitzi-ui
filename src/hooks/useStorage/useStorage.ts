@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/refs */
 import { produce } from 'immer';
-import get from 'lodash-es/get.js';
-import set from 'lodash-es/set.js';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
+import { get, set } from '@/helpers/lodash';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
 import { storageProxy } from './useStorageHelper';
@@ -76,7 +75,7 @@ function useLocalStorage<T = unknown>(
       if (path) {
         const storedValue = storageRef.current.getItem(key);
         newState = produce(storedValue ? JSON.parse(storedValue) : {}, (draft: object) => {
-          set(draft, path, value);
+          set(draft as Record<string, unknown>, path, value);
         });
       }
 

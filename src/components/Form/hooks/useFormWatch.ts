@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import get from 'lodash-es/get.js';
 import { useEffect, useMemo, useState } from 'react';
 
+import { get } from '@/helpers/lodash';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
 import type { FieldPathValue, FieldPathValues, FieldValues, Path, UseFormReturn } from 'react-hook-form';
