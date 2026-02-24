@@ -8,6 +8,7 @@ import { get } from './get';
 import { omit } from './omit';
 import { pick } from './pick';
 import { set } from './set';
+import { throttle } from './throttle';
 
 describe('get', () => {
   const obj = {
@@ -803,5 +804,192 @@ describe('debounce', () => {
     fn2();
     await new Promise(r => setTimeout(r, 150));
     expect(count1).toBe(count2);
+  });
+});
+
+describe('throttle', () => {
+  it('calls immediately and at most once per wait window', async () => {
+    let count = 0;
+    const fn = throttle(() => count++, 50);
+
+    fn(); // leading → executes immediately
+    fn(); // within the same window → schedules trailing
+    fn();
+
+    // immediately after the first call
+    expect(count).toBe(1);
+
+    await new Promise(r => setTimeout(r, 60));
+
+    // leading + trailing
+    expect(count).toBe(2);
+  });
+
+  it('respects trailing execution', async () => {
+    let count = 0;
+    const fn = throttle(() => count++, 50);
+
+    fn();
+    fn();
+
+    await new Promise(r => setTimeout(r, 120));
+
+    expect(count).toBe(2);
+  });
+
+  it('supports leading: false', async () => {
+    let count = 0;
+    const fn = throttle(() => count++, 50, { leading: false });
+
+    fn();
+    expect(count).toBe(0);
+
+    await new Promise(r => setTimeout(r, 60));
+
+    expect(count).toBe(1);
+  });
+
+  it('supports trailing: false', async () => {
+    let count = 0;
+    const fn = throttle(() => count++, 50, { trailing: false });
+
+    fn();
+    fn();
+
+    await new Promise(r => setTimeout(r, 120));
+
+    expect(count).toBe(1);
+  });
+
+  it('preserves this context', async () => {
+    const obj = {
+      value: 0,
+      inc: throttle(function (this: { value: number }, amount: number) {
+        this.value += amount;
+      }, 50)
+    };
+
+    obj.inc(5);
+
+    await new Promise(r => setTimeout(r, 60));
+    expect(obj.value).toBe(5);
+  });
+
+  it('cancel prevents trailing execution but not leading', async () => {
+    let count = 0;
+    const fn = throttle(() => count++, 50);
+
+    fn(); // leading → immediate execution
+    fn(); // program trailing
+
+    expect(count).toBe(1);
+
+    fn.cancel();
+
+    await new Promise(r => setTimeout(r, 60));
+
+    // only the leading call should have executed
+    expect(count).toBe(1);
+  });
+
+  it('flush forces execution', () => {
+    let count = 0;
+    const fn = throttle(() => count++, 50);
+
+    fn();
+    fn.flush();
+
+    expect(count).toBe(1);
+  });
+
+  it('matches lodash throttle default behavior (leading + trailing)', async () => {
+    let countA = 0;
+    let countB = 0;
+
+    const a = throttle(() => countA++, 50);
+    const b = _.throttle(() => countB++, 50);
+
+    a();
+    a();
+    b();
+    b();
+
+    expect(countA).toBe(countB);
+
+    await new Promise(r => setTimeout(r, 60));
+
+    expect(countA).toBe(countB);
+  });
+
+  it('matches lodash with leading: false', async () => {
+    let countA = 0;
+    let countB = 0;
+
+    const a = throttle(() => countA++, 50, { leading: false });
+    const b = _.throttle(() => countB++, 50, { leading: false });
+
+    a();
+    b();
+
+    expect(countA).toBe(countB);
+
+    await new Promise(r => setTimeout(r, 60));
+
+    expect(countA).toBe(countB);
+  });
+
+  it('matches lodash with trailing: false', async () => {
+    let countA = 0;
+    let countB = 0;
+
+    const a = throttle(() => countA++, 50, { trailing: false });
+    const b = _.throttle(() => countB++, 50, { trailing: false });
+
+    a();
+    a();
+    b();
+    b();
+
+    expect(countA).toBe(countB);
+
+    await new Promise(r => setTimeout(r, 60));
+
+    expect(countA).toBe(countB);
+  });
+
+  it('matches lodash cancel behavior', async () => {
+    let countA = 0;
+    let countB = 0;
+
+    const a = throttle(() => countA++, 50);
+    const b = _.throttle(() => countB++, 50);
+
+    a();
+    a();
+    b();
+    b();
+
+    a.cancel();
+    b.cancel();
+
+    await new Promise(r => setTimeout(r, 60));
+
+    expect(countA).toBe(countB);
+  });
+
+  it('matches lodash flush behavior', () => {
+    let countA = 0;
+    let countB = 0;
+
+    const a = throttle(() => countA++, 50);
+    const b = _.throttle(() => countB++, 50);
+
+    a();
+    b();
+
+    a.flush();
+    b.flush();
+
+    expect(countA).toBe(countB);
   });
 });

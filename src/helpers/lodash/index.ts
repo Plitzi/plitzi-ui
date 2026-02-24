@@ -3,3 +3,4 @@ export * from './set';
 export * from './pick';
 export * from './omit';
 export * from './debounce';
+export * from './throttle';
