@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
+
 import _ from 'lodash';
 import { describe, it, expect } from 'vitest';
 
-import { get, set, pick, omit, debounce } from './lodash';
+import { debounce } from './debounce';
+import { get } from './get';
+import { omit } from './omit';
+import { pick } from './pick';
+import { set } from './set';
 
 describe('get', () => {
   const obj = {
