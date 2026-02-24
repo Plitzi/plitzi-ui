@@ -3,12 +3,18 @@
 import _ from 'lodash';
 import { describe, it, expect } from 'vitest';
 
+import { camelCase } from './camelCase';
+import { capitalize } from './capitalize';
 import { debounce } from './debounce';
 import { get } from './get';
+import { has } from './has';
+import { isEmpty } from './isEmpty';
 import { omit } from './omit';
 import { pick } from './pick';
 import { set } from './set';
+import { sneakCase } from './sneakCase';
 import { throttle } from './throttle';
+import { upperFirst } from './upperFirst';
 
 describe('get', () => {
   const obj = {
@@ -991,5 +997,191 @@ describe('throttle', () => {
     b.flush();
 
     expect(countA).toBe(countB);
+  });
+});
+
+describe('capitalize', () => {
+  it('capitalizes string', () => {
+    expect(capitalize('hello')).toBe('Hello');
+  });
+
+  it('lowercases rest of string', () => {
+    expect(capitalize('hELLO')).toBe('Hello');
+  });
+
+  it('returns empty string for null or undefined', () => {
+    expect(capitalize(null)).toBe('');
+    expect(capitalize(undefined)).toBe('');
+  });
+
+  it('returns empty string for empty input', () => {
+    expect(capitalize('')).toBe('');
+  });
+
+  it('behaves the same as lodash', () => {
+    const values = ['hello', 'hELLO', '', 'A', '1abc'];
+    for (const v of values) {
+      expect(capitalize(v)).toBe(_.capitalize(v));
+    }
+  });
+});
+
+describe('isEmpty', () => {
+  it('handles null and undefined', () => {
+    expect(isEmpty(null)).toBe(true);
+    expect(isEmpty(undefined)).toBe(true);
+  });
+
+  it('handles strings', () => {
+    expect(isEmpty('')).toBe(true);
+    expect(isEmpty('hello')).toBe(false);
+  });
+
+  it('handles arrays', () => {
+    expect(isEmpty([])).toBe(true);
+    expect(isEmpty([1])).toBe(false);
+  });
+
+  it('handles objects', () => {
+    expect(isEmpty({})).toBe(true);
+    expect(isEmpty({ a: 1 })).toBe(false);
+  });
+
+  it('handles Map and Set', () => {
+    expect(isEmpty(new Map())).toBe(true);
+    expect(isEmpty(new Map([['a', 1]]))).toBe(false);
+    expect(isEmpty(new Set())).toBe(true);
+    expect(isEmpty(new Set([1]))).toBe(false);
+  });
+
+  it('behaves the same as lodash', () => {
+    const values = [
+      null,
+      undefined,
+      '',
+      'a',
+      [],
+      [1],
+      {},
+      { a: 1 },
+      new Map(),
+      new Map([['a', 1]]),
+      new Set(),
+      new Set([1])
+    ];
+
+    for (const v of values) {
+      expect(isEmpty(v)).toBe(_.isEmpty(v));
+    }
+  });
+
+  it('handles Object.create(null)', () => {
+    const obj = Object.create(null) as { a: number };
+    expect(isEmpty(obj)).toBe(_.isEmpty(obj));
+
+    obj.a = 1;
+    expect(isEmpty(obj)).toBe(_.isEmpty(obj));
+  });
+
+  it('handles arguments object', () => {
+    const getArgs = (...args: unknown[]) => args;
+    const emptyArgs = getArgs();
+    const filledArgs = getArgs(1, 2);
+
+    expect(isEmpty(emptyArgs)).toBe(_.isEmpty(emptyArgs));
+    expect(isEmpty(filledArgs)).toBe(_.isEmpty(filledArgs));
+  });
+
+  it('handles typed arrays', () => {
+    const empty = new Uint8Array();
+    const filled = new Uint8Array([1, 2]);
+
+    expect(isEmpty(empty)).toBe(_.isEmpty(empty));
+    expect(isEmpty(filled)).toBe(_.isEmpty(filled));
+  });
+
+  it('handles primitives like lodash', () => {
+    expect(isEmpty(0)).toBe(!_.isEmpty(0));
+    expect(isEmpty(1)).toBe(!_.isEmpty(1));
+    expect(isEmpty(true)).toBe(!_.isEmpty(true));
+    expect(isEmpty(false)).toBe(!_.isEmpty(false));
+    expect(isEmpty(Symbol('a'))).toBe(!_.isEmpty(Symbol('a')));
+  });
+
+  it('handles Date and RegExp', () => {
+    const date = new Date();
+    const regex = /a/;
+
+    expect(isEmpty(date)).toBe(_.isEmpty(date));
+    expect(isEmpty(regex)).toBe(_.isEmpty(regex));
+  });
+});
+
+describe('sneakCase', () => {
+  it('converts strings to snake_case', () => {
+    expect(sneakCase('HelloWorld')).toBe('hello_world');
+    expect(sneakCase('foo bar')).toBe('foo_bar');
+    expect(sneakCase('fooBar')).toBe('foo_bar');
+  });
+
+  it('handles null, undefined and empty string', () => {
+    expect(sneakCase(null as unknown as string)).toBe('');
+    expect(sneakCase(undefined as unknown as string)).toBe('');
+    expect(sneakCase('')).toBe('');
+  });
+});
+
+describe('upperFirst', () => {
+  it('capitalizes the first character', () => {
+    expect(upperFirst('hello')).toBe('Hello');
+    expect(upperFirst('Hello')).toBe('Hello');
+  });
+
+  it('returns empty string for null, undefined or empty', () => {
+    expect(upperFirst(null as unknown as string)).toBe('');
+    expect(upperFirst(undefined as unknown as string)).toBe('');
+    expect(upperFirst('')).toBe('');
+  });
+});
+
+describe('camelCase', () => {
+  it('converts strings to camelCase', () => {
+    expect(camelCase('hello_world')).toBe('helloWorld');
+    expect(camelCase('Hello-World')).toBe('helloWorld');
+    expect(camelCase('foo bar baz')).toBe('fooBarBaz');
+  });
+
+  it('handles null, undefined and empty string', () => {
+    expect(camelCase(null as unknown as string)).toBe('');
+    expect(camelCase(undefined as unknown as string)).toBe('');
+    expect(camelCase('')).toBe('');
+  });
+});
+
+describe('has', () => {
+  const obj = { a: { b: { c: 1 }, d: 2 }, e: null };
+
+  it('returns true for existing paths', () => {
+    expect(has(obj, 'a.b.c')).toBe(true);
+    expect(has(obj, ['a', 'b', 'c'])).toBe(true);
+    expect(has(obj, 'a.d')).toBe(true);
+  });
+
+  it('returns false for non-existing paths', () => {
+    expect(has(obj, 'a.b.x')).toBe(false);
+    expect(has(obj, ['a', 'b', 'x'])).toBe(false);
+    expect(has(obj, 'z')).toBe(false);
+  });
+
+  it('handles null or undefined object', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(has(null as unknown as Record<string, any>, 'a.b')).toBe(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(has(undefined as unknown as Record<string, any>, 'a')).toBe(false);
+  });
+
+  it('handles root level keys correctly', () => {
+    expect(has(obj, 'e')).toBe(true);
+    expect(has(obj, 'f')).toBe(false);
   });
 });
