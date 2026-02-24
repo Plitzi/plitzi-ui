@@ -1129,6 +1129,13 @@ describe('snakeCase', () => {
     expect(snakeCase(undefined as unknown as string)).toBe('');
     expect(snakeCase('')).toBe('');
   });
+
+  it('behaves the same as lodash', () => {
+    const values = ['HelloWorld', 'foo bar', 'fooBar', '', 'A', '1abc'];
+    for (const v of values) {
+      expect(snakeCase(v)).toBe(_.snakeCase(v));
+    }
+  });
 });
 
 describe('upperFirst', () => {
@@ -1141,6 +1148,13 @@ describe('upperFirst', () => {
     expect(upperFirst(null as unknown as string)).toBe('');
     expect(upperFirst(undefined as unknown as string)).toBe('');
     expect(upperFirst('')).toBe('');
+  });
+
+  it('behaves the same as lodash', () => {
+    const values = ['hello', 'Hello', '', 'a', '1abc'];
+    for (const v of values) {
+      expect(upperFirst(v)).toBe(_.upperFirst(v));
+    }
   });
 });
 
@@ -1155,6 +1169,13 @@ describe('camelCase', () => {
     expect(camelCase(null as unknown as string)).toBe('');
     expect(camelCase(undefined as unknown as string)).toBe('');
     expect(camelCase('')).toBe('');
+  });
+
+  it('behaves the same as lodash', () => {
+    const values = ['hello_world', 'Hello-World', 'foo bar baz', '', 'A', '1abc'];
+    for (const v of values) {
+      expect(camelCase(v)).toBe(_.camelCase(v));
+    }
   });
 });
 
@@ -1183,5 +1204,33 @@ describe('has', () => {
   it('handles root level keys correctly', () => {
     expect(has(obj, 'e')).toBe(true);
     expect(has(obj, 'f')).toBe(false);
+  });
+
+  it('behaves the same as lodash', () => {
+    const obj = {
+      user: {
+        name: 'alice',
+        credentials: { password: '1234', token: 'abcd' },
+        addresses: [
+          { city: 'Lisbon', zip: 1000 },
+          { city: 'Porto', zip: 2000 }
+        ]
+      },
+      items: [{ id: 1, value: 'a' }],
+      meta: null
+    };
+
+    const paths = [
+      'user.name',
+      'user.credentials.password',
+      'user.addresses[1].zip',
+      'items[0].value',
+      'meta',
+      'missing.path'
+    ];
+
+    for (const p of paths) {
+      expect(has(obj, p)).toBe(_.has(obj, p));
+    }
   });
 });
