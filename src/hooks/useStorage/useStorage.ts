@@ -59,7 +59,7 @@ function useLocalStorage<T = unknown>(
       }
 
       const parsed = JSON.parse(storedValue) as Record<string, unknown>;
-      return path ? (get(parsed, path, initialValue) as T) : (parsed as T);
+      return path ? get(parsed, path, initialValue) : (parsed as T);
     } catch {
       return initialValue;
     }

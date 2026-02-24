@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -52,14 +53,14 @@ type DeepValue<T, Keys extends readonly string[]> = Keys extends []
           ? Rest extends readonly string[]
             ? DeepValue<U, Rest>
             : U
-          : unknown
+          : unknown | undefined
         : K extends keyof T
           ? Rest extends readonly string[]
             ? DeepValue<T[K], Rest> | (undefined extends T[K] ? undefined : never)
             : T[K]
-          : undefined
-      : unknown
-    : unknown;
+          : unknown | undefined
+      : unknown | undefined
+    : unknown | undefined;
 
 type IsUnknown<T> = unknown extends T ? ([T] extends [unknown] ? true : false) : false;
 
