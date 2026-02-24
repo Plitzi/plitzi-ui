@@ -60,11 +60,13 @@ type DeepValue<T, Keys extends readonly string[]> = Keys extends []
       : unknown
     : unknown;
 
-export function get<T, P extends string, TDefault = undefined>(
+export function get<T, P extends string>(obj: T, path: P): DeepValue<NonNullable<T>, PathArray<P>>;
+
+export function get<T, P extends string, TDefault>(
   obj: T,
   path: P,
-  defaultValue?: TDefault
-): DeepValue<NonNullable<T>, PathArray<P>> | TDefault;
+  defaultValue: TDefault
+): NonNullable<DeepValue<NonNullable<T>, PathArray<P>>> | TDefault;
 
 export function get<T, TDefault = undefined>(
   obj: T,
@@ -136,16 +138,13 @@ export function set<T extends Record<string, unknown> | Record<string, unknown>[
 
 // Pick
 
-// precise top-level key or array with one or more top-level keys
 export function pick<T extends Record<string, unknown>, K extends keyof T & string>(
   obj: T,
   paths: K | readonly [K] | readonly K[]
 ): Pick<T, K>;
 
-// fallback for nested paths or dynamic strings
 export function pick<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T>;
 
-// Updated pick function implementation
 export function pick<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T> {
   const result: Partial<T> = {};
   const pathArray = Array.isArray(paths) ? paths : [paths];
@@ -162,9 +161,16 @@ export function pick<T extends Record<string, unknown>>(obj: T, paths: Path | re
 
 // Omit
 
-export function omit<T extends Record<string, unknown>, P extends Path>(obj: T, paths: P | readonly P[]): Partial<T> {
+export function omit<T extends Record<string, unknown>, K extends keyof T & string>(
+  obj: T,
+  paths: K | readonly [K] | readonly K[]
+): Omit<T, K>;
+
+export function omit<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T>;
+
+export function omit<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T> {
   const clone = structuredClone(obj);
-  const pathArray: readonly P[] = Array.isArray(paths) ? paths : [paths];
+  const pathArray: readonly Path[] = Array.isArray(paths) ? paths : [paths];
   for (const path of pathArray) {
     const keys = toPath(path);
     if (!keys.length) {

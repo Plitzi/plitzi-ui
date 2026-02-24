@@ -16,6 +16,10 @@ describe('get', () => {
     const obj = {} as { [K in keyof T]?: string | undefined };
     const value = get(obj, 'a');
     expect(value).toBeUndefined();
+
+    const obj2 = {} as { a?: boolean };
+    const value2 = get(obj2, 'a', false);
+    expect(value2).toBe(false);
   });
 
   it('empty path', () => {
@@ -260,7 +264,6 @@ describe('omit (deep cases)', () => {
 
 describe('edge cases', () => {
   it('get returns undefined for null object', () => {
-    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
     expect(get(null, 'a.b')).toBeUndefined();
   });
 
@@ -438,6 +441,21 @@ describe('comparison with lodash', () => {
     const result2 = _.omit(obj, ['a', 'b.c']);
 
     expect(result1).toEqual(result2);
+
+    const result3 = omit(obj, ['a']);
+    const result4 = _.omit(obj, ['a']);
+
+    expect(result3).toEqual(result4);
+
+    const result5 = omit(obj, ['b.c']);
+    const result6 = _.omit(obj, ['b.c']);
+
+    expect(result5).toEqual(result6);
+
+    const result7 = omit(obj, ['a', 'b']);
+    const result8 = _.omit(obj, ['a', 'b']);
+
+    expect(result7).toEqual(result8);
   });
 
   it('debounce basic behavior matches lodash', async () => {
