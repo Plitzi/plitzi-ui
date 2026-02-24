@@ -1439,4 +1439,59 @@ describe('cloneDeep', () => {
     expect(cloned.nested.a).not.toBe(complex.nested.a);
     expect(cloned.map.get('key')).not.toBe(complex.map.get('key'));
   });
+
+  it('handles complex nested structures with arrays, maps, sets, symbols, dates, regex', () => {
+    const sym = Symbol('id');
+    const complex = {
+      a: 1,
+      b: [2, { x: 3, y: [4, 5] }],
+      c: {
+        d: new Map([['key1', { val: 10 }]]),
+        e: new Set([1, 2, 3]),
+        f: new Date(2026, 1, 24),
+        g: /test/gi,
+        h: sym
+      },
+      i: [{ j: { k: 7 } }, { l: [{ m: 8 }] }]
+    };
+
+    const cloned = cloneDeep(complex);
+
+    // Deep equality
+    expect(cloned).toEqual(complex);
+
+    // Nested objects and arrays are cloned
+    expect(cloned.b).not.toBe(complex.b);
+    // Type guard for b[1]
+    type BElement = number | { x: number; y: number[] };
+    const clonedB1 = cloned.b[1] as BElement;
+    const originalB1 = complex.b[1] as BElement;
+    if (typeof clonedB1 !== 'number' && typeof originalB1 !== 'number') {
+      expect(clonedB1).not.toBe(originalB1);
+      expect(clonedB1.y).not.toBe(originalB1.y);
+    }
+
+    // Map and Set are cloned
+    expect(cloned.c.d).not.toBe(complex.c.d);
+    expect(cloned.c.e).not.toBe(complex.c.e);
+
+    // Date and RegExp cloned
+    expect(cloned.c.f).not.toBe(complex.c.f);
+    expect(cloned.c.f.getTime()).toBe(complex.c.f.getTime());
+    expect(cloned.c.g).not.toBe(complex.c.g);
+    expect(cloned.c.g.source).toBe(complex.c.g.source);
+    expect(cloned.c.g.flags).toBe(complex.c.g.flags);
+
+    // Symbol remains the same
+    expect(cloned.c.h).toBe(sym);
+
+    // Nested deep arrays in objects
+    expect(cloned.i[0].j).not.toBe(complex.i[0].j);
+    // Replace the last line in 'handles complex nested structures' test with a type-safe check
+    const nestedSecond = cloned.i[1].l?.[0] as { m: number } | undefined;
+    const originalSecond = complex.i[1].l?.[0] as { m: number } | undefined;
+    if (nestedSecond && originalSecond) {
+      expect(nestedSecond).not.toBe(originalSecond);
+    }
+  });
 });
