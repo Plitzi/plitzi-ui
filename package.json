@@ -24,7 +24,8 @@
     ".": {
       "types": "./dist/src/index.d.ts",
       "import": "./dist/src/index.mjs",
-      "require": "./dist/src/index.cjs"
+      "require": "./dist/src/index.cjs",
+      "default": "./dist/src/index.cjs"
     },
     "./tailwind.config": "./tailwind.config.js",
     "./style.css": "./dist/src/plitzi-ui.css",
@@ -37,13 +38,26 @@
     "./icons": {
       "types": "./dist/src/icons/index.d.ts",
       "import": "./dist/src/icons/index.mjs",
-      "require": "./dist/src/icons/index.cjs"
+      "require": "./dist/src/icons/index.cjs",
+      "default": "./dist/src/icons/index.cjs"
     },
     "./icons/*": {
       "types": "./dist/src/icons/*/index.d.ts",
       "import": "./dist/src/icons/*",
       "require": "./dist/src/icons/*",
       "default": "./dist/src/icons/*"
+    },
+    "./helpers": {
+      "types": "./dist/src/helpers/index.d.ts",
+      "import": "./dist/src/helpers/index.mjs",
+      "require": "./dist/src/helpers/index.cjs",
+      "default": "./dist/src/helpers/index.cjs"
+    },
+    "./helpers/*": {
+      "types": "./dist/src/helpers/*/index.d.ts",
+      "import": "./dist/src/helpers/*",
+      "require": "./dist/src/helpers/*",
+      "default": "./dist/src/helpers/*"
     },
     "./hooks": {
       "types": "./dist/src/hooks/index.d.ts",

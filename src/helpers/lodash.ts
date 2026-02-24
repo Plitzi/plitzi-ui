@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 
 // Types
@@ -137,14 +136,24 @@ export function set<T extends Record<string, unknown> | Record<string, unknown>[
 
 // Pick
 
-export function pick<T extends Record<string, unknown>, P extends Path>(obj: T, paths: readonly P[]): Partial<T> {
-  const result: Partial<T> = {};
+// precise top-level key or array with one or more top-level keys
+export function pick<T extends Record<string, unknown>, K extends keyof T & string>(
+  obj: T,
+  paths: K | readonly [K] | readonly K[]
+): Pick<T, K>;
 
-  for (const path of paths) {
+// fallback for nested paths or dynamic strings
+export function pick<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T>;
+
+// Updated pick function implementation
+export function pick<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T> {
+  const result: Partial<T> = {};
+  const pathArray = Array.isArray(paths) ? paths : [paths];
+  for (const path of pathArray) {
     const value = typeof path === 'string' ? get(obj, path) : get(obj, path);
 
     if (value !== undefined) {
-      set(result as Record<string, unknown>, path, value);
+      set(result as Record<string, unknown>, path as Path, value);
     }
   }
 
