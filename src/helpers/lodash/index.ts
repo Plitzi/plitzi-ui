@@ -10,3 +10,4 @@ export * from './camelCase';
 export * from './snakeCase';
 export * from './upperFirst';
 export * from './has';
+export * from './cloneDeep';

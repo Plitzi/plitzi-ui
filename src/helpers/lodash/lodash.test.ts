@@ -5,6 +5,7 @@ import { describe, it, expect } from 'vitest';
 
 import { camelCase } from './camelCase';
 import { capitalize } from './capitalize';
+import { cloneDeep } from './cloneDeep';
 import { debounce } from './debounce';
 import { get } from './get';
 import { has } from './has';
@@ -1232,5 +1233,210 @@ describe('has', () => {
     for (const p of paths) {
       expect(has(obj, p)).toBe(_.has(obj, p));
     }
+  });
+});
+
+describe('cloneDeep', () => {
+  it('clones primitives', () => {
+    expect(cloneDeep(42)).toBe(42);
+    expect(cloneDeep('hello')).toBe('hello');
+    expect(cloneDeep(true)).toBe(true);
+    expect(cloneDeep(null)).toBeNull();
+    expect(cloneDeep(undefined)).toBeUndefined();
+  });
+
+  it('clones arrays deeply', () => {
+    const arr = [1, { a: 2 }, [3, 4]];
+    const cloned = cloneDeep(arr);
+    expect(cloned).toEqual(arr);
+    expect(cloned).not.toBe(arr);
+    expect(cloned[1]).not.toBe(arr[1]);
+    expect(cloned[2]).not.toBe(arr[2]);
+  });
+
+  it('clones objects deeply', () => {
+    const obj = { a: 1, b: { c: 2, d: [3, 4] } };
+    const cloned = cloneDeep(obj);
+    expect(cloned).toEqual(obj);
+    expect(cloned).not.toBe(obj);
+    expect(cloned.b).not.toBe(obj.b);
+    expect(cloned.b.d).not.toBe(obj.b.d);
+  });
+
+  it('clones Map and Set', () => {
+    const map = new Map<string, number | { c: number }>([
+      ['a', 1],
+      ['b', { c: 2 }]
+    ]);
+    const set = new Set<number | { d: number }>([1, 2, { d: 3 }]);
+    const clonedMap = cloneDeep(map);
+    const clonedSet = cloneDeep(set);
+
+    expect(clonedMap).toEqual(map);
+    expect(clonedSet).toEqual(set);
+
+    // Ensure deep clone
+    expect(clonedMap.get('b')).not.toBe(map.get('b'));
+    const originalObj = [...set].find(v => typeof v === 'object');
+    const clonedObj = [...clonedSet].find(v => typeof v === 'object');
+    expect(clonedObj).not.toBe(originalObj);
+  });
+
+  it('clones Date and RegExp', () => {
+    const date = new Date();
+    const regex = /abc/gi;
+
+    const clonedDate = cloneDeep(date);
+    const clonedRegex = cloneDeep(regex);
+
+    expect(clonedDate).toEqual(date);
+    expect(clonedDate).not.toBe(date);
+
+    expect(clonedRegex).toEqual(regex);
+    expect(clonedRegex).not.toBe(regex);
+  });
+
+  it('handles cyclic references', () => {
+    const obj = { a: 1 } as { a: number; self?: typeof obj };
+    obj.self = obj;
+
+    const cloned = cloneDeep(obj);
+    expect(cloned.a).toBe(1);
+    expect(cloned.self).toBe(cloned);
+  });
+
+  it('matches lodash.cloneDeep for complex structures', () => {
+    const complex = {
+      user: {
+        name: 'alice',
+        credentials: { password: '1234', token: 'abcd' },
+        addresses: [
+          { city: 'Lisbon', zip: 1000 },
+          { city: 'Porto', zip: 2000 }
+        ]
+      },
+      items: [
+        { id: 1, value: 'a' },
+        { id: 2, value: 'b' }
+      ],
+      meta: null,
+      tags: new Set([1, 2, 3]),
+      map: new Map([['x', { y: 2 }]])
+    };
+
+    const cloned = cloneDeep(complex);
+    const lodashCloned = _.cloneDeep(complex);
+
+    expect(cloned).toEqual(lodashCloned);
+
+    // Ensure deep cloning, not just shallow copy
+    expect(cloned.user).not.toBe(complex.user);
+    expect(cloned.items).not.toBe(complex.items);
+    expect([...cloned.tags][2]).toBe([...complex.tags][2]);
+    expect(cloned.map.get('x')).not.toBe(complex.map.get('x'));
+  });
+
+  it('does not mutate the original object', () => {
+    const original: {
+      user: { name: string; credentials: { password: string } };
+      list: { id: number; value: string }[];
+      meta: null | string;
+    } = {
+      user: {
+        name: 'alice',
+        credentials: { password: '1234' }
+      },
+      list: [{ id: 1, value: 'a' }],
+      meta: null
+    };
+
+    const cloned = cloneDeep(original);
+
+    // Modificar el clon
+    cloned.user.name = 'bob';
+    cloned.user.credentials.password = '4321';
+    cloned.list[0].value = 'b';
+    cloned.meta = 'something';
+
+    // El original no debe cambiar
+    expect(original.user.name).toBe('alice');
+    expect(original.user.credentials.password).toBe('1234');
+    expect(original.list[0].value).toBe('a');
+    expect(original.meta).toBeNull();
+  });
+
+  it('clones functions as-is', () => {
+    const fn: () => number = () => 42;
+    const obj: { fn: () => number } = { fn };
+    const cloned = cloneDeep(obj);
+    expect(cloned.fn).toBe(fn);
+  });
+
+  it('clones symbols as-is', () => {
+    const sym = Symbol('test');
+    const obj: { sym: symbol } = { sym };
+    const cloned = cloneDeep(obj);
+    expect(cloned.sym).toBe(sym);
+  });
+
+  it('clones objects with prototype', () => {
+    const proto = {
+      greet(): string {
+        return 'hi';
+      }
+    };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const obj: { a: number } & typeof proto = Object.create(proto);
+    obj.a = 1;
+    const cloned = cloneDeep(obj);
+    expect(cloned.a).toBe(1);
+    expect(Object.getPrototypeOf(cloned)).toBe(proto);
+    expect(cloned.greet()).toBe('hi');
+  });
+
+  it('clones nested Map and Set', () => {
+    const innerMap: Map<string, number> = new Map([['x', 1]]);
+    const map: Map<string, Map<string, number>> = new Map([['outer', innerMap]]);
+
+    const cloned = cloneDeep(map);
+    expect(cloned).not.toBe(map);
+    expect(cloned.get('outer')).not.toBe(innerMap);
+    expect(cloned.get('outer')?.get('x')).toBe(1);
+  });
+
+  it('clones typed arrays and buffers', () => {
+    const arr: Uint8Array = new Uint8Array([1, 2, 3]);
+    const buffer: ArrayBuffer = new ArrayBuffer(8);
+    const clonedArr: Uint8Array = cloneDeep(arr);
+    const clonedBuffer: ArrayBuffer = cloneDeep(buffer);
+    expect(clonedArr).toEqual(arr);
+    expect(clonedArr).not.toBe(arr);
+    expect(clonedBuffer.byteLength).toBe(buffer.byteLength);
+    expect(clonedBuffer).not.toBe(buffer);
+  });
+
+  it('handles mixed primitive, array, object structure', () => {
+    type Complex = {
+      num: number;
+      str: string;
+      arr: (number | { a: number } | number[])[];
+      nested: { a: { b: number } };
+      map: Map<string, { val: number }>;
+      set: Set<number>;
+    };
+
+    const complex: Complex = {
+      num: 1,
+      str: 'hello',
+      arr: [1, { a: 2 }, [3, 4]],
+      nested: { a: { b: 2 } },
+      map: new Map([['key', { val: 1 }]]),
+      set: new Set([1, 2])
+    };
+    const cloned: Complex = cloneDeep(complex);
+    expect(cloned).toEqual(complex);
+    expect(cloned.arr).not.toBe(complex.arr);
+    expect(cloned.nested.a).not.toBe(complex.nested.a);
+    expect(cloned.map.get('key')).not.toBe(complex.map.get('key'));
   });
 });
