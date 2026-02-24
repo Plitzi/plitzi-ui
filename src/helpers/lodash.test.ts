@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import _ from 'lodash';
 import { describe, it, expect } from 'vitest';
 
@@ -20,6 +21,38 @@ describe('get', () => {
     const obj2 = {} as { a?: boolean };
     const value2 = get(obj2, 'a', false);
     expect(value2).toBe(false);
+  });
+
+  it('returns defaultValue when property is missing', () => {
+    const element: Record<string, unknown> = {};
+
+    // Si la propiedad no existe, debería devolver el defaultValue
+    const visibility = get<Record<string, unknown>, 'definition.initialState.visibility', boolean>(
+      element,
+      'definition.initialState.visibility',
+      true
+    );
+    expect(visibility).toBe(true);
+
+    // También funciona con arrays de path
+    const nestedVisibility = get<Record<string, unknown>, ['definition', 'initialState', 'visibility'], boolean>(
+      element,
+      ['definition', 'initialState', 'visibility'],
+      false
+    );
+    expect(nestedVisibility).toBe(false);
+  });
+
+  it('returns actual value if it exists', () => {
+    const element: Record<string, unknown> = {
+      definition: { initialState: { visibility: false } }
+    };
+
+    const visibility = get(element, 'definition.initialState.visibility', true);
+    expect(visibility).toBe(false);
+
+    const nestedVisibility = get(element, ['definition', 'initialState', 'visibility'], true);
+    expect(nestedVisibility).toBe(false);
   });
 
   it('empty path', () => {
@@ -69,6 +102,18 @@ describe('get', () => {
     expect(get(arr2, '[1]')).toBe('doe');
     expect(get(arr2, '0')).toBe('john');
     expect(get(arr2, '1')).toBe('doe');
+  });
+
+  it('Object array', () => {
+    const obj = { id1: { name: 'john', profile: { age: 30 } }, id2: { name: 'doe' } } as Record<
+      string,
+      { name: string; profile?: { age: number } }
+    >;
+    const value = get(obj, 'id1.name');
+    expect(value).toBe('john');
+
+    const value2 = get(obj, 'id1.profile.age');
+    expect(value2).toBe(30);
   });
 });
 
@@ -390,7 +435,6 @@ describe('comparison with lodash', () => {
     const obj = { a: { b: { c: 42 }, list: [{ x: 1 }] } };
 
     expect(get(obj, 'a.b.c')).toEqual(_.get(obj, 'a.b.c'));
-    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
     expect(get(obj, '')).toEqual(_.get(obj, ''));
     expect(get(obj, ['a', 'b', 'c'])).toEqual(_.get(obj, ['a', 'b', 'c']));
     expect(get(obj, 'a.list[0].x')).toEqual(_.get(obj, 'a.list[0].x'));
@@ -645,7 +689,6 @@ describe('debounce', () => {
     expect(count).toBe(0);
 
     await new Promise(r => setTimeout(r, 70));
-    console.log('final count', count);
     expect(count).toBe(1);
   });
 

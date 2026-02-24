@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -46,19 +47,23 @@ type DeepValue<T, Keys extends readonly string[]> = Keys extends []
   ? T
   : Keys extends [infer K, ...infer Rest]
     ? K extends string
-      ? K extends `${number}`
-        ? T extends readonly (infer U)[]
+      ? T extends readonly (infer U)[]
+        ? K extends `${number}`
           ? Rest extends readonly string[]
             ? DeepValue<U, Rest>
             : U
           : unknown
         : K extends keyof T
           ? Rest extends readonly string[]
-            ? DeepValue<T[K], Rest>
+            ? DeepValue<T[K], Rest> | (undefined extends T[K] ? undefined : never)
             : T[K]
-          : unknown
+          : undefined
       : unknown
     : unknown;
+
+type IsUnknown<T> = unknown extends T ? ([T] extends [unknown] ? true : false) : false;
+
+type WithDefault<V, D> = IsUnknown<V> extends true ? D : NonNullable<V> | D;
 
 export function get<T, P extends string>(obj: T, path: P): DeepValue<NonNullable<T>, PathArray<P>>;
 
@@ -66,11 +71,11 @@ export function get<T, P extends string, TDefault>(
   obj: T,
   path: P,
   defaultValue: TDefault
-): NonNullable<DeepValue<NonNullable<T>, PathArray<P>>> | TDefault;
+): WithDefault<DeepValue<NonNullable<T>, PathArray<P>>, TDefault>;
 
-export function get<T, TDefault = undefined>(
+export function get<T, P extends Exclude<Path, string> = Exclude<Path, string>, TDefault = undefined>(
   obj: T,
-  path: Exclude<Path, string>,
+  path: P,
   defaultValue?: TDefault
 ): Partial<T> | TDefault;
 
