@@ -8,6 +8,8 @@ const PATH_REGEX = /[^.[\]]+/g;
 
 export function toPath(path: Path): string[] {
   if (typeof path === 'string') {
+    PATH_REGEX.lastIndex = 0; // Reset regex state
+
     return path.match(PATH_REGEX) ?? [];
   }
 
