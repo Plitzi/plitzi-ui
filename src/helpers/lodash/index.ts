@@ -7,6 +7,6 @@ export * from './throttle';
 export * from './capitalize';
 export * from './isEmpty';
 export * from './camelCase';
-export * from './sneakCase';
+export * from './snakeCase';
 export * from './upperFirst';
 export * from './has';

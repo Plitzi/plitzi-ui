@@ -1,4 +1,4 @@
-export function sneakCase(value: string): string {
+export function snakeCase(value: string): string {
   if (!value || typeof value !== 'string' || !value.trim()) {
     return '';
   }

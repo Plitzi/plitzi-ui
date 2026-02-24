@@ -12,7 +12,7 @@ import { isEmpty } from './isEmpty';
 import { omit } from './omit';
 import { pick } from './pick';
 import { set } from './set';
-import { sneakCase } from './sneakCase';
+import { snakeCase } from './snakeCase';
 import { throttle } from './throttle';
 import { upperFirst } from './upperFirst';
 
@@ -1117,17 +1117,17 @@ describe('isEmpty', () => {
   });
 });
 
-describe('sneakCase', () => {
+describe('snakeCase', () => {
   it('converts strings to snake_case', () => {
-    expect(sneakCase('HelloWorld')).toBe('hello_world');
-    expect(sneakCase('foo bar')).toBe('foo_bar');
-    expect(sneakCase('fooBar')).toBe('foo_bar');
+    expect(snakeCase('HelloWorld')).toBe('hello_world');
+    expect(snakeCase('foo bar')).toBe('foo_bar');
+    expect(snakeCase('fooBar')).toBe('foo_bar');
   });
 
   it('handles null, undefined and empty string', () => {
-    expect(sneakCase(null as unknown as string)).toBe('');
-    expect(sneakCase(undefined as unknown as string)).toBe('');
-    expect(sneakCase('')).toBe('');
+    expect(snakeCase(null as unknown as string)).toBe('');
+    expect(snakeCase(undefined as unknown as string)).toBe('');
+    expect(snakeCase('')).toBe('');
   });
 });
 
