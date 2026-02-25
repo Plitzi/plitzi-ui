@@ -1,6 +1,5 @@
 import { cloneElement, isValidElement, memo, useCallback, useMemo } from 'react';
 
-import { emptyArray } from '@/helpers/utils';
 import Sidebar from '@components/Sidebar';
 import SidebarIcon from '@components/Sidebar/SidebarIcon';
 import useTheme from '@hooks/useTheme';
@@ -28,8 +27,8 @@ const PopupSidebar = ({
   canEmpty = true,
   canHide = false,
   placement = 'right',
-  exclude = emptyArray,
-  separatorsBefore = emptyArray,
+  exclude,
+  separatorsBefore,
   border,
   padding,
   size = 'lg',
@@ -45,7 +44,7 @@ const PopupSidebar = ({
   const popupsMemoised = useMemo(
     () =>
       popups
-        .filter(popup => !exclude.length || !exclude.includes(popup.id))
+        .filter(popup => !exclude?.length || !exclude.includes(popup.id))
         .map((popup, i) => {
           const child = popup.settings.icon;
           let childPopup;
@@ -66,7 +65,7 @@ const PopupSidebar = ({
               </Sidebar.Icon>
             );
           }
-          if (separatorsBefore.includes(popup.id) && i !== 0) {
+          if (separatorsBefore?.includes(popup.id) && i !== 0) {
             return [<Sidebar.Separator key={`${popup.id}-separator`} />, childPopup];
           }
 

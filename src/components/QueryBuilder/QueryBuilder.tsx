@@ -8,7 +8,6 @@ import useTheme from '@hooks/useTheme';
 import GroupRules from './GroupRules';
 import { defaultCombinators } from './helpers/QueryBuilderContants';
 import QueryBuilderProvider from './QueryBuilderProvider';
-import { emptyObject } from '../../helpers/utils';
 
 import type QueryBuilderStyles from './QueryBuilder.styles';
 import type { variantKeys } from './QueryBuilder.styles';
@@ -92,7 +91,7 @@ export type QueryBuilderProps = {
 const QueryBuilder = ({
   className = '',
   query,
-  fields = emptyObject,
+  fields,
   showBranches = false,
   allowDisableRules = true,
   allowSubGroups = true,

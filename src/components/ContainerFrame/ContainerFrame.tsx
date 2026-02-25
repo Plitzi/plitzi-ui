@@ -4,7 +4,6 @@ import { createPortal } from 'react-dom';
 import useTheme from '@hooks/useTheme';
 
 import FrameContent from './FrameContent';
-import { emptyObject } from '../../helpers/utils';
 
 import type ContainerFrameStyles from './ContainerFrame.styles';
 import type { variantKeys } from './ContainerFrame.styles';
@@ -35,9 +34,9 @@ const ContainerFrame = ({
   ssrMode = false,
   id = '',
   css = '',
-  style = emptyObject,
+  style,
   zoom = 1.0,
-  assets = emptyObject,
+  assets,
   viewport = 'width=device-width, initial-scale=1',
   children,
   contentDidMount: contentDidMountProp,
@@ -90,19 +89,25 @@ const ContainerFrame = ({
   }, []);
 
   const loadBuilderAssets = useCallback(
-    (documentInstance: Document, assets: { [key: string]: Asset }) => {
+    (documentInstance: Document, assets?: Record<string, Asset>) => {
       const { head } = documentInstance;
       const headChildren = head.querySelectorAll('*:not([asset-static="true"])');
       Object.values(headChildren).forEach(node => {
         head.removeChild(node);
       });
 
-      loadAssets(assets, head, documentInstance);
+      if (assets) {
+        loadAssets(assets, head, documentInstance);
+      }
     },
     [loadAssets]
   );
 
-  const getAssetsAsString = (assets: { [key: string]: Asset }) => {
+  const getAssetsAsString = (assets?: Record<string, Asset>) => {
+    if (!assets) {
+      return '';
+    }
+
     const assetsCache: string[] = [];
     Object.values(assets).forEach(asset => {
       assetsCache.push(

@@ -51,7 +51,7 @@ const Rule = ({
     variants: { size, showBranches, direction, error, intent }
   });
   const fieldsOptions = useMemo(() => {
-    const fieldsAux = Object.values(fields).reduce<Array<FieldOption | OptionGroup>>((acum, field) => {
+    const fieldsAux = Object.values(fields ?? {}).reduce<Array<FieldOption | OptionGroup>>((acum, field) => {
       const { name, label, operators, defaultValue, group: groupName = 'Others' } = field;
       if (groupName) {
         const group = acum.filter(option => 'options' in option).find(option => option.label === groupName);

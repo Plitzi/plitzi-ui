@@ -11,7 +11,7 @@ export type QueryBuilderContextValue = {
   updateRuleOperator: (nodeId: string, operator: Operator) => void;
   updateRuleValue: (nodeId: string, value: RuleValue) => void;
   remove: (nodeId: string) => void;
-  fields: { [key: string]: Field };
+  fields?: Record<string, Field>;
   allowDisableRules?: boolean;
   allowSubGroups?: boolean;
   combinators: { value: string; label: string }[];

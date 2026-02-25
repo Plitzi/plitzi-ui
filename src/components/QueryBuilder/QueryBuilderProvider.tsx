@@ -8,7 +8,6 @@ import { get, set } from '@/helpers/lodash';
 import { defaultCombinators } from './helpers/QueryBuilderContants';
 import { getQueryMap } from './helpers/QueryBuilderHelper';
 import QueryBuilderContext from './QueryBuilderContext';
-import { emptyObject } from '../../helpers/utils';
 
 import type { QueryMapNode } from './helpers/QueryBuilderHelper';
 import type { Combinator, Field, Operator, QueryBuilderProps, Rule, RuleGroup, RuleValue } from './QueryBuilder';
@@ -17,7 +16,7 @@ import type { ReactNode } from 'react';
 export type QueryBuilderQueryProviderProps = {
   children: ReactNode;
   query: RuleGroup;
-  fields: { [key: string]: Field };
+  fields?: Record<string, Field>;
   allowDisableRules: boolean;
   allowSubGroups: boolean;
   combinators: { value: string; label: string }[];
@@ -28,7 +27,7 @@ export type QueryBuilderQueryProviderProps = {
 const QueryBuilderProvider = ({
   children,
   query,
-  fields = emptyObject,
+  fields,
   allowDisableRules = true,
   allowSubGroups = true,
   combinators = defaultCombinators,

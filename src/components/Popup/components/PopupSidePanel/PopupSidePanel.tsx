@@ -1,6 +1,5 @@
 import { use, useMemo, useCallback, memo } from 'react';
 
-import { emptyArray } from '@/helpers/utils';
 import Accordion from '@components/Accordion';
 import ContainerResizable from '@components/ContainerResizable';
 import ContainerRootContext from '@components/ContainerRoot/ContainerRootContext';
@@ -34,7 +33,7 @@ const PopupSidePanel = ({
   showSidebar = true,
   minWidth = 280,
   maxWidth = 500,
-  separatorsBefore = emptyArray,
+  separatorsBefore,
   size,
   onChange
 }: PopupSidePanelProps) => {
