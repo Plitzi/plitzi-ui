@@ -183,7 +183,7 @@ describe('get', () => {
   });
 
   test('stress test: get works on large object', () => {
-    const bigObj: Record<string, any> = {};
+    const bigObj: Record<string, unknown> = {};
     for (let i = 0; i < 10000; i++) {
       bigObj[`key${i}`] = { value: i, nested: { deep: i * 2 } };
     }
@@ -295,16 +295,20 @@ describe('set', () => {
   });
 
   test('stress test: set works on large object', () => {
-    const bigObj: Record<string, any> = {};
+    const bigObj: {
+      key9999?: { nested: { deep: number } };
+      key0?: { value: number };
+      newKey?: { deep: { value: number } };
+    } & { [key: string]: { value: number } } = {};
     for (let i = 0; i < 10000; i++) {
       bigObj[`key${i}`] = { value: i };
     }
     set(bigObj, 'key9999.nested.deep', 12345);
-    expect(bigObj.key9999.nested.deep).toBe(12345);
+    expect(bigObj.key9999?.nested.deep).toBe(12345);
     set(bigObj, 'key0.value', 111);
-    expect(bigObj.key0.value).toBe(111);
+    expect(bigObj.key0?.value).toBe(111);
     set(bigObj, 'newKey.deep.value', 42);
-    expect(bigObj.newKey.deep.value).toBe(42);
+    expect(bigObj.newKey?.deep.value).toBe(42);
   }, 5000);
 });
 
