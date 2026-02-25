@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 
 import _ from 'lodash';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, test } from 'vitest';
 
 import { camelCase } from './camelCase';
 import { capitalize } from './capitalize';
@@ -181,6 +181,16 @@ describe('get', () => {
       expect(get(obj, p)).toEqual(_.get(obj, p));
     }
   });
+
+  test('stress test: get works on large object', () => {
+    const bigObj: Record<string, any> = {};
+    for (let i = 0; i < 10000; i++) {
+      bigObj[`key${i}`] = { value: i, nested: { deep: i * 2 } };
+    }
+    expect(get(bigObj, 'key9999.nested.deep')).toBe(19998);
+    expect(typeof get(bigObj, 'key5000.value')).toBe('number');
+    expect(get(bigObj, 'missing.path', 'default')).toBe('default');
+  });
 });
 
 describe('set', () => {
@@ -283,6 +293,19 @@ describe('set', () => {
     _.set(obj2, 'items[2].value', 'c');
     expect(obj1).toEqual(obj2);
   });
+
+  test('stress test: set works on large object', () => {
+    const bigObj: Record<string, any> = {};
+    for (let i = 0; i < 10000; i++) {
+      bigObj[`key${i}`] = { value: i };
+    }
+    set(bigObj, 'key9999.nested.deep', 12345);
+    expect(bigObj.key9999.nested.deep).toBe(12345);
+    set(bigObj, 'key0.value', 111);
+    expect(bigObj.key0.value).toBe(111);
+    set(bigObj, 'newKey.deep.value', 42);
+    expect(bigObj.newKey.deep.value).toBe(42);
+  }, 5000);
 });
 
 describe('pick', () => {
@@ -446,6 +469,20 @@ describe('pick', () => {
     const resultArr2 = _.pick(obj, arrayPaths);
     expect(resultArr1).toEqual(resultArr2);
   });
+
+  test('stress test: pick works on large object', () => {
+    const bigObj: Record<string, number> = {};
+    for (let i = 0; i < 10000; i++) {
+      bigObj[`key${i}`] = i;
+    }
+    const keys = ['key10', 'key9999', 'key5000', 'notfound'];
+    const result = pick(bigObj, keys);
+    expect(result).toHaveProperty('key10', 10);
+    expect(result).toHaveProperty('key9999', 9999);
+    expect(result).toHaveProperty('key5000', 5000);
+    expect(result).not.toHaveProperty('notfound');
+    expect(typeof result).toBe('object');
+  }, 5000);
 });
 
 describe('omit', () => {
@@ -639,6 +676,20 @@ describe('omit', () => {
     // Original object must remain unchanged
     expect(obj).toEqual({ a: 1, b: 2, c: 3 });
   });
+
+  test('stress test: omit works on large object', () => {
+    const bigObj: Record<string, number> = {};
+    for (let i = 0; i < 10000; i++) {
+      bigObj[`key${i}`] = i;
+    }
+    const omitKeys = ['key10', 'key9999', 'key5000'];
+    const result = omit(bigObj, omitKeys);
+    expect(result).not.toHaveProperty('key10');
+    expect(result).not.toHaveProperty('key9999');
+    expect(result).not.toHaveProperty('key5000');
+    expect(result).toHaveProperty('key1', 1);
+    expect(typeof result).toBe('object');
+  }, 5000);
 });
 
 describe('debounce', () => {
@@ -824,6 +875,20 @@ describe('debounce', () => {
     await new Promise(r => setTimeout(r, 150));
     expect(count1).toBe(count2);
   });
+
+  test('stress test: debounce works on large array', async () => {
+    let count = 0;
+    const arr = Array.from({ length: 10000 }, (_, i) => i);
+    const fn = debounce(() => {
+      count = arr.reduce((a, b) => a + b, 0);
+    }, 50);
+    for (let i = 0; i < 100; i++) {
+      fn();
+    }
+    expect(count).toBe(0);
+    await new Promise(r => setTimeout(r, 70));
+    expect(count).toBe(49995000);
+  }, 5000);
 });
 
 describe('throttle', () => {
@@ -1011,6 +1076,21 @@ describe('throttle', () => {
 
     expect(countA).toBe(countB);
   });
+
+  test('stress test: throttle works on large array', async () => {
+    let sum = 0;
+    const arr = Array.from({ length: 10000 }, (_, i) => i);
+    const fn = throttle(() => {
+      sum = arr.reduce((a, b) => a + b, 0);
+    }, 50);
+    for (let i = 0; i < 100; i++) {
+      fn();
+    }
+    // Only the first and last will run (throttled)
+    await new Promise(r => setTimeout(r, 120));
+    expect(sum).toBe(49995000);
+    expect(typeof sum).toBe('number');
+  }, 5000);
 });
 
 describe('capitalize', () => {
@@ -1037,6 +1117,14 @@ describe('capitalize', () => {
       expect(capitalize(v)).toBe(_.capitalize(v));
     }
   });
+
+  test('stress test: capitalize works on large array of strings', () => {
+    const arr = Array.from({ length: 10000 }, (_, i) => `str${i}`);
+    const result = arr.map(capitalize);
+    expect(result[0]).toBe('Str0');
+    expect(result[9999]).toBe('Str9999');
+    expect(Array.isArray(result)).toBe(true);
+  }, 5000);
 });
 
 describe('isEmpty', () => {
@@ -1128,6 +1216,18 @@ describe('isEmpty', () => {
     expect(isEmpty(date)).toBe(_.isEmpty(date));
     expect(isEmpty(regex)).toBe(_.isEmpty(regex));
   });
+
+  test('stress test: isEmpty works on large array and object', () => {
+    const bigArr = Array.from({ length: 10000 }, () => 1);
+    const bigObj: Record<string, number> = {};
+    for (let i = 0; i < 10000; i++) {
+      bigObj[`key${i}`] = i;
+    }
+    expect(isEmpty(bigArr)).toBe(false);
+    expect(isEmpty(bigObj)).toBe(false);
+    expect(isEmpty([])).toBe(true);
+    expect(isEmpty({})).toBe(true);
+  }, 5000);
 });
 
 describe('snakeCase', () => {
@@ -1149,6 +1249,14 @@ describe('snakeCase', () => {
       expect(snakeCase(v)).toBe(_.snakeCase(v));
     }
   });
+
+  test('stress test: snakeCase works on large array of strings', () => {
+    const arr = Array.from({ length: 10000 }, (_, i) => `HelloWorld${i}`);
+    const result = arr.map(snakeCase);
+    expect(result[0]).toBe('hello_world_0');
+    expect(result[9999]).toBe('hello_world_9999');
+    expect(Array.isArray(result)).toBe(true);
+  }, 5000);
 });
 
 describe('upperFirst', () => {
@@ -1169,6 +1277,14 @@ describe('upperFirst', () => {
       expect(upperFirst(v)).toBe(_.upperFirst(v));
     }
   });
+
+  test('stress test: upperFirst works on large array of strings', () => {
+    const arr = Array.from({ length: 10000 }, (_, i) => `word${i}`);
+    const result = arr.map(upperFirst);
+    expect(result[0]).toBe('Word0');
+    expect(result[9999]).toBe('Word9999');
+    expect(Array.isArray(result)).toBe(true);
+  }, 5000);
 });
 
 describe('camelCase', () => {
@@ -1190,6 +1306,14 @@ describe('camelCase', () => {
       expect(camelCase(v)).toBe(_.camelCase(v));
     }
   });
+
+  test('stress test: camelCase works on large array of strings', () => {
+    const arr = Array.from({ length: 10000 }, (_, i) => `foo_bar_${i}`);
+    const result = arr.map(camelCase);
+    expect(result[0]).toBe('fooBar0');
+    expect(result[9999]).toBe('fooBar9999');
+    expect(Array.isArray(result)).toBe(true);
+  }, 5000);
 });
 
 describe('has', () => {
@@ -1246,6 +1370,16 @@ describe('has', () => {
       expect(has(obj, p)).toBe(_.has(obj, p));
     }
   });
+
+  test('stress test: has works on large object', () => {
+    const bigObj: Record<string, { value: number }> = {};
+    for (let i = 0; i < 10000; i++) {
+      bigObj[`key${i}`] = { value: i };
+    }
+    expect(has(bigObj, 'key9999.value')).toBe(true);
+    expect(has(bigObj, 'key0.value')).toBe(true);
+    expect(has(bigObj, 'key10000')).toBe(false);
+  }, 5000);
 });
 
 describe('cloneDeep', () => {
@@ -1622,4 +1756,20 @@ describe('cloneDeep', () => {
       expect(nestedSecond).not.toBe(originalSecond);
     }
   });
+
+  test('stress test: cloneDeep works on large object and array', () => {
+    const bigArr = Array.from({ length: 10000 }, (_, i) => ({ val: i, arr: [i, i + 1] }));
+    const bigObj: Record<string, { value: number; arr: number[] }> = {};
+    for (let i = 0; i < 10000; i++) {
+      bigObj[`key${i}`] = { value: i, arr: [i, i + 1] };
+    }
+    const clonedArr = cloneDeep(bigArr);
+    const clonedObj = cloneDeep(bigObj);
+    expect(clonedArr).toEqual(bigArr);
+    expect(clonedObj).toEqual(bigObj);
+    expect(clonedArr[5000]).not.toBe(bigArr[5000]);
+    expect(clonedObj['key9999']).not.toBe(bigObj['key9999']);
+    expect(Array.isArray(clonedArr)).toBe(true);
+    expect(typeof clonedObj).toBe('object');
+  }, 5000);
 });
