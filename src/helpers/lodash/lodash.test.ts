@@ -32,6 +32,14 @@ describe('shared', () => {
       expect(toPath(undefined as unknown as Path)).toEqual([]);
     });
 
+    test('parse simple', () => {
+      const result = toPath('test');
+      expect(result).toEqual(['test']);
+
+      const result2 = toPath('test-1');
+      expect(result2).toEqual(['test-1']);
+    });
+
     test('parses simple dot notation', () => {
       const result = toPath('a.b.c');
       expect(result).toEqual(['a', 'b', 'c']);
@@ -577,6 +585,17 @@ describe('pick', () => {
     const resultArr1 = pick(obj, arrayPaths);
     const resultArr2 = _.pick(obj, arrayPaths);
     expect(resultArr1).toEqual(resultArr2);
+
+    const obj2 = {
+      id1: { fullName: 'Jhon' },
+      id2: { fullName: 'Peter' },
+      id3: { fullName: 'Jose' }
+    };
+
+    const arrayPaths2 = ['id1', 'id3'];
+    const resultArr3 = pick(obj2, arrayPaths2);
+    const resultArr4 = _.pick(obj2, arrayPaths2);
+    expect(resultArr3).toEqual(resultArr4);
   });
 
   test('stress test: pick works on large object', () => {

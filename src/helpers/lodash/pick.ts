@@ -14,8 +14,7 @@ export function pick<T extends Record<string, unknown>>(obj: T, paths: Path | re
   const result: Partial<T> = {};
   const pathArray = Array.isArray(paths) ? paths : [paths];
   for (const path of pathArray) {
-    const value = typeof path === 'string' ? get(obj, path) : get(obj, path);
-
+    const value = get(obj, path);
     if (value !== undefined) {
       set(result as Record<string, unknown>, path as Path, value);
     }

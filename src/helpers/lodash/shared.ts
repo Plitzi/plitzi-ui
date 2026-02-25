@@ -7,7 +7,7 @@ function validateSegment(segment: unknown): string | null {
       return null;
     }
 
-    if (/^[a-zA-Z0-9_]+$/.test(s) || /^\d+$/.test(s)) {
+    if (/^[a-zA-Z0-9_-]+$/.test(s) || /^\d+$/.test(s)) {
       return s;
     }
 
@@ -22,7 +22,7 @@ function parseStringPath(path: string, strict: boolean): string[] {
     return [];
   }
 
-  if (path.startsWith('.') || path.endsWith('.') || /[^a-zA-Z0-9_.[\]]/.test(path)) {
+  if (path.startsWith('.') || path.endsWith('.') || /[^a-zA-Z0-9_.[\]-]/.test(path)) {
     return [];
   }
 
