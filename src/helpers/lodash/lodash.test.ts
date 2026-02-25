@@ -627,6 +627,14 @@ describe('omit', () => {
     const result2 = _.omit(obj, paths);
     expect(result1).toEqual(result2);
   });
+
+  it('works correctly with frozen (immutable) objects', () => {
+    const obj = Object.freeze({ a: 1, b: 2, c: 3 });
+    const result = omit(obj, ['b']);
+    expect(result).toEqual({ a: 1, c: 3 });
+    // Original object must remain unchanged
+    expect(obj).toEqual({ a: 1, b: 2, c: 3 });
+  });
 });
 
 describe('debounce', () => {

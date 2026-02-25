@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 
+import { cloneDeep } from './cloneDeep';
 import { toPath } from './shared';
 
 import type { Path } from './shared';
@@ -12,7 +13,7 @@ export function omit<T extends Record<string, unknown>, K extends keyof T & stri
 export function omit<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T>;
 
 export function omit<T extends Record<string, unknown>>(obj: T, paths: Path | readonly Path[]): Partial<T> {
-  const clone = structuredClone(obj);
+  const clone = cloneDeep(obj);
   const pathArray: readonly Path[] = Array.isArray(paths) ? paths : [paths];
   for (const path of pathArray) {
     const keys = toPath(path);
