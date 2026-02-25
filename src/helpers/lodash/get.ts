@@ -61,6 +61,10 @@ export function get(obj: unknown, path: Path, defaultValue?: unknown) {
   }
 
   const keys = toPath(path);
+  if (!keys.length) {
+    return defaultValue;
+  }
+
   let current: unknown = obj;
   for (const key of keys) {
     if (current == null || typeof current !== 'object') {

@@ -35,11 +35,28 @@ describe('shared', () => {
     test('parses simple dot notation', () => {
       const result = toPath('a.b.c');
       expect(result).toEqual(['a', 'b', 'c']);
+
+      const result2 = toPath('a.1.b');
+      expect(result2).toEqual(['a', '1', 'b']);
+    });
+
+    test('parses simple dot notation malformed', () => {
+      const paths = ['a.b.c.', '.b.c.d', '.b.c.d', 'a..b.c', 'a...b.c', 'a....b.c', 'a.,.b.c', 'a.#.b.c'];
+      for (const p of paths) {
+        expect(toPath(p)).toEqual([]);
+      }
     });
 
     test('parses bracket notation', () => {
       const result = toPath('a[0].b[1]');
       expect(result).toEqual(['a', '0', 'b', '1']);
+    });
+
+    test('parses bracket notation malformed', () => {
+      const paths = ['a[0].b[]', 'a[0].b[1', 'a[0].b[][1', 'a[0].b[9][1', 'a[0].b[0]1]'];
+      for (const p of paths) {
+        expect(toPath(p)).toEqual([]);
+      }
     });
 
     test('parses mixed dot and bracket notation', () => {
@@ -58,7 +75,7 @@ describe('shared', () => {
     });
 
     test('ignores empty segments gracefully', () => {
-      const result = toPath('a..b...c');
+      const result = toPath('a..b...c', false);
       expect(result).toEqual(['a', 'b', 'c']);
     });
 
@@ -260,6 +277,7 @@ describe('get', () => {
       'user.name',
       'user.credentials.token',
       'user.addresses[1].city',
+      'user.credentials.', // malformed
       'items[0].value',
       'meta',
       'missing.path'
