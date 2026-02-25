@@ -1,5 +1,6 @@
 import { useCallback, useReducer, useRef } from 'react';
 
+import { cloneDeep } from '@/helpers';
 import useValueMemo from '@hooks/useValueMemo';
 
 import type { DeepEqualMetadata } from '@/utils';
@@ -33,7 +34,7 @@ const useReducerWithMiddleware = <S, A extends AnyActionArg>(
   const dispatchWithMiddleware = useCallback(
     (...action: A) => {
       if (middlewaresMemo.length > 0) {
-        const newState = reducer(stateRef.current, ...action);
+        const newState = reducer(stateRef.current, ...cloneDeep(action));
         middlewaresMemo.forEach(({ middleware, typeFilter = [], filterCallback }) => {
           const filterCallbackResult =
             !filterCallback || (typeof filterCallback === 'function' && filterCallback(...action));
