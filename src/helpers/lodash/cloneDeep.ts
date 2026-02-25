@@ -6,6 +6,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { toPath } from './shared';
+
+import type { Path } from './shared';
+
 export function cloneDeep<T>(value: T, seen = new WeakMap<object, any>()): T {
   // Primitives
   if (value === null || typeof value !== 'object') {
@@ -91,4 +95,42 @@ export function cloneDeep<T>(value: T, seen = new WeakMap<object, any>()): T {
   }
 
   return cloned;
+}
+
+const cloneObject = <T>(obj: T) => Object.assign(Object.create(Object.getPrototypeOf(obj)), obj) as T;
+
+/**
+ * Clones only the necessary path (structural sharing).
+ * Useful for immutable operations like omit without cloning the entire object.
+ */
+export function cloneAtPath<T extends Record<string, any>>(obj: T, path: Path): T {
+  const keys = toPath(path);
+  const rootClone: T = (Array.isArray(obj) ? [...obj] : cloneObject<T>(obj)) as T;
+  if (!keys.length) {
+    // Shallow clone root
+    return rootClone;
+  }
+
+  // Clone root
+
+  let currentOriginal: any = obj;
+  let currentClone: any = rootClone;
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const nextOriginal = currentOriginal?.[key];
+    if (!nextOriginal || typeof nextOriginal !== 'object') {
+      currentClone[key] = nextOriginal;
+      break;
+    }
+
+    // Clone current branch preserving prototype
+    const nextClone = Array.isArray(nextOriginal) ? [...nextOriginal] : cloneObject(nextOriginal);
+    currentClone[key] = nextClone;
+
+    // move pointers to next level
+    currentOriginal = nextOriginal;
+    currentClone = nextClone;
+  }
+
+  return rootClone;
 }

@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 
 import { camelCase } from './camelCase';
 import { capitalize } from './capitalize';
-import { cloneDeep } from './cloneDeep';
+import { cloneAtPath, cloneDeep } from './cloneDeep';
 import { debounce } from './debounce';
 import { get } from './get';
 import { has } from './has';
@@ -483,6 +483,10 @@ describe('omit', () => {
     const result = omit(obj, []);
     expect(result).toEqual(obj);
     expect(result).not.toBe(obj);
+
+    const result2 = omit(obj);
+    expect(result2).toEqual(obj);
+    expect(result2).not.toBe(obj);
   });
 
   it('deep cases: omits deep nested value', () => {
@@ -1245,6 +1249,122 @@ describe('has', () => {
 });
 
 describe('cloneDeep', () => {
+  describe('cloneDeep.cloneAtPath', () => {
+    it('clones only the branch at given path (object path)', () => {
+      const obj = {
+        a: { b: { c: 1 } },
+        d: { e: 2 }
+      };
+
+      const cloned = cloneAtPath(obj, 'a.b');
+
+      // root must be new reference
+      expect(cloned).not.toBe(obj);
+
+      // cloned branch must be new
+      expect(cloned.a).not.toBe(obj.a);
+      expect(cloned.a.b).not.toBe(obj.a.b);
+
+      // untouched branch must keep reference
+      expect(cloned.d).toBe(obj.d);
+
+      // values preserved
+      expect(cloned.a.b.c).toBe(1);
+    });
+
+    it('works with array path', () => {
+      const obj = {
+        a: { b: { c: 1 } }
+      };
+
+      const cloned = cloneAtPath(obj, ['a', 'b']);
+
+      expect(cloned.a).not.toBe(obj.a);
+      expect(cloned.a.b).not.toBe(obj.a.b);
+      expect(cloned.a.b.c).toBe(1);
+    });
+
+    it('clones nested arrays correctly', () => {
+      const obj = {
+        items: [
+          { id: 1, value: { x: 10 } },
+          { id: 2, value: { x: 20 } }
+        ]
+      };
+
+      const cloned = cloneAtPath(obj, ['items', 1, 'value']);
+
+      expect(cloned).not.toBe(obj);
+      expect(cloned.items).not.toBe(obj.items);
+      expect(cloned.items[1]).not.toBe(obj.items[1]);
+      expect(cloned.items[1].value).not.toBe(obj.items[1].value);
+
+      // untouched index keeps reference
+      expect(cloned.items[0]).toBe(obj.items[0]);
+
+      expect(cloned.items[1].value.x).toBe(20);
+    });
+
+    it('does not mutate original object', () => {
+      const obj = {
+        a: { b: { c: 1 } }
+      };
+
+      const cloned = cloneAtPath(obj, 'a.b');
+
+      cloned.a.b.c = 999;
+
+      expect(obj.a.b.c).toBe(1);
+    });
+
+    it('returns new root even if path does not exist', () => {
+      const obj = { a: 1 };
+
+      const cloned = cloneAtPath(obj, 'x.y.z');
+
+      expect(cloned).not.toBe(obj);
+      expect(cloned).toEqual(obj);
+    });
+
+    it('handles empty path by returning shallow clone', () => {
+      const obj = { a: { b: 1 } };
+
+      const cloned = cloneAtPath(obj, []);
+
+      expect(cloned).not.toBe(obj);
+      expect(cloned.a).toBe(obj.a); // shallow clone only
+    });
+
+    it('works with numeric keys in string path', () => {
+      const obj = {
+        list: [{ value: 1 }, { value: 2 }]
+      };
+
+      const cloned = cloneAtPath(obj, 'list.1');
+
+      expect(cloned.list).not.toBe(obj.list);
+      expect(cloned.list[1]).not.toBe(obj.list[1]);
+      expect(cloned.list[0]).toBe(obj.list[0]);
+    });
+
+    it('preserves prototype of cloned branch', () => {
+      const proto = {
+        greet() {
+          return 'hi';
+        }
+      };
+
+      const obj = Object.create(proto) as { a: { b: number } };
+      obj.a = { b: 1 };
+
+      const cloned = cloneAtPath(obj, 'a');
+
+      expect(Object.getPrototypeOf(cloned)).toBe(proto);
+      expect(cloned.a).not.toBe(obj.a);
+      expect(cloned.a.b).toBe(1);
+    });
+  });
+
   it('clones primitives', () => {
     expect(cloneDeep(42)).toBe(42);
     expect(cloneDeep('hello')).toBe('hello');
