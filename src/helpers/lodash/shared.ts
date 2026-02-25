@@ -1,12 +1,12 @@
-// Types
-
 export type Path = string | readonly (string | number)[];
-
-// Helpers
 
 const PATH_REGEX = /[^.[\]]+/g;
 
 export function toPath(path: Path): string[] {
+  if (!path) {
+    return [];
+  }
+
   if (typeof path === 'string') {
     PATH_REGEX.lastIndex = 0; // Reset regex state
 

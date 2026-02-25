@@ -56,7 +56,7 @@ export function get<T, P extends Exclude<Path, string> = Exclude<Path, string>, 
 ): Partial<T> | TDefault;
 
 export function get(obj: unknown, path: Path, defaultValue?: unknown) {
-  if (obj == null || path === '') {
+  if (obj == null || !path) {
     return defaultValue;
   }
 
