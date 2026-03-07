@@ -1,7 +1,9 @@
 import { createContext } from 'react';
 
+import type { RefObject } from 'react';
+
 export type ContainerRootContextValue = {
-  rootDOM?: HTMLElement | null;
+  rootRef: RefObject<HTMLDivElement | null>;
   getHost: () => Node | undefined;
   isRootShadow: () => boolean;
 };
