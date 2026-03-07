@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import ContainerRootProvider from './ContainerRootProvider';
 
@@ -7,16 +7,11 @@ import type { ReactNode } from 'react';
 export type ContainerRootProps = { className?: string; children?: ReactNode; ssrMode?: boolean };
 
 const ContainerRoot = ({ className = '', children, ...otherProps }: ContainerRootProps) => {
-  const [rootDOM, setRootDOM] = useState(null);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    setRootDOM(ref.current);
-  }, []);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   return (
     <div {...otherProps} ref={ref} className={className}>
-      <ContainerRootProvider rootDOM={rootDOM}>{children}</ContainerRootProvider>
+      <ContainerRootProvider rootRef={ref}>{children}</ContainerRootProvider>
     </div>
   );
 };

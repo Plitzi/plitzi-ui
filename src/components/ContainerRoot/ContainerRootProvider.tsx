@@ -2,22 +2,22 @@ import { useCallback, useMemo } from 'react';
 
 import ContainerRootContext from './ContainerRootContext';
 
-import type { ReactNode } from 'react';
+import type { ReactNode, RefObject } from 'react';
 
-export type ContainerRootProviderProps = { rootDOM?: HTMLElement | null; children?: ReactNode };
+export type ContainerRootProviderProps = { rootRef: RefObject<HTMLDivElement | null>; children?: ReactNode };
 
-const ContainerRootProvider = ({ children, rootDOM }: ContainerRootProviderProps) => {
+const ContainerRootProvider = ({ children, rootRef }: ContainerRootProviderProps) => {
   const getHost = useCallback(() => {
-    if (rootDOM instanceof HTMLElement) {
-      return rootDOM.getRootNode();
+    if (rootRef.current instanceof HTMLElement) {
+      return rootRef.current.getRootNode();
     }
 
     return undefined;
-  }, [rootDOM]);
+  }, [rootRef]);
 
   const isRootShadow = useCallback(() => getHost() instanceof ShadowRoot, [getHost]);
 
-  const rootContextMemo = useMemo(() => ({ getHost, rootDOM, isRootShadow }), [getHost, rootDOM, isRootShadow]);
+  const rootContextMemo = useMemo(() => ({ getHost, rootRef, isRootShadow }), [getHost, rootRef, isRootShadow]);
 
   return <ContainerRootContext value={rootContextMemo}>{children}</ContainerRootContext>;
 };
