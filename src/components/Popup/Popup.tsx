@@ -10,15 +10,16 @@ import type PopupStyles from './Popup.styles';
 import type { variantKeys } from './Popup.styles';
 import type { ResizeHandle } from '@components/ContainerResizable';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent, ReactNode } from 'react';
+import type { MouseEvent, ReactNode, RefObject } from 'react';
 
 const resizeHandlesDefault: ResizeHandle[] = ['s'];
 
 export type PopupPlacement = 'right' | 'left' | 'floating';
 
 export type PopupProps = {
-  id?: string;
   children?: ReactNode;
+  parentRef?: RefObject<HTMLElement | null>;
+  id?: string;
   width?: number;
   height?: number;
   icon?: ReactNode;
@@ -30,7 +31,6 @@ export type PopupProps = {
   allowExternal?: boolean;
   resizeHandles?: ResizeHandle[];
   limitMode?: 'window' | 'parent' | 'none';
-  parentElement?: HTMLElement | null;
   placementPopup?: (popupId: string, placement: PopupPlacement) => void;
   onFocus?: (popupId: string) => void;
   removePopup?: (popupId: string) => void;
@@ -53,7 +53,7 @@ const Popup = ({
   allowExternal = true,
   resizeHandles = resizeHandlesDefault, // ['s', 'e', 'w', 'se', 'sw', 'nw', 'ne'],
   limitMode = 'window',
-  parentElement,
+  parentRef,
   // methods
   placementPopup,
   onFocus,
@@ -131,6 +131,7 @@ const Popup = ({
   return (
     <ContainerDraggable
       key={id}
+      parentRef={parentRef}
       className={classNameTheme.root}
       icon={iconParsed}
       title={title}
@@ -146,7 +147,6 @@ const Popup = ({
       resizeHandles={resizeHandles}
       customActions={customActionsMemo}
       limitMode={limitMode}
-      parentElement={parentElement}
     >
       {children}
     </ContainerDraggable>

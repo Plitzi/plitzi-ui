@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { debounce } from '@/helpers/lodash';
 import Card from '@components/Card';
@@ -19,6 +19,7 @@ const resizeHandlesDefault: ResizeHandle[] = ['se'];
 const customActionsDefault: ReactNode[] = [];
 
 export type ContainerDraggableProps = {
+  parentRef?: RefObject<HTMLElement | null>;
   icon: ReactNode;
   title?: ReactNode;
   className: string;
@@ -33,7 +34,6 @@ export type ContainerDraggableProps = {
   allowClose?: boolean;
   resizeHandles: ResizeHandle[];
   customActions: ReactNode[];
-  parentElement?: HTMLElement | null;
   titleHeight?: number;
   onClose?: (e: MouseEvent | React.MouseEvent) => void;
   onFocus?: (e: MouseEvent | React.MouseEvent | TouchEvent | React.TouchEvent) => void;
@@ -56,7 +56,7 @@ const ContainerDraggable = ({
   allowExternal = true,
   resizeHandles = resizeHandlesDefault,
   customActions = customActionsDefault,
-  parentElement,
+  parentRef,
   intent,
   size,
   onClose,
@@ -84,13 +84,14 @@ const ContainerDraggable = ({
   const [minConstraintsX] = useState(width);
   const [minConstraintsY] = useState(height - titleHeight);
   const [containerRect, setContainerRect] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
-  const parentElementDOM = useMemo(() => {
-    if (!parentElement && typeof document !== 'undefined') {
+
+  const getParentElement = useCallback(() => {
+    if (!parentRef?.current && typeof document !== 'undefined') {
       return document.body;
     }
 
-    return parentElement;
-  }, [parentElement]);
+    return parentRef?.current;
+  }, [parentRef]);
 
   const callbackRefresh = useCallback(() => {
     if (!unmounted.current) {
@@ -166,9 +167,9 @@ const ContainerDraggable = ({
       setDragging(false);
       setOffsetX(xRef.current);
       setOffsetY(yRef.current);
-      parentElementDOM?.classList.remove('moving');
+      getParentElement()?.classList.remove('moving');
     },
-    [parentElementDOM?.classList]
+    [getParentElement]
   );
 
   useEffect(() => {
@@ -206,7 +207,7 @@ const ContainerDraggable = ({
     }
 
     if (e.button === 0) {
-      parentElementDOM?.classList.add('moving');
+      getParentElement()?.classList.add('moving');
       setDragging(true);
       setContainerRect(rect);
       setTX(e.clientX);
@@ -319,6 +320,7 @@ const ContainerDraggable = ({
         />
         <ContainerDraggableContent
           ref={containerRef}
+          parentRef={parentRef}
           collapsed={collapsed}
           onFocus={onFocus}
           allowResize={allowResize}
@@ -327,7 +329,6 @@ const ContainerDraggable = ({
           minConstraintsY={minConstraintsY}
           width={width}
           height={height - titleHeight}
-          parentElement={parentElement}
         >
           {children}
         </ContainerDraggableContent>

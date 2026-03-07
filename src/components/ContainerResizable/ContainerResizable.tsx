@@ -15,7 +15,7 @@ export type ResizeHandle = 'se' | 's' | 'e' | 'n' | 'w' | 'nw' | 'sw' | 'ne';
 
 export type ContainerResizableProps = {
   ref?: RefObject<HTMLDivElement | null>;
-  parentElement?: HTMLElement | null;
+  parentRef?: RefObject<HTMLElement | null>;
   hoverMode?: boolean;
   autoGrow?: boolean;
   width?: number;
@@ -40,7 +40,7 @@ const resizeHandlesDefault: ResizeHandle[] = ['se'];
 const ContainerResizable = ({
   ref,
   className,
-  parentElement,
+  parentRef,
   hoverMode = false,
   autoGrow = true,
   width: widthProp = Infinity,
@@ -74,13 +74,14 @@ const ContainerResizable = ({
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => containerRef.current, [containerRef]);
   const containerInternalRef = useRef<HTMLDivElement>(null);
   const onChangeDebounced = useMemo(() => (onChange ? debounce(onChange, 150) : undefined), [onChange]);
-  const parentElementDOM = useMemo(() => {
-    if (!parentElement && typeof document !== 'undefined') {
+
+  const getParentElement = useCallback(() => {
+    if (!parentRef?.current && typeof document !== 'undefined') {
       return document.body;
     }
 
-    return parentElement;
-  }, [parentElement]);
+    return parentRef?.current;
+  }, [parentRef]);
 
   const runConstraints = useCallback(
     (auxWidth: number, auxHeight: number, reverse = false) => {
@@ -191,9 +192,9 @@ const ContainerResizable = ({
         setHeight(containerInternalRef.current?.offsetHeight ?? height);
       }
 
-      parentElementDOM?.classList.remove('resizing');
+      getParentElement()?.classList.remove('resizing');
     },
-    [height, width, parentElementDOM?.classList]
+    [getParentElement, height, width]
   );
 
   const handleMouseDown = useCallback(
@@ -203,7 +204,7 @@ const ContainerResizable = ({
           return;
         }
 
-        parentElementDOM?.classList.add('resizing');
+        getParentElement()?.classList.add('resizing');
         setDirection(direction);
         setClientX(e.clientX);
         setClientY(e.clientY);
@@ -220,7 +221,7 @@ const ContainerResizable = ({
           setOHeight(height);
         }
       },
-    [height, parentElementDOM?.classList, width]
+    [getParentElement, height, width]
   );
 
   useEffect(() => {
@@ -236,7 +237,7 @@ const ContainerResizable = ({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [direction, parentElementDOM]);
+  }, [direction]);
 
   useEffect(() => {
     setWidth(widthProp);

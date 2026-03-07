@@ -42,7 +42,7 @@ const PopupSidePanel = ({
     componentKey: ['sidePanelRoot', 'sidePanel', 'sidePanelContainer'],
     variants: { placement: placementTabs, size }
   });
-  const { rootDOM } = use(ContainerRootContext);
+  const { rootRef } = use(ContainerRootContext);
   const { popupManager, popups, popupActiveIds, multi, multiExpanded } = usePopup(placement);
   const resizeHandles = useMemo<ResizeHandle[]>(() => (placementTabs === 'left' ? ['e'] : ['w']), [placementTabs]);
 
@@ -101,13 +101,13 @@ const PopupSidePanel = ({
   return (
     <ContainerResizable
       className={classNameTheme.sidePanelRoot}
+      parentRef={rootRef}
       autoGrow={false}
       minConstraintsX={minWidth}
       minConstraintsY={Infinity}
       maxConstraintsX={maxWidth}
       width={minWidth}
       resizeHandles={resizeHandles}
-      parentElement={rootDOM}
     >
       <div className={classNameTheme.sidePanel}>
         {showSidebar && (

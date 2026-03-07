@@ -11,7 +11,7 @@ export type PopupFloatingAreaProps = {
   className?: string;
 };
 const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
-  const { rootDOM } = use(ContainerRootContext);
+  const { rootRef } = use(ContainerRootContext);
   const { popupManager, popups, removePopup, limitMode } = usePopup('floating');
 
   const handleChangePlacement = useCallback(
@@ -36,11 +36,11 @@ const PopupFloatingArea = ({ className = '' }: PopupFloatingAreaProps) => {
             key={popup.id}
             id={popup.id}
             title={title}
+            parentRef={rootRef}
+            limitMode={limitMode}
             placementPopup={handleChangePlacement}
             onFocus={handleFocus}
             removePopup={removePopup}
-            limitMode={limitMode}
-            parentElement={rootDOM}
           >
             {popup.component}
           </Popup>

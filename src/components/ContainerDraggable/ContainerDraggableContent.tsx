@@ -11,6 +11,7 @@ import type { ReactNode, RefObject } from 'react';
 
 export type ContainerDraggableContentProps = {
   ref: RefObject<HTMLDivElement>;
+  parentRef?: RefObject<HTMLElement | null>;
   children: ReactNode;
   allowResize: boolean;
   resizeHandles: ResizeHandle[];
@@ -18,7 +19,6 @@ export type ContainerDraggableContentProps = {
   minConstraintsY: number;
   width: number;
   height: number;
-  parentElement?: HTMLElement | null;
   onFocus?: (e: MouseEvent | React.MouseEvent | TouchEvent | React.TouchEvent) => void;
 } & useThemeSharedProps<typeof ContainerDraggableStyles, typeof variantKeys>;
 
@@ -35,7 +35,7 @@ const ContainerDraggableContent = ({
   minConstraintsY,
   width,
   height,
-  parentElement,
+  parentRef,
   onFocus
 }: ContainerDraggableContentProps) => {
   className = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
@@ -63,7 +63,7 @@ const ContainerDraggableContent = ({
           minConstraintsY={minConstraintsY}
           width={width}
           height={height}
-          parentElement={parentElement}
+          parentRef={parentRef}
         >
           {children}
         </ContainerResizable>
