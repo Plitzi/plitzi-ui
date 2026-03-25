@@ -2,7 +2,6 @@
 /// <reference types="vitest" />
 
 import path, { resolve } from 'node:path';
-
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -22,14 +21,7 @@ export default defineConfig((env: ConfigEnv) => ({
       // entryRoot: 'src',
       outDir: 'dist',
       rollupTypes: false,
-      exclude: [
-        '**/*.test.tsx',
-        '**/*.stories.ts',
-        '**/*.stories.tsx',
-        'vite.config.ts'
-        // 'setupTests.ts',
-        // 'node_modules'
-      ],
+      exclude: ['**/*.test.tsx', '**/*.stories.ts', '**/*.stories.tsx', 'vite.config.ts'],
       tsconfigPath: './tsconfig.app.json'
     }),
     {
@@ -80,9 +72,11 @@ export default defineConfig((env: ConfigEnv) => ({
         resolve(__dirname, './src/icons/index.ts'),
         resolve(__dirname, './src/helpers/index.ts'),
         resolve(__dirname, './src/helpers/lodash/index.ts'),
+        resolve(__dirname, './src/components/index.ts'),
         resolve(__dirname, './src/components/ContainerFloating/index.ts'),
         resolve(__dirname, './src/components/QueryBuilder/index.ts'),
         resolve(__dirname, './src/components/Toast/index.ts'),
+        resolve(__dirname, './src/components/ContainerRoot/index.ts'),
         resolve(__dirname, './src/components/Modal/index.ts'),
         resolve(__dirname, './src/components/Form/index.ts'),
         resolve(__dirname, './src/components/Popup/index.ts')
