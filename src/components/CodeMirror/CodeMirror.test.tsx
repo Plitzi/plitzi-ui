@@ -14,13 +14,14 @@ beforeAll(() => {
     root = null;
     rootMargin = '';
     thresholds = [];
+    scrollMargin = '';
     observe() {}
     unobserve() {}
     disconnect() {}
     takeRecords() {
       return [];
     }
-  };
+  } as typeof IntersectionObserver;
 });
 
 describe('CodeMirror', () => {

@@ -15,12 +15,12 @@ import type { z } from 'zod';
 
 // Helpers
 export type ZodFormSchema =
-  | z.ZodObject<z.ZodRawShape>
-  | z.ZodDiscriminatedUnion<z.ZodObject<z.ZodRawShape>[]>
-  | z.ZodDiscriminatedUnion<readonly z.ZodObject<z.ZodRawShape>[]>;
+  | z.ZodObject
+  | z.ZodDiscriminatedUnion<z.ZodObject[]>
+  | z.ZodDiscriminatedUnion<readonly z.ZodObject[]>;
 
 export type UseFormProps<T extends ZodFormSchema> = Omit<
-  UseReactHookFormProps<T>,
+  UseReactHookFormProps<z.input<T>>,
   'errors' | 'values' | 'formControl' | 'defaultValues'
 > & {
   defaultValues?: DefaultValues<z.input<T>>;
@@ -44,11 +44,11 @@ const useForm = <T extends ZodFormSchema>({
   const resolver = useMemo(() => zodResolver(config.schema), [config.schema]) as unknown as Resolver<
     z.input<T>,
     unknown,
-    z.infer<T>
+    z.output<T>
   >;
 
   const formMethods = useReactHookForm<z.input<T>, unknown, z.output<T>>({
-    ...props,
+    ...(props as UseReactHookFormProps<z.input<T>, unknown, z.output<T>>),
     defaultValues,
     context: undefined,
     errors,
