@@ -69,6 +69,7 @@ export default defineConfig((env: ConfigEnv) => ({
     lib: {
       entry: [
         resolve(__dirname, './src/index.ts'),
+        resolve(__dirname, './src/tailwind/index.ts'),
         resolve(__dirname, './src/icons/index.ts'),
         resolve(__dirname, './src/helpers/index.ts'),
         resolve(__dirname, './src/helpers/lodash/index.ts'),
