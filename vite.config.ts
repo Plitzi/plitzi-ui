@@ -83,6 +83,7 @@ export default defineConfig((env: ConfigEnv) => ({
         resolve(__dirname, './src/helpers/index.ts'),
         resolve(__dirname, './src/helpers/lodash/index.ts'),
         resolve(__dirname, './src/components/ContainerFloating/index.ts'),
+        resolve(__dirname, './src/components/QueryBuilder/index.ts'),
         resolve(__dirname, './src/components/Form/index.ts'),
         resolve(__dirname, './src/components/Popup/index.ts')
       ],
