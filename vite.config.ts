@@ -2,6 +2,7 @@
 /// <reference types="vitest" />
 
 import path, { resolve } from 'node:path';
+import fs from 'node:fs';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -11,6 +12,21 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import type { ConfigEnv } from 'vite';
 
 const importedPackages = new Set<string>();
+
+function getComponentEntries(dir: string): string[] {
+  const entries: string[] = [];
+  const items = fs.readdirSync(dir, { withFileTypes: true });
+  for (const item of items) {
+    const fullPath = path.join(dir, item.name);
+    if (item.isDirectory()) {
+      entries.push(...getComponentEntries(fullPath));
+    } else if (item.isFile() && item.name === 'index.ts') {
+      entries.push(fullPath);
+    }
+  }
+
+  return entries;
+}
 
 export default defineConfig((env: ConfigEnv) => ({
   plugins: [
@@ -73,14 +89,7 @@ export default defineConfig((env: ConfigEnv) => ({
         resolve(__dirname, './src/icons/index.ts'),
         resolve(__dirname, './src/helpers/index.ts'),
         resolve(__dirname, './src/helpers/lodash/index.ts'),
-        resolve(__dirname, './src/components/index.ts'),
-        resolve(__dirname, './src/components/ContainerFloating/index.ts'),
-        resolve(__dirname, './src/components/QueryBuilder/index.ts'),
-        resolve(__dirname, './src/components/Toast/index.ts'),
-        resolve(__dirname, './src/components/ContainerRoot/index.ts'),
-        resolve(__dirname, './src/components/Modal/index.ts'),
-        resolve(__dirname, './src/components/Form/index.ts'),
-        resolve(__dirname, './src/components/Popup/index.ts')
+        ...getComponentEntries(resolve(__dirname, './src/components'))
       ],
       name: 'plitzi-ui'
     },
