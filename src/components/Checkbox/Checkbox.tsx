@@ -56,7 +56,15 @@ const Checkbox = ({
       value={value}
     >
       {children}
-      <input type="checkbox" ref={ref} className={classNameTheme.input} {...inputProps} value={value} />
+      <input
+        type="checkbox"
+        id={id}
+        ref={ref}
+        className={classNameTheme.input}
+        disabled={disabled}
+        value={value}
+        {...inputProps}
+      />
     </InputContainer>
   );
 };
