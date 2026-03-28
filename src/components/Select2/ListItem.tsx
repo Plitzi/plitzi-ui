@@ -48,10 +48,15 @@ const ListItem = ({
     (e: MouseEvent) => {
       e.stopPropagation();
       e.preventDefault();
+      if (option) {
+        onChange?.(option);
 
-      onChange?.(option);
+        return;
+      }
+
+      onChange?.({ label, value });
     },
-    [option, onChange]
+    [option, onChange, label, value]
   );
 
   const handleClickRemove = useCallback(
