@@ -16,10 +16,20 @@ export type SelectListProps = {
   className?: string;
   options?: Option[];
   value?: string;
+  allowRemoveOptions?: boolean;
   onChange?: (newValue?: Exclude<Option, OptionGroup>) => void;
+  onRemove?: (option: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
-const SelectList = ({ className = '', options, value = '', size, onChange }: SelectListProps) => {
+const SelectList = ({
+  className = '',
+  options,
+  value = '',
+  size,
+  allowRemoveOptions = false,
+  onChange,
+  onRemove
+}: SelectListProps) => {
   className = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: 'list',
@@ -39,7 +49,9 @@ const SelectList = ({ className = '', options, value = '', size, onChange }: Sel
               options={option.options}
               value={value}
               size={size}
+              allowRemoveOptions={allowRemoveOptions}
               onChange={onChange}
+              onRemove={onRemove}
             />
           );
         }
@@ -53,7 +65,9 @@ const SelectList = ({ className = '', options, value = '', size, onChange }: Sel
             value={option.value}
             option={option}
             size={size}
+            allowRemoveOptions={allowRemoveOptions}
             onChange={onChange}
+            onRemove={onRemove}
           />
         );
       })}

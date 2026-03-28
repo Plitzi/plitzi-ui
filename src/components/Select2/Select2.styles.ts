@@ -40,8 +40,21 @@ export default {
   trigger: cva('w-full'),
   placeholder: cva('text-gray-500'),
   searchInput: cva('mx-2.5 mt-2.5'),
-  list: cva('p-2.5 max-h-[400px] overflow-y-auto'),
-  listMessage: cva('py-3 text-gray-500 flex items-center justify-center shrink-0'),
+  list: cva('p-2.5 max-h-100 overflow-y-auto'),
+  listMessage: cva('text-gray-500 flex items-center justify-center shrink-0', {
+    variants: {
+      size: {
+        md: 'py-2',
+        sm: 'py-1.5 text-sm',
+        xs: 'py-1 text-xs',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
   listGroup: cva('[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-300', {
     variants: {
       size: {
@@ -71,7 +84,7 @@ export default {
     }
   }),
   listItem: cva(
-    'flex items-center my-0.5 shrink-0 transition duration-200 cursor-pointer select-none truncate rounded-sm',
+    'group flex items-center justify-between my-0.5 shrink-0 transition duration-200 cursor-pointer select-none truncate rounded-sm',
     {
       variants: {
         selected: {
@@ -91,5 +104,6 @@ export default {
         selected: false
       }
     }
-  )
+  ),
+  listItemIcon: cva('invisible group-hover:visible')
 };

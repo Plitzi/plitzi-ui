@@ -1,11 +1,11 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useArgs } from 'storybook/preview-api';
 
 import Icon from '@components/Icon';
 
 import Select2 from './Select2';
 
-import type { Option } from './Select2';
+import type { Option, OptionGroup } from './Select2';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
@@ -62,8 +62,16 @@ export const BasicUsage: Story = {
     ]
   },
   render: function Render(args) {
-    const { options } = args;
-    const [{ value }, updateArgs] = useArgs<typeof args>();
+    // const { options } = args;
+    const [{ value, options }, updateArgs] = useArgs<typeof args>();
+
+    const handleRemove = useCallback(
+      (option: Exclude<Option, OptionGroup>) => {
+        console.log(option);
+        updateArgs({ options: (options as Option[]).filter(op => !('value' in op) || op.value !== option.value) });
+      },
+      [options, updateArgs]
+    );
 
     return (
       <div className="flex flex-col gap-4 w-96 h-96">
@@ -72,27 +80,33 @@ export const BasicUsage: Story = {
           valueAsString={false}
           value={value}
           options={options}
+          allowRemoveOptions
           onChange={option => updateArgs({ value: option })}
+          onRemove={handleRemove}
         />
         <Select2
           {...args}
           valueAsString={false}
+          allowRemoveOptions
           size="sm"
           value={value}
           options={options}
-          onChange={option => updateArgs({ value: option })}
           error="This is an error"
           clearable
-          className="w-[450px]"
+          className="w-112.5"
+          onChange={option => updateArgs({ value: option })}
+          onRemove={handleRemove}
         />
         <Select2
           {...args}
           valueAsString={false}
+          allowRemoveOptions
           size="xs"
           value={value}
           options={options}
+          className={{ trigger: 'w-75' }}
           onChange={option => updateArgs({ value: option })}
-          className={{ trigger: 'w-[300px]' }}
+          onRemove={handleRemove}
         />
       </div>
     );
@@ -125,14 +139,21 @@ export const AsyncUsage: Story = {
     ]
   },
   render: function Render(args) {
-    const { options } = args;
-    const [{ value }, updateArgs] = useArgs<typeof args>();
+    const [{ value, options }, updateArgs] = useArgs<typeof args>();
+
+    const handleRemove = useCallback(
+      (option: Exclude<Option, OptionGroup>) => {
+        console.log(option);
+        updateArgs({ options: (options as Option[]).filter(op => !('value' in op) || op.value !== option.value) });
+      },
+      [options, updateArgs]
+    );
 
     const optionsMemo = useMemo(() => {
       return new Promise<Option[]>(resolve => {
         setTimeout(() => {
           resolve(options as Option[]);
-        }, 2000);
+        }, 1000);
       });
     }, [options]);
 
@@ -141,9 +162,11 @@ export const AsyncUsage: Story = {
         <Select2
           {...args}
           valueAsString={false}
+          allowRemoveOptions
           value={value}
           options={optionsMemo}
           onChange={option => updateArgs({ value: option })}
+          onRemove={handleRemove}
         />
       </div>
     );

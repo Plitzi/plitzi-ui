@@ -16,10 +16,22 @@ export type ListGroupProps = {
   icon?: ReactNode;
   label?: string;
   value?: string;
+  allowRemoveOptions?: boolean;
   onChange?: (newValue?: Exclude<Option, OptionGroup>) => void;
+  onRemove?: (option: Exclude<Option, OptionGroup>) => void;
 } & useThemeSharedProps<typeof Select2Styles, typeof variantKeys>;
 
-const ListGroup = ({ className, options, icon, label = '', value = '', size, onChange }: ListGroupProps) => {
+const ListGroup = ({
+  className,
+  options,
+  icon,
+  label = '',
+  value = '',
+  allowRemoveOptions = false,
+  size,
+  onChange,
+  onRemove
+}: ListGroupProps) => {
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['listGroup', 'listGroupLabel'],
@@ -41,7 +53,9 @@ const ListGroup = ({ className, options, icon, label = '', value = '', size, onC
             isSelected={value === option.value}
             option={option}
             size={size}
+            allowRemoveOptions={allowRemoveOptions}
             onChange={onChange}
+            onRemove={onRemove}
           />
         ))}
     </Flex>

@@ -100,6 +100,13 @@ const ContainerFloatingContainer = ({
     };
   }, [open, handleScroll]);
 
+  useEffect(() => {
+    if (open) {
+      updatePosition();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useDidUpdateEffect(() => {
     if (open) {
       updatePosition();

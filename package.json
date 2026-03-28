@@ -1,6 +1,6 @@
 {
   "name": "@plitzi/plitzi-ui",
-  "version": "1.4.12",
+  "version": "1.4.13",
   "homepage": "./",
   "license": "GPLv3",
   "files": [
@@ -166,7 +166,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-storybook": "^10.3.3",
-    "flow-bin": "^0.306.1",
+    "flow-bin": "^0.307.0",
     "globals": "^17.4.0",
     "jsdom": "^29.0.1",
     "lodash-es": "^4.17.23",
@@ -175,16 +175,16 @@
     "prettier": "^3.8.1",
     "sass": "^1.98.0",
     "storybook": "^10.3.3",
-    "stylelint": "^17.5.0",
+    "stylelint": "^17.6.0",
     "stylelint-order": "^8.1.1",
     "stylelint-scss": "^7.0.0",
     "tailwindcss": "4.2.2",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.57.2",
-    "vite": "^8.0.2",
+    "vite": "^8.0.3",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-static-copy": "^4.0.0",
-    "vitest": "^4.1.1",
+    "vitest": "^4.1.2",
     "vitest-fetch-mock": "^0.4.5"
   },
   "scripts": {

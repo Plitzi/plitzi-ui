@@ -47,17 +47,20 @@ type Select2PropsBase = {
   autoClose?: boolean;
   clearable?: boolean;
   open?: boolean;
+  allowRemoveOptions?: boolean;
   searchAutoFocus?: boolean;
 };
 
 type Select2PropsWithString = Select2PropsBase & {
   valueAsString: true;
   onChange?: (value?: string) => void;
+  onRemove?: (value: string) => void;
 };
 
 type Select2PropsWithObject = Select2PropsBase & {
   valueAsString?: false;
   onChange?: (value?: Exclude<Option, OptionGroup>) => void;
+  onRemove?: (value: Exclude<Option, OptionGroup>) => void;
 };
 
 export type Select2Props = (Select2PropsWithString | Select2PropsWithObject) &
@@ -79,6 +82,7 @@ const Select2 = (props: Select2Props) => {
     allowCreateOptions = false,
     isSearchable = true,
     clearable = true,
+    allowRemoveOptions = false,
     open: openProp,
     searchAutoFocus = true,
     autoClose = true,
@@ -158,6 +162,26 @@ const Select2 = (props: Select2Props) => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [disabled, props.valueAsString, props.onChange, autoClose]
+  );
+
+  const handleRemove = useCallback(
+    (option: Exclude<Option, OptionGroup>) => {
+      if (!allowRemoveOptions) {
+        return;
+      }
+
+      if (option.value === value) {
+        onChange?.(undefined);
+      }
+
+      if (props.valueAsString) {
+        props.onRemove?.(option.value);
+      } else {
+        props.onRemove?.(option);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [allowRemoveOptions, props.valueAsString, props.onRemove]
   );
 
   const loadOptions = useCallback(async () => {
@@ -294,7 +318,14 @@ const Select2 = (props: Select2Props) => {
             />
           )}
           {!loading && optionsFiltered.length > 0 && (
-            <SelectList value={optionSelected?.value} options={optionsFiltered} onChange={handleChange} size={size} />
+            <SelectList
+              value={optionSelected?.value}
+              options={optionsFiltered}
+              size={size}
+              allowRemoveOptions={allowRemoveOptions}
+              onChange={handleChange}
+              onRemove={handleRemove}
+            />
           )}
           {!loading && allowCreateOptions && search && (
             <ListItem
