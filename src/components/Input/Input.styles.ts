@@ -94,7 +94,11 @@ export default {
   label: cva('', {
     variants: {
       inline: {
-        true: 'flex cursor-pointer',
+        true: 'flex select-none',
+        false: ''
+      },
+      disabled: {
+        true: '',
         false: ''
       },
       size: {
@@ -105,6 +109,16 @@ export default {
       }
     },
     compoundVariants: [
+      {
+        inline: true,
+        disabled: true,
+        className: 'cursor-not-allowed'
+      },
+      {
+        inline: true,
+        disabled: false,
+        className: 'cursor-pointer'
+      },
       {
         inline: true,
         size: 'md',
@@ -123,6 +137,7 @@ export default {
     ],
     defaultVariants: {
       inline: false,
+      disabled: false,
       size: 'md'
     }
   }),

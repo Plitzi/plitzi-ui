@@ -27,7 +27,7 @@ export default {
           custom: ''
         },
         disabled: {
-          true: 'checked:text-gray-500 checked:bg-gray-500 hover:border-gray-500',
+          true: 'checked:text-gray-500 checked:bg-gray-500 hover:border-gray-300 cursor-not-allowed',
           false: ''
         }
       },

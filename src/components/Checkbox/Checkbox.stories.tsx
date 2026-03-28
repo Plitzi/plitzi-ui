@@ -10,7 +10,7 @@ const meta = {
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: {}
+  args: { disabled: false }
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
@@ -21,9 +21,9 @@ export const Primary: Story = {
   args: {},
   render: args => (
     <div className="flex flex-col gap-4">
-      <Checkbox {...args} size="md" />
-      <Checkbox {...args} size="sm" />
-      <Checkbox {...args} size="xs" />
+      <Checkbox {...args} label="Checkbox Label" size="md" />
+      <Checkbox {...args} label="Checkbox Label" size="sm" />
+      <Checkbox {...args} label="Checkbox Label" size="xs" />
     </div>
   )
 };
