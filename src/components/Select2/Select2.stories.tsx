@@ -30,6 +30,7 @@ export const BasicUsage: Story = {
     //   { value: 'hello', label: 'Hello' },
     //   { value: 'world', label: 'World' }
     // ],
+    // value: 'hello',
     options: [
       {
         value: 'hello',

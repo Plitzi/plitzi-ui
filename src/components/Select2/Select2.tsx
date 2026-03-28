@@ -91,7 +91,7 @@ const Select2 = (props: Select2Props) => {
   const [open, setOpen] = useState(openProp);
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
-    componentKey: ['root', 'inputContainer', 'placeholder', 'listMessage', 'trigger'],
+    componentKey: ['root', 'listPopup', 'listPopupInner', 'inputContainer', 'placeholder', 'listMessage', 'trigger'],
     variants: { size }
   });
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -304,32 +304,36 @@ const Select2 = (props: Select2Props) => {
         </InputContainer>
       </ContainerFloating.Trigger>
       {triggerRect && (
-        <ContainerFloating.Content className="flex flex-col w-full" style={style}>
-          {!loading && isSearchable && open && (
-            <SelectInput
-              size={size}
-              value={search}
-              placeholder="Search..."
-              disabled={disabled}
-              autoFocus={searchAutoFocus}
-              allowCreateOptions={allowCreateOptions}
-              onChange={handleSearch}
-              onSelect={handleChange}
-            />
-          )}
-          {!loading && optionsFiltered.length > 0 && (
-            <SelectList
-              value={optionSelected?.value}
-              options={optionsFiltered}
-              size={size}
-              allowRemoveOptions={allowRemoveOptions}
-              onChange={handleChange}
-              onRemove={handleRemove}
-            />
+        <ContainerFloating.Content className={classNameTheme.listPopup} style={style}>
+          {!loading && (
+            <div className={classNameTheme.listPopupInner}>
+              {isSearchable && open && (
+                <SelectInput
+                  size={size}
+                  value={search}
+                  placeholder="Search..."
+                  disabled={disabled}
+                  autoFocus={searchAutoFocus}
+                  allowCreateOptions={allowCreateOptions}
+                  onChange={handleSearch}
+                  onSelect={handleChange}
+                />
+              )}
+              {optionsFiltered.length > 0 && (
+                <SelectList
+                  value={optionSelected?.value}
+                  options={optionsFiltered}
+                  size={size}
+                  allowRemoveOptions={allowRemoveOptions}
+                  onChange={handleChange}
+                  onRemove={handleRemove}
+                />
+              )}
+            </div>
           )}
           {!loading && allowCreateOptions && search && (
             <ListItem
-              className="mx-2.5 mt-2.5"
+              className="bg-slate-100 text-blue-500 mt-1"
               prefix="Create:"
               size={size}
               label={search}

@@ -39,8 +39,36 @@ export default {
   }),
   trigger: cva('w-full'),
   placeholder: cva('text-gray-500'),
-  searchInput: cva('mx-2.5 mt-2.5'),
-  list: cva('p-2.5 max-h-100 overflow-y-auto'),
+  searchInput: cva(''),
+  list: cva('max-h-100 overflow-y-auto'),
+  listPopup: cva('flex flex-col w-full', {
+    variants: {
+      size: {
+        md: 'p-2.5',
+        sm: 'p-2',
+        xs: 'p-1.5',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
+  listPopupInner: cva('flex flex-col w-full', {
+    variants: {
+      size: {
+        md: 'gap-2',
+        sm: 'gap-1.5',
+        xs: 'gap-1',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
   listMessage: cva('text-gray-500 flex items-center justify-center shrink-0', {
     variants: {
       size: {
@@ -105,5 +133,19 @@ export default {
       }
     }
   ),
+  listItemLabelContainer: cva('flex items-center', {
+    variants: {
+      size: {
+        md: 'gap-2',
+        sm: 'gap-1.5',
+        xs: 'gap-1',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
   listItemIcon: cva('invisible group-hover:visible')
 };

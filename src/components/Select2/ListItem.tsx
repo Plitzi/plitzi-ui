@@ -40,7 +40,7 @@ const ListItem = ({
 }: ListItemProps) => {
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
-    componentKey: ['listItem', 'listItemIcon'],
+    componentKey: ['listItem', 'listItemLabelContainer', 'listItemIcon'],
     variants: { size, selected: isSelected }
   });
 
@@ -89,7 +89,7 @@ const ListItem = ({
 
   return (
     <div data-value={value} className={clsx('select2__list-item', classNameTheme.listItem)} onClick={handleClick}>
-      <div className="flex items-center">
+      <div className={classNameTheme.listItemLabelContainer}>
         {icon}
         {labelParsed}
       </div>

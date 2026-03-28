@@ -11,7 +11,7 @@ import type { variantKeys } from './Input.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactElement, ReactNode, RefObject } from 'react';
 
 export type InputContainerProps = {
   ref?: RefObject<HTMLDivElement | null>;
@@ -28,7 +28,8 @@ export type InputContainerProps = {
   inline?: boolean;
   value?: unknown;
   onClear?: (e: MouseEvent) => void;
-} & Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'>;
+} & Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'> &
+  Omit<HTMLAttributes<HTMLDivElement>, 'className'>;
 
 const InputContainer = ({
   ref,
@@ -45,7 +46,8 @@ const InputContainer = ({
   clearable,
   inline,
   value,
-  onClear
+  onClear,
+  ...otherProps
 }: InputContainerProps) => {
   const classNameTheme = useTheme<typeof InputStyles, typeof variantKeys>('Input', {
     className,
@@ -88,7 +90,7 @@ const InputContainer = ({
   }, [children, classNameTheme.icon, size]);
 
   return (
-    <div className={classNameTheme.root} ref={ref}>
+    <div className={classNameTheme.root} ref={ref} {...otherProps}>
       {label && !inline && (
         <Label
           error={!!error}

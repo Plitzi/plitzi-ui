@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import Input from '@components/Input';
 import useTheme from '@hooks/useTheme';
@@ -8,7 +8,7 @@ import type Select2Styles from './Select2.styles';
 import type { variantKeys } from './Select2.styles';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { KeyboardEvent, RefObject } from 'react';
+import type { KeyboardEvent, MouseEvent, RefObject } from 'react';
 
 type SelectInputProps = {
   className?: string;
@@ -45,6 +45,13 @@ const SelectInput = ({
     }
   }, [autoFocus]);
 
+  const handleClick = useCallback((e: MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+  }, []);
+
+  const containerProps = useMemo(() => ({ onClick: handleClick }), [handleClick]);
+
   const handleChange = useCallback((value: string) => onChange?.(value), [onChange]);
 
   const handleKeyDown = useCallback(
@@ -71,6 +78,8 @@ const SelectInput = ({
       size={size}
       label=""
       clearable
+      containerProps={containerProps}
+      onClick={handleClick}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
     />

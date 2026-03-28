@@ -7,6 +7,7 @@ import InputContainer from './InputContainer';
 
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
+import type { InputContainerProps } from './InputContainer';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject, JSX } from 'react';
@@ -23,6 +24,7 @@ export type InputProps = {
   type?: 'text' | 'number' | 'email' | 'password';
   value?: string | number;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
+  containerProps?: InputContainerProps;
   onChange?: (value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &
   Omit<useThemeSharedProps<typeof InputStyles, typeof variantKeys>, 'error'>;
@@ -44,6 +46,7 @@ const BaseInput = ({
   intent = 'primary',
   value = '',
   error = false,
+  containerProps,
   onChange,
   ...inputProps
 }: InputProps) => {
@@ -77,6 +80,7 @@ const BaseInput = ({
       intent={intent}
       size={size}
       onClear={handleClickClear}
+      {...containerProps}
     >
       {children}
       <input
