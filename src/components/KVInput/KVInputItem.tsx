@@ -170,63 +170,70 @@ const KVInputItem = ({
           onChange={handleChangeValue}
         />
       </div>
-      {!disabled && (allowRemove || (allowAppend && isNewRecord) || hasChanges || (clearable && tempValue)) && (
-        <div className={classNameTheme.itemActions}>
-          {hasChanges && (
-            <>
-              <Button
-                className="basis-0 min-w-0 grow bg-green-500 hover:bg-green-400 text-white"
-                intent="custom"
-                size={size}
-                title="Save"
-                onClick={handleClickSave}
-              >
-                <Button.Icon icon="fa-solid fa-check" />
-              </Button>
-              <Button
-                className="basis-0 min-w-0 grow"
-                intent="danger"
-                title="Cancel"
-                size={size}
-                onClick={handleClickCancel}
-              >
-                <Button.Icon icon="fa-solid fa-xmark" />
-              </Button>
-            </>
-          )}
-          {!isNewRecord && (
-            <>
-              {!hasChanges && clearable && !required && tempValue && (
+      {!disabled &&
+        (allowRemove || (allowAppend && isNewRecord) || hasChanges || (clearable && !required && tempValue)) && (
+          <div className={classNameTheme.itemActions}>
+            {hasChanges && (
+              <>
                 <Button
-                  className="basis-0 min-w-0 grow"
-                  intent="secondary"
-                  title="Clear"
+                  className="basis-0 min-w-0 grow bg-green-500 hover:bg-green-400 text-white"
+                  intent="custom"
                   size={size}
-                  onClick={handleClickClear}
+                  title="Save"
+                  onClick={handleClickSave}
                 >
-                  <Button.Icon icon="fa-solid fa-eraser" />
+                  <Button.Icon icon="fa-solid fa-check" />
                 </Button>
-              )}
-              {!hasChanges && allowRemove && (
                 <Button
                   className="basis-0 min-w-0 grow"
                   intent="danger"
-                  title="Remove"
+                  title="Cancel"
                   size={size}
-                  onClick={handleClickRemove}
+                  onClick={handleClickCancel}
                 >
-                  <Button.Icon icon="fa-solid fa-trash" />
+                  <Button.Icon icon="fa-solid fa-xmark" />
                 </Button>
-              )}
-            </>
-          )}
-          {allowAppend && isNewRecord && (
-            <Button className="basis-0 min-w-0 grow" intent="primary" title="Add" size={size} onClick={handleClickSave}>
-              <Button.Icon icon="fa-solid fa-plus" />
-            </Button>
-          )}
-        </div>
-      )}
+              </>
+            )}
+            {!isNewRecord && (
+              <>
+                {!hasChanges && clearable && !required && tempValue && (
+                  <Button
+                    className="basis-0 min-w-0 grow"
+                    intent="secondary"
+                    title="Clear"
+                    size={size}
+                    onClick={handleClickClear}
+                  >
+                    <Button.Icon icon="fa-solid fa-eraser" />
+                  </Button>
+                )}
+                {!hasChanges && allowRemove && (
+                  <Button
+                    className="basis-0 min-w-0 grow"
+                    intent="danger"
+                    title="Remove"
+                    size={size}
+                    onClick={handleClickRemove}
+                  >
+                    <Button.Icon icon="fa-solid fa-trash" />
+                  </Button>
+                )}
+              </>
+            )}
+            {allowAppend && isNewRecord && (
+              <Button
+                className="basis-0 min-w-0 grow"
+                intent="primary"
+                title="Add"
+                size={size}
+                onClick={handleClickSave}
+              >
+                <Button.Icon icon="fa-solid fa-plus" />
+              </Button>
+            )}
+          </div>
+        )}
     </div>
   );
 };

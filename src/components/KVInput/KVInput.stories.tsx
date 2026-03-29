@@ -37,7 +37,7 @@ export const Primary: Story = {
     // allowAppend: false,
     // allowRemove: false,
     // allowKeyEdit: false,
-    disabled: false,
+    // disabled: false,
     required: false,
     clearable: true,
     value: [
