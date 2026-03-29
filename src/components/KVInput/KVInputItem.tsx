@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 
 import { omit } from '@/helpers/lodash';
 import Button from '@components/Button';
@@ -14,6 +14,8 @@ export type KVInputItemProps = {
   valueKey?: string;
   value?: string;
   disabled?: boolean;
+  required?: boolean;
+  clearable?: boolean;
   isNewRecord?: boolean;
   allowRemove?: boolean;
   onChange?: (
@@ -29,15 +31,17 @@ const KVInputItem = ({
   valueKey = '',
   value = '',
   disabled = false,
+  clearable = false,
   isNewRecord = false,
   size = 'md',
+  required = true,
   allowRemove = true,
   onChange,
   onRemove
 }: KVInputItemProps) => {
   const classNameTheme = useTheme<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>(['Input', 'KVInput'], {
     className,
-    componentKey: ['item', 'input', 'rootInputContainer', 'rootInput'],
+    componentKey: ['item', 'itemActions', 'input', 'rootInputContainer', 'rootInput'],
     variants: { size }
   });
   const [tempValueKey, setTempValueKey] = useState(valueKey);
@@ -69,13 +73,13 @@ const KVInputItem = ({
     (value: string) => {
       if (errors?.value) {
         setErrors(omit(errors, 'value'));
-      } else if (value === '') {
+      } else if (value === '' && required) {
         setErrors(state => ({ ...state, value: 'Value is required' }));
       }
 
       setTempValue(value);
     },
-    [errors]
+    [errors, required]
   );
 
   const handleClickRemove = useCallback(() => onRemove?.(valueKey), [onRemove, valueKey]);
@@ -92,7 +96,7 @@ const KVInputItem = ({
       errors.valueKey = 'Key is required';
     }
 
-    if (!tempValue) {
+    if (!tempValue && required) {
       errors.value = 'Value is required';
     }
 
@@ -117,11 +121,22 @@ const KVInputItem = ({
       setTempValueKey(valueKey);
       setTempValue(value);
     }
-  }, [tempValueKey, tempValue, onChange, valueKey, isNewRecord, value]);
+  }, [tempValueKey, tempValue, required, onChange, valueKey, isNewRecord, value]);
+
+  const handleClickClear = useCallback(() => {
+    const { success, errors: newErrors } = onChange?.(valueKey, tempValueKey, '') ?? {};
+    if (!success && newErrors && Object.keys(newErrors).length) {
+      setErrors(newErrors);
+
+      return;
+    }
+
+    setErrors(state => (state && Object.keys(state).length > 0 ? {} : state));
+  }, [onChange, tempValueKey, valueKey]);
 
   return (
     <div className={classNameTheme.item}>
-      <div className="flex grow basis-0 gap-1">
+      <div className="flex grow basis-0 gap-2">
         <Input
           size={size}
           className={{
@@ -145,40 +160,65 @@ const KVInputItem = ({
           }}
           value={tempValue}
           disabled={disabled}
-          required
+          required={required}
           placeholder="Value"
           error={errors?.value}
           onChange={handleChangeValue}
         />
       </div>
-      {hasChanges && !disabled && (
-        <>
+      <div className={classNameTheme.itemActions}>
+        {hasChanges && !disabled && (
+          <>
+            <Button
+              className="basis-0 min-w-0 grow bg-green-500 hover:bg-green-400 text-white"
+              intent="custom"
+              size={size}
+              title="Save"
+              onClick={handleClickSave}
+            >
+              <i className="fa-solid fa-check" />
+            </Button>
+            <Button
+              className="basis-0 min-w-0 grow"
+              intent="danger"
+              title="Cancel"
+              size={size}
+              onClick={handleClickCancel}
+            >
+              <i className="fa-solid fa-xmark" />
+            </Button>
+          </>
+        )}
+        {!isNewRecord && !hasChanges && clearable && !disabled && !required && tempValue && (
           <Button
-            className="rounded bg-green-500 hover:bg-green-400 text-white"
-            intent="custom"
+            className="basis-0 min-w-0 grow"
+            intent="secondary"
+            title="Clear"
             size={size}
-            title="Save"
-            onClick={handleClickSave}
+            onClick={handleClickClear}
           >
-            <i className="fa-solid fa-check" />
+            <i className="fa-solid fa-eraser" />
           </Button>
-          <Button className="rounded" intent="danger" title="Cancel" size={size} onClick={handleClickCancel}>
-            <i className="fa-solid fa-xmark" />
+        )}
+        {!isNewRecord && !hasChanges && !disabled && allowRemove && (
+          <Button
+            className="basis-0 min-w-0 grow"
+            intent="danger"
+            title="Remove"
+            size={size}
+            onClick={handleClickRemove}
+          >
+            <i className="fa-solid fa-trash" />
           </Button>
-        </>
-      )}
-      {!isNewRecord && !hasChanges && !disabled && allowRemove && (
-        <Button className="rounded" intent="danger" title="Remove" size={size} onClick={handleClickRemove}>
-          <i className="fa-solid fa-trash" />
-        </Button>
-      )}
-      {isNewRecord && !hasChanges && !disabled && (
-        <Button className="rounded" intent="primary" title="Add" size={size} onClick={handleClickSave}>
-          <i className="fa-solid fa-plus" />
-        </Button>
-      )}
+        )}
+        {isNewRecord && !hasChanges && !disabled && (
+          <Button className="basis-0 min-w-0 grow" intent="primary" title="Add" size={size} onClick={handleClickSave}>
+            <i className="fa-solid fa-plus" />
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
 
-export default KVInputItem;
+export default memo(KVInputItem);

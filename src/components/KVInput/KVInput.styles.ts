@@ -19,7 +19,23 @@ export default {
       }
     },
     compoundVariants: [],
-    defaultVariants: {}
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
+  itemActions: cva('flex gap-1 items-center justify-center', {
+    variants: {
+      size: {
+        md: 'w-18',
+        sm: 'w-14',
+        xs: 'w-12',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
   }),
   inputContainer: cva('p-0 border-none'),
   rootInputContainer: cva(''),

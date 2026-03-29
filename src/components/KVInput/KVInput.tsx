@@ -15,6 +15,8 @@ export type KVInputProps = {
   id?: string;
   value?: [string, string][];
   disabled?: boolean;
+  required?: boolean;
+  clearable?: boolean;
   allowAppend?: boolean;
   allowRemove?: boolean;
   onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
@@ -29,6 +31,8 @@ const KVInput = ({
   disabled = false,
   label,
   error,
+  required = true,
+  clearable = false,
   allowAppend = true,
   allowRemove = true,
   onChange
@@ -101,11 +105,13 @@ const KVInput = ({
         {value.map(([key, itemValue], i) => (
           <KVInputItem
             className={className}
-            key={`${i}-${key}-${itemValue}`}
+            key={`${i}-${key}`}
             valueKey={key}
             value={itemValue}
             disabled={disabled}
             size={size}
+            required={required}
+            clearable={clearable}
             allowRemove={allowRemove}
             onChange={handleChange}
             onRemove={handleRemove}

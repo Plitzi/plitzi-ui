@@ -33,10 +33,12 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     label: 'Key-Value Input',
-    error: 'This is an error',
+    // error: 'This is an error',
     allowAppend: true,
     allowRemove: true,
     disabled: false,
+    required: false,
+    clearable: true,
     value: [
       ['key1', 'value1'],
       ['key2', 'value2']
@@ -45,9 +47,21 @@ export const Primary: Story = {
   render: function Render(args) {
     const [{ value }, updateArgs] = useArgs<typeof args>();
 
-    const handleChange = useCallback((value: [string, string][]) => updateArgs({ value }), [updateArgs]);
+    const handleChange = useCallback(
+      (value: [string, string][]) => {
+        console.log(value);
+        updateArgs({ value });
+      },
+      [updateArgs]
+    );
 
-    return <KVInput {...args} value={value} onChange={handleChange} />;
+    return (
+      <div className="flex flex-col gap-4">
+        <KVInput {...args} size="md" value={value} onChange={handleChange} />
+        <KVInput {...args} size="sm" value={value} onChange={handleChange} />
+        <KVInput {...args} size="xs" value={value} onChange={handleChange} />
+      </div>
+    );
   }
 };
 
