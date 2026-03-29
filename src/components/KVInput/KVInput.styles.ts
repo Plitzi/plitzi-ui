@@ -26,9 +26,9 @@ export default {
   itemActions: cva('flex gap-1 items-center justify-center', {
     variants: {
       size: {
-        md: 'w-18',
-        sm: 'w-14',
-        xs: 'w-12',
+        md: 'max-w-18',
+        sm: 'max-w-14',
+        xs: 'max-w-12',
         custom: ''
       }
     },

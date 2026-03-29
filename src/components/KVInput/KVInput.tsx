@@ -112,13 +112,22 @@ const KVInput = ({
             size={size}
             required={required}
             clearable={clearable}
+            allowAppend={false}
             allowRemove={allowRemove}
             onChange={handleChange}
             onRemove={handleRemove}
           />
         ))}
         {!disabled && allowAppend && (
-          <KVInputItem className={className} onChange={handleChange} onRemove={handleRemove} size={size} isNewRecord />
+          <KVInputItem
+            className={className}
+            onChange={handleChange}
+            onRemove={handleRemove}
+            size={size}
+            allowAppend={allowAppend}
+            allowRemove={false}
+            isNewRecord
+          />
         )}
       </div>
     </InputContainer>
