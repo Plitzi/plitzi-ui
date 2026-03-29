@@ -105,7 +105,7 @@ const KVInput = ({
         {value.map(([key, itemValue], i) => (
           <KVInputItem
             className={className}
-            key={`${i}-${key}`}
+            key={`${i}-${key}-${itemValue}`}
             valueKey={key}
             value={itemValue}
             disabled={disabled}
