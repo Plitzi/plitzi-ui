@@ -3,6 +3,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import { omit } from '@/helpers/lodash';
 import Button from '@components/Button';
 import Input from '@components/Input';
+import Select from '@components/Select';
 import useTheme from '@hooks/useTheme';
 
 import type KVInputStyles from './KVInput.styles';
@@ -11,6 +12,7 @@ import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type KVInputItemProps = {
+  id: number;
   valueKey?: string;
   value?: string;
   disabled?: boolean;
@@ -20,15 +22,18 @@ export type KVInputItemProps = {
   allowAppend?: boolean;
   allowRemove?: boolean;
   allowKeyEdit?: boolean;
+  keysAllowed?: string[];
   onChange?: (
     originalKey: string,
     partialKey: string,
-    partialValue: string
+    partialValue: string,
+    id: number
   ) => { success: boolean; errors?: { [key: string]: string } };
-  onRemove?: (key: string) => void;
+  onRemove?: (id: number) => void;
 } & useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
 
 const KVInputItem = ({
+  id,
   className,
   valueKey = '',
   value = '',
@@ -40,6 +45,7 @@ const KVInputItem = ({
   allowAppend = true,
   allowRemove = true,
   allowKeyEdit = true,
+  keysAllowed,
   onChange,
   onRemove
 }: KVInputItemProps) => {
@@ -52,13 +58,10 @@ const KVInputItem = ({
   const [tempValue, setTempValue] = useState(value);
   const [errors, setErrors] = useState<{ valueKey?: string; value?: string } | undefined>();
 
-  const hasChanges = useMemo(() => {
-    if (isNewRecord) {
-      return false;
-    }
-
-    return value !== tempValue || valueKey !== tempValueKey;
-  }, [isNewRecord, value, tempValue, valueKey, tempValueKey]);
+  const hasChanges = useMemo(
+    () => !isNewRecord && (value !== tempValue || valueKey !== tempValueKey),
+    [isNewRecord, value, tempValue, valueKey, tempValueKey]
+  );
 
   const handleChangeKey = useCallback(
     (value: string) => {
@@ -86,7 +89,7 @@ const KVInputItem = ({
     [errors, required]
   );
 
-  const handleClickRemove = useCallback(() => onRemove?.(valueKey), [onRemove, valueKey]);
+  const handleClickRemove = useCallback(() => onRemove?.(id), [onRemove, id]);
 
   const handleClickCancel = useCallback(() => {
     setErrors(undefined);
@@ -95,66 +98,88 @@ const KVInputItem = ({
   }, [valueKey, value]);
 
   const handleClickSave = useCallback(() => {
-    const errors: { valueKey?: string; value?: string } = {};
+    const nextErrors: { valueKey?: string; value?: string } = {};
+
     if (!tempValueKey) {
-      errors.valueKey = 'Key is required';
+      nextErrors.valueKey = 'Key is required';
     }
 
     if (!tempValue && required) {
-      errors.value = 'Value is required';
+      nextErrors.value = 'Value is required';
     }
 
-    if (Object.keys(errors).length) {
-      setErrors(errors);
-
+    if (Object.keys(nextErrors).length) {
+      setErrors(nextErrors);
       return;
     }
 
-    const { success, errors: newErrors } = onChange?.(valueKey, tempValueKey, tempValue) ?? {};
-    if (!success && newErrors && Object.keys(newErrors).length) {
-      setErrors(newErrors);
+    const result = onChange?.(valueKey, tempValueKey, tempValue, id);
 
+    if (!result?.success && result?.errors) {
+      setErrors(result.errors);
       return;
     }
 
     setErrors({});
+
     if (isNewRecord) {
       setTempValueKey('');
       setTempValue('');
-    } else {
-      setTempValueKey(valueKey);
-      setTempValue(value);
     }
-  }, [tempValueKey, tempValue, required, onChange, valueKey, isNewRecord, value]);
+  }, [tempValueKey, tempValue, required, onChange, valueKey, id, isNewRecord]);
 
   const handleClickClear = useCallback(() => {
-    const { success, errors: newErrors } = onChange?.(valueKey, tempValueKey, '') ?? {};
-    if (!success && newErrors && Object.keys(newErrors).length) {
-      setErrors(newErrors);
+    const result = onChange?.(valueKey, tempValueKey, '', id);
 
+    if (!result?.success && result?.errors) {
+      setErrors(result.errors);
       return;
     }
 
-    setErrors(state => (state && Object.keys(state).length > 0 ? {} : state));
-  }, [onChange, tempValueKey, valueKey]);
+    setErrors({});
+  }, [id, onChange, tempValueKey, valueKey]);
 
   return (
     <div className={classNameTheme.item}>
       <div className="flex grow basis-0 gap-2">
-        <Input
-          size={size}
-          className={{
-            ...classNameTheme,
-            root: classNameTheme.rootInput,
-            inputContainer: classNameTheme.rootInputContainer
-          }}
-          value={tempValueKey}
-          disabled={disabled || !allowKeyEdit}
-          required
-          error={errors?.valueKey}
-          placeholder="Key"
-          onChange={handleChangeKey}
-        />
+        {(!keysAllowed || !keysAllowed.length) && (
+          <Input
+            size={size}
+            className={{
+              ...classNameTheme,
+              root: classNameTheme.rootInput,
+              inputContainer: classNameTheme.rootInputContainer
+            }}
+            value={tempValueKey}
+            disabled={disabled || !allowKeyEdit}
+            required
+            error={errors?.valueKey}
+            placeholder="Key"
+            onChange={handleChangeKey}
+          />
+        )}
+        {keysAllowed && keysAllowed.length > 0 && (
+          <Select
+            size={size}
+            className={{
+              ...classNameTheme,
+              root: classNameTheme.rootInput,
+              inputContainer: classNameTheme.rootInputContainer
+            }}
+            value={tempValueKey}
+            disabled={disabled}
+            required={required}
+            placeholder="Value"
+            error={errors?.valueKey}
+            onChange={handleChangeKey}
+          >
+            {keysAllowed.map(key => (
+              <Select.Option key={key} value={key}>
+                {key}
+              </Select.Option>
+            ))}
+          </Select>
+        )}
         <Input
           size={size}
           className={{

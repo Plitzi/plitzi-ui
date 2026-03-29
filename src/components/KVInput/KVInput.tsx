@@ -20,6 +20,8 @@ export type KVInputProps = {
   allowAppend?: boolean;
   allowRemove?: boolean;
   allowKeyEdit?: boolean;
+  allowDuplicateKeys?: boolean;
+  keysAllowed?: string[];
   onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
 } & Pick<InputContainerProps, 'label' | 'error'> &
   useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
@@ -37,6 +39,8 @@ const KVInput = ({
   allowAppend = true,
   allowRemove = true,
   allowKeyEdit = true,
+  allowDuplicateKeys = false,
+  keysAllowed,
   onChange
 }: KVInputProps) => {
   const classNameTheme = useTheme<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>(['Input', 'KVInput'], {
@@ -48,49 +52,43 @@ const KVInput = ({
     (
       originalKey: string,
       partialKey: string,
-      partialValue: string
+      partialValue: string,
+      index: number
     ): { success: boolean; errors?: { [key: string]: string } } => {
-      const itemPartial = value.find(([key]) => key === partialKey);
-      if (partialKey !== originalKey && itemPartial) {
-        return { success: false, errors: { valueKey: 'Key already exists' } };
+      if (!allowDuplicateKeys) {
+        const exists = value.some(([key], i) => key === partialKey && i !== index);
+        if (partialKey !== originalKey && exists) {
+          return { success: false, errors: { valueKey: 'Key already exists' } };
+        }
       }
 
-      let newValue = value;
-      if (partialKey && originalKey) {
-        newValue = newValue.map(([k, v]) => {
-          if (k === originalKey) {
-            return [partialKey, partialValue];
-          }
-
-          return [k, v];
-        });
+      let newValue: [string, string][];
+      if (originalKey) {
+        // update existing
+        newValue = value.map((item, i) => (i === index ? [partialKey, partialValue] : item));
       } else {
-        newValue = [...newValue, [partialKey, partialValue]];
+        // append new
+        newValue = [...value, [partialKey, partialValue]];
       }
 
-      onChange?.(
-        newValue,
-        newValue.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-      );
+      onChange?.(newValue, Object.fromEntries(newValue));
 
-      return { success: true, errors: undefined };
+      return { success: true };
     },
-    [value, onChange]
+    [value, allowDuplicateKeys, onChange]
   );
 
   const handleRemove = useCallback(
-    (partialKey: string) => {
+    (index: number) => {
       if (!allowRemove) {
         return;
       }
 
-      const newValue = value.filter(([key]) => key !== partialKey);
-      onChange?.(
-        newValue,
-        newValue.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-      );
+      const newValue = value.filter((_, i) => i !== index);
+      const obj = Object.fromEntries(newValue);
+      onChange?.(newValue, obj);
     },
-    [allowRemove, onChange, value]
+    [value, allowRemove, onChange]
   );
 
   return (
@@ -108,6 +106,7 @@ const KVInput = ({
           <KVInputItem
             className={className}
             key={`${i}-${key}-${itemValue}`}
+            id={i}
             valueKey={key}
             value={itemValue}
             disabled={disabled}
@@ -117,19 +116,21 @@ const KVInput = ({
             allowAppend={false}
             allowRemove={allowRemove}
             allowKeyEdit={allowKeyEdit}
+            keysAllowed={keysAllowed}
             onChange={handleChange}
             onRemove={handleRemove}
           />
         ))}
         {!disabled && allowAppend && (
           <KVInputItem
+            id={value.length}
             className={className}
             onChange={handleChange}
-            onRemove={handleRemove}
             size={size}
             allowAppend={allowAppend}
             allowRemove={false}
             allowKeyEdit={true}
+            keysAllowed={keysAllowed}
             isNewRecord
           />
         )}

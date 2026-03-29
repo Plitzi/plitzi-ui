@@ -37,9 +37,11 @@ export const Primary: Story = {
     // allowAppend: false,
     // allowRemove: false,
     // allowKeyEdit: false,
+    allowDuplicateKeys: true,
     // disabled: false,
     required: false,
     clearable: true,
+    keysAllowed: ['key1', 'key2', 'key3'],
     value: [
       ['key1', 'value1'],
       ['key2', 'value2']
