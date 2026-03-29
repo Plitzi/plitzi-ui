@@ -15,6 +15,7 @@ export type KVInputItemProps = {
   value?: string;
   disabled?: boolean;
   isNewRecord?: boolean;
+  allowRemove?: boolean;
   onChange?: (
     originalKey: string,
     partialKey: string,
@@ -30,6 +31,7 @@ const KVInputItem = ({
   disabled = false,
   isNewRecord = false,
   size = 'md',
+  allowRemove = true,
   onChange,
   onRemove
 }: KVInputItemProps) => {
@@ -165,7 +167,7 @@ const KVInputItem = ({
           </Button>
         </>
       )}
-      {!isNewRecord && !hasChanges && !disabled && (
+      {!isNewRecord && !hasChanges && !disabled && allowRemove && (
         <Button className="rounded" intent="danger" title="Remove" size={size} onClick={handleClickRemove}>
           <i className="fa-solid fa-trash" />
         </Button>

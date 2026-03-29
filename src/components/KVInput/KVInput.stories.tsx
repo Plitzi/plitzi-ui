@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import KVInput from './KVInput';
 
@@ -32,12 +33,19 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     label: 'Key-Value Input',
-    error: 'Damn'
+    error: 'This is an error',
+    allowAppend: true,
+    allowRemove: true,
+    disabled: false,
+    value: [
+      ['key1', 'value1'],
+      ['key2', 'value2']
+    ]
   },
   render: function Render(args) {
-    const [value, setValue] = useState<[string, string][]>([]);
+    const [{ value }, updateArgs] = useArgs<typeof args>();
 
-    const handleChange = useCallback((value: [string, string][]) => setValue(value), []);
+    const handleChange = useCallback((value: [string, string][]) => updateArgs({ value }), [updateArgs]);
 
     return <KVInput {...args} value={value} onChange={handleChange} />;
   }
@@ -49,9 +57,9 @@ export const CustomStyle: Story = {
     size: 'xs'
   },
   render: function Render(args) {
-    const [value, setValue] = useState<[string, string][]>([]);
+    const [{ value }, updateArgs] = useArgs<typeof args>();
 
-    const handleChange = useCallback((value: [string, string][]) => setValue(value), []);
+    const handleChange = useCallback((value: [string, string][]) => updateArgs({ value }), [updateArgs]);
 
     return (
       <KVInput

@@ -15,11 +15,24 @@ export type KVInputProps = {
   id?: string;
   value?: [string, string][];
   disabled?: boolean;
+  allowAppend?: boolean;
+  allowRemove?: boolean;
   onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
 } & Pick<InputContainerProps, 'label' | 'error'> &
   useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
 
-const KVInput = ({ className, id, size, value = [], disabled = false, label, error, onChange }: KVInputProps) => {
+const KVInput = ({
+  className,
+  id,
+  size,
+  value = [],
+  disabled = false,
+  label,
+  error,
+  allowAppend = true,
+  allowRemove = true,
+  onChange
+}: KVInputProps) => {
   const classNameTheme = useTheme<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>(['Input', 'KVInput'], {
     className,
     variants: { size }
@@ -61,14 +74,17 @@ const KVInput = ({ className, id, size, value = [], disabled = false, label, err
 
   const handleRemove = useCallback(
     (partialKey: string) => {
-      const newValue = value.filter(([key]) => key !== partialKey);
+      if (!allowRemove) {
+        return;
+      }
 
+      const newValue = value.filter(([key]) => key !== partialKey);
       onChange?.(
         newValue,
         newValue.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
       );
     },
-    [onChange, value]
+    [allowRemove, onChange, value]
   );
 
   return (
@@ -90,11 +106,12 @@ const KVInput = ({ className, id, size, value = [], disabled = false, label, err
             value={itemValue}
             disabled={disabled}
             size={size}
+            allowRemove={allowRemove}
             onChange={handleChange}
             onRemove={handleRemove}
           />
         ))}
-        {!disabled && (
+        {!disabled && allowAppend && (
           <KVInputItem className={className} onChange={handleChange} onRemove={handleRemove} size={size} isNewRecord />
         )}
       </div>
