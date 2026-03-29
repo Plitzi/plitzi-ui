@@ -167,7 +167,7 @@ const KVInputItem = ({
               inputContainer: classNameTheme.rootInputContainer
             }}
             value={tempValueKey}
-            disabled={disabled}
+            disabled={disabled || !allowKeyEdit}
             required={required}
             placeholder="Value"
             error={errors?.valueKey}
