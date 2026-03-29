@@ -35,7 +35,7 @@ export default {
       },
       size: {
         md: 'py-2.5 px-4 gap-2 text-base rounded-lg',
-        sm: 'py-1.5 px-3 gap-1.5 text-[14px] leading-[18px] rounded',
+        sm: 'py-1.5 px-3 gap-1.5 text-[14px] leading-4.5 rounded',
         xs: 'py-1 px-1.5 gap-1 text-xs rounded-sm min-w-6',
         custom: ''
       },
