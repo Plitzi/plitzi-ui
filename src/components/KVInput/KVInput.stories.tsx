@@ -34,8 +34,9 @@ export const Primary: Story = {
   args: {
     label: 'Key-Value Input',
     // error: 'This is an error',
-    allowAppend: true,
-    allowRemove: true,
+    // allowAppend: false,
+    // allowRemove: false,
+    // allowKeyEdit: false,
     disabled: false,
     required: false,
     clearable: true,

@@ -19,6 +19,7 @@ export type KVInputProps = {
   clearable?: boolean;
   allowAppend?: boolean;
   allowRemove?: boolean;
+  allowKeyEdit?: boolean;
   onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
 } & Pick<InputContainerProps, 'label' | 'error'> &
   useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
@@ -35,6 +36,7 @@ const KVInput = ({
   clearable = false,
   allowAppend = true,
   allowRemove = true,
+  allowKeyEdit = true,
   onChange
 }: KVInputProps) => {
   const classNameTheme = useTheme<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>(['Input', 'KVInput'], {
@@ -114,6 +116,7 @@ const KVInput = ({
             clearable={clearable}
             allowAppend={false}
             allowRemove={allowRemove}
+            allowKeyEdit={allowKeyEdit}
             onChange={handleChange}
             onRemove={handleRemove}
           />
@@ -126,6 +129,7 @@ const KVInput = ({
             size={size}
             allowAppend={allowAppend}
             allowRemove={false}
+            allowKeyEdit={true}
             isNewRecord
           />
         )}

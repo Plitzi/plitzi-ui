@@ -19,6 +19,7 @@ export type KVInputItemProps = {
   isNewRecord?: boolean;
   allowAppend?: boolean;
   allowRemove?: boolean;
+  allowKeyEdit?: boolean;
   onChange?: (
     originalKey: string,
     partialKey: string,
@@ -38,6 +39,7 @@ const KVInputItem = ({
   required = true,
   allowAppend = true,
   allowRemove = true,
+  allowKeyEdit = true,
   onChange,
   onRemove
 }: KVInputItemProps) => {
@@ -147,7 +149,7 @@ const KVInputItem = ({
             inputContainer: classNameTheme.rootInputContainer
           }}
           value={tempValueKey}
-          disabled={disabled}
+          disabled={disabled || !allowKeyEdit}
           required
           error={errors?.valueKey}
           placeholder="Key"
