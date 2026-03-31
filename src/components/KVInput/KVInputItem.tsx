@@ -22,7 +22,7 @@ export type KVInputItemProps = {
   allowAppend?: boolean;
   allowRemove?: boolean;
   allowKeyEdit?: boolean;
-  keysAllowed?: string[];
+  keysAllowed?: { label?: string; value: string }[];
   onChange?: (
     originalKey: string,
     partialKey: string,
@@ -174,8 +174,8 @@ const KVInputItem = ({
             onChange={handleChangeKey}
           >
             {keysAllowed.map(key => (
-              <Select.Option key={key} value={key}>
-                {key}
+              <Select.Option key={key.value} value={key.value}>
+                {key.label || key.value}
               </Select.Option>
             ))}
           </Select>

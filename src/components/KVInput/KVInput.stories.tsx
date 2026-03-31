@@ -41,18 +41,34 @@ export const Primary: Story = {
     // disabled: false,
     required: false,
     clearable: true,
-    keysAllowed: ['key1', 'key2', 'key3'],
+    keysAllowed: [
+      { value: 'key1', label: 'Key 1' },
+      { value: 'key2' },
+      { value: 'key3' },
+      { value: 'key4.subKey1', label: 'Key 4 - Sub Key 1' },
+      { value: 'key4.subKey2', label: 'Key 4 - Sub Key 2' }
+    ],
     value: [
       ['key1', 'value1'],
-      ['key2', 'value2']
+      ['key2', 'value2'],
+      ['key4.subKey1', 'test'],
+      ['key4', 'subKey2', '123']
     ]
+    // value: {
+    //   key1: 'value1',
+    //   key2: 'value2',
+    //   key4: {
+    //     subKey1: 'test',
+    //     subKey2: '123'
+    //   }
+    // }
   },
   render: function Render(args) {
     const [{ value }, updateArgs] = useArgs<typeof args>();
 
     const handleChange = useCallback(
-      (value: [string, string][]) => {
-        console.log(value);
+      (value: string[][], valueObj: object) => {
+        console.log(value, valueObj);
         updateArgs({ value });
       },
       [updateArgs]
@@ -76,7 +92,7 @@ export const CustomStyle: Story = {
   render: function Render(args) {
     const [{ value }, updateArgs] = useArgs<typeof args>();
 
-    const handleChange = useCallback((value: [string, string][]) => updateArgs({ value }), [updateArgs]);
+    const handleChange = useCallback((value: string[][]) => updateArgs({ value }), [updateArgs]);
 
     return (
       <KVInput

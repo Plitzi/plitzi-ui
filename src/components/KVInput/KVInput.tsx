@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
+import { arrayToNestedObject, nestedObjectToArray, normalizeToFlatKV } from './KVInputHelper';
 import KVInputItem from './KVInputItem';
 
 import type KVInputStyles from './KVInput.styles';
@@ -13,7 +14,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type KVInputProps = {
   id?: string;
-  value?: [string, string][];
+  value?: string[][] | object;
   disabled?: boolean;
   required?: boolean;
   clearable?: boolean;
@@ -21,8 +22,8 @@ export type KVInputProps = {
   allowRemove?: boolean;
   allowKeyEdit?: boolean;
   allowDuplicateKeys?: boolean;
-  keysAllowed?: string[];
-  onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
+  keysAllowed?: { label?: string; value: string }[];
+  onChange?: (value: string[][], obj: { [key: string]: string }) => void;
 } & Pick<InputContainerProps, 'label' | 'error'> &
   useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
 
@@ -30,7 +31,7 @@ const KVInput = ({
   className,
   id,
   size,
-  value = [],
+  value: valueProp,
   disabled = false,
   label,
   error,
@@ -47,6 +48,18 @@ const KVInput = ({
     className,
     variants: { size }
   });
+
+  const value = useMemo<[string, string][]>(() => {
+    if (Array.isArray(valueProp)) {
+      return normalizeToFlatKV(valueProp);
+    }
+
+    if (valueProp && typeof valueProp === 'object') {
+      return nestedObjectToArray(valueProp, [], true) as [string, string][];
+    }
+
+    return [];
+  }, [valueProp]);
 
   const handleChange = useCallback(
     (
@@ -71,7 +84,8 @@ const KVInput = ({
         newValue = [...value, [partialKey, partialValue]];
       }
 
-      onChange?.(newValue, Object.fromEntries(newValue));
+      const obj = arrayToNestedObject(newValue);
+      onChange?.(newValue, obj);
 
       return { success: true };
     },
@@ -85,7 +99,8 @@ const KVInput = ({
       }
 
       const newValue = value.filter((_, i) => i !== index);
-      const obj = Object.fromEntries(newValue);
+      const nestedArray = newValue.map(([k, v]) => [...k.split('.'), v]);
+      const obj = arrayToNestedObject(nestedArray);
       onChange?.(newValue, obj);
     },
     [value, allowRemove, onChange]
