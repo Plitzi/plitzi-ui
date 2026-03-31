@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Nested path arrays to nested object
-export const arrayToNestedObject = (arr: string[][]): Record<string, any> => {
+export const arrayToNestedObject = (arr: string[][], mergeDuplicates = false): Record<string, any> => {
   const result: Record<string, any> = {};
 
   for (const entry of arr) {
@@ -20,21 +20,30 @@ export const arrayToNestedObject = (arr: string[][]): Record<string, any> => {
 
     let current = result;
 
-    // everything after the last key is considered part of the value, so keys can have dots
     for (let i = 0; i < path.length - 2; i++) {
       const key = path[i];
       if (!current[key] || typeof current[key] !== 'object') {
         current[key] = {};
       }
-
       current = current[key];
     }
 
-    // second last = key, last = value
     const lastKey = path[path.length - 2];
     const value = path[path.length - 1];
 
-    current[lastKey] = value;
+    if (mergeDuplicates) {
+      if (current[lastKey] !== undefined) {
+        if (Array.isArray(current[lastKey])) {
+          current[lastKey].push(value);
+        } else {
+          current[lastKey] = [current[lastKey], value];
+        }
+      } else {
+        current[lastKey] = value;
+      }
+    } else {
+      current[lastKey] = value;
+    }
   }
 
   return result;
@@ -50,11 +59,20 @@ export const nestedObjectToArray = (obj: Record<string, any>, prefix?: string[],
       result.push(...nestedObjectToArray(value as object, [...currentPrefix, key], isDot));
     } else {
       const path = [...currentPrefix, key];
-
-      if (isDot) {
-        result.push([path.join('.'), String(value)]);
+      if (Array.isArray(value)) {
+        value.forEach(v => {
+          if (isDot) {
+            result.push([path.join('.'), String(v)]);
+          } else {
+            result.push([...path, String(v)]);
+          }
+        });
       } else {
-        result.push([...path, String(value)]);
+        if (isDot) {
+          result.push([path.join('.'), String(value)]);
+        } else {
+          result.push([...path, String(value)]);
+        }
       }
     }
   }
@@ -62,12 +80,23 @@ export const nestedObjectToArray = (obj: Record<string, any>, prefix?: string[],
   return result;
 };
 
-export const normalizeToFlatKV = (arr: string[][]): [string, string][] => {
-  return arr
-    .filter(path => path.length >= 2)
-    .map(path => {
-      const key = path.slice(0, -1).join('.');
-      const value = path[path.length - 1];
-      return [key, value];
-    });
+export const normalizeToFlatKV = (arr: string[][] | (string | string[])[][]): [string, string][] => {
+  const result: [string, string][] = [];
+
+  arr.forEach(path => {
+    if (path.length < 2) {
+      return;
+    }
+
+    const key = path.slice(0, -1).join('.');
+    const value = path[path.length - 1];
+
+    if (Array.isArray(value)) {
+      value.forEach(v => result.push([key, v]));
+    } else {
+      result.push([key, value]);
+    }
+  });
+
+  return result;
 };

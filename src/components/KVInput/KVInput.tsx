@@ -14,7 +14,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type KVInputProps = {
   id?: string;
-  value?: string[][] | [string, string][] | object;
+  value?: string[][] | [string, string][] | (string | string[])[][] | object;
   disabled?: boolean;
   required?: boolean;
   clearable?: boolean;
@@ -84,7 +84,7 @@ const KVInput = ({
         newValue = [...value, [partialKey, partialValue]];
       }
 
-      const obj = arrayToNestedObject(newValue);
+      const obj = arrayToNestedObject(newValue, allowDuplicateKeys);
       onChange?.(newValue, obj);
 
       return { success: true };

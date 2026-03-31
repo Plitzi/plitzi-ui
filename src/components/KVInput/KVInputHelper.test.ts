@@ -38,9 +38,16 @@ describe('KVInputHelper', () => {
         ['a', 'b', '1'],
         ['a', 'b', '2']
       ];
-      expect(arrayToNestedObject(input)).toEqual({
-        a: { b: '2' }
-      });
+      expect(arrayToNestedObject(input)).toEqual({ a: { b: '2' } });
+    });
+
+    it('should merge existing values from duplicated keys', () => {
+      const input = [
+        ['a', 'b', '1'],
+        ['a', 'b', '2']
+      ];
+
+      expect(arrayToNestedObject(input, true)).toEqual({ a: { b: ['1', '2'] } });
     });
 
     it('should ignore invalid paths', () => {
@@ -121,6 +128,22 @@ describe('KVInputHelper', () => {
 
     it('should handle empty object', () => {
       expect(nestedObjectToArray({})).toEqual([]);
+    });
+
+    it('should flatten arrays in values', () => {
+      const input = { a: { b: ['1', '2'] } };
+      expect(nestedObjectToArray(input)).toEqual([
+        ['a', 'b', '1'],
+        ['a', 'b', '2']
+      ]);
+    });
+
+    it('should convert nested object with multiple branches', () => {
+      const input = { a: { b: '1', c: '2' } };
+      expect(nestedObjectToArray(input)).toEqual([
+        ['a', 'b', '1'],
+        ['a', 'c', '2']
+      ]);
     });
   });
 
@@ -203,6 +226,19 @@ describe('KVInputHelper', () => {
       expect(normalizeToFlatKV(input)).toEqual([
         ['a.b.c', 'd'],
         ['x.y', 'z']
+      ]);
+    });
+
+    it('should flatten array values into multiple [key,value] entries', () => {
+      const input = [
+        ['a', 'b', ['1', '2']],
+        ['c', 'd', '3']
+      ];
+      const result = normalizeToFlatKV(input);
+      expect(result).toEqual([
+        ['a.b', '1'],
+        ['a.b', '2'],
+        ['c.d', '3']
       ]);
     });
   });
