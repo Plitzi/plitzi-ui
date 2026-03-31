@@ -67,7 +67,7 @@ export const Primary: Story = {
     const [{ value }, updateArgs] = useArgs<typeof args>();
 
     const handleChange = useCallback(
-      (value: string[][], valueObj: object) => {
+      (value: [string, string][], valueObj: object) => {
         console.log(value, valueObj);
         updateArgs({ value });
       },
@@ -92,7 +92,7 @@ export const CustomStyle: Story = {
   render: function Render(args) {
     const [{ value }, updateArgs] = useArgs<typeof args>();
 
-    const handleChange = useCallback((value: string[][]) => updateArgs({ value }), [updateArgs]);
+    const handleChange = useCallback((value: [string, string][]) => updateArgs({ value }), [updateArgs]);
 
     return (
       <KVInput

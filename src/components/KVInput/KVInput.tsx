@@ -14,7 +14,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 
 export type KVInputProps = {
   id?: string;
-  value?: string[][] | object;
+  value?: string[][] | [string, string][] | object;
   disabled?: boolean;
   required?: boolean;
   clearable?: boolean;
@@ -23,7 +23,7 @@ export type KVInputProps = {
   allowKeyEdit?: boolean;
   allowDuplicateKeys?: boolean;
   keysAllowed?: { label?: string; value: string }[];
-  onChange?: (value: string[][], obj: { [key: string]: string }) => void;
+  onChange?: (value: [string, string][], obj: { [key: string]: string }) => void;
 } & Pick<InputContainerProps, 'label' | 'error'> &
   useThemeSharedProps<typeof KVInputStyles & typeof InputStyles, typeof variantKeys>;
 

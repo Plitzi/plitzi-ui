@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { arrayToNestedObject, nestedObjectToArray } from './KVInputHelper';
+import { arrayToNestedObject, nestedObjectToArray, normalizeToFlatKV } from './KVInputHelper';
 
 describe('KVInputHelper', () => {
   describe('arrayToNestedObject', () => {
@@ -145,6 +145,65 @@ describe('KVInputHelper', () => {
       const back = nestedObjectToArray(obj, []);
 
       expect(back).toEqual(expect.arrayContaining(input));
+    });
+  });
+
+  describe('normalizeToFlatKV', () => {
+    it('should flatten simple 2-level arrays', () => {
+      const input = [
+        ['key1', 'value1'],
+        ['key2', 'value2'],
+        ['key3.subKey1', 'value3']
+      ];
+      expect(normalizeToFlatKV(input)).toEqual([
+        ['key1', 'value1'],
+        ['key2', 'value2'],
+        ['key3.subKey1', 'value3']
+      ]);
+    });
+
+    it('should convert nested arrays to dot notation', () => {
+      const input = [
+        ['key1', 'subKey1', '123'],
+        ['key2', 'subKey2', '456']
+      ];
+      expect(normalizeToFlatKV(input)).toEqual([
+        ['key1.subKey1', '123'],
+        ['key2.subKey2', '456']
+      ]);
+    });
+
+    it('should handle mixed depth arrays', () => {
+      const input = [
+        ['key1', 'value1'],
+        ['key2', 'subKey2', '456'],
+        ['key3', 'sub1', 'sub2', '789']
+      ];
+      expect(normalizeToFlatKV(input)).toEqual([
+        ['key1', 'value1'],
+        ['key2.subKey2', '456'],
+        ['key3.sub1.sub2', '789']
+      ]);
+    });
+
+    it('should ignore arrays with less than 2 elements', () => {
+      const input = [['key1'], ['key2', 'value2']];
+      expect(normalizeToFlatKV(input)).toEqual([['key2', 'value2']]);
+    });
+
+    it('should handle empty input', () => {
+      expect(normalizeToFlatKV([])).toEqual([]);
+    });
+
+    it('should handle multiple nested levels with dots', () => {
+      const input = [
+        ['a', 'b', 'c', 'd'],
+        ['x', 'y', 'z']
+      ];
+      expect(normalizeToFlatKV(input)).toEqual([
+        ['a.b.c', 'd'],
+        ['x.y', 'z']
+      ]);
     });
   });
 });
