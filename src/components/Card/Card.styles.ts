@@ -3,8 +3,8 @@ import cva from '@/helpers/cvaWrapper';
 export const variantKeys = {
   size: ['md', 'sm', 'xs', 'custom'],
   intent: ['white', 'modal'],
-  shadow: ['normal', 'dark', 'custom'],
-  rounded: ['none', 'md'],
+  shadow: ['normal', 'dark', 'none', 'custom'],
+  rounded: ['none', 'sm', 'md', 'lg'],
   overflow: ['none', 'hidden']
 } as const;
 
@@ -14,17 +14,20 @@ export default {
   root: cva('', {
     variants: {
       intent: {
-        white: 'bg-white',
-        modal: 'bg-white min-w-[350px]'
+        white: 'bg-white dark:bg-zinc-800',
+        modal: 'bg-white dark:bg-zinc-800 w-full'
       },
       shadow: {
-        normal: 'shadow-[0_7px_14px_0_rgba(65,69,88,0.1),0_3px_6px_0_rgba(0,0,0,0.07)]',
-        dark: 'shadow-[0px_0px_10px_0px_rgba(43,53,86,0.3)]',
+        normal: 'shadow-md shadow-black/8 dark:shadow-black/30',
+        dark: 'shadow-xl shadow-black/15 dark:shadow-black/50',
+        none: '',
         custom: ''
       },
       rounded: {
-        md: 'rounded-md',
-        none: ''
+        none: '',
+        sm: 'rounded',
+        md: 'rounded-lg',
+        lg: 'rounded-xl'
       },
       overflow: {
         none: '',
@@ -39,42 +42,28 @@ export default {
       overflow: 'hidden'
     }
   }),
-  header: cva('', {
+  header: cva('flex items-center justify-between', {
     variants: {
       intent: {
         white: '',
-        modal: 'border-b border-solid border-gray-200'
+        modal: 'border-b border-gray-100 dark:border-zinc-700'
       },
       size: {
-        md: '',
-        sm: '',
-        xs: '',
+        md: 'px-5 py-4',
+        sm: 'px-4 py-3',
+        xs: 'px-3 py-2',
         custom: ''
       }
     },
-    compoundVariants: [
-      {
-        intent: 'modal',
-        size: 'md',
-        className: 'p-4 text-md'
-      },
-      {
-        intent: 'modal',
-        size: 'sm',
-        className: 'p-3 text-sm'
-      },
-      {
-        intent: 'modal',
-        size: 'xs',
-        className: 'p-2 text-xs'
-      }
-    ],
+    compoundVariants: [],
     defaultVariants: {
       intent: 'white',
       size: 'md'
     }
   }),
-  headerCloseButton: cva('cursor-pointer'),
+  headerCloseButton: cva(
+    'cursor-pointer text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors duration-100 rounded p-0.5 hover:bg-gray-100 dark:hover:bg-zinc-700'
+  ),
   body: cva('', {
     variants: {
       intent: {
@@ -82,64 +71,32 @@ export default {
         modal: ''
       },
       size: {
-        md: '',
-        sm: '',
-        xs: '',
+        md: 'px-5 py-4',
+        sm: 'px-4 py-3',
+        xs: 'px-3 py-2',
         custom: ''
       }
     },
-    compoundVariants: [
-      {
-        intent: 'modal',
-        size: 'md',
-        className: 'p-4 text-md'
-      },
-      {
-        intent: 'modal',
-        size: 'sm',
-        className: 'p-3 text-sm'
-      },
-      {
-        intent: 'modal',
-        size: 'xs',
-        className: 'p-2 text-xs'
-      }
-    ],
+    compoundVariants: [],
     defaultVariants: {
       intent: 'white',
       size: 'md'
     }
   }),
-  footer: cva('', {
+  footer: cva('flex items-center gap-2', {
     variants: {
       intent: {
         white: '',
-        modal: 'border-t border-solid border-gray-200'
+        modal: 'border-t border-gray-100 dark:border-zinc-700'
       },
       size: {
-        md: '',
-        sm: '',
-        xs: '',
+        md: 'px-5 py-4',
+        sm: 'px-4 py-3',
+        xs: 'px-3 py-2',
         custom: ''
       }
     },
-    compoundVariants: [
-      {
-        intent: 'modal',
-        size: 'md',
-        className: 'p-4 text-md'
-      },
-      {
-        intent: 'modal',
-        size: 'sm',
-        className: 'p-3 text-sm'
-      },
-      {
-        intent: 'modal',
-        size: 'xs',
-        className: 'p-2 text-xs'
-      }
-    ],
+    compoundVariants: [],
     defaultVariants: {
       intent: 'white',
       size: 'md'

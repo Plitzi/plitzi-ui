@@ -18,12 +18,13 @@ export default {
   content: cva('flex w-full h-full', {
     variants: {
       intent: {
-        dropdown: 'bg-white shadow-[0_7px_14px_0_rgba(65,69,88,0.1),0_3px_6px_0_rgba(0,0,0,0.07)] rounded-lg',
+        dropdown:
+          'bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-lg shadow-black/10 dark:shadow-black/30 rounded-lg',
         custom: ''
       },
       disabled: {
-        true: 'cursor-not-allowed',
-        false: 'cursor-pointer'
+        true: 'cursor-not-allowed pointer-events-none opacity-60',
+        false: ''
       }
     },
     compoundVariants: [],

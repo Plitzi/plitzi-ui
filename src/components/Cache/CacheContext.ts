@@ -5,5 +5,6 @@ export type CacheContextValue<T = unknown> = { cacheId: string } & Record<string
 const cacheContextDefaultValue = {} as CacheContextValue;
 
 const CacheContext = createContext<CacheContextValue>(cacheContextDefaultValue);
+CacheContext.displayName = 'CacheContext';
 
 export default CacheContext;

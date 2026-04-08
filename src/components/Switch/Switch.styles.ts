@@ -52,7 +52,7 @@ export default {
           false: ''
         },
         disabled: {
-          true: 'bg-gray-300',
+          true: 'bg-gray-300 dark:bg-zinc-600',
           false: ''
         },
         error: {
@@ -64,17 +64,20 @@ export default {
         {
           intent: 'primary',
           disabled: false,
-          className: 'bg-gray-300 peer-checked:bg-primary-500 hover:before:bg-primary-300'
+          className:
+            'bg-gray-300 dark:bg-zinc-600 peer-checked:bg-primary-500 dark:peer-checked:bg-primary-500 hover:before:bg-primary-300'
         },
         {
           intent: 'secondary',
           disabled: false,
-          className: 'bg-gray-300 peer-checked:bg-secondary-500 hover:before:bg-secondary-300'
+          className:
+            'bg-gray-300 dark:bg-zinc-600 peer-checked:bg-secondary-500 dark:peer-checked:bg-secondary-500 hover:before:bg-secondary-300'
         },
         {
           intent: 'danger',
           disabled: false,
-          className: 'bg-gray-300 peer-checked:bg-red-500 hover:before:bg-red-300'
+          className:
+            'bg-gray-300 dark:bg-zinc-600 peer-checked:bg-red-500 dark:peer-checked:bg-red-500 hover:before:bg-red-300'
         }
       ],
       defaultVariants: {

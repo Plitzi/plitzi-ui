@@ -20,26 +20,31 @@ export default {
       intent: 'default'
     }
   }),
-  item: cva(''),
-  itemHeader: cva('font-bold cursor-pointer select-none leading-3', {
-    variants: {
-      size: {
-        xs: 'p-1 text-sm h-6',
-        sm: 'p-1.5 h-7',
-        md: 'p-2 text-lg h-11',
-        lg: 'p-2 text-lg h-11',
-        custom: ''
+  item: cva('border-b border-gray-100 dark:border-zinc-800 last:border-b-0'),
+  itemHeader: cva(
+    'flex items-center justify-between font-medium cursor-pointer select-none transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-zinc-800/60 text-zinc-800 dark:text-zinc-200',
+    {
+      variants: {
+        size: {
+          xs: 'px-2 py-1 text-xs h-7',
+          sm: 'px-2.5 py-1.5 text-sm h-8',
+          md: 'px-3 py-2 text-sm h-10',
+          lg: 'px-3 py-2.5 text-base h-12',
+          custom: ''
+        }
+      },
+      compoundVariants: [],
+      defaultVariants: {
+        size: 'lg'
       }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      size: 'lg'
     }
-  }),
-  itemHeaderSlot: cva(''),
-  itemHeaderIcon: cva('flex items-center justify-center w-4 h-4'),
-  itemHeaderIconError: cva('flex items-center justify-center text-red-500'),
-  itemHeaderIconWarning: cva('flex items-center justify-center text-orange-500'),
+  ),
+  itemHeaderSlot: cva('grow min-w-0 truncate'),
+  itemHeaderIcon: cva(
+    'flex items-center justify-center w-4 h-4 shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-150'
+  ),
+  itemHeaderIconError: cva('flex items-center justify-center text-red-500 dark:text-red-400'),
+  itemHeaderIconWarning: cva('flex items-center justify-center text-orange-500 dark:text-orange-400'),
   itemContent: cva('flex', {
     variants: {
       grow: {
@@ -53,6 +58,6 @@ export default {
     }
   }),
   itemDivider: cva(
-    'divider h-1 bg-primary-400 cursor-row-resize w-full opacity-0 hover:opacity-100 transition-all translate-y-1/2'
+    'h-1 bg-primary-400 cursor-row-resize w-full opacity-0 hover:opacity-100 transition-opacity duration-200 translate-y-1/2'
   )
 };

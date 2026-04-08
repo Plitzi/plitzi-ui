@@ -35,5 +35,6 @@ const queryBuilderContextDefaultValue = {
 };
 
 const QueryBuilderContext = createContext<QueryBuilderContextValue>(queryBuilderContextDefaultValue);
+QueryBuilderContext.displayName = 'QueryBuilderContext';
 
 export default QueryBuilderContext;

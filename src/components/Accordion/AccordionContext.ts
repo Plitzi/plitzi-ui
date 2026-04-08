@@ -13,4 +13,7 @@ export type AccordionContextValue = {
   testId?: string;
 };
 
-export const AccordionContext = createContext<AccordionContextValue | undefined>(undefined);
+const AccordionContext = createContext<AccordionContextValue | undefined>(undefined);
+AccordionContext.displayName = 'AccordionContext';
+
+export default AccordionContext;

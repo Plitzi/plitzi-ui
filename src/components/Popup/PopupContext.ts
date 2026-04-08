@@ -33,9 +33,12 @@ const popupDefaultValue = {
 } as PopupContextValue;
 
 const PopupContextFloating = createContext<PopupContextValue>(popupDefaultValue);
+PopupContextFloating.displayName = 'PopupContextFloating';
 
 const PopupContextLeft = createContext<PopupContextValue>(popupDefaultValue);
+PopupContextLeft.displayName = 'PopupContextLeft';
 
 const PopupContextRight = createContext<PopupContextValue>(popupDefaultValue);
+PopupContextRight.displayName = 'PopupContextRight';
 
 export { PopupContextFloating, PopupContextLeft, PopupContextRight };

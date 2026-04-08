@@ -48,3 +48,8 @@
 body {
   font-family: 'Lato';
 }
+
+.dark {
+  color-scheme: dark;
+  color: theme(--color-zinc-200);
+}

@@ -9,5 +9,6 @@ const containerShadowContextDefaultValue: ContainerShadowContextValue = {
 };
 
 const ContainerShadowContext = createContext<ContainerShadowContextValue>(containerShadowContextDefaultValue);
+ContainerShadowContext.displayName = 'ContainerShadowContext';
 
 export default ContainerShadowContext;

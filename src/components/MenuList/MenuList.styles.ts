@@ -15,7 +15,7 @@ export default {
     defaultVariants: {}
   }),
   trigger: cva('cursor-pointer'),
-  container: cva('fixed z-[801]', {
+  container: cva('fixed z-801', {
     variants: {
       placement: {
         'top-left': '-translate-y-full',
@@ -30,16 +30,17 @@ export default {
     }
   }),
   menu: cva(
-    'flex gap-1 flex-col bg-white shadow-[0_7px_14px_0_rgba(65,69,88,0.1),0_3px_6px_0_rgba(0,0,0,0.07)] min-w-[175px] rounded-lg overflow-hidden'
+    'flex gap-0.5 flex-col py-1.5 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-lg shadow-black/10 dark:shadow-black/30 min-w-43.75 rounded-lg overflow-hidden'
   ),
-  menuItem: cva('flex items-center py-1.5 pl-3 pr-4 gap-1 text-sm', {
+  menuItem: cva('flex items-center py-1.5 px-3 gap-2 text-sm mx-1.5 rounded-md transition-colors duration-100', {
     variants: {
       disabled: {
-        true: 'cursor-not-allowed text-gray-400',
-        false: 'cursor-pointer hover:bg-grayviolet-200 hover:text-primary-500'
+        true: 'cursor-not-allowed text-zinc-400 dark:text-zinc-500',
+        false:
+          'cursor-pointer text-zinc-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-700/60 hover:text-zinc-900 dark:hover:text-zinc-100'
       },
       active: {
-        true: 'text-primary-500 bg-grayviolet-200',
+        true: 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400',
         false: ''
       }
     },
@@ -48,5 +49,5 @@ export default {
       disabled: false
     }
   }),
-  icon: cva('text-black')
+  icon: cva('shrink-0 w-4 text-zinc-500 dark:text-zinc-400')
 };

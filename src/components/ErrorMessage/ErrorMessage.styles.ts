@@ -10,7 +10,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'ErrorMessage';
 
 export default {
-  root: cva('first-letter:capitalize', {
+  root: cva('first-letter:capitalize flex items-center gap-1', {
     variants: {
       intent: {
         primary: '',
@@ -21,12 +21,12 @@ export default {
         false: ''
       },
       error: {
-        true: 'text-red-600',
-        false: ''
+        true: 'text-red-600 dark:text-red-400',
+        false: 'text-zinc-500 dark:text-zinc-400'
       },
       size: {
-        md: 'text-base',
-        sm: 'text-sm',
+        md: 'text-sm',
+        sm: 'text-xs',
         xs: 'text-xs',
         custom: ''
       }

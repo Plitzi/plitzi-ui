@@ -32,18 +32,45 @@ export default {
       }
     },
     compoundVariants: [
-      { solid: true, intent: 'default', className: 'bg-gray-400' },
-      { solid: false, intent: 'default', className: 'bg-gray-500/10 border-gray-500 border text-gray-600' },
-      { solid: true, intent: 'info', className: 'bg-blue-400' },
-      { solid: false, intent: 'info', className: 'bg-blue-500/10 border-blue-500 border text-blue-600' },
-      { solid: true, intent: 'success', className: 'bg-green-400' },
-      { solid: false, intent: 'success', className: 'bg-green-500/10 border-green-500 border text-green-600' },
-      { solid: true, intent: 'warning', className: 'bg-orange-400' },
-      { solid: false, intent: 'warning', className: 'bg-orange-500/10 border-orange-500 border text-orange-600' },
-      { solid: true, intent: 'error', className: 'bg-red-400' },
-      { solid: false, intent: 'error', className: 'bg-red-500/10 border-red-500 border text-red-600' },
-      { solid: true, intent: 'other', className: 'bg-gray-400' },
-      { solid: false, intent: 'other', className: 'bg-gray-500/10 border-gray-500 border text-gray-600' }
+      { solid: true, intent: 'default', className: 'bg-gray-400 dark:bg-zinc-600' },
+      {
+        solid: false,
+        intent: 'default',
+        className:
+          'bg-gray-500/10 border-gray-500 border text-gray-600 dark:bg-zinc-500/20 dark:border-zinc-500 dark:text-zinc-300'
+      },
+      { solid: true, intent: 'info', className: 'bg-blue-400 dark:bg-blue-600' },
+      {
+        solid: false,
+        intent: 'info',
+        className: 'bg-blue-500/10 border-blue-500 border text-blue-600 dark:bg-blue-500/20 dark:text-blue-400'
+      },
+      { solid: true, intent: 'success', className: 'bg-green-400 dark:bg-green-600' },
+      {
+        solid: false,
+        intent: 'success',
+        className: 'bg-green-500/10 border-green-500 border text-green-600 dark:bg-green-500/20 dark:text-green-400'
+      },
+      { solid: true, intent: 'warning', className: 'bg-orange-400 dark:bg-orange-600' },
+      {
+        solid: false,
+        intent: 'warning',
+        className:
+          'bg-orange-500/10 border-orange-500 border text-orange-600 dark:bg-orange-500/20 dark:text-orange-400'
+      },
+      { solid: true, intent: 'error', className: 'bg-red-400 dark:bg-red-600' },
+      {
+        solid: false,
+        intent: 'error',
+        className: 'bg-red-500/10 border-red-500 border text-red-600 dark:bg-red-500/20 dark:text-red-400'
+      },
+      { solid: true, intent: 'other', className: 'bg-gray-400 dark:bg-zinc-600' },
+      {
+        solid: false,
+        intent: 'other',
+        className:
+          'bg-gray-500/10 border-gray-500 border text-gray-600 dark:bg-zinc-500/20 dark:border-zinc-500 dark:text-zinc-300'
+      }
     ],
     defaultVariants: {
       intent: 'success',

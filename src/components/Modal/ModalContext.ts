@@ -36,5 +36,6 @@ const modalContextDefaultValue = {
 } as unknown as ModalContextValue;
 
 const ModalContext = createContext<ModalContextValue>(modalContextDefaultValue);
+ModalContext.displayName = 'ModalContext';
 
 export default ModalContext;

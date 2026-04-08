@@ -38,7 +38,7 @@ const Breadcrumb = ({
             className={clsx(
               classNameTheme.listItem,
               {
-                "[&:not(:first-child)]:before:content-['>']": separator === '>',
+                "not-first:before:content-['>']": separator === '>',
                 "[&:not(:first-child)]:before:content-['/']": separator === '/',
                 "[&:not(:first-child)]:before:content-['\\']": separator === '\\'
               },

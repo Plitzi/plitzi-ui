@@ -14,5 +14,6 @@ export type MenuListContextValue = {
 const menuListContextDefaultValue = {} as MenuListContextValue;
 
 const MenuListContext = createContext<MenuListContextValue>(menuListContextDefaultValue);
+MenuListContext.displayName = 'MenuListContext';
 
 export default MenuListContext;

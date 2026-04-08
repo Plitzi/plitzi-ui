@@ -10,23 +10,24 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Label';
 
 export default {
-  root: cva('', {
+  root: cva('font-medium text-zinc-700 dark:text-zinc-300', {
     variants: {
       intent: {
-        primary: 'border-gray-200',
-        disabled: 'text-gray-400',
+        primary: '',
+        disabled: 'text-zinc-400 dark:text-zinc-500',
+        error: 'text-red-600 dark:text-red-400',
         custom: ''
       },
       error: {
-        true: 'text-red-600',
+        true: 'text-red-600 dark:text-red-400',
         false: ''
       },
       disabled: {
-        true: 'cursor-not-allowed text-gray-400',
+        true: 'cursor-not-allowed text-zinc-400 dark:text-zinc-500',
         false: ''
       },
       size: {
-        md: '',
+        md: 'text-sm',
         sm: 'text-sm',
         xs: 'text-xs',
         custom: ''

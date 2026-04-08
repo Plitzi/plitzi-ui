@@ -9,5 +9,6 @@ export type ContainerRootContextValue = {
 };
 
 const ContainerRootContext = createContext({} as ContainerRootContextValue);
+ContainerRootContext.displayName = 'ContainerRootContext';
 
 export default ContainerRootContext;

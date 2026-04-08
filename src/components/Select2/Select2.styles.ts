@@ -9,11 +9,11 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Select2';
 
 export default {
-  root: cva('', {
+  root: cva('flex flex-col', {
     variants: {
       size: {
-        md: 'gap-2',
-        sm: 'gap-1.5 text-sm',
+        md: 'gap-1.5',
+        sm: 'gap-1 text-sm',
         xs: 'gap-1 text-xs',
         custom: ''
       }
@@ -38,15 +38,15 @@ export default {
     }
   }),
   trigger: cva('w-full'),
-  placeholder: cva('text-gray-500'),
+  placeholder: cva('text-zinc-400 dark:text-zinc-500 select-none'),
   searchInput: cva(''),
-  list: cva('max-h-100 overflow-y-auto'),
+  list: cva('max-h-60 overflow-y-auto'),
   listPopup: cva('flex flex-col w-full', {
     variants: {
       size: {
-        md: 'p-2.5',
-        sm: 'p-2',
-        xs: 'p-1.5',
+        md: 'p-1.5',
+        sm: 'p-1',
+        xs: 'p-1',
         custom: ''
       }
     },
@@ -55,74 +55,54 @@ export default {
       size: 'md'
     }
   }),
-  listPopupInner: cva('flex flex-col w-full', {
-    variants: {
-      size: {
-        md: 'gap-2',
-        sm: 'gap-1.5',
-        xs: 'gap-1',
-        custom: ''
+  listPopupInner: cva('flex flex-col w-full'),
+  listMessage: cva('text-zinc-400 dark:text-zinc-500 flex items-center justify-center shrink-0 py-3 text-sm'),
+  listGroup: cva(
+    '[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-200 dark:[&:not(:last-child)]:border-zinc-700',
+    {
+      variants: {
+        size: {
+          md: '[&:not(:last-child)]:pb-1.5 not-last:mb-1.5',
+          sm: '[&:not(:last-child)]:pb-1 not-last:mb-1',
+          xs: '[&:not(:last-child)]:pb-1 not-last:mb-1',
+          custom: ''
+        }
+      },
+      compoundVariants: [],
+      defaultVariants: {
+        size: 'md'
       }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      size: 'md'
     }
-  }),
-  listMessage: cva('text-gray-500 flex items-center justify-center shrink-0', {
-    variants: {
-      size: {
-        md: 'py-2',
-        sm: 'py-1.5 text-sm',
-        xs: 'py-1 text-xs',
-        custom: ''
+  ),
+  listGroupLabel: cva(
+    'flex items-center cursor-default select-none truncate text-xs font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500',
+    {
+      variants: {
+        size: {
+          md: 'px-2.5 py-1.5 gap-2',
+          sm: 'px-2 py-1 gap-1.5',
+          xs: 'px-1.5 py-1 gap-1',
+          custom: ''
+        }
+      },
+      compoundVariants: [],
+      defaultVariants: {
+        size: 'md'
       }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      size: 'md'
     }
-  }),
-  listGroup: cva('[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-300', {
-    variants: {
-      size: {
-        md: '[&:not(:last-child)]:pb-2 not-last:mb-2',
-        sm: '[&:not(:last-child)]:pb-1.5 not-last:mb-1.5',
-        xs: '[&:not(:last-child)]:pb-1 not-last:mb-1',
-        custom: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      size: 'md'
-    }
-  }),
-  listGroupLabel: cva('flex items-center cursor-default select-none truncate font-bold text-gray-700', {
-    variants: {
-      size: {
-        md: 'px-2.5 py-2 gap-2',
-        sm: 'px-2 py-1.5 text-sm gap-1.5',
-        xs: 'px-1.5 py-1 text-xs gap-1',
-        custom: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      size: 'md'
-    }
-  }),
+  ),
   listItem: cva(
-    'group flex items-center justify-between my-0.5 shrink-0 transition duration-200 cursor-pointer select-none truncate rounded-sm',
+    'group flex items-center justify-between shrink-0 transition-colors duration-100 cursor-pointer select-none rounded-md',
     {
       variants: {
         selected: {
-          true: 'bg-blue-100 text-blue-500',
-          false: 'text-gray-500 hover:bg-blue-100 hover:text-blue-500'
+          true: 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400',
+          false: 'text-zinc-700 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-700/60'
         },
         size: {
-          md: 'px-2.5 py-2 gap-2',
-          sm: 'px-2 py-1.5 text-sm gap-1.5',
-          xs: 'px-1.5 py-1 text-xs gap-1',
+          md: 'px-2.5 py-2 gap-2 text-sm',
+          sm: 'px-2 py-1.5 gap-1.5 text-sm',
+          xs: 'px-1.5 py-1 gap-1 text-xs',
           custom: ''
         }
       },
@@ -133,7 +113,7 @@ export default {
       }
     }
   ),
-  listItemLabelContainer: cva('flex items-center', {
+  listItemLabelContainer: cva('flex items-center min-w-0 truncate', {
     variants: {
       size: {
         md: 'gap-2',
@@ -147,5 +127,5 @@ export default {
       size: 'md'
     }
   }),
-  listItemIcon: cva('invisible group-hover:visible')
+  listItemIcon: cva('invisible group-hover:visible shrink-0 text-primary-500 dark:text-primary-400')
 };

@@ -9,5 +9,6 @@ const sidebarDefaultValue = {
 };
 
 const SidebarContext = createContext<SidebarContextValue>(sidebarDefaultValue);
+SidebarContext.displayName = 'SidebarContext';
 
 export default SidebarContext;

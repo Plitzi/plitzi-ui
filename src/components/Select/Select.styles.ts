@@ -13,7 +13,7 @@ export default {
   input: cva('py-0 pl-0 border-0 outline-none focus:ring-0 w-full truncate', {
     variants: {
       intent: {
-        primary: 'bg-white',
+        primary: 'bg-white dark:bg-zinc-800 dark:text-zinc-200',
         custom: ''
       },
       error: {
@@ -25,29 +25,13 @@ export default {
         false: ''
       },
       size: {
-        md: 'text-base pl-2 pr-8',
-        sm: 'text-sm pl-1.5 pr-6',
-        xs: 'text-xs pl-1 pr-6',
+        md: 'text-base pl-3 pr-8',
+        sm: 'text-sm pl-2.5 pr-7',
+        xs: 'text-xs pl-2 pr-6',
         custom: ''
       }
     },
-    compoundVariants: [
-      // {
-      //   error: true,
-      //   size: 'md',
-      //   className: 'mr-6'
-      // },
-      // {
-      //   error: true,
-      //   size: 'sm',
-      //   className: 'mr-5'
-      // },
-      // {
-      //   error: true,
-      //   size: 'xs',
-      //   className: 'mr-5'
-      // }
-    ],
+    compoundVariants: [],
     defaultVariants: {
       intent: 'primary',
       size: 'md',

@@ -9,24 +9,27 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'ContainerDraggable';
 
 export default {
-  root: cva('flex flex-col overflow-hidden p-2 absolute z-50 rounded-lg', {
+  root: cva(
+    'flex flex-col overflow-hidden absolute z-50 rounded-lg bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-xl shadow-black/10 dark:shadow-black/40',
+    {
+      variants: {
+        intent: {},
+        size: {},
+        collapsed: {
+          false: '',
+          true: ''
+        }
+      },
+      compoundVariants: [],
+      defaultVariants: {}
+    }
+  ),
+  header: cva('px-3 gap-3 flex justify-between items-center select-none', {
     variants: {
       intent: {},
-      size: {},
       collapsed: {
-        false: '',
-        true: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {}
-  }),
-  header: cva('h-9 px-1 gap-4 flex justify-between items-center select-none bg-white', {
-    variants: {
-      intent: {},
-      collapsed: {
-        true: '',
-        false: 'pb-2 border-b border-gray-300'
+        true: 'h-10',
+        false: 'h-10 border-b border-gray-200 dark:border-zinc-700'
       }
     },
     compoundVariants: [],
@@ -34,17 +37,20 @@ export default {
       collapsed: false
     }
   }),
-  headerLabel: cva('flex items-center gap-1 truncate grow cursor-move font-bold text-lg', {
-    variants: {
-      intent: {},
-      collapsed: {
-        true: '',
-        false: ''
-      }
-    },
-    compoundVariants: [],
-    defaultVariants: {}
-  }),
+  headerLabel: cva(
+    'flex items-center gap-1.5 truncate grow cursor-move text-sm font-semibold text-zinc-800 dark:text-zinc-200',
+    {
+      variants: {
+        intent: {},
+        collapsed: {
+          true: '',
+          false: ''
+        }
+      },
+      compoundVariants: [],
+      defaultVariants: {}
+    }
+  ),
   content: cva('grow', {
     variants: {
       intent: {},
@@ -58,12 +64,15 @@ export default {
       collapsed: false
     }
   }),
-  btn: cva('h-6 w-6', {
-    variants: {
-      intent: {},
-      collapsed: {}
-    },
-    compoundVariants: [],
-    defaultVariants: {}
-  })
+  btn: cva(
+    'h-6 w-6 flex items-center justify-center rounded text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors duration-100 cursor-pointer',
+    {
+      variants: {
+        intent: {},
+        collapsed: {}
+      },
+      compoundVariants: [],
+      defaultVariants: {}
+    }
+  )
 };

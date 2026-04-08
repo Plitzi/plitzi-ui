@@ -33,8 +33,8 @@ export default {
   ruleGroup: cva('flex flex-col p-2 border rounded-sm relative', {
     variants: {
       intent: {
-        primary: 'bg-primary-500/20 border-gray-400',
-        gray: 'bg-grayviolet-200 border-gray-300'
+        primary: 'bg-primary-500/20 border-gray-400 dark:border-zinc-600',
+        gray: 'bg-grayviolet-200 dark:bg-zinc-700/50 border-gray-300 dark:border-zinc-600'
       },
       mainGroup: {
         true: '',
@@ -62,13 +62,19 @@ export default {
         mainGroup: false,
         showBranches: true,
         intent: 'primary',
-        className: ['before:border-gray-400', 'after:border-gray-400']
+        className: [
+          'before:border-gray-400 dark:before:border-zinc-600',
+          'after:border-gray-400 dark:after:border-zinc-600'
+        ]
       },
       {
         mainGroup: false,
         showBranches: true,
         intent: 'gray',
-        className: ['before:border-gray-300', 'after:border-gray-300']
+        className: [
+          'before:border-gray-300 dark:before:border-zinc-600',
+          'after:border-gray-300 dark:after:border-zinc-600'
+        ]
       }
     ],
     defaultVariants: {
@@ -82,8 +88,8 @@ export default {
   rule: cva('border p-1 rounded-sm ml-4 [&:not(:first-child)]:mt-3 relative', {
     variants: {
       intent: {
-        primary: 'border-gray-400',
-        gray: 'border-gray-300'
+        primary: 'border-gray-400 dark:border-zinc-600',
+        gray: 'border-gray-300 dark:border-zinc-600'
       },
       direction: {
         horizontal: 'items-center',
@@ -115,12 +121,18 @@ export default {
       {
         showBranches: true,
         intent: 'primary',
-        className: ['before:border-gray-400', 'after:border-gray-400']
+        className: [
+          'before:border-gray-400 dark:before:border-zinc-600',
+          'after:border-gray-400 dark:after:border-zinc-600'
+        ]
       },
       {
         showBranches: true,
         intent: 'gray',
-        className: ['before:border-gray-300', 'after:border-gray-300']
+        className: [
+          'before:border-gray-300 dark:before:border-zinc-600',
+          'after:border-gray-300 dark:after:border-zinc-600'
+        ]
       }
     ],
     defaultVariants: {

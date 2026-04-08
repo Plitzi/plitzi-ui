@@ -20,9 +20,9 @@ export default {
         primary: ''
       },
       size: {
-        md: '',
-        sm: '',
-        xs: '',
+        md: 'text-sm',
+        sm: 'text-xs',
+        xs: 'text-xs',
         custom: ''
       }
     },
@@ -32,7 +32,7 @@ export default {
       size: 'md'
     }
   }),
-  item: cva('cursor-pointer flex', {
+  item: cva('cursor-pointer flex items-center transition-colors duration-100', {
     variants: {
       intent: {
         primary: '',
@@ -51,48 +51,46 @@ export default {
         false: ''
       },
       size: {
-        md: 'px-4',
-        sm: 'px-3',
-        xs: 'px-2',
+        md: 'px-3 py-0.5 gap-1.5 min-h-7',
+        sm: 'px-2.5 py-0.5 gap-1 min-h-6',
+        xs: 'px-2 py-0.5 gap-1 min-h-5',
         custom: ''
       }
     },
     compoundVariants: [
-      // Hovered
       {
         hovered: true,
         selected: false,
         intent: 'primary',
-        className: 'bg-primary-100 text-black'
+        className: 'bg-gray-100 dark:bg-zinc-700/60 text-zinc-900 dark:text-zinc-200'
       },
       {
         hovered: true,
         selected: false,
         intent: 'secondary',
-        className: 'bg-secondary-100 text-black'
+        className: 'bg-gray-100 dark:bg-zinc-700/60 text-zinc-900 dark:text-zinc-200'
       },
       {
         parentSelected: true,
         selected: false,
         intent: 'primary',
-        className: 'bg-primary-100 text-black'
+        className: 'bg-primary-50 dark:bg-primary-900/20 text-zinc-900 dark:text-zinc-200'
       },
       {
         parentSelected: true,
         selected: false,
         intent: 'secondary',
-        className: 'bg-secondary-100 text-black'
+        className: 'bg-secondary-50 dark:bg-secondary-900/20 text-zinc-900 dark:text-zinc-200'
       },
-      // Selected
       {
         selected: true,
         intent: 'primary',
-        className: 'bg-primary-200 text-white'
+        className: 'bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300'
       },
       {
         selected: true,
         intent: 'secondary',
-        className: 'bg-secondary-200 text-black'
+        className: 'bg-secondary-100 dark:bg-secondary-900/40 text-secondary-700 dark:text-secondary-300'
       }
     ],
     defaultVariants: {
@@ -103,10 +101,7 @@ export default {
     }
   }),
   containerEditable: cva(
-    [
-      'focus-visible:outline-dashed focus-visible:outline-1 focus-visible:-outline-offset-1',
-      'truncate focus-visible:text-clip focus-visible:overflow-auto focus-visible:text-black focus-visible:outline-primary-500'
-    ],
+    'focus-visible:outline-dashed focus-visible:outline-1 focus-visible:-outline-offset-1 truncate focus-visible:text-clip focus-visible:overflow-auto focus-visible:outline-primary-500',
     {
       variants: {
         size: {
@@ -121,10 +116,7 @@ export default {
     }
   ),
   dropIndicator: cva(
-    [
-      'h-0.5 w-full p-0 absolute pointer-events-none',
-      'after:h-2 after:w-2 after:-translate-y-[calc(50%-1px)] after:absolute after:border-2 after:border-solid after:content-[""] after:rounded-full'
-    ],
+    'h-0.5 w-full p-0 absolute pointer-events-none after:h-2 after:w-2 after:-translate-y-[calc(50%-1px)] after:absolute after:border-2 after:border-solid after:content-[""] after:rounded-full',
     {
       variants: {
         intent: {
@@ -142,7 +134,6 @@ export default {
         }
       },
       compoundVariants: [
-        // top - no error
         {
           dragAllowed: true,
           intent: 'primary',
@@ -155,20 +146,8 @@ export default {
           dropPosition: 'top',
           className: 'bg-secondary-500 after:border-secondary-500'
         },
-        // top - error
-        {
-          dragAllowed: false,
-          intent: 'primary',
-          dropPosition: 'top',
-          className: 'bg-red-500 after:border-red-500'
-        },
-        {
-          dragAllowed: false,
-          intent: 'secondary',
-          dropPosition: 'top',
-          className: 'bg-red-500 after:border-red-500'
-        },
-        // bottom - no error
+        { dragAllowed: false, intent: 'primary', dropPosition: 'top', className: 'bg-red-500 after:border-red-500' },
+        { dragAllowed: false, intent: 'secondary', dropPosition: 'top', className: 'bg-red-500 after:border-red-500' },
         {
           dragAllowed: true,
           intent: 'primary',
@@ -181,20 +160,13 @@ export default {
           dropPosition: 'bottom',
           className: 'bg-secondary-500 after:border-secondary-500'
         },
-        // bottom - error
-        {
-          dragAllowed: false,
-          intent: 'primary',
-          dropPosition: 'bottom',
-          className: 'bg-red-500 after:border-red-500'
-        },
+        { dragAllowed: false, intent: 'primary', dropPosition: 'bottom', className: 'bg-red-500 after:border-red-500' },
         {
           dragAllowed: false,
           intent: 'secondary',
           dropPosition: 'bottom',
           className: 'bg-red-500 after:border-red-500'
         },
-        // inside - no error
         {
           dragAllowed: true,
           intent: 'primary',
@@ -207,19 +179,8 @@ export default {
           dropPosition: 'inside',
           className: 'bg-secondary-500/20 border-secondary-500'
         },
-        // inside - error
-        {
-          dragAllowed: false,
-          intent: 'primary',
-          dropPosition: 'inside',
-          className: 'bg-red-500/20 border-red-500'
-        },
-        {
-          dragAllowed: false,
-          intent: 'secondary',
-          dropPosition: 'inside',
-          className: 'bg-red-500/20 border-red-500'
-        }
+        { dragAllowed: false, intent: 'primary', dropPosition: 'inside', className: 'bg-red-500/20 border-red-500' },
+        { dragAllowed: false, intent: 'secondary', dropPosition: 'inside', className: 'bg-red-500/20 border-red-500' }
       ],
       defaultVariants: {
         intent: 'primary',
@@ -227,7 +188,7 @@ export default {
       }
     }
   ),
-  collapsableIcon: cva('w-4 items-center cursor-pointer', {
+  collapsableIcon: cva('w-4 items-center justify-center cursor-pointer text-zinc-400 dark:text-zinc-500 shrink-0', {
     variants: {
       isOpen: {
         true: 'flex',
@@ -239,7 +200,7 @@ export default {
       isOpen: false
     }
   }),
-  icon: cva('', {
+  icon: cva('shrink-0 text-zinc-500 dark:text-zinc-400', {
     variants: {
       size: {
         md: 'w-4 h-4',

@@ -14,7 +14,7 @@ export default {
   root: cva('', {
     variants: {
       canDragAndDrop: {
-        true: 'flex flex-col border-2 border-gray-300 border-dashed rounded-md relative select-none',
+        true: 'flex flex-col border-2 border-gray-300 dark:border-zinc-600 border-dashed rounded-md relative select-none',
         false: 'w-full'
       },
       size: {
@@ -107,7 +107,7 @@ export default {
     }
   }),
   itemLabel: cva('whitespace-nowrap w-full truncate'),
-  label: cva('text-center flex flex-col', {
+  label: cva('text-center flex flex-col text-zinc-700 dark:text-zinc-300', {
     variants: {
       error: {
         true: 'text-red-500',
@@ -120,7 +120,7 @@ export default {
         custom: ''
       },
       disabled: {
-        true: 'text-gray-400',
+        true: 'text-gray-400 dark:text-zinc-500',
         false: ''
       }
     },
@@ -140,8 +140,8 @@ export default {
         custom: ''
       },
       disabled: {
-        true: 'text-gray-400',
-        false: 'text-gray-500'
+        true: 'text-gray-400 dark:text-zinc-500',
+        false: 'text-gray-500 dark:text-zinc-400'
       }
     },
     compoundVariants: [],

@@ -15,5 +15,6 @@ export type ContainerFloatingContextValue = {
 const containerFloatingContextDefaultValue = {} as ContainerFloatingContextValue;
 
 const ContainerFloatingContext = createContext<ContainerFloatingContextValue>(containerFloatingContextDefaultValue);
+ContainerFloatingContext.displayName = 'ContainerFloatingContext';
 
 export default ContainerFloatingContext;

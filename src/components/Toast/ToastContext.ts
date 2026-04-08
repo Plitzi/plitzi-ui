@@ -20,5 +20,6 @@ export type ToastContextValue = {
 const toastContextDefaultValue = { addToast: () => {} } as ToastContextValue;
 
 const ToastContext = createContext<ToastContextValue>(toastContextDefaultValue);
+ToastContext.displayName = 'ToastContext';
 
 export default ToastContext;

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Flex from '@components/Flex';
 import useTheme from '@hooks/useTheme';
 
-import { AccordionContext } from './AccordionContext';
+import AccordionContext from './AccordionContext';
 import AccordionItem from './components/AccordionItem';
 import AccordionManager from './helpers/AccordionManager';
 

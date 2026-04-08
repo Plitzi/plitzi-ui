@@ -8,8 +8,8 @@ export const STYLES_COMPONENT_NAME = 'Form';
 
 export default {
   root: cva('flex flex-col'),
-  header: cva('w-full'),
-  body: cva('w-full', {
+  header: cva('w-full border-b border-gray-200 dark:border-zinc-700 pb-4 mb-4'),
+  body: cva('w-full flex flex-col gap-4', {
     variants: {
       scrollable: {
         true: 'grow basis-0 overflow-y-auto',
@@ -21,5 +21,5 @@ export default {
       scrollable: false
     }
   }),
-  footer: cva('w-full')
+  footer: cva('w-full border-t border-gray-200 dark:border-zinc-700 pt-4 mt-4')
 };
