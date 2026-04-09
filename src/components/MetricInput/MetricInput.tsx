@@ -257,7 +257,6 @@ const MetricInput = ({
             {loading && <i className={clsx('fa-solid fa-sync fa-spin', classNameTheme.iconLoading)} />}
           </div>
         )}
-        <div className={classNameTheme.divider} />
         <MenuList onSelect={handleChangeUnit} disabled={disabled}>
           <MenuList.Trigger className={classNameTheme.units}>{unit ? unit : '-'}</MenuList.Trigger>
           <MenuList.Menu>

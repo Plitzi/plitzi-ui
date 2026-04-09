@@ -50,7 +50,7 @@ export const Primary: Story = {
         <MetricInput {...args} size="xs">
           <MetricInput.Icon icon="fa-solid fa-check" />
         </MetricInput>
-        <div className="flex w-75 gap-2">
+        <div className="flex w-100 gap-2">
           <MetricInput {...args} size="sm" className="min-w-0 grow">
             <MetricInput.Icon icon="fa-solid fa-check" />
           </MetricInput>

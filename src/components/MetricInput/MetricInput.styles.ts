@@ -43,8 +43,8 @@ export default {
         },
         size: {
           md: 'py-2 px-3 gap-2 rounded-lg',
-          sm: 'py-1.5 px-2.5 gap-1.5 rounded',
-          xs: 'py-1 px-2 gap-1 rounded-sm'
+          sm: 'py-1.5 px-2 gap-1.5 rounded',
+          xs: 'py-1 px-1.5 gap-1 rounded-sm'
         }
       },
       compoundVariants: [],
@@ -97,9 +97,9 @@ export default {
           false: 'cursor-pointer hover:text-zinc-700 dark:hover:text-zinc-200'
         },
         size: {
-          md: 'text-sm min-w-10 pl-2',
-          sm: 'text-sm min-w-9 pl-1.5',
-          xs: 'text-xs min-w-8 pl-1'
+          md: 'text-sm min-w-9 pl-2',
+          sm: 'text-sm min-w-8 pl-1.5',
+          xs: 'text-xs min-w-6 pl-1'
         }
       },
       compoundVariants: [],
