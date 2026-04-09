@@ -333,7 +333,7 @@ const Select2 = (props: Select2Props) => {
           )}
           {!loading && allowCreateOptions && search && (
             <ListItem
-              className="bg-slate-100 text-blue-500 mt-1"
+              className="mt-1 bg-slate-100 text-blue-500 dark:bg-zinc-700 dark:text-blue-400"
               prefix="Create:"
               size={size}
               label={search}

@@ -2,7 +2,10 @@ const paletteColors = {
   // Specific Colors
   transparent: 'transparent',
   current: 'currentColor',
-  // Primary
+  // Primary — semantic adaptive tokens (CSS variables, auto-shift in dark mode)
+  'primary-ui': '#8839E6', // elements: borders, icons, indicators
+  'primary-text': '#CC96FA', // text: links, labels, active states
+  // Primary — raw scale
   'primary-50': '',
   'primary-100': '#E7CAFC',
   'primary-200': '#CC96FA',

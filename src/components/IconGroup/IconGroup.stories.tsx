@@ -89,7 +89,7 @@ export const Primary: Story = {
         <IconGroup.Icon icon="fa-solid fa-rocket" />
       </IconGroup>
       <IconGroup {...args} size="9xl">
-        <IconGroup.Icon icon="fa-solid fa-rocket" />
+        <IconGroup.Icon icon="fa-solid fa-rocket" active />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
       </IconGroup>

@@ -133,7 +133,7 @@ const PopupSidePanel = ({
           {popupsFiltered.map((popup, i) => (
             <PopupSidePanelItem
               key={popup.id}
-              className={i > 0 ? 'border-t border-solid border-gray-300' : ''}
+              className={i > 0 ? 'border-t border-solid border-gray-300 dark:border-zinc-700' : ''}
               id={popup.id}
               title={popup.settings.title}
               minSize={popup.placementSettings?.[placement]?.minSize}

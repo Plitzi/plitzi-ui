@@ -127,5 +127,5 @@ export default {
       size: 'md'
     }
   }),
-  listItemIcon: cva('invisible group-hover:visible shrink-0 text-primary-500 dark:text-primary-400')
+  listItemIcon: cva('invisible group-hover:visible shrink-0 text-primary-ui')
 };

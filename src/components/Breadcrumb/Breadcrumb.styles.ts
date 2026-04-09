@@ -29,7 +29,7 @@ export default {
     variants: {
       intent: {
         primary:
-          '[&:not(:last-child)]:text-primary-300 [&:not(:last-child)]:hover:text-primary-500 last:text-slate-500 dark:last:text-zinc-400 [&:not(:first-child)]:before:mx-3',
+          '[&:not(:last-child)]:text-primary-text [&:not(:last-child)]:hover:text-primary-ui last:text-slate-500 dark:last:text-zinc-400 [&:not(:first-child)]:before:mx-3',
         secondary:
           '[&:not(:last-child)]:text-secondary-300 [&:not(:last-child)]:hover:text-secondary-500 last:text-slate-500 dark:last:text-zinc-400 [&:not(:first-child)]:before:mx-3'
       },

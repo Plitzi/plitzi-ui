@@ -31,7 +31,7 @@ export default {
   root: cva('', {
     variants: {
       intent: {
-        primary: 'text-primary-500',
+        primary: 'text-primary-text',
         custom: ''
       },
       size: {

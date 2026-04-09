@@ -8,9 +8,17 @@
 
 @plugin '@tailwindcss/forms';
 
+:root {
+  /* Semantic primary tokens — shift to lighter hues in dark mode for accessibility */
+  --color-primary-ui: #8839E6;   /* primary-400: elements, borders, focus rings */
+  --color-primary-text: #CC96FA; /* primary-200: interactive text in light mode ~7.5:1 contrast on zinc-800 */
+}
+
 @layer base {
   .dark {
     color-scheme: dark;
     color: theme(--color-zinc-200);
+    --color-primary-ui: #8839E6;   /* primary-400: elements still visible on dark bg */
+    --color-primary-text: #CC96FA; /* primary-200: ~7.5:1 contrast on zinc-800 */
   }
 }

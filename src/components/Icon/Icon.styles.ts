@@ -23,8 +23,8 @@ export default {
   root: cva('flex items-center justify-center', {
     variants: {
       intent: {
-        primary: 'text-zinc-700 dark:text-zinc-300 hover:text-primary-500 dark:hover:text-primary-400',
-        primaryActive: 'text-primary-500 dark:text-primary-400',
+        primary: 'text-zinc-700 dark:text-zinc-300 hover:text-primary-ui',
+        primaryActive: 'text-primary-ui',
         secondary: 'text-zinc-700 dark:text-zinc-300 hover:text-secondary-500 dark:hover:text-secondary-400',
         secondaryActive: 'text-secondary-500 dark:text-secondary-400',
         tertiary: 'hover:bg-grayviolet-200 dark:hover:bg-zinc-700 text-gray-500 dark:text-zinc-400',

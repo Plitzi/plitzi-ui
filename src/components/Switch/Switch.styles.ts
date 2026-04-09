@@ -31,7 +31,7 @@ export default {
   slider: cva(
     [
       'round absolute top-0 bottom-0 left-0 right-0 duration-[0.4s]',
-      'before:absolute before:left-1 before:bottom-1 before:bg-white before:duration-[0.4s]'
+      'before:absolute before:left-1 before:bottom-1 before:bg-white dark:before:bg-zinc-200 before:duration-[0.4s]'
     ],
     {
       variants: {
