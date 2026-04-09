@@ -10,7 +10,7 @@ const meta = {
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: { disabled: false }
+  args: { disabled: false, label: 'Checkbox Label' }
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;

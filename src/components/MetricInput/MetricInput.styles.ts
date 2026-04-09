@@ -38,7 +38,7 @@ export default {
       variants: {
         intent: {
           default:
-            'border-gray-300 dark:border-zinc-600 hover:border-gray-400 dark:hover:border-zinc-500 focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30',
+            'border-gray-300 dark:border-zinc-700 hover:border-gray-400 dark:hover:border-zinc-500 focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30',
           error: 'border-red-500 focus-within:ring-red-500/30'
         },
         size: {
@@ -85,7 +85,7 @@ export default {
     }
   ),
   units: cva(
-    'select-none text-center font-medium text-zinc-500 dark:text-zinc-400 border-l border-gray-200 dark:border-zinc-600 transition-colors duration-100',
+    'select-none text-center font-medium text-zinc-500 dark:text-zinc-400 border-l border-gray-200 dark:border-zinc-700 transition-colors duration-100',
     {
       variants: {
         intent: {

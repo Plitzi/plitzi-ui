@@ -8,7 +8,6 @@ import type CheckboxStyles from './Checkbox.styles';
 import type { variantKeys } from './Checkbox.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
-import type { InputContainerProps } from '@components/Input/InputContainer';
 import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { RefObject, InputHTMLAttributes, ReactNode } from 'react';
 
@@ -49,7 +48,7 @@ const Checkbox = ({
       label={label}
       error={error}
       disabled={disabled}
-      intent={intent as InputContainerProps['intent']}
+      intent="custom"
       size={size}
       loading={loading}
       inline

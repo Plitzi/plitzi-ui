@@ -10,9 +10,9 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Checkbox';
 
 export default {
-  inputContainer: cva('border-0 p-0'),
+  inputContainer: cva('border-0 p-0 bg-transparent'),
   input: cva(
-    'cursor-pointer form-tick appearance-none bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 checked:border-transparent focus:ring-0 focus:ring-offset-0 focus:shadow-none',
+    'cursor-pointer form-tick appearance-none bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 checked:border-transparent focus:ring-0 focus:ring-offset-0 focus:shadow-none',
     {
       variants: {
         intent: {

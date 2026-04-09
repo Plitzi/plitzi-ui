@@ -64,9 +64,9 @@ const ContainerDraggable = ({
   onCollapse
 }: ContainerDraggableProps) => {
   const [collapsed, setCollapsed] = useState(false);
-  className = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
+  const classNameTheme = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
     className,
-    componentKey: 'root',
+    componentKey: ['root', 'cardBody'],
     variants: { intent, size, collapsed }
   });
 
@@ -294,14 +294,14 @@ const ContainerDraggable = ({
 
   return (
     <Card
-      className={clsx('component__container-draggable', className)}
+      className={clsx('component__container-draggable', classNameTheme.root)}
       intent="white"
       rounded="none"
       shadow="dark"
       ref={elementRef}
       style={style}
     >
-      <Card.Body>
+      <Card.Body className={classNameTheme.cardBody} size="custom">
         <ContainerDraggableHeader
           intent={intent}
           size={size}

@@ -26,7 +26,7 @@ export default {
     }
   }),
   sidePanelRoot: cva(''),
-  sidePanel: cva('h-full flex grow bg-white dark:bg-zinc-800', {
+  sidePanel: cva('h-full flex grow bg-white dark:bg-zinc-900', {
     variants: {
       placement: {
         left: '',

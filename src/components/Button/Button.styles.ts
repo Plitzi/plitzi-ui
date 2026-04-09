@@ -27,7 +27,7 @@ export default {
           secondary: [
             'border-gray-300 text-zinc-700 hover:border-gray-400 hover:bg-gray-50 hover:text-zinc-900',
             'focus-visible:ring-gray-400',
-            'dark:border-zinc-600 dark:text-zinc-300 dark:hover:border-zinc-400 dark:hover:bg-zinc-700/50 dark:hover:text-white dark:focus-visible:ring-zinc-500'
+            'dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-400 dark:hover:bg-zinc-700/50 dark:hover:text-white dark:focus-visible:ring-zinc-500'
           ],
           danger: [
             'border-transparent bg-red-500 text-white hover:bg-red-600',

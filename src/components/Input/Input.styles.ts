@@ -45,7 +45,7 @@ export default {
         error: {
           true: 'border-red-500 focus-within:ring-red-500/30',
           false:
-            'border-gray-300 dark:border-zinc-600 focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30 hover:border-gray-400 dark:hover:border-zinc-500'
+            'border-gray-300 dark:border-zinc-700 focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30 hover:border-gray-400 dark:hover:border-zinc-500'
         },
         disabled: {
           true: 'cursor-not-allowed opacity-60 pointer-events-none',
@@ -98,7 +98,7 @@ export default {
   label: cva('text-sm font-medium text-zinc-700 dark:text-zinc-300', {
     variants: {
       inline: {
-        true: 'flex select-none',
+        true: 'flex select-none items-center',
         false: ''
       },
       disabled: {
@@ -143,7 +143,7 @@ export default {
       size: 'md'
     }
   }),
-  icon: cva('border-r border-gray-300 dark:border-zinc-600 text-zinc-400 dark:text-zinc-500 shrink-0', {
+  icon: cva('border-r border-gray-300 dark:border-zinc-700 text-zinc-400 dark:text-zinc-500 shrink-0', {
     variants: {
       intent: {
         primary: ''

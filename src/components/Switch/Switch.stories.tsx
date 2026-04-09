@@ -12,7 +12,7 @@ const meta = {
   // }
   tags: ['autodocs'],
   argTypes: {},
-  args: {}
+  args: { label: 'Switch Label' }
 } satisfies Meta<typeof Switch>;
 
 export default meta;
@@ -26,18 +26,9 @@ export const Primary: Story = {
 
     return (
       <div className="flex gap-4 flex-col">
-        <Switch {...args} size="lg" checked={checked} onChange={e => updateArgs({ checked: e.target.checked })}>
-          This is a label
-        </Switch>
-        <Switch {...args} checked={checked} onChange={e => updateArgs({ checked: e.target.checked })}>
-          This is a label
-        </Switch>
-        <Switch {...args} size="sm" checked={checked} onChange={e => updateArgs({ checked: e.target.checked })}>
-          This is a label
-        </Switch>
-        <Switch {...args} size="xs" checked={checked} onChange={e => updateArgs({ checked: e.target.checked })}>
-          This is a label
-        </Switch>
+        <Switch {...args} checked={checked} onChange={e => updateArgs({ checked: e.target.checked })} />
+        <Switch {...args} size="sm" checked={checked} onChange={e => updateArgs({ checked: e.target.checked })} />
+        <Switch {...args} size="xs" checked={checked} onChange={e => updateArgs({ checked: e.target.checked })} />
       </div>
     );
   }

@@ -11,7 +11,7 @@ export const STYLES_COMPONENT_NAME = 'TextArea';
 
 export default {
   input: cva(
-    'p-0 border-0 outline-none focus:ring-0 w-full dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder:text-zinc-500',
+    'p-0 border-0 outline-none focus:ring-0 w-full bg-transparent text-zinc-900 placeholder:text-zinc-400 dark:text-zinc-200 dark:placeholder:text-zinc-500',
     {
       variants: {
         intent: {

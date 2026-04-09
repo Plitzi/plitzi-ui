@@ -9,7 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'KVInput';
 
 export default {
-  item: cva('w-full flex gap-1 border border-gray-300 dark:border-zinc-600 p-1 [&:not(:first-child)]:border-t-0', {
+  item: cva('w-full flex gap-1 border border-gray-300 dark:border-zinc-700 p-1 [&:not(:first-child)]:border-t-0', {
     variants: {
       size: {
         md: 'first:rounded-t-lg last:rounded-b-lg',

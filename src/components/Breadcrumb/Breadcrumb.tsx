@@ -12,6 +12,7 @@ export type BreadcrumbProps = {
   children?: ReactNode;
   classNameItem?: string;
   separator?: '>' | '/' | '\\';
+  onItemClick?: (index: number) => void;
 } & useThemeSharedProps<typeof BreadcrumbStyles, typeof variantKeys>;
 
 const Breadcrumb = ({
@@ -21,7 +22,8 @@ const Breadcrumb = ({
   separator = '>',
   intent,
   intentSeparator,
-  size
+  size,
+  onItemClick
 }: BreadcrumbProps) => {
   const classNameTheme = useTheme<typeof BreadcrumbStyles, typeof variantKeys>('Breadcrumb', {
     className,
@@ -44,6 +46,7 @@ const Breadcrumb = ({
               },
               classNameItem
             )}
+            onClick={() => onItemClick?.(i)}
           >
             {child}
           </div>

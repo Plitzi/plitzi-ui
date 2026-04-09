@@ -11,7 +11,7 @@ export const STYLES_COMPONENT_NAME = 'Sidebar';
 
 export default {
   root: cva(
-    'flex flex-col gap-5 border-gray-200 dark:border-zinc-700 bg-grayviolet-100 dark:bg-zinc-800 w-14 items-center overflow-y-auto shrink-0',
+    'flex flex-col gap-5 border-gray-200 dark:border-zinc-800 bg-grayviolet-100 dark:bg-zinc-900 w-14 items-center overflow-y-auto shrink-0',
     {
       variants: {
         border: {

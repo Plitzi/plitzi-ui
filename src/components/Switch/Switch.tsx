@@ -64,7 +64,7 @@ const Switch = ({
       label={label}
       error={error}
       disabled={disabled}
-      intent={intent as InputContainerProps['intent']}
+      intent="custom"
       size={size as InputContainerProps['size']}
       loading={loading}
       inline

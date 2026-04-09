@@ -14,7 +14,7 @@ export default {
   root: cva('', {
     variants: {
       canDragAndDrop: {
-        true: 'flex flex-col border-2 border-gray-300 dark:border-zinc-600 border-dashed rounded-md relative select-none',
+        true: 'flex flex-col border-2 border-gray-300 dark:border-zinc-700 border-dashed rounded-md relative select-none',
         false: 'w-full'
       },
       size: {
