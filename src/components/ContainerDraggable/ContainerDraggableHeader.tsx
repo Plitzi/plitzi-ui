@@ -43,7 +43,7 @@ const ContainerDraggableHeader = ({
 }: ContainerDraggableHeaderProps) => {
   const classNameTheme = useTheme<typeof ContainerDraggableStyles, typeof variantKeys>('ContainerDraggable', {
     className,
-    componentKey: ['header', 'headerLabel', 'btn'],
+    componentKey: ['header', 'headerLabel', 'btn', 'btnClose'],
     variants: { intent, size, collapsed }
   });
 
@@ -106,7 +106,7 @@ const ContainerDraggableHeader = ({
               intent="custom"
               size="custom"
               border="none"
-              className={clsx(' text-red-400 hover:text-red-500', classNameTheme.btn)}
+              className={classNameTheme.btnClose}
               title="Close"
               onClick={handleClickClose}
             >

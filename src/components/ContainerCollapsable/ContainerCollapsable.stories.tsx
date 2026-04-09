@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {},
   render: args => (
-    <ContainerCollapsable {...args} className="bg-gray-300">
+    <ContainerCollapsable {...args} className="bg-gray-50">
       <ContainerCollapsable.Header title="Test">Custom</ContainerCollapsable.Header>
       <ContainerCollapsable.Content className="bg-gray-500">Content</ContainerCollapsable.Content>
     </ContainerCollapsable>

@@ -75,5 +75,16 @@ export default {
       compoundVariants: [],
       defaultVariants: {}
     }
+  ),
+  btnClose: cva(
+    'h-6 w-6 flex items-center justify-center rounded text-red-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors duration-100 cursor-pointer',
+    {
+      variants: {
+        intent: {},
+        collapsed: {}
+      },
+      compoundVariants: [],
+      defaultVariants: {}
+    }
   )
 };

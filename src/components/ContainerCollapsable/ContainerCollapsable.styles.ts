@@ -7,7 +7,7 @@ export const STYLES_COMPONENT_NAME = 'ContainerCollapsable';
 export default {
   root: cva(''),
   header: cva(
-    'flex justify-between items-center cursor-pointer select-none gap-2 px-2 py-1 transition-colors duration-150 hover:bg-gray-100 dark:hover:bg-zinc-700/60'
+    'flex justify-between items-center cursor-pointer select-none gap-2 px-2 py-1 transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-zinc-800/60 text-zinc-800 dark:text-zinc-200'
   ),
   headerContainer: cva('flex items-center gap-2 min-w-0'),
   headerSlot: cva(''),

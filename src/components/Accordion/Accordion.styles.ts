@@ -22,7 +22,7 @@ export default {
   }),
   item: cva('border-b border-gray-100 dark:border-zinc-800 last:border-b-0'),
   itemHeader: cva(
-    'flex items-center justify-between font-medium cursor-pointer select-none transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-zinc-800/60 text-zinc-800 dark:text-zinc-200',
+    'flex items-center justify-between font-semibold cursor-pointer select-none transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-zinc-800/60 text-zinc-800 dark:text-zinc-200',
     {
       variants: {
         size: {
