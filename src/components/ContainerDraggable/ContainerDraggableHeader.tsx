@@ -75,43 +75,45 @@ const ContainerDraggableHeader = ({
         {icon}
         {title}
       </label>
-      <Flex items="center">
+      <Flex items="center" gap={2}>
         {customActions}
-        <Button
-          intent="custom"
-          size="custom"
-          border="none"
-          items={collapsed ? 'center' : 'end'}
-          className={clsx('', classNameTheme.btn)}
-          title="Collapse / Expand"
-          onClick={handleClickCollapse}
-        >
-          <Button.Icon icon={collapsed ? 'far fa-window-maximize' : 'fas fa-minus'} />
-        </Button>
-        {allowExternal && (
+        <Flex>
           <Button
             intent="custom"
             size="custom"
             border="none"
-            className={classNameTheme.btn}
-            title="External Window"
-            onClick={handleClickExternal}
+            items={collapsed ? 'center' : 'end'}
+            className={clsx('', classNameTheme.btn)}
+            title="Collapse / Expand"
+            onClick={handleClickCollapse}
           >
-            <Button.Icon icon="fas fa-window-restore" />
+            <Button.Icon icon={collapsed ? 'far fa-window-maximize' : 'fas fa-minus'} />
           </Button>
-        )}
-        {allowClose && (
-          <Button
-            intent="custom"
-            size="custom"
-            border="none"
-            className={clsx(' text-red-400 hover:text-red-500', classNameTheme.btn)}
-            title="Close"
-            onClick={handleClickClose}
-          >
-            <Button.Icon icon="fas fa-times" />
-          </Button>
-        )}
+          {allowExternal && (
+            <Button
+              intent="custom"
+              size="custom"
+              border="none"
+              className={classNameTheme.btn}
+              title="External Window"
+              onClick={handleClickExternal}
+            >
+              <Button.Icon icon="fas fa-window-restore" />
+            </Button>
+          )}
+          {allowClose && (
+            <Button
+              intent="custom"
+              size="custom"
+              border="none"
+              className={clsx(' text-red-400 hover:text-red-500', classNameTheme.btn)}
+              title="Close"
+              onClick={handleClickClose}
+            >
+              <Button.Icon icon="fas fa-times" />
+            </Button>
+          )}
+        </Flex>
       </Flex>
     </div>
   );

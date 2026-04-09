@@ -39,7 +39,7 @@ export default {
       }
     }
   ),
-  itemHeaderSlot: cva('grow min-w-0 truncate'),
+  itemHeaderSlot: cva('min-w-0 truncate'),
   itemHeaderIcon: cva(
     'flex items-center justify-center w-4 h-4 shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-150'
   ),

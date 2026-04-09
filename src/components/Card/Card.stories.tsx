@@ -20,7 +20,26 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {},
-  render: args => <Card {...args}></Card>
+  render: function Render(args) {
+    const handleClose = useCallback(() => {
+      console.log('closing...');
+    }, []);
+
+    return (
+      <Card {...args}>
+        <Card.Header closeable onClose={handleClose}>
+          <Card.HeaderIcon icon="fa-solid fa-triangle-exclamation"></Card.HeaderIcon>
+          Title
+        </Card.Header>
+        <Card.Body>Fancy Content Here</Card.Body>
+        <Card.Footer>
+          <Button onClick={handleClose} size="sm">
+            Close
+          </Button>
+        </Card.Footer>
+      </Card>
+    );
+  }
 };
 
 export const Modal: Story = {

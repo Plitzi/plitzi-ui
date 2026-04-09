@@ -14,8 +14,8 @@ export default {
   root: cva('', {
     variants: {
       intent: {
-        white: 'bg-white dark:bg-zinc-800',
-        modal: 'bg-white dark:bg-zinc-800 w-full'
+        white: 'bg-white dark:bg-zinc-800 border-gray-200 dark:border-zinc-700 border',
+        modal: 'bg-white dark:bg-zinc-800 w-full border-gray-200 dark:border-zinc-700 border'
       },
       shadow: {
         normal: 'shadow-md shadow-black/8 dark:shadow-black/30',
