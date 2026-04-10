@@ -1,7 +1,10 @@
 /* eslint-disable quotes */
 import clsx from 'clsx';
+import { Fragment } from 'react';
 
 import useTheme from '@hooks/useTheme';
+
+import BreadcrumbItem from './BreadcrumbItem';
 
 import type BreadcrumbStyles from './Breadcrumb.styles';
 import type { variantKeys } from './Breadcrumb.styles';
@@ -15,41 +18,37 @@ export type BreadcrumbProps = {
   onItemClick?: (index: number) => void;
 } & useThemeSharedProps<typeof BreadcrumbStyles, typeof variantKeys>;
 
-const Breadcrumb = ({
-  children,
-  classNameItem = '',
-  className = '',
-  separator = '>',
-  intent,
-  intentSeparator,
-  size,
-  onItemClick
-}: BreadcrumbProps) => {
+const Breadcrumb = ({ children, className = '', separator = '>', intent, size, onItemClick }: BreadcrumbProps) => {
   const classNameTheme = useTheme<typeof BreadcrumbStyles, typeof variantKeys>('Breadcrumb', {
     className,
-    componentKey: ['root', 'list', 'listItem'],
-    variants: { intent, size, intentSeparator }
+    componentKey: ['root', 'list', 'separator'],
+    variants: { intent, size }
   });
 
   return (
     <div className={classNameTheme.root}>
       {Array.isArray(children) &&
         children.map((child, i) => (
-          <div
-            key={i}
-            className={clsx(
-              classNameTheme.listItem,
-              {
-                "not-first:before:content-['>']": separator === '>',
-                "[&:not(:first-child)]:before:content-['/']": separator === '/',
-                "[&:not(:first-child)]:before:content-['\\']": separator === '\\'
-              },
-              classNameItem
+          <Fragment key={i}>
+            {i > 0 && (
+              <div
+                className={clsx(classNameTheme.separator, {
+                  "not-first:before:content-['>']": separator === '>',
+                  "not-first:before:content-['/']": separator === '/',
+                  "not-first:before:content-['\\']": separator === '\\'
+                })}
+              />
             )}
-            onClick={() => onItemClick?.(i)}
-          >
-            {child}
-          </div>
+            <BreadcrumbItem
+              className={classNameTheme.listItem}
+              index={i}
+              intent={intent}
+              size={size}
+              onClick={onItemClick}
+            >
+              {child}
+            </BreadcrumbItem>
+          </Fragment>
         ))}
     </div>
   );

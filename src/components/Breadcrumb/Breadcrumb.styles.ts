@@ -2,14 +2,13 @@ import cva from '@/helpers/cvaWrapper';
 
 export const variantKeys = {
   intent: ['primary', 'secondary', 'custom'],
-  intentSeparator: ['primary', 'secondary', 'custom'],
   size: ['md', 'sm', 'xs', 'custom']
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Breadcrumb';
 
 export default {
-  root: cva('flex', {
+  root: cva('flex gap-4', {
     variants: {
       intent: {},
       size: {
@@ -25,29 +24,30 @@ export default {
     }
   }),
   list: cva(''),
-  listItem: cva('cursor-pointer', {
+  listItem: cva('not-last:cursor-pointer select-none', {
     variants: {
       intent: {
         primary:
-          '[&:not(:last-child)]:text-primary-text [&:not(:last-child)]:hover:text-primary-ui last:text-slate-500 dark:last:text-zinc-400 [&:not(:first-child)]:before:mx-3',
+          'text-primary-ui hover:text-primary-text dark:not-last:text-primary-text dark:not-last:hover:text-primary-ui last:text-slate-500 dark:last:text-zinc-400',
         secondary:
-          '[&:not(:last-child)]:text-secondary-300 [&:not(:last-child)]:hover:text-secondary-500 last:text-slate-500 dark:last:text-zinc-400 [&:not(:first-child)]:before:mx-3'
-      },
-      intentSeparator: {
-        primary: 'before:text-slate-500 dark:before:text-zinc-500',
-        secondary: 'before:text-gray-500 dark:before:text-zinc-500'
-      },
-      size: {
-        md: '',
-        sm: '',
-        xs: '',
-        custom: ''
+          'text-secondary-500 hover:text-secondary-300 dark:not-last:text-secondary-300 dark:not-last:hover:text-secondary-500 last:text-slate-500 dark:last:text-zinc-400'
       }
     },
     compoundVariants: [],
     defaultVariants: {
-      intent: 'primary',
-      size: 'md'
+      intent: 'primary'
+    }
+  }),
+  separator: cva('', {
+    variants: {
+      intent: {
+        primary: 'text-slate-500 dark:text-zinc-500',
+        secondary: 'text-gray-500 dark:text-zinc-500'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'primary'
     }
   })
 };
