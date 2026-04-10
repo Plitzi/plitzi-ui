@@ -24,8 +24,8 @@ export default {
       defaultVariants: {}
     }
   ),
-  cardBody: cva('p-2'),
-  header: cva('px-3 gap-3 flex justify-between items-center select-none', {
+  cardBody: cva('px-2 pb-2'),
+  header: cva('px-2 gap-3 flex justify-between items-center select-none', {
     variants: {
       intent: {},
       collapsed: {
