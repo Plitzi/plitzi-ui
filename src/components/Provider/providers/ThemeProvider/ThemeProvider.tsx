@@ -15,7 +15,6 @@ export type ThemeContextValue = {
     };
   };
   colorMode: ColorMode;
-  isDark: boolean;
   toggleColorMode: () => void;
   setColorMode: (mode: ColorMode) => void;
 };
@@ -25,7 +24,6 @@ const ThemeDefault: ThemeContextValue = {
     components: {}
   },
   colorMode: 'light',
-  isDark: false,
   toggleColorMode: () => {},
   setColorMode: () => {}
 };
@@ -128,7 +126,6 @@ const ThemeProvider = ({
         components: components && Object.keys(components).length > 0 ? components : {}
       },
       colorMode,
-      isDark: colorMode === 'dark',
       toggleColorMode,
       setColorMode
     }),
