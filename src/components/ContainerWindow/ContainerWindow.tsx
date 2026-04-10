@@ -27,7 +27,7 @@ const ContainerWindow = ({
   const { getHost } = useContainerRoot() as { getHost?: () => Node | undefined };
   const containerEl = useMemo(() => {
     const elementDOM = document.createElement('div');
-    elementDOM.setAttribute('stype', 'display:flex;flex-direction:column;min-height:100vh;');
+    elementDOM.setAttribute('style', 'display:flex;flex-direction:column;min-height:100vh;');
 
     return elementDOM;
   }, []);
