@@ -47,7 +47,7 @@ export type TreeNodeProps = {
   onDrop?: (event: DragEvent, id: string, toId: string, dropPosition: DropPosition) => void;
 } & useThemeSharedProps<typeof TreeStyles, typeof variantKeys>;
 
-const TreeNodeOriginal = ({
+const TreeNodeBase = ({
   controls,
   icon,
   className = '',
@@ -183,7 +183,7 @@ const TreeNodeOriginal = ({
     [hovered, onHover]
   );
 
-  const handleHover = useCallback(
+  const handleMouseEnter = useCallback(
     (e: MouseEvent) => {
       e.stopPropagation();
       if (!hovered) {
@@ -254,7 +254,7 @@ const TreeNodeOriginal = ({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       draggable={canDragDrop}
-      onMouseOver={handleHover}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       tabIndex={-1}
     >
@@ -283,7 +283,8 @@ const TreeNodeOriginal = ({
     </div>
   );
 };
+TreeNodeBase.displayName = 'TreeNode';
 
-const TreeNode = Object.assign(memo(TreeNodeOriginal), { Icon });
+const TreeNode = Object.assign(memo(TreeNodeBase), { Icon });
 
 export default TreeNode;

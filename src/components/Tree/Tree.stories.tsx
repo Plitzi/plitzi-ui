@@ -1,5 +1,4 @@
-import { useCallback, useMemo } from 'react';
-import { useArgs } from 'storybook/preview-api';
+import { useCallback, useMemo, useState } from 'react';
 
 import Tree from './Tree';
 
@@ -66,44 +65,39 @@ export const Primary: Story = {
       }
     ]
   },
-  render: function Render(args) {
-    const [{ items, itemsOpened, itemSelected, itemHovered }, updateArgs] = useArgs<typeof args>();
+  render: function Render(argsProp) {
+    const [args, setArgs] = useState(argsProp);
 
-    const handleChange = useCallback(
-      (state: TreeChangeState) => {
-        console.log(state);
-        switch (state.action) {
-          case 'itemsChange':
-            updateArgs({ items: state.data });
-            break;
+    const handleChange = useCallback((state: TreeChangeState) => {
+      console.log(state);
+      switch (state.action) {
+        case 'itemsChange':
+          setArgs(s => ({ ...s, items: state.data }));
+          break;
 
-          case 'itemsOpened':
-            updateArgs({ itemsOpened: state.data });
-            break;
+        case 'itemsOpened':
+          setArgs(s => ({ ...s, itemsOpened: state.data }));
+          break;
 
-          case 'itemChanged':
-            updateArgs({ items: state.data.items });
-            break;
+        case 'itemChanged':
+          setArgs(s => ({ ...s, items: state.data.items }));
+          break;
 
-          case 'itemDragged':
-            updateArgs({
-              items: state.data.items
-            });
-            break;
+        case 'itemDragged':
+          setArgs(s => ({ ...s, items: state.data.items }));
+          break;
 
-          case 'itemHovered':
-            updateArgs({ itemHovered: state.data });
-            break;
+        case 'itemHovered':
+          setArgs(s => ({ ...s, itemHovered: state.data }));
+          break;
 
-          case 'itemSelected':
-            updateArgs({ itemSelected: state.data });
-            break;
+        case 'itemSelected':
+          setArgs(s => ({ ...s, itemSelected: state.data }));
+          break;
 
-          default:
-        }
-      },
-      [updateArgs]
-    );
+        default:
+      }
+    }, []);
 
     const handleCopy = useCallback((e: ClipboardEvent<HTMLDivElement>) => {
       console.log(e, (e.target as HTMLElement).closest('.tree'), (e.target as HTMLElement).closest('.tree-item'));
@@ -111,18 +105,6 @@ export const Primary: Story = {
 
     const controls = useMemo(() => <W />, []);
 
-    return (
-      <Tree
-        {...args}
-        items={items}
-        itemsOpened={itemsOpened}
-        itemSelected={itemSelected}
-        itemHovered={itemHovered}
-        // controlsComponent={Tree.Controls}
-        itemControls={controls}
-        onChange={handleChange}
-        onCopy={handleCopy}
-      />
-    );
+    return <Tree {...args} itemControls={controls} onChange={handleChange} onCopy={handleCopy} />;
   }
 };
