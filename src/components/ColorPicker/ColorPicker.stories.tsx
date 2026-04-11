@@ -20,7 +20,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-  args: {},
+  args: {
+    allowedWords: ['inherit']
+  },
   render: function Render(args) {
     const [value, setValue] = useState('#ff0000');
 

@@ -30,6 +30,7 @@ export type ColorPickerProps = {
   required?: boolean;
   value?: string;
   delayOnChange?: number;
+  allowedWords?: string[];
   onChange?: (value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'size'> &
   useThemeSharedProps<typeof ColorPickerStyles & typeof InputStyles, typeof variantKeys>;
@@ -50,6 +51,7 @@ const ColorPicker = ({
   size,
   intent,
   delayOnChange = 250,
+  allowedWords,
   onChange,
   ...inputProps
 }: ColorPickerProps) => {
@@ -89,13 +91,13 @@ const ColorPicker = ({
   }, []);
 
   const handleBlur = useCallback(() => {
-    if (isValid || (allowVariables && isValidVariable(color))) {
+    if (isValid || (allowVariables && isValidVariable(color)) || allowedWords?.includes(color)) {
       onChange?.(color);
     } else {
       onChange?.('#ffffff');
       setColor('#ffffff');
     }
-  }, [allowVariables, color, isValid, onChange]);
+  }, [allowVariables, allowedWords, color, isValid, onChange]);
 
   return (
     <InputContainer
