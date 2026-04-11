@@ -190,12 +190,12 @@ const Tree = ({
       onDragEnd={handleDragEnd}
       {...divProps}
     >
-      {itemsFiltered.map(item => {
+      {itemsFiltered.map((item, i) => {
         const { id, label, level, parentId, icon = 'fa-solid fa-shapes' } = item;
 
         return (
           <TreeNode
-            key={id}
+            key={`${i}-${id}`}
             id={id}
             parentNodeId={parentId}
             label={label}

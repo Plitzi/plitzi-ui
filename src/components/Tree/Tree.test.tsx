@@ -148,4 +148,119 @@ describe('Tree Tests', () => {
       undefined
     );
   });
+
+  it('moveNode within same parent keeps order stable (top)', () => {
+    const items = [
+      {
+        id: 'p',
+        label: 'Parent',
+        items: [
+          { id: 'a', label: 'A' },
+          { id: 'b', label: 'B' },
+          { id: 'c', label: 'C' }
+        ]
+      }
+    ];
+
+    const flat = getFlatItems(items);
+
+    const res = moveNode('c', 'a', 'top', items, flat);
+    expect(res?.[0].items?.map(i => i.id)).toEqual(['c', 'a', 'b']);
+  });
+
+  it('moveNode within same parent keeps order stable (bottom)', () => {
+    const items = [
+      {
+        id: 'p',
+        label: 'Parent',
+        items: [
+          { id: 'a', label: 'A' },
+          { id: 'b', label: 'B' },
+          { id: 'c', label: 'C' }
+        ]
+      }
+    ];
+
+    const flat = getFlatItems(items);
+
+    const res = moveNode('a', 'b', 'bottom', items, flat);
+    expect(res?.[0].items?.map(i => i.id)).toEqual(['b', 'a', 'c']);
+  });
+
+  it('moveNode into another parent (inside)', () => {
+    const items = [
+      {
+        id: 'p1',
+        label: 'P1',
+        items: [{ id: 'a', label: 'A' }]
+      },
+      {
+        id: 'p2',
+        label: 'P2',
+        items: []
+      }
+    ];
+
+    const flat = getFlatItems(items);
+
+    const res = moveNode('a', 'p2', 'inside', items, flat);
+
+    expect(res?.[0].items).toEqual([]);
+    expect(res?.[1].items?.map(i => i.id)).toEqual(['a']);
+  });
+
+  it('moveNode should not duplicate nodes', () => {
+    const items = [
+      {
+        id: 'p',
+        label: 'Parent',
+        items: [
+          { id: 'a', label: 'A' },
+          { id: 'b', label: 'B' }
+        ]
+      }
+    ];
+
+    const flat = getFlatItems(items);
+
+    const res = moveNode('a', 'b', 'bottom', items, flat);
+
+    const ids = res?.[0].items?.map(i => i.id) || [];
+    const occurrences = ids.filter(id => id === 'a').length;
+
+    expect(occurrences).toBe(1);
+  });
+
+  it('moveNode should return undefined if target not found', () => {
+    const items = [
+      {
+        id: 'p',
+        label: 'Parent',
+        items: [{ id: 'a', label: 'A' }]
+      }
+    ];
+
+    const flat = getFlatItems(items);
+
+    const res = moveNode('a', 'missing', 'top', items, flat);
+    expect(res).toBeUndefined();
+  });
+
+  it('should not move node into itself', () => {
+    const items = [{ id: 'a', label: 'A', items: [{ id: 'b', label: 'B' }] }];
+
+    const flat = getFlatItems(items);
+
+    const res = moveNode('a', 'a', 'inside', items, flat);
+    expect(res).toBeUndefined();
+  });
+
+  it('should not move node into its own child', () => {
+    const items = [{ id: 'a', label: 'A', items: [{ id: 'b', label: 'B' }] }];
+
+    const flat = getFlatItems(items);
+
+    const res = moveNode('a', 'b', 'inside', items, flat);
+    expect(res).toBeUndefined();
+  });
 });

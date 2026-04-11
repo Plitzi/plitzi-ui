@@ -167,6 +167,11 @@ export const moveNode = (
       return;
     }
 
+    const originalIndex = parentNode.items?.findIndex(item => item.id === nodeId) ?? -1;
+    if (parentNode.items && originalIndex !== -1) {
+      parentNode.items.splice(originalIndex, 1);
+    }
+
     // Swap positions
     const toParentFlatNode = flatItems[toFlatNode.parentId ? toFlatNode.parentId : toNodeId];
     if (!toParentFlatNode) {
@@ -182,13 +187,11 @@ export const moveNode = (
     } else if (dropPosition !== 'inside' && toFlatNode.parentId) {
       const toItems = get<TreeItem[], string>(draft, `${toParentFlatNode.path}.items`) as TreeItem[] | undefined;
       if (toItems) {
-        toItems.splice(toItems.findIndex(item => item.id === toNodeId) + (dropPosition === 'top' ? 0 : 1), 0, node);
+        const targetIndex = toItems.findIndex(item => item.id === toNodeId);
+        const insertIndex = targetIndex + (dropPosition === 'top' ? 0 : 1);
+        toItems.splice(insertIndex, 0, node);
         swapped = true;
       }
-    }
-
-    if (swapped) {
-      parentNode.items = parentNode.items?.filter(item => item.id !== nodeId);
     }
   });
 
