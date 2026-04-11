@@ -74,13 +74,15 @@ export default {
         parentSelected: true,
         selected: false,
         intent: 'primary',
-        className: 'bg-primary-100 hover:bg-primary-200 dark:bg-primary-900/20 text-zinc-900 dark:text-zinc-200'
+        className:
+          'bg-primary-100 hover:bg-primary-200 dark:hover:bg-primary-900/40 dark:bg-primary-900/20 text-zinc-900 dark:text-zinc-200'
       },
       {
         parentSelected: true,
         selected: false,
         intent: 'secondary',
-        className: 'bg-secondary-100 hover:bg-secondary-200 dark:bg-secondary-900/20 text-zinc-900 dark:text-zinc-200'
+        className:
+          'bg-secondary-100 hover:bg-secondary-200 dark:hover:bg-secondary-900/40 dark:bg-secondary-900/20 text-zinc-900 dark:text-zinc-200'
       },
       {
         selected: true,
