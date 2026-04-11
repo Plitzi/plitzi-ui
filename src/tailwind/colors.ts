@@ -6,7 +6,7 @@ const paletteColors = {
   'primary-ui': '#8839E6', // elements: borders, icons, indicators
   'primary-text': '#CC96FA', // text: links, labels, active states
   // Primary — raw scale
-  'primary-50': '',
+  'primary-50': '#F6EDFE',
   'primary-100': '#E7CAFC',
   'primary-200': '#CC96FA',
   'primary-300': '#A961F2',
@@ -17,7 +17,7 @@ const paletteColors = {
   'primary-800': '#23007C',
   'primary-900': '#190066',
   // Secondary
-  'secondary-50': '',
+  'secondary-50': '#F2FCFD',
   'secondary-100': '#E0F7F8',
   'secondary-200': '#B3EBED',
   'secondary-300': '#80DEE1',

@@ -74,23 +74,23 @@ export default {
         parentSelected: true,
         selected: false,
         intent: 'primary',
-        className: 'bg-primary-50 dark:bg-primary-900/20 text-zinc-900 dark:text-zinc-200'
+        className: 'bg-primary-100 hover:bg-primary-200 dark:bg-primary-900/20 text-zinc-900 dark:text-zinc-200'
       },
       {
         parentSelected: true,
         selected: false,
         intent: 'secondary',
-        className: 'bg-secondary-50 dark:bg-secondary-900/20 text-zinc-900 dark:text-zinc-200'
+        className: 'bg-secondary-100 hover:bg-secondary-200 dark:bg-secondary-900/20 text-zinc-900 dark:text-zinc-200'
       },
       {
         selected: true,
         intent: 'primary',
-        className: 'bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300'
+        className: 'bg-primary-200 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300'
       },
       {
         selected: true,
         intent: 'secondary',
-        className: 'bg-secondary-100 dark:bg-secondary-900/40 text-secondary-700 dark:text-secondary-300'
+        className: 'bg-secondary-200 dark:bg-secondary-900/40 text-secondary-700 dark:text-secondary-300'
       }
     ],
     defaultVariants: {
