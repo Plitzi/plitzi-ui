@@ -1,6 +1,13 @@
-@use '@components/CodeMirror/Assets' as CodeMirror;
-@use '@components/Markdown/Assets' as Markdown;
-@use '@components/Toast/Assets' as Toast;
-@use '@components/Modal/Assets' as Modal;
+@use '@components/CodeMirror/Assets' as codeMirror;
+@use '@components/Markdown/Assets' as markdown;
+@use '@components/Modal/Assets' as modal;
+@use '@components/Toast/Assets' as toast;
 
 @import '../index.css';
+
+@layer components {
+  @include codeMirror.styles;
+  @include markdown.styles;
+  @include modal.styles;
+  @include toast.styles;
+}
