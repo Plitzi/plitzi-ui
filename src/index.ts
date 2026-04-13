@@ -4,7 +4,6 @@ import * as icons from './icons';
 import * as tailwind from './tailwind';
 import * as utils from './utils';
 
-import './assets/index.css';
 import './assets/scss/index.scss';
 
 export * from './helpers';

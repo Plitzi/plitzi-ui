@@ -4,6 +4,6 @@
 /* @import 'tailwindcss/preflight.css' layer(base); */
 @import 'tailwindcss/utilities.css' layer(utilities);
 
-@config '../../tailwind.config.js';
-
 @plugin '@tailwindcss/forms';
+
+@config '../../tailwind.config.js';
