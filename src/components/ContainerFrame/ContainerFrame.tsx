@@ -35,7 +35,7 @@ const ContainerFrame = ({
   id = '',
   css = '',
   style,
-  zoom = 1.0,
+  zoom = 1,
   assets,
   viewport = 'width=device-width, initial-scale=1',
   children,
@@ -142,7 +142,7 @@ const ContainerFrame = ({
   useEffect(() => {
     if (myDocument) {
       // eslint-disable-next-line react-hooks/immutability
-      myDocument.body.style.zoom = `${zoom}`;
+      myDocument.body.style.zoom = zoom === 1 ? '' : `${zoom}`;
     }
   }, [myDocument, zoom]);
 
