@@ -39,14 +39,15 @@ export default {
   }),
   trigger: cva('w-full'),
   placeholder: cva('text-zinc-400 dark:text-zinc-500 select-none'),
+  value: cva('text-zinc-70 dark:text-zinc-300'),
   searchInput: cva(''),
   list: cva('max-h-60 overflow-y-auto'),
   listPopup: cva('flex flex-col w-full', {
     variants: {
       size: {
-        md: 'p-1.5',
-        sm: 'p-1',
-        xs: 'p-1',
+        md: 'p-1.5 gap-2',
+        sm: 'p-1 gap-1.5',
+        xs: 'p-1 gap-1',
         custom: ''
       }
     },
@@ -55,8 +56,34 @@ export default {
       size: 'md'
     }
   }),
-  listPopupInner: cva('flex flex-col w-full'),
-  listMessage: cva('text-zinc-400 dark:text-zinc-500 flex items-center justify-center shrink-0 py-3 text-sm'),
+  listPopupInner: cva('flex flex-col w-full', {
+    variants: {
+      size: {
+        md: 'gap-2',
+        sm: 'gap-1.5',
+        xs: 'gap-1',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
+  listMessage: cva('text-zinc-400 dark:text-zinc-500 flex items-center justify-center shrink-0', {
+    variants: {
+      size: {
+        md: 'py-2',
+        sm: 'py-1.5 text-sm',
+        xs: 'py-1 text-xs',
+        custom: ''
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      size: 'md'
+    }
+  }),
   listGroup: cva(
     '[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-200 dark:[&:not(:last-child)]:border-zinc-700',
     {

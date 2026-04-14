@@ -91,7 +91,16 @@ const Select2 = (props: Select2Props) => {
   const [open, setOpen] = useState(openProp);
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
-    componentKey: ['root', 'listPopup', 'listPopupInner', 'inputContainer', 'placeholder', 'listMessage', 'trigger'],
+    componentKey: [
+      'root',
+      'listPopup',
+      'listPopupInner',
+      'inputContainer',
+      'placeholder',
+      'listMessage',
+      'trigger',
+      'value'
+    ],
     variants: { size }
   });
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -292,7 +301,8 @@ const Select2 = (props: Select2Props) => {
             <div
               className={clsx('truncate select-none', {
                 'mr-8': !!error || loading,
-                [classNameTheme.placeholder]: !optionSelected?.label
+                [classNameTheme.placeholder]: !optionSelected?.label,
+                [classNameTheme.value]: !!optionSelected?.label
               })}
               title={optionSelected?.label ?? placeholder}
             >
@@ -333,7 +343,7 @@ const Select2 = (props: Select2Props) => {
           )}
           {!loading && allowCreateOptions && search && (
             <ListItem
-              className="mt-1 bg-slate-100 text-blue-500 dark:bg-zinc-700 dark:text-blue-400"
+              className="bg-slate-100 text-blue-500 dark:bg-zinc-700 dark:text-blue-400"
               prefix="Create:"
               size={size}
               label={search}
