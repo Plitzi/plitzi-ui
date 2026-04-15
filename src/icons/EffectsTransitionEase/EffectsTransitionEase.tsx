@@ -1,4 +1,6 @@
-const EffectsTransitionEase = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const EffectsTransitionEase = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <circle fill="currentColor" fillRule="evenodd" cx="2.318" cy="2.345" r="1.779" />
     <path

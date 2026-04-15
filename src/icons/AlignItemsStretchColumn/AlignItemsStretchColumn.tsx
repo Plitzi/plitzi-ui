@@ -1,4 +1,6 @@
-const AlignItemsStretchColumn = (props: { [key: string]: unknown }) => {
+import type { SVGAttributes } from 'react';
+
+const AlignItemsStretchColumn = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 16 16">
       <path fill="currentColor" stroke="currentColor" d="M2.5 3.5h11v3h-11zm0 5h11v3h-11z" />

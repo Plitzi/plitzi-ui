@@ -1,4 +1,6 @@
-const PageOverview = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const PageOverview = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16" fill="none">
     <path
       d="M0 3.125C0 2.29657 0.671573 1.625 1.5 1.625H3.5C4.32843 1.625 5 2.29657 5 3.125V12.875C5 13.7034 4.32843 14.375 3.5 14.375H1.5C0.671573 14.375 0 13.7034 0 12.875V3.125Z"

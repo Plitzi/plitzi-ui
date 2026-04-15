@@ -93,7 +93,7 @@ export const SvgIcon: Story = {
   args: {},
   render: args => (
     <Icon {...args}>
-      <DesktopWithMobile />
+      <DesktopWithMobile className="w-4 h-4" />
     </Icon>
   )
 };

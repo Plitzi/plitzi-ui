@@ -1,4 +1,6 @@
-const BorderStyleDotted = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const BorderStyleDotted = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path fill="currentColor" d="M1 7h2v2H1zm4 0h2v2H5zm4 0h2v2H9zm4 0h2v2h-2z" />
   </svg>

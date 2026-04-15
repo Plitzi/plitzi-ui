@@ -1,4 +1,6 @@
-const AlignItemsStartColumn = (props: { [key: string]: unknown }) => {
+import type { SVGAttributes } from 'react';
+
+const AlignItemsStartColumn = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 16 16">
       <path fill="currentColor" stroke="currentColor" d="M2.5 3.5h7v3h-7zm0 5h5v3h-5z" />

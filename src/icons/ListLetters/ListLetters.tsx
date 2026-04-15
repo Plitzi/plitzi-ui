@@ -1,4 +1,6 @@
-const ListLetters = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const ListLetters = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg
     {...props}
     viewBox="0 0 24 24"

@@ -1,4 +1,6 @@
-const ClearLeft = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const ClearLeft = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path opacity=".6" fill="currentColor" d="M1 3h4v4H1z" />
     <path fill="currentColor" d="M7 3h8v4H7z" />

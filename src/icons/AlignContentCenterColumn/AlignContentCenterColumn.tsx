@@ -1,4 +1,6 @@
-const AlignContentCenterColumn = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const AlignContentCenterColumn = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path fill="currentColor" d="M7 16V0h1v16z" />
     <path fill="currentColor" stroke="currentColor" d="M2.5 11.5v-3h3v3zm0-5v-3h3v3zm7 5v-3h3v3zm0-5v-3h3v3z" />

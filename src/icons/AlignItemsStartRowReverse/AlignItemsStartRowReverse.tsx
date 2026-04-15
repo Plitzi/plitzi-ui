@@ -1,4 +1,6 @@
-const AlignItemsStartRowReverse = (props: { [key: string]: unknown }) => {
+import type { SVGAttributes } from 'react';
+
+const AlignItemsStartRowReverse = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 16 16">
       <path fill="currentColor" d="M16 0H0v1h16z" />

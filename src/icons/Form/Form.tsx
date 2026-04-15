@@ -1,4 +1,6 @@
-const Form = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const Form = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 19 18" fill="none">
     <path
       fillRule="evenodd"

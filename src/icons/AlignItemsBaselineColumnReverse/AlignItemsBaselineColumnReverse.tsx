@@ -1,4 +1,6 @@
-const AlignItemsBaselineColumnReverse = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const AlignItemsBaselineColumnReverse = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path fill="currentColor" d="M7 16h1V0H7z" />
     <path

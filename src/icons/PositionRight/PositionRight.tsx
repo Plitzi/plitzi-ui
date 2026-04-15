@@ -1,4 +1,6 @@
-const PositionRight = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const PositionRight = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 15 15">
     <path fill="currentColor" d="M8 3h4v9H8z" />
     <path opacity=".3" fill="currentColor" d="M2 13V2h11v11H2M14 1H1v13h13V1" />

@@ -1,4 +1,6 @@
-const MarginTop = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const MarginTop = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path opacity=".6" fill="currentColor" d="M2 9h12v7H2z" />
     <path

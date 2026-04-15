@@ -1,4 +1,6 @@
-const DesktopWithMobile = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const DesktopWithMobile = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 19 18" fill="none">
     <path
       d="M1.40002 3.8C1.40002 2.80719 2.20721 2 3.20002 2H15.8C16.7928 2 17.6 2.80719 17.6 3.8V5H15.8V3.8H3.20002V11.9H9.5V13.7V14.6C9.5 14.5 9.5 15.0022 9.5 15.5V16.4H5.90002C5.40221 16.4 5.00002 15.9978 5.00002 15.5C5.00002 15.0022 5.40221 14.6 5.90002 14.6H7.84909L8.15002 13.7H3.20002C2.20721 13.7 1.40002 12.8928 1.40002 11.9V3.8Z"

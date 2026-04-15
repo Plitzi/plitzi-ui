@@ -1,4 +1,6 @@
-const PageOverviewZoom = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const PageOverviewZoom = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 18 18" fill="none">
     <path
       d="M4.44615 4.04762C4.44615 3.20604 5.10739 2.52381 5.92308 2.52381H12.3231C13.1388 2.52381 13.8 3.20604 13.8 4.04762V13.9524C13.8 14.794 13.1388 15.4762 12.3231 15.4762H5.92308C5.10739 15.4762 4.44615 14.794 4.44615 13.9524V4.04762Z"

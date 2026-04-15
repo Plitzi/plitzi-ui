@@ -1,4 +1,6 @@
-const PaddingTop = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const PaddingTop = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path opacity=".6" fillRule="evenodd" clipRule="evenodd" d="M16 0H0v16h16V0zm-1 1H1v14h14V1z" fill="currentColor" />
     <path

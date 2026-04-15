@@ -1,4 +1,6 @@
-const AlignItemsBaselineRowReverse = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const AlignItemsBaselineRowReverse = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path fill="currentColor" d="M16 7H0v1h16z" />
     <path

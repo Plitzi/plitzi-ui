@@ -1,4 +1,6 @@
-const TextDirectionRtl = (props: { [key: string]: unknown }) => (
+import type { SVGAttributes } from 'react';
+
+const TextDirectionRtl = (props: { [key: string]: unknown } & SVGAttributes<HTMLOrSVGElement>) => (
   <svg {...props} viewBox="0 0 16 16">
     <path fillRule="evenodd" clipRule="evenodd" d="M0 13l3-3v2h10v2H3v2l-3-3z" fill="currentColor" />
     <path
