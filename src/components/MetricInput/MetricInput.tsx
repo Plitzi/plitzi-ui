@@ -103,7 +103,10 @@ const MetricInput = ({
         return;
       }
 
-      if (!Number.isNaN(newValue) && (Number(newValue) < min || (max !== Infinity && Number(newValue) > max))) {
+      if (
+        !Number.isNaN(newValue) &&
+        ((Number(newValue) < min && min !== Infinity) || (max !== Infinity && Number(newValue) > max))
+      ) {
         return;
       }
 
