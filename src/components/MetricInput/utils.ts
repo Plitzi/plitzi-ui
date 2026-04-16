@@ -38,9 +38,9 @@ export const generateRegexFromWord = (words?: string | string[], asSubRegex = fa
 export const generateMetricRegex = (units: { value: string; label: string }[], allowedWords?: string[]) => {
   const allowedWordsRegex =
     allowedWords && allowedWords.length > 0 ? generateRegexFromWord(allowedWords, true) : undefined;
-  let amountRegex = '(?<amount>[0-9]+(\\.|\\.[0-9]+|))';
+  let amountRegex = '(?<amount>[0-9-]+(\\.|\\.[0-9]+|))';
   if (allowedWordsRegex) {
-    amountRegex = `(?<amount>([0-9]+(\\.|\\.[0-9]+|)|${allowedWordsRegex.source}))`;
+    amountRegex = `(?<amount>([0-9-]+(\\.|\\.[0-9]+|)|${allowedWordsRegex.source}))`;
   }
 
   if (units.length > 0) {

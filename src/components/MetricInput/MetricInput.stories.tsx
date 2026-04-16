@@ -41,7 +41,16 @@ export const Primary: Story = {
 
     return (
       <div className="flex flex-col gap-4 items-center justify-center">
-        <MetricInput {...args} size="md" value={value} onChange={handleChange} max={50} step={0.2} allowVariables>
+        <MetricInput
+          {...args}
+          size="md"
+          value={value}
+          onChange={handleChange}
+          min={-50}
+          max={50}
+          step={0.2}
+          allowVariables
+        >
           <MetricInput.Icon icon="fa-solid fa-check" />
         </MetricInput>
         <MetricInput {...args} size="sm">

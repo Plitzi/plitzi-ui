@@ -188,7 +188,7 @@ const MetricInput = ({
 
           break;
         case 'ArrowDown':
-          if (newValue - step >= min && newValue - step >= 0) {
+          if (newValue - step >= min || min === Infinity) {
             newValue = Number((newValue - step).toFixed(countDecimals(step)));
           }
 
