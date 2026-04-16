@@ -83,7 +83,7 @@ export default {
       size: 'md'
     }
   }),
-  alpha: cva('block whitespace-nowrap truncate basis-0 grow', {
+  alpha: cva('block whitespace-nowrap truncate basis-0 grow text-zinc-900 dark:text-zinc-200', {
     variants: {
       size: {
         md: '',
