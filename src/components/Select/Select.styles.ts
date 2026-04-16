@@ -10,10 +10,10 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Select';
 
 export default {
-  input: cva('py-0 pl-0 border-0 outline-none focus:ring-0 w-full truncate text-zinc-900 dark:text-zinc-500', {
+  input: cva('py-0 pl-0 border-0 outline-none focus:ring-0 w-full truncate', {
     variants: {
       intent: {
-        primary: 'bg-white dark:bg-zinc-800 dark:text-zinc-200',
+        primary: 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200',
         custom: ''
       },
       error: {

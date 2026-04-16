@@ -55,7 +55,7 @@ export default {
   input: cva('p-0 border-0 outline-none focus:ring-0 basis-0 grow min-w-2', {
     variants: {
       intent: {
-        primary: 'bg-white dark:bg-zinc-800 dark:text-zinc-200'
+        primary: 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200'
       },
       size: {
         md: 'text-base',
