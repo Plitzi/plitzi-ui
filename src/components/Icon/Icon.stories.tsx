@@ -92,8 +92,49 @@ export const AsChildren: Story = {
 export const SvgIcon: Story = {
   args: {},
   render: args => (
-    <Icon {...args}>
-      <DesktopWithMobile className="w-4 h-4" />
-    </Icon>
+    <Flex items="center" gap={2}>
+      <Icon {...args} size="xs">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="sm">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="md">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="lg">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="2xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="3xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="4xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="5xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="6xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="7xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="8xl">
+        <DesktopWithMobile />
+      </Icon>
+      <Icon {...args} size="9xl">
+        <DesktopWithMobile />
+      </Icon>
+    </Flex>
+    // <Icon {...args}>
+    //   <DesktopWithMobile />
+    // </Icon>
   )
 };

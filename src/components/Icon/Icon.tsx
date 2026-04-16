@@ -56,8 +56,8 @@ const Icon = ({
       }
 
       components.iconChildren = cloneElement<childProps>(child as ReactElement<childProps>, {
-        className: clsx(className, (child.props as childProps).className),
         ...props,
+        className: clsx(className, 'h-[1em] w-[1em]', (child.props as childProps).className),
         title
       });
     });

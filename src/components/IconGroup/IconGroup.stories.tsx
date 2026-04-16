@@ -30,7 +30,7 @@ export const Primary: Story = {
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon>
-          <img src="https://cdn.plitzi.com/resources/img/favicon.svg" className="w-6 h-6" alt="Plitzi" />
+          <img src="https://cdn.plitzi.com/resources/img/favicon.svg" alt="Plitzi" />
         </IconGroup.Icon>
       </IconGroup>
       <IconGroup {...args} size="xs">
@@ -57,6 +57,9 @@ export const Primary: Story = {
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
+        <IconGroup.Icon>
+          <img src="https://cdn.plitzi.com/resources/img/favicon.svg" alt="Plitzi" />
+        </IconGroup.Icon>
       </IconGroup>
       <IconGroup {...args} size="2xl">
         <IconGroup.Icon icon="fa-solid fa-rocket" />
@@ -92,6 +95,10 @@ export const Primary: Story = {
         <IconGroup.Icon icon="fa-solid fa-rocket" active />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
         <IconGroup.Icon icon="fa-solid fa-rocket" />
+        <IconGroup.Icon>
+          <img src="https://cdn.plitzi.com/resources/img/favicon.svg" alt="Plitzi" />
+        </IconGroup.Icon>
+        <IconGroup.Icon>Text here</IconGroup.Icon>
       </IconGroup>
     </Flex>
   )
