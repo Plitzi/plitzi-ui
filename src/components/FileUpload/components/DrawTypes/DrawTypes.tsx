@@ -30,7 +30,9 @@ const DrawTypes = ({ className = '', minSize = 0, maxSize = Infinity, types = ty
   return (
     <div title={title} className={className}>
       {types.join(', ')}
-      {maxSize && maxSize !== Infinity && <span className="inline-block uppercase mx-1">({bytesToSize(maxSize)})</span>}
+      {maxSize && maxSize !== Infinity && (
+        <span className="inline-block uppercase mx-1 text-inherit">({bytesToSize(maxSize)})</span>
+      )}
     </div>
   );
 };

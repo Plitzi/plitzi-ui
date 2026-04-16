@@ -41,7 +41,7 @@ export default {
       size: 'md'
     }
   }),
-  input: cva('w-full ring-0 outline-0', {
+  input: cva('w-full ring-0 outline-0 text-zinc-900 dark:text-zinc-200', {
     variants: {
       disabled: {
         true: 'cursor-not-allowed',

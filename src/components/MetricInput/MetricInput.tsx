@@ -238,7 +238,7 @@ const MetricInput = ({
             <div className={classNameTheme.divider} />
           </>
         )}
-        {prefix && <div>{prefix}</div>}
+        {!!prefix && prefix}
         <input
           ref={ref}
           type={type}

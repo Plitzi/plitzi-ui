@@ -105,7 +105,7 @@ const InputContainer = ({
       )}
       <div className={classNameTheme.inputContainer}>
         {iconChildren}
-        {prefix && <div>{prefix}</div>}
+        {!!prefix && prefix}
         {!inline && inputChildren}
         {inline && (
           <Label
