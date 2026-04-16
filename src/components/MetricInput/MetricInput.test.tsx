@@ -61,6 +61,14 @@ describe('MetricInput', () => {
     expect(onChange).toHaveBeenLastCalledWith('12px');
   });
 
+  it('accepts valid negative numeric value', async () => {
+    const { input, onChange } = setup({ min: -20 });
+
+    await user.type(input, '-12');
+
+    expect(onChange).toHaveBeenLastCalledWith('-12px');
+  });
+
   it('rejects non-numeric input', async () => {
     const { input, onChange } = setup();
 
@@ -167,7 +175,9 @@ describe('MetricInput', () => {
 
     await user.type(input, 'var(--x)');
 
-    expect(onChange).not.toHaveBeenCalled();
+    expect(onChange).toHaveBeenLastCalledWith('-px');
+    fireEvent.blur(input);
+    expect(onChange).toHaveBeenLastCalledWith('');
   });
 
   /* ---------------------------------------------------
@@ -247,6 +257,8 @@ describe('MetricInput', () => {
 
     await user.type(input, '--');
 
-    expect(onChange).not.toHaveBeenCalled();
+    expect(onChange).toHaveBeenLastCalledWith('-px');
+    fireEvent.blur(input);
+    expect(onChange).toHaveBeenLastCalledWith('');
   });
 });

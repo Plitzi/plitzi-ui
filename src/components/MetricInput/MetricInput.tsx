@@ -129,6 +129,12 @@ const MetricInput = ({
       return;
     }
 
+    if (value === '-') {
+      onChange?.('');
+
+      return;
+    }
+
     // if (!value) {
     //   onChange?.('');
     //   return;
