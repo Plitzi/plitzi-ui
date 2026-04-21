@@ -20,8 +20,9 @@ const FormConditional = <T extends FieldValues, TName extends FieldPath<T>>({
   const { control } = useFormContext<T>();
   const value = useWatch({ control: controlProp ? controlProp : control, name: when });
 
-  const shouldRender = useMemo(() => {
+  const shouldRender = useMemo<boolean>(() => {
     if (typeof is === 'function') {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       return (is as (value: FieldPathValue<T, TName>) => boolean)(value);
     }
 
@@ -29,7 +30,7 @@ const FormConditional = <T extends FieldValues, TName extends FieldPath<T>>({
       return (is as FieldPathValue<T, TName>[]).includes(value);
     }
 
-    return value === (is as FieldPathValue<T, TName>);
+    return value === is;
   }, [value, is]);
 
   return shouldRender ? children : undefined;

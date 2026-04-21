@@ -23,6 +23,7 @@ const ContainerShadowLink = ({
 
   useEffect(() => {
     onRegister?.(ref);
+
     setIsRegistered(true);
 
     return () => {

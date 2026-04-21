@@ -80,7 +80,7 @@ const TextArea = ({
         disabled={disabled}
         value={value}
         onChange={handleChange}
-        {...(textareaProps as React.JSX.IntrinsicElements['textarea'])}
+        {...textareaProps}
       />
     </InputContainer>
   );

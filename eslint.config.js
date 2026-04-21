@@ -36,6 +36,8 @@ export default tsEslint.config({
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
+    'react-hooks/set-state-in-effect': 'off',
+    'react-hooks/refs': 'off',
     'no-useless-assignment': 'off',
     '@typescript-eslint/no-deprecated': 'off',
     '@typescript-eslint/consistent-type-imports': [

@@ -47,7 +47,7 @@ const RuleValue = ({
   const [errorInternal, setErrorInternal] = useState<string | boolean | undefined>(error);
 
   const handleChangeCheckbox = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => onChange?.((e.target as HTMLInputElement).checked),
+    (e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.checked),
     [onChange]
   );
 

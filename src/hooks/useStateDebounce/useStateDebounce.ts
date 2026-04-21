@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/refs */
-
 import { useCallback, useMemo, useState, useRef } from 'react';
 
 import { debounce } from '@/helpers/lodash';

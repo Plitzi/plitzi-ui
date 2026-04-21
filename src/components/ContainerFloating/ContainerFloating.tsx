@@ -80,7 +80,7 @@ const ContainerFloating = ({
             testId: testId ? `${testId}-trigger` : undefined,
             onClick: handleClickTrigger,
             ...childProps,
-            ref: triggerRef as RefObject<HTMLDivElement>
+            ref: triggerRef
           }
         );
       } else if (child.type === ContainerFloatingContent) {
@@ -102,7 +102,7 @@ const ContainerFloating = ({
   const containerFloatingContextValue = useMemo<ContainerFloatingContextValue>(
     () => ({
       placement,
-      triggerRef: triggerRef as RefObject<HTMLDivElement>,
+      triggerRef: triggerRef,
       container,
       containerTopOffset,
       containerLeftOffset,

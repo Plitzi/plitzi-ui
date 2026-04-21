@@ -21,7 +21,7 @@ beforeAll(() => {
     takeRecords() {
       return [];
     }
-  } as typeof IntersectionObserver;
+  };
 });
 
 describe('CodeMirror', () => {

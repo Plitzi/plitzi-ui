@@ -146,5 +146,5 @@ export function debounce<F extends (...args: any[]) => any>(
 
   debounced.pending = () => timerId !== undefined;
 
-  return debounced as DebouncedFunction<F>;
+  return debounced;
 }

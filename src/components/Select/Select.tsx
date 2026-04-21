@@ -12,7 +12,7 @@ import type { SelectOptionProps } from './SelectOption';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type InputStyles from '@components/Input/Input.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, ReactNode, RefObject, SelectHTMLAttributes, JSX, HTMLAttributes } from 'react';
+import type { ChangeEvent, ReactNode, RefObject, SelectHTMLAttributes, HTMLAttributes } from 'react';
 
 export type SelectProps = {
   ref?: RefObject<HTMLSelectElement>;
@@ -102,7 +102,7 @@ const BaseSelect = ({
         disabled={disabled || loading}
         value={value}
         onChange={handleChange}
-        {...(inputProps as JSX.IntrinsicElements['select'])}
+        {...inputProps}
       >
         {placeholder && (
           <option key="select-placeholder" value="">

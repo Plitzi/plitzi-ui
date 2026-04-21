@@ -177,7 +177,9 @@ const ContainerDraggable = ({
       window.addEventListener('mousemove', handleMouseMove, false);
       window.addEventListener('mouseup', handleMouseUp, false);
 
+      // eslint-disable-next-line react-hooks/immutability
       window.addEventListener('touchmove', handleTouchMove, false);
+      // eslint-disable-next-line react-hooks/immutability
       window.addEventListener('touchend', handleTouchEnd, false);
     }
 

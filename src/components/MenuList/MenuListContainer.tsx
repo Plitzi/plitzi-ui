@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import clsx from 'clsx';
 import { use, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';

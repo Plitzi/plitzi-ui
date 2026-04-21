@@ -10,7 +10,7 @@ import type { variantKeys } from './Input.styles';
 import type { InputContainerProps } from './InputContainer';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject, JSX } from 'react';
+import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type InputProps = {
   ref?: RefObject<HTMLInputElement>;
@@ -92,7 +92,7 @@ const BaseInput = ({
         disabled={disabled || loading}
         value={value}
         onChange={handleChange}
-        {...(inputProps as JSX.IntrinsicElements['input'])}
+        {...inputProps}
       />
     </InputContainer>
   );

@@ -44,7 +44,7 @@ export const Primary: Story = {
     return (
       <div className="p-10 flex flex-col w-full gap-10">
         <FileUpload
-          {...(args as Omit<typeof args, 'onDrop'>)}
+          {...args}
           multiple
           value={value as File[]}
           error={error}
@@ -52,7 +52,7 @@ export const Primary: Story = {
           onError={handleError}
         />
         <FileUpload
-          {...(args as Omit<typeof args, 'onDrop'>)}
+          {...args}
           multiple={false}
           value={value as File}
           error={error}
@@ -61,7 +61,7 @@ export const Primary: Story = {
           size="sm"
         />
         <FileUpload
-          {...(args as Omit<typeof args, 'onDrop'>)}
+          {...args}
           multiple={false}
           value={value as File}
           error={error}
@@ -70,7 +70,7 @@ export const Primary: Story = {
           size="xs"
         />
         <FileUpload
-          {...(args as Omit<typeof args, 'onDrop'>)}
+          {...args}
           multiple
           value={value as File[]}
           error={error}
@@ -79,7 +79,7 @@ export const Primary: Story = {
           canDragAndDrop
         />
         <FileUpload
-          {...(args as Omit<typeof args, 'onDrop'>)}
+          {...args}
           multiple={false}
           value={value as File}
           error={error}
@@ -89,7 +89,7 @@ export const Primary: Story = {
           canDragAndDrop
         />
         <FileUpload
-          {...(args as Omit<typeof args, 'onDrop'>)}
+          {...args}
           multiple={false}
           value={value as File}
           error={error}

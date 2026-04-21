@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/refs */
 import { useCallback, useRef, useState } from 'react';
 
 import { isFunction } from '@/helpers/utils';

@@ -19,7 +19,6 @@ import useTheme from '@hooks/useTheme';
 import type MarkdownStyles from './Markdown.styles';
 import type { variantKeys } from './Markdown.styles';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { CSSProperties } from 'react';
 import type { SyntaxHighlighterProps } from 'react-syntax-highlighter';
 
 export type MarkdownProps = {
@@ -62,7 +61,7 @@ const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers 
                   {...(omit(rest, ['node']) as SyntaxHighlighterProps)}
                   PreTag="div"
                   language={match[1]}
-                  style={vscDarkPlus as { [key: string]: CSSProperties }}
+                  style={vscDarkPlus}
                   wrapLines={wrapLines}
                   showLineNumbers={showLineNumbers}
                   children={typeof children === 'string' ? children.replace(/\n$/, '') : ''}

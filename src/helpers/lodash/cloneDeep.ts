@@ -16,8 +16,8 @@ export function cloneDeep<T>(value: T, seen = new WeakMap<object, any>()): T {
   }
 
   // Handle cycles
-  if (seen.has(value as object)) {
-    return seen.get(value as object);
+  if (seen.has(value)) {
+    return seen.get(value);
   }
 
   // Handle Date

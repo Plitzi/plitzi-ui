@@ -3,7 +3,6 @@ import { useArgs } from 'storybook/preview-api';
 import { defaultCombinators, defaultOperators, defaultValidator } from './helpers/QueryBuilderContants';
 import QueryBuilder from './QueryBuilder';
 
-import type { RuleGroup } from './QueryBuilder';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
@@ -90,7 +89,7 @@ export const BasicUsage: Story = {
           value: ''
         }
       ]
-    } as RuleGroup,
+    },
     fields: {
       firstName: {
         name: 'firstName',
@@ -242,7 +241,7 @@ export const BasicUsageVertical: Story = {
           value: ''
         }
       ]
-    } as RuleGroup,
+    },
     fields: {
       firstName: {
         name: 'firstName',
@@ -382,7 +381,7 @@ export const FieldsWithGroup: Story = {
           value: '1954-10-03,1960-06-06'
         }
       ]
-    } as RuleGroup,
+    },
     fields: {
       firstName: {
         name: 'firstName',

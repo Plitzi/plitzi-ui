@@ -1,4 +1,4 @@
-import { Children, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { Children, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import useTheme from '@hooks/useTheme';
@@ -51,13 +51,7 @@ const ContainerFrame = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useImperativeHandle<HTMLIFrameElement | null, HTMLIFrameElement | null>(ref, () => iframeRef.current, [iframeRef]);
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const myDocument = useMemo(() => {
-    if (!iframeLoaded) {
-      return undefined;
-    }
-
-    return iframeRef.current?.contentDocument;
-  }, [iframeLoaded]);
+  const [myDocument, setMyDocument] = useState<Document | null | undefined>(null);
 
   const loadAssets = useCallback((assets: Record<string, Asset>, head: HTMLHeadElement, documentInstance: Document) => {
     const assetsLoaded = [...head.childNodes];
@@ -137,6 +131,7 @@ const ContainerFrame = ({
 
     onLoad?.(iframeRef.current);
     setIframeLoaded(true);
+    setMyDocument(iframeRef.current?.contentDocument);
   }, [iframeLoaded, onLoad]);
 
   useEffect(() => {

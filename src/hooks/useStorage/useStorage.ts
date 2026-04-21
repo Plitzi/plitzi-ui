@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/refs */
 import { produce } from 'immer';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 

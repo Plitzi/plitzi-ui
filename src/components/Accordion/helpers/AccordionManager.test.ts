@@ -4,10 +4,9 @@ import AccordionManager from './AccordionManager';
 
 import type { RefObject } from 'react';
 
-const createRef = (height = 100): RefObject<HTMLElement> =>
-  ({
-    current: { offsetHeight: height, style: {}, compareDocumentPosition: () => 0 } as unknown as HTMLElement
-  }) as RefObject<HTMLElement>;
+const createRef = (height = 100): RefObject<HTMLElement> => ({
+  current: { offsetHeight: height, style: {}, compareDocumentPosition: () => 0 } as unknown as HTMLElement
+});
 
 describe('AccordionManager', () => {
   let containerRef: RefObject<HTMLElement>;

@@ -126,6 +126,7 @@ const useCodeMirror = ({
         state: EditorState.create({ doc: value, extensions: myExtensions }),
         parent: element
       });
+
       setView(viewInternal);
     }
 

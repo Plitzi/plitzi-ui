@@ -73,6 +73,7 @@ const PopupProvider = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const popupManager = useMemo(() => new PopupManager(['left', 'right', 'floating'], popups, { multi }), [multi]);
   const onChangeRef = useRef(onChange);
+
   onChangeRef.current = onChange;
 
   useDidUpdateEffect(() => {
@@ -91,7 +92,7 @@ const PopupProvider = ({
   }, [popupManager]);
 
   const addPopup = useCallback(
-    (id: string, component: ReactNode, settings: PopupSettings = {} as PopupSettings, active: boolean = true) => {
+    (id: string, component: ReactNode, settings: PopupSettings = {}, active: boolean = true) => {
       if (!settings.placement) {
         return;
       }

@@ -35,7 +35,7 @@ const Icon = ({
   title,
   ...props
 }: IconProps) => {
-  className = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
+  const classNameTheme = useTheme<typeof IconStyles, typeof variantKeys>('Icon', {
     className,
     componentKey: 'root',
     variants: {
@@ -57,19 +57,23 @@ const Icon = ({
 
       components.iconChildren = cloneElement<childProps>(child as ReactElement<childProps>, {
         ...props,
-        className: clsx({ 'h-[1em] w-[1em]': size !== 'custom' }, className, (child.props as childProps).className),
+        className: clsx(
+          { 'h-[1em] w-[1em]': size !== 'custom' },
+          classNameTheme,
+          (child.props as childProps).className
+        ),
         title
       });
     });
 
     return components;
-  }, [children, className, props, size, title]);
+  }, [children, classNameTheme, props, size, title]);
 
   if (iconChildren) {
     return iconChildren;
   }
 
-  return <i {...props} title={title} data-testid={testId} className={clsx(icon, className)} />;
+  return <i {...props} title={title} data-testid={testId} className={clsx(icon, classNameTheme)} />;
 };
 
 export default Icon;

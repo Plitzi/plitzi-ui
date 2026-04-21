@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/preserve-manual-memoization */
 import { produce } from 'immer';
 import { useCallback, use, useMemo, useState } from 'react';
 
@@ -65,11 +66,11 @@ const useCache = <T = unknown>({
 
   const setCache = useCallback(
     (value: Record<string, T>, path = '') => {
-      const currentState = getCache() as Record<string, T>;
+      const currentState = getCache();
       let newState = currentState;
       if (path) {
         newState = produce(newState, draft => {
-          set(draft, path, value);
+          set(draft as Record<string, unknown>, path, value);
         });
       } else {
         newState = value;

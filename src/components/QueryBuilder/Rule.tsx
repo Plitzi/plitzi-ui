@@ -68,7 +68,7 @@ const Rule = ({
     }, []);
 
     if (fieldsAux.length === 1) {
-      return get(fieldsAux, '0.options', []) as Option[];
+      return get(fieldsAux, '0.options', []);
     }
 
     return fieldsAux;

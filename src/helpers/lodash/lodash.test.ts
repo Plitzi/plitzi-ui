@@ -1460,8 +1460,7 @@ describe('has', () => {
   });
 
   it('handles null or undefined object', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect(has(null as unknown as Record<string, any>, 'a.b')).toBe(false);
+    expect(has(null, 'a.b')).toBe(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(has(undefined as unknown as Record<string, any>, 'a')).toBe(false);
   });
@@ -1853,9 +1852,8 @@ describe('cloneDeep', () => {
     // Nested objects and arrays are cloned
     expect(cloned.b).not.toBe(complex.b);
     // Type guard for b[1]
-    type BElement = number | { x: number; y: number[] };
-    const clonedB1 = cloned.b[1] as BElement;
-    const originalB1 = complex.b[1] as BElement;
+    const clonedB1 = cloned.b[1];
+    const originalB1 = complex.b[1];
     if (typeof clonedB1 !== 'number' && typeof originalB1 !== 'number') {
       expect(clonedB1).not.toBe(originalB1);
       expect(clonedB1.y).not.toBe(originalB1.y);
@@ -1878,8 +1876,8 @@ describe('cloneDeep', () => {
     // Nested deep arrays in objects
     expect(cloned.i[0].j).not.toBe(complex.i[0].j);
     // Replace the last line in 'handles complex nested structures' test with a type-safe check
-    const nestedSecond = cloned.i[1].l?.[0] as { m: number } | undefined;
-    const originalSecond = complex.i[1].l?.[0] as { m: number } | undefined;
+    const nestedSecond = cloned.i[1].l?.[0];
+    const originalSecond = complex.i[1].l?.[0];
     if (nestedSecond && originalSecond) {
       expect(nestedSecond).not.toBe(originalSecond);
     }

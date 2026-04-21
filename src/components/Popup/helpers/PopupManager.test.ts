@@ -2,8 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 
 import PopupManager from './PopupManager';
 
-import type { PopupStore } from './PopupManager';
-import type { PopupPlacement, PopupSettings } from '../Popup';
+import type { PopupPlacement } from '../Popup';
 import type { PopupInstance, Popups } from '../PopupProvider';
 
 /* ---------- helpers ---------- */
@@ -20,7 +19,7 @@ const createPopup = (
     right: { position, multi },
     floating: { position, multi }
   },
-  settings: {} as PopupSettings
+  settings: {}
 });
 
 /* ---------- tests ---------- */
@@ -785,7 +784,7 @@ describe('PopupManager', () => {
     expect(manager.get('right')).toEqual([]);
 
     // indirect assertion: manual popup should NOT reappear on resync
-    manager.resync(newPopups as PopupStore<'left' | 'right' | 'floating'>);
+    manager.resync(newPopups);
 
     expect(manager.get('left').map(p => p.id)).toEqual(['b']);
   });

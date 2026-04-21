@@ -121,7 +121,7 @@ const TreeNodeBase = ({
 
   const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
-    const { nodeId, nodeHoveredId } = getDragMetadata?.() ?? ({} as DragMetadata);
+    const { nodeId, nodeHoveredId } = getDragMetadata?.() ?? {};
     if (nodeId === id || !clientRect.current) {
       return;
     }
@@ -161,7 +161,7 @@ const TreeNodeBase = ({
     (e: DragEvent) => {
       e.stopPropagation();
       e.preventDefault();
-      const { nodeId, dropPosition } = getDragMetadata?.() ?? ({} as DragMetadata);
+      const { nodeId, dropPosition } = getDragMetadata?.() ?? {};
       setDragHovered(false);
       setDragAllowed(true);
       setDropPosition(undefined);

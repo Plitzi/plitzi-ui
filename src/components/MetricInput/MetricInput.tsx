@@ -258,7 +258,7 @@ const MetricInput = ({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
-          {...(inputProps as React.JSX.IntrinsicElements['input'])}
+          {...inputProps}
         />
         {(error || loading) && (
           <div className={classNameTheme.iconFloatingContainer}>

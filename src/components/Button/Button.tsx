@@ -8,7 +8,7 @@ import type ButtonStyles from './Button.styles';
 import type { variantKeys } from './Button.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { ReactElement, ReactNode, ButtonHTMLAttributes, JSX, RefObject } from 'react';
+import type { ReactElement, ReactNode, ButtonHTMLAttributes, RefObject } from 'react';
 
 export type ButtonProps = {
   ref?: RefObject<HTMLButtonElement>;
@@ -97,7 +97,7 @@ const Button = ({
       data-testid={testId}
       className={classNameTheme.root}
       disabled={disabled}
-      {...(buttonProps as JSX.IntrinsicElements['button'])}
+      {...buttonProps}
     >
       {!loading && contentChildren && (
         <>

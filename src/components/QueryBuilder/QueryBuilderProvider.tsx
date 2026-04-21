@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/refs */
 import { produce } from 'immer';
 import { useCallback, useMemo, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
