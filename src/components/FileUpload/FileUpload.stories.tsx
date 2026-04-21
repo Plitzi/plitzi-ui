@@ -41,6 +41,14 @@ export const Primary: Story = {
 
     const handleError = useCallback((data?: string) => updateArgs({ error: data }), [updateArgs]);
 
+    const handleOnDrop = useCallback(
+      (files: File | File[]) => {
+        console.log('files dropped', files);
+        updateArgs({ value: files as File[] });
+      },
+      [updateArgs]
+    );
+
     return (
       <div className="p-10 flex flex-col w-full gap-10">
         <FileUpload
@@ -50,6 +58,7 @@ export const Primary: Story = {
           error={error}
           onChange={handleChange}
           onError={handleError}
+          onDrop={handleOnDrop}
         />
         <FileUpload
           {...args}
@@ -58,6 +67,7 @@ export const Primary: Story = {
           error={error}
           onChange={handleChange}
           onError={handleError}
+          onDrop={handleOnDrop}
           size="sm"
         />
         <FileUpload
@@ -67,6 +77,7 @@ export const Primary: Story = {
           error={error}
           onChange={handleChange}
           onError={handleError}
+          onDrop={handleOnDrop}
           size="xs"
         />
         <FileUpload
@@ -76,6 +87,7 @@ export const Primary: Story = {
           error={error}
           onChange={handleChange}
           onError={handleError}
+          onDrop={handleOnDrop}
           canDragAndDrop
         />
         <FileUpload
@@ -85,6 +97,7 @@ export const Primary: Story = {
           error={error}
           onChange={handleChange}
           onError={handleError}
+          onDrop={handleOnDrop}
           size="sm"
           canDragAndDrop
         />
@@ -95,6 +108,7 @@ export const Primary: Story = {
           error={error}
           onChange={handleChange}
           onError={handleError}
+          onDrop={handleOnDrop}
           size="xs"
           canDragAndDrop
         />
