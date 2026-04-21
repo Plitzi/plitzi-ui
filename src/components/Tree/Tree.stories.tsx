@@ -34,7 +34,8 @@ export const Primary: Story = {
   args: {
     // size: 'sm',
     intent: 'secondary',
-    itemSelected: '672a9fb8d8a5a53321f3f52c',
+    itemSelected: '657425e280b5b09c93b4a284',
+    itemHovered: '672a10680e69f90f255f81ed',
     items: [
       {
         id: '657425e280b5b09c93b4a284',
