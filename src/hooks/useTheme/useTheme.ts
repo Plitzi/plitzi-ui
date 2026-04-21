@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/immutability */
-/* eslint-disable react-hooks/preserve-manual-memoization */
 import { use, useCallback, useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -9,8 +8,8 @@ import useValueMemo from '@hooks/useValueMemo';
 
 type ThemeSlot = Record<string, object>;
 type ThemeClassName<T> = { [K in keyof T]?: string } | string;
-export type VariantKeys = { [key: string]: readonly (string | number | boolean)[] };
-export type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
+type VariantKeys = { [key: string]: readonly (string | number | boolean)[] };
+type ThemeVariantKey<T extends VariantKeys> = { [K in keyof T]?: T[K][number] };
 
 export type useThemeSharedProps<T extends ThemeSlot, K extends VariantKeys> = {
   className?: ThemeClassName<{ [K in keyof T]?: string }>;
@@ -45,7 +44,7 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
 
   const getClasses = useCallback(
     (key: string, variants: ThemeVariantKey<K> = {}, cssClasses: string = '') => {
-      variants = { ...variants, cssClasses };
+      variants = { ...variants, className: cssClasses };
       if (typeof componentName === 'string') {
         return get(theme.components[componentName], key, undefined)?.(variants) ?? cssClasses;
       }
@@ -74,7 +73,8 @@ function useTheme<T extends ThemeSlot, K extends VariantKeys>(
     }
 
     return undefined;
-  }, [componentKey, componentName, theme.components]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [componentName, theme.components]);
 
   return useMemo(() => {
     if (componentKey && typeof componentKey === 'string') {
