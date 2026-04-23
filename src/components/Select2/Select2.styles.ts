@@ -39,7 +39,7 @@ export default {
   }),
   trigger: cva('w-full'),
   placeholder: cva('text-zinc-400 dark:text-zinc-500 select-none'),
-  value: cva('text-zinc-70 dark:text-zinc-300'),
+  value: cva('text-zinc-700 dark:text-zinc-300'),
   searchInput: cva(''),
   list: cva('max-h-60 overflow-y-auto'),
   listPopup: cva('flex flex-col w-full', {
