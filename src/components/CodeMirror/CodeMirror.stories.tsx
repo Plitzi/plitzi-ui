@@ -33,9 +33,13 @@ export const Primary: Story = {
     label: 'CodeMirror Label'
   },
   render: function Render(args) {
+    const [value, setValue] = useState(args.value);
+
+    const handleChange = useCallback((v: string) => setValue(v), []);
+
     return (
       <div className="flex flex-col min-h-50">
-        <CodeMirror {...args} size="md" />
+        <CodeMirror {...args} size="md" value={value} onChange={handleChange} />
       </div>
     );
   }
