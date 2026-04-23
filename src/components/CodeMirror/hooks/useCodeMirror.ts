@@ -64,7 +64,7 @@ const useCodeMirror = ({
     const exts = [...extensions, EditorView.theme({ '&': style ?? {} })];
     switch (theme) {
       case 'light':
-        exts.push(EditorView.theme({ '&': { backgroundColor: '#fff' } }, { dark: false }));
+        exts.push(EditorView.theme({ '&': { backgroundColor: '#fff', color: 'inherit' } }, { dark: false }));
 
         break;
       case 'dark':

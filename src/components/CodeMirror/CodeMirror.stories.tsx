@@ -40,6 +40,14 @@ export const Primary: Story = {
     return (
       <div className="flex flex-col min-h-50">
         <CodeMirror {...args} size="md" value={value} onChange={handleChange} />
+        <CodeMirror
+          {...args}
+          size="md"
+          value={value}
+          onChange={handleChange}
+          theme="light"
+          // style={{ color: 'var(--color-zinc-700)' }}
+        />
       </div>
     );
   }

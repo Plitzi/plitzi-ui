@@ -9,6 +9,7 @@ import type { Preview } from '@storybook/react';
 
 // Styles
 import './styles.css';
+import '../src/assets/scss/index.scss';
 
 const defaultThemeModules = import.meta.glob<{ default: unknown; STYLES_COMPONENT_NAME?: string }>(
   '@components/**/*.styles.ts',
@@ -54,27 +55,24 @@ const preview: Preview = {
     (Story, context) => {
       const colorMode = (context.globals.colorMode ?? 'light') as ColorMode;
 
-      return createElement(
-        () => {
-          useEffect(() => {
-            const root = document.documentElement;
-            if (colorMode === 'dark') {
-              root.classList.add('dark');
-            } else {
-              root.classList.remove('dark');
-            }
-          }, []);
+      return createElement(() => {
+        useEffect(() => {
+          const root = document.documentElement;
+          if (colorMode === 'dark') {
+            root.classList.add('dark');
+          } else {
+            root.classList.remove('dark');
+          }
+        }, []);
 
-          return (
-            <Provider components={defaultTheme} defaultColorMode={colorMode}>
-              <div className={colorMode === 'dark' ? 'bg-zinc-900 min-h-screen p-4' : 'bg-white min-h-screen p-4'}>
-                <Story />
-              </div>
-            </Provider>
-          );
-        },
-        {}
-      );
+        return (
+          <Provider components={defaultTheme} defaultColorMode={colorMode}>
+            <div className={colorMode === 'dark' ? 'bg-zinc-900 min-h-screen p-4' : 'bg-white min-h-screen p-4'}>
+              <Story />
+            </div>
+          </Provider>
+        );
+      }, {});
     }
   ]
 };

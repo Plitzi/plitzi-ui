@@ -12,6 +12,7 @@ import useCodeMirror from './hooks/useCodeMirror';
 
 import type CodeMirrorStyles from './CodeMirror.styles';
 import type { variantKeys } from './CodeMirror.styles';
+import type { StyleSpec } from './hooks/useCodeMirror';
 import type { Completion, CompletionContext, CompletionSource } from '@codemirror/autocomplete';
 import type { Extension } from '@codemirror/state';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
@@ -40,6 +41,7 @@ export type CodeMirrorProps = {
   autoComplete?: AutoComplete[];
   multiline?: boolean;
   readOnly?: boolean;
+  style?: StyleSpec;
   onChange?: (value: string) => void;
   onBlur?: (e: FocusEvent) => void;
   getReadOnlyRanges?: (state: EditorState) => { from: number | null; to: number | null }[];
@@ -64,6 +66,7 @@ const CodeMirror = ({
   multiline = true,
   readOnly = false,
   placeholder = '',
+  style,
   size,
   rounded,
   intent,
@@ -76,7 +79,7 @@ const CodeMirror = ({
   });
   const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['input']), [classNameTheme]);
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
-  const styleMemo = useMemo(() => ({ height: '100%' }), []);
+  const styleMemo = useMemo(() => ({ ...style, height: '100%' }), [style]);
   const getRanges = useRef(getReadOnlyRanges);
   if (getRanges.current !== getReadOnlyRanges) {
     getRanges.current = getReadOnlyRanges;
