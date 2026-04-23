@@ -39,7 +39,7 @@ export default {
     {
       variants: {
         intent: {
-          primary: 'bg-white dark:bg-zinc-800 dark:text-zinc-300',
+          primary: 'bg-white text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300',
           custom: ''
         },
         error: {
