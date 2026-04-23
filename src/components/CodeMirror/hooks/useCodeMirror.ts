@@ -122,6 +122,7 @@ const useCodeMirror = ({
   useEffect(() => {
     let viewInternal: EditorView | undefined;
     if (element && typeof value === 'string') {
+      // EditorView can be created only 1 time
       viewInternal = new EditorView({
         state: EditorState.create({ doc: value, extensions: myExtensions }),
         parent: element
@@ -137,7 +138,7 @@ const useCodeMirror = ({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [element, myExtensions]);
+  }, [element]);
 
   useEffect(() => {
     if (view?.state.doc.toString() !== value) {
