@@ -10,10 +10,11 @@ export type TabContentProps = { children?: ReactNode } & useThemeSharedProps<
   typeof variantKeys
 >;
 
-const TabContent = ({ children, className }: TabContentProps) => {
+const TabContent = ({ children, className, size }: TabContentProps) => {
   className = useTheme<typeof ContainerTabsStyles, typeof variantKeys>('ContainerTabs', {
     className,
-    componentKey: 'content'
+    componentKey: 'content',
+    variants: { size }
   });
 
   return <div className={className}>{children}</div>;

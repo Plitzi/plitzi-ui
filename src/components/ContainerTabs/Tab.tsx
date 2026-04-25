@@ -14,11 +14,11 @@ export type TabProps = {
   onSelect?: (index: number) => void;
 } & useThemeSharedProps<typeof ContainerTabsStyles, typeof variantKeys>;
 
-const Tab = ({ className, label = 'Tab Name', active, index = 0, onSelect }: TabProps) => {
+const Tab = ({ className, label = 'Tab Name', active, index = 0, size, onSelect }: TabProps) => {
   className = useTheme<typeof ContainerTabsStyles, typeof variantKeys>('ContainerTabs', {
     className,
     componentKey: 'tab',
-    variants: { active }
+    variants: { active, size }
   });
 
   const handleClick = useCallback(() => onSelect?.(index), [index, onSelect]);

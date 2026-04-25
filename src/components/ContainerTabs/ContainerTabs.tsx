@@ -16,10 +16,11 @@ export type ContainerTabsProps = {
   children?: React.ReactNode;
 } & useThemeSharedProps<typeof ContainerTabsStyles, typeof variantKeys>;
 
-const ContainerTabs = ({ children, className }: ContainerTabsProps) => {
+const ContainerTabs = ({ children, className, size }: ContainerTabsProps) => {
   className = useTheme<typeof ContainerTabsStyles, typeof variantKeys>('ContainerTabs', {
     className,
-    componentKey: 'root'
+    componentKey: 'root',
+    variants: { size }
   });
   const [tabSelected, setTabSelected] = useState(0);
 
@@ -27,7 +28,7 @@ const ContainerTabs = ({ children, className }: ContainerTabsProps) => {
 
   const { tabs, content } = useMemo(() => {
     const components = {
-      tabs: <Tabs tabSelected={tabSelected} onSelect={handleSelect} />,
+      tabs: <Tabs tabSelected={tabSelected} size={size} onSelect={handleSelect} />,
       content: <TabContent />
     };
 
@@ -43,19 +44,21 @@ const ContainerTabs = ({ children, className }: ContainerTabsProps) => {
           ...tabsProps,
           key: 'tabs',
           tabSelected,
+          size,
           onSelect: handleSelect
         });
       } else if (child.type === TabContent && contentIndex++ === tabSelected) {
         const tabsProps = child.props as TabContentProps;
         components.content = cloneElement<TabContentProps>(child as ReactElement<TabContentProps>, {
           ...tabsProps,
-          key: `content-${tabSelected}`
+          key: `content-${tabSelected}`,
+          size
         });
       }
     });
 
     return components;
-  }, [children, tabSelected, handleSelect]);
+  }, [tabSelected, handleSelect, children, size]);
 
   return (
     <div className={className}>
