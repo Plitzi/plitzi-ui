@@ -3,6 +3,10 @@
 
 name: npm-publish
 
+# SECURITY: default-deny GITHUB_TOKEN scope.
+permissions:
+  contents: read
+
 on:
   release:
     types: [published]
@@ -38,14 +42,11 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Yarn Token
-        run: |
-          echo "npmAuthToken: ${{ secrets.NPM_AUTH_TOKEN }}" >> $HOME/.yarnrc.yml
-
       - name: Yarn Install
         if: steps.cache-yarn-packages.outputs.cache-hit != 'true'
-        run: yarn install # --frozen-lockfile
+        run: yarn install --immutable
         env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
   lint:
@@ -105,6 +106,9 @@ jobs:
     if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags/v')
     needs: tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -127,11 +131,7 @@ jobs:
       - name: Yarn Build
         run: yarn build:prod
 
-      - name: Yarn Token
-        run: |
-          echo "npmAuthToken: ${{ secrets.NPM_AUTH_TOKEN }}" >> $HOME/.yarnrc.yml
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Yarn Publish
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: yarn npm publish
