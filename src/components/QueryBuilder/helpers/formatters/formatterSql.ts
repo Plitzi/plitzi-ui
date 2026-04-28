@@ -5,54 +5,81 @@ import { isNumeric } from '../QueryBuilderHelper';
 
 import type { QueryBuilderParams, Rule, RuleGroup } from '../../QueryBuilder';
 
+// SECURITY: SQL string literal escape. Doubles single quotes per SQL standard so
+// `O'Brien` becomes `O''Brien` and cannot break out of the surrounding `'...'`.
+// NOT a substitute for parameterized queries — callers should still pass the output
+// through a prepared statement layer when concatenating.
+const sqlEscape = (s: unknown): string => String(s ?? '').replace(/'/g, "''");
+
+// SECURITY: SQL identifier whitelist. Only allows `[A-Za-z_][\w.]*` so identifiers like
+// `users`, `users.id`, `_meta_v2` pass while `name; DROP TABLE` or `name); --` are rejected.
+// Returns empty string when invalid → caller emits a falsy fragment that won't form valid SQL.
+const SQL_IDENT_RE = /^[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*$/;
+const sqlIdent = (s: unknown): string => {
+  const v = String(s ?? '');
+  return SQL_IDENT_RE.test(v) ? v : '';
+};
+
+// SECURITY: SQL operator whitelist — only these literal operators may render verbatim.
+const SQL_OPERATOR_WHITELIST = new Set(['=', '!=', '<>', '<', '>', '<=', '>=']);
+const sqlOperator = (s: unknown): string => {
+  const v = String(s ?? '');
+  return SQL_OPERATOR_WHITELIST.has(v) ? v : '';
+};
+
 export const formatBasic = (rule: Rule) => {
-  const { field, value, operator } = rule;
+  const { value } = rule;
+  const field = sqlIdent(rule.field);
+  const operator = sqlOperator(rule.operator);
+  if (!field || !operator) return '';
 
   if (typeof value === 'boolean') {
     return `${field} ${operator} ${value ? 'TRUE' : 'FALSE'}`;
   }
 
   if (typeof value === 'string' && !isNumeric(value)) {
-    return `${field} ${operator} '${value as string}'`;
+    return `${field} ${operator} '${sqlEscape(value)}'`;
   }
 
   if (typeof value === 'number' || isNumeric(value)) {
-    return `${field} ${operator} ${value}`;
+    return `${field} ${operator} ${Number(value)}`;
   }
 
   if (isDate(value)) {
-    return `${field} ${operator} DATE '${value.toString()}'`;
+    return `${field} ${operator} DATE '${sqlEscape(value)}'`;
   }
 
-  return `${field} ${operator} '${JSON.stringify(value)}'`;
+  return `${field} ${operator} '${sqlEscape(JSON.stringify(value))}'`;
 };
 
 export const formatContains = (rule: Rule, not = false) => {
-  const { field, value } = rule;
-
-  return `${field}${not ? ' not' : ''} like '%${value as string}%'`;
+  const field = sqlIdent(rule.field);
+  if (!field) return '';
+  return `${field}${not ? ' not' : ''} like '%${sqlEscape(rule.value)}%'`;
 };
 
 export const formatBeginsWith = (rule: Rule, not = false) => {
-  const { field, value } = rule;
-
-  return `${field}${not ? ' not' : ''} like '${value as string}%'`;
+  const field = sqlIdent(rule.field);
+  if (!field) return '';
+  return `${field}${not ? ' not' : ''} like '${sqlEscape(rule.value)}%'`;
 };
 
 export const formatEndsWith = (rule: Rule, not = false) => {
-  const { field, value } = rule;
-
-  return `${field}${not ? ' not' : ''} like '%${value as string}'`;
+  const field = sqlIdent(rule.field);
+  if (!field) return '';
+  return `${field}${not ? ' not' : ''} like '%${sqlEscape(rule.value)}'`;
 };
 
 export const formatEmpty = (rule: Rule, not = false) => {
-  const { field } = rule;
-
+  const field = sqlIdent(rule.field);
+  if (!field) return '';
   return `${field} is${not ? ' not' : ''} NULL`;
 };
 
 export const formatIn = (rule: Rule, not = false) => {
-  const { field, value } = rule;
+  const field = sqlIdent(rule.field);
+  if (!field) return false;
+  const { value } = rule;
   let valueArr: string[] = [];
   if (typeof value === 'string' && value.includes(',')) {
     valueArr = value.split(',');
@@ -64,11 +91,13 @@ export const formatIn = (rule: Rule, not = false) => {
     return false;
   }
 
-  return `${field}${not ? ' not' : ''} in (${valueArr.map(v => `'${v.trim()}'`).join(', ')})`;
+  return `${field}${not ? ' not' : ''} in (${valueArr.map(v => `'${sqlEscape(v.trim())}'`).join(', ')})`;
 };
 
 export const formatBetween = (rule: Rule, not = false) => {
-  const { field, value } = rule;
+  const field = sqlIdent(rule.field);
+  if (!field) return false;
+  const { value } = rule;
   let valueArr: string[] = [];
   if (typeof value === 'string') {
     valueArr = value.split(',').map(v => v.trim());
@@ -79,10 +108,10 @@ export const formatBetween = (rule: Rule, not = false) => {
   }
 
   if (isDate(valueArr[0]) && isDate(valueArr[1])) {
-    return `${field}${not ? ' not' : ''} between DATE '${valueArr[0]}' and '${valueArr[1]}'`;
+    return `${field}${not ? ' not' : ''} between DATE '${sqlEscape(valueArr[0])}' and '${sqlEscape(valueArr[1])}'`;
   }
 
-  return `${field}${not ? ' not' : ''} between '${valueArr[0]}' and '${valueArr[1]}'`;
+  return `${field}${not ? ' not' : ''} between '${sqlEscape(valueArr[0])}' and '${sqlEscape(valueArr[1])}'`;
 };
 
 const parseRule = (rule: Rule, params?: QueryBuilderParams) => {
