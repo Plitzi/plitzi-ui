@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// SECURITY: keys that mutate Object.prototype if used as path segments. Blocks prototype
+// pollution from user-typed KVInput keys like `__proto__.polluted`.
+const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
 // Nested path arrays to nested object
 export const arrayToNestedObject = (arr: string[][], mergeDuplicates = false): Record<string, any> => {
   const result: Record<string, any> = {};
@@ -18,11 +22,17 @@ export const arrayToNestedObject = (arr: string[][], mergeDuplicates = false): R
       continue;
     }
 
+    // Reject any path containing a dangerous segment. Drop the entire entry rather than
+    // silently merging part of it, so callers see no mutation for malicious input.
+    if (path.slice(0, -1).some(seg => DANGEROUS_KEYS.has(seg))) {
+      continue;
+    }
+
     let current = result;
 
     for (let i = 0; i < path.length - 2; i++) {
       const key = path[i];
-      if (!current[key] || typeof current[key] !== 'object') {
+      if (!Object.prototype.hasOwnProperty.call(current, key) || !current[key] || typeof current[key] !== 'object') {
         current[key] = {};
       }
       current = current[key];
