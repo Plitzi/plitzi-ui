@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 
 import { cloneAtPath } from './cloneDeep';
+import { has } from './has';
 import { toPath } from './shared';
 
 import type { Path } from './shared';
@@ -23,7 +24,7 @@ export function omit<T extends Record<string, unknown>>(obj: T, paths?: Path | r
 
   for (const path of pathArray) {
     const keys = toPath(path);
-    if (!keys.length) {
+    if (!keys.length || !has(result, path)) {
       continue;
     }
 

@@ -818,6 +818,14 @@ describe('omit', () => {
     expect(result).toHaveProperty('key1', 1);
     expect(typeof result).toBe('object');
   }, 5000);
+
+  it('deek case: nested key', () => {
+    const result = omit(obj, ['var1.subVar1']);
+    expect(Object.keys(result)).toEqual(['a', 'b', 'c']);
+
+    const lodashResult = _.omit(obj, ['var1.subVar1']);
+    expect(Object.keys(lodashResult)).toEqual(['a', 'b', 'c']);
+  });
 });
 
 describe('debounce', () => {
