@@ -5,8 +5,35 @@ import { isNumeric } from '../QueryBuilderHelper';
 
 import type { QueryBuilderParams, Rule, RuleGroup } from '../../QueryBuilder';
 
+// SECURITY: validate field key against an identifier whitelist. Mongo treats keys starting
+// with `$` as operators (e.g. `$where`, `$function`) which can lead to NoSQL injection if a
+// rule with `field: "$where"` is constructed. Empty result rejects the rule.
+const MONGO_FIELD_RE = /^[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*$/;
+const mongoField = (s: unknown): string => {
+  const v = String(s ?? '');
+  return MONGO_FIELD_RE.test(v) ? v : '';
+};
+
+// SECURITY: escape regex metacharacters so attacker-controlled `value` cannot craft
+// catastrophic-backtracking patterns (ReDoS) or alter regex semantics. Plain text becomes
+// literal text.
+const regexEscape = (s: unknown): string => String(s ?? '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// SECURITY: strip operator-prefixed object values that would be interpreted as Mongo
+// operators ($ne, $gt, $where...) — coerces values to scalar primitives only.
+const scalarValue = (v: unknown): string | number | boolean | null => {
+  if (v === null || v === undefined) return null;
+  if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return v;
+  // Reject objects/arrays/functions — caller's intent here is value comparison, not operator
+  // injection. Coerce to string as a safe fallback.
+  return String(v);
+};
+
 const formatBasic = (rule: Rule) => {
-  const { field, operator, value } = rule;
+  const field = mongoField(rule.field);
+  if (!field) return {};
+  const { operator } = rule;
+  const value = scalarValue(rule.value);
   switch (operator) {
     case '=':
       return { [field]: value };
@@ -42,7 +69,9 @@ const formatBasic = (rule: Rule) => {
 };
 
 const formatContains = (rule: Rule, not = false) => {
-  const { field, value } = rule;
+  const field = mongoField(rule.field);
+  if (!field) return {};
+  const value = regexEscape(rule.value);
   if (not) {
     return { [field]: { $not: { $regex: value, $options: 'i' } } };
   }
@@ -51,25 +80,30 @@ const formatContains = (rule: Rule, not = false) => {
 };
 
 const formatBeginsWith = (rule: Rule, not = false) => {
-  const { field, value } = rule;
+  const field = mongoField(rule.field);
+  if (!field) return {};
+  const value = regexEscape(rule.value);
   if (not) {
-    return { [field]: { $not: { $regex: `^${value as string}`, $options: 'i' } } };
+    return { [field]: { $not: { $regex: `^${value}`, $options: 'i' } } };
   }
 
-  return { [field]: { $regex: `^${value as string}`, $options: 'i' } };
+  return { [field]: { $regex: `^${value}`, $options: 'i' } };
 };
 
 const formatEndsWith = (rule: Rule, not = false) => {
-  const { field, value } = rule;
+  const field = mongoField(rule.field);
+  if (!field) return {};
+  const value = regexEscape(rule.value);
   if (not) {
-    return { [field]: { $not: { $regex: `${value as string}$`, $options: 'i' } } };
+    return { [field]: { $not: { $regex: `${value}$`, $options: 'i' } } };
   }
 
-  return { [field]: { $regex: `${value as string}$`, $options: 'i' } };
+  return { [field]: { $regex: `${value}$`, $options: 'i' } };
 };
 
 const formatEmpty = (rule: Rule, not = false) => {
-  const { field } = rule;
+  const field = mongoField(rule.field);
+  if (!field) return {};
   if (not) {
     return { [field]: { $ne: '' } };
   }
@@ -78,13 +112,18 @@ const formatEmpty = (rule: Rule, not = false) => {
 };
 
 const formatIn = (rule: Rule, not = false) => {
-  const { field, value } = rule;
+  const field = mongoField(rule.field);
+  if (!field) return {};
+  const { value } = rule;
   let valueArr: (string | number)[] = [];
   if (typeof value === 'string' && value.includes(',')) {
     valueArr = value.split(',').map(v => v.trim());
   } else if (typeof value === 'string' || typeof value === 'number') {
     valueArr = [value];
   }
+
+  // Reject any non-scalar entries to prevent {$ne:null} / operator injection.
+  valueArr = valueArr.filter(v => typeof v === 'string' || typeof v === 'number');
 
   if (not) {
     return { [field]: { $nin: valueArr } };
@@ -94,7 +133,9 @@ const formatIn = (rule: Rule, not = false) => {
 };
 
 const formatBetween = (rule: Rule) => {
-  const { field, value } = rule;
+  const field = mongoField(rule.field);
+  if (!field) return {};
+  const { value } = rule;
   let valueArr: string[] = [];
   if (typeof value === 'string' && value.includes(',')) {
     valueArr = value.split(',').map(v => v.trim());
