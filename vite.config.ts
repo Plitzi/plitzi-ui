@@ -30,7 +30,7 @@ function getComponentEntries(dir: string): string[] {
 
 export default defineConfig((env: ConfigEnv) => ({
   plugins: [
-    viteStaticCopy({ targets: [{ src: 'src/**/*.scss', dest: '.' }] }),
+    viteStaticCopy({ targets: [{ src: 'src/**/*.scss', dest: '.', rename: { stripBase: 1 } }] }),
     react(),
     tailwindcss(),
     dts({
