@@ -30,15 +30,18 @@ export type MarkdownProps = {
 const remarkPlugins = [remarkGfm];
 // const rehypePlugins = [rehypeRaw];
 
-SyntaxHighlighter.registerLanguage('javascript', js);
-SyntaxHighlighter.registerLanguage('typescript', ts);
-SyntaxHighlighter.registerLanguage('jsx', jsx);
-SyntaxHighlighter.registerLanguage('tsx', tsx);
-SyntaxHighlighter.registerLanguage('bash', bash);
-SyntaxHighlighter.registerLanguage('json', json);
-SyntaxHighlighter.registerLanguage('css', css);
-SyntaxHighlighter.registerLanguage('html', markup);
-SyntaxHighlighter.registerLanguage('markdown', markup);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+const getLang = (mod: any) => mod?.default || mod;
+
+SyntaxHighlighter.registerLanguage('javascript', getLang(js));
+SyntaxHighlighter.registerLanguage('typescript', getLang(ts));
+SyntaxHighlighter.registerLanguage('jsx', getLang(jsx));
+SyntaxHighlighter.registerLanguage('tsx', getLang(tsx));
+SyntaxHighlighter.registerLanguage('bash', getLang(bash));
+SyntaxHighlighter.registerLanguage('json', getLang(json));
+SyntaxHighlighter.registerLanguage('css', getLang(css));
+SyntaxHighlighter.registerLanguage('html', getLang(markup));
+SyntaxHighlighter.registerLanguage('markdown', getLang(markup));
 
 const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers = true }: MarkdownProps) => {
   className = useTheme<typeof MarkdownStyles, typeof variantKeys>('Markdown', {

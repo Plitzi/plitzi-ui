@@ -30,12 +30,11 @@ function getComponentEntries(dir: string): string[] {
 
 export default defineConfig((env: ConfigEnv) => ({
   plugins: [
-    viteStaticCopy({ targets: [{ src: 'src/**/*.scss', dest: '..' }] }),
+    viteStaticCopy({ targets: [{ src: 'src/**/*.scss', dest: '.' }] }),
     react(),
     tailwindcss(),
     dts({
-      // entryRoot: 'src',
-      outDir: 'dist',
+      entryRoot: 'src',
       rollupTypes: false,
       exclude: ['**/*.test.tsx', '**/*.stories.ts', '**/*.stories.tsx', 'vite.config.ts'],
       tsconfigPath: './tsconfig.app.json'
@@ -57,7 +56,7 @@ export default defineConfig((env: ConfigEnv) => ({
         }
 
         // Mark as external modules or sub-modules from node_modules
-        if (!source.startsWith('.') && !path.isAbsolute(source)) {
+        if (!source.startsWith('.') && !path.isAbsolute(source) && !source.startsWith('@')) {
           importedPackages.add(source);
 
           return { id: source, external: true };
@@ -73,6 +72,7 @@ export default defineConfig((env: ConfigEnv) => ({
     }
   ],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       '@uiIcons': resolve(__dirname, './src/icons'),
       '@components': path.resolve(__dirname, './src/components'),
@@ -81,7 +81,6 @@ export default defineConfig((env: ConfigEnv) => ({
     }
   },
   build: {
-    outDir: 'dist/src',
     lib: {
       entry: [
         resolve(__dirname, './src/index.ts'),
@@ -95,43 +94,35 @@ export default defineConfig((env: ConfigEnv) => ({
     },
     rollupOptions: {
       treeshake: false,
-      external: [],
-      // output: {
-      //   exports: 'named',
-      //   preserveModules: true, // Keep module structure for tree-shaking
-      //   // preserveModulesRoot: 'src', // Tell Rollup where to "root" the modules (under src)
-      //   entryFileNames: '[name].[format]',
-      //   chunkFileNames: '[name].[format]',
-      //   assetFileNames: '[name].[ext]', // assetFileNames: 'assets/[name][extname]',
-      //   globals: {
-      //     react: 'React',
-      //     'react-dom': 'ReactDOM',
-      //     'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
-      //   }
-      // }
+      external: id => {
+        if (id.startsWith('node:') || id.startsWith('node/')) {
+          return true;
+        }
+
+        if (id === 'react' || id === 'react-dom' || id.startsWith('react-dom/') || id.startsWith('react/')) {
+          return true;
+        }
+
+        // Treat only tsconfig alias "@" as internal, but keep node_modules external
+        if (!id.startsWith('.') && !id.startsWith('/')) {
+          // Keep all configured aliases internal
+          const internalAliases = ['@/', '@components/', '@hooks/', '@uiIcons/'];
+          if (internalAliases.some(alias => id.startsWith(alias)) || id === '@') {
+            return false;
+          }
+
+          return true;
+        }
+
+        return false;
+      },
       output: [
-        // ESM -> .mjs
         {
           format: 'es',
           preserveModules: true,
-          // preserveModulesRoot: 'src',
-          entryFileNames: '[name].mjs',
-          chunkFileNames: '[name].mjs',
-          assetFileNames: '[name][extname]',
-          exports: 'named',
-          globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-            'react/jsx-runtime': 'react/jsx-runtime' // tailwindcss: "tailwindcss",
-          }
-        },
-        // CJS -> .cjs
-        {
-          format: 'cjs',
-          preserveModules: true,
-          // preserveModulesRoot: 'src',
-          entryFileNames: '[name].cjs',
-          chunkFileNames: '[name].cjs',
+          preserveModulesRoot: 'src',
+          entryFileNames: '[name].js',
+          chunkFileNames: '[name].js',
           assetFileNames: '[name][extname]',
           exports: 'named',
           globals: {
