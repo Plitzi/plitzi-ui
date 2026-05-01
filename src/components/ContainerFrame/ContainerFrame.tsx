@@ -1,4 +1,4 @@
-import { Children, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { Children, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import useTheme from '@hooks/useTheme';
@@ -11,6 +11,79 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 
 export type Asset = { id?: string; type: string; params: Record<string, string> };
+
+// SECURITY: tight allowlists for assets injected into the iframe srcdoc/head.
+// Without these, attacker-controlled CMS content reaches `setAttribute(key, val)` and
+// the srcdoc HTML string, enabling XSS via `onload`/`onerror` handlers, javascript: URLs,
+// and HTML breakouts in attribute values.
+const ALLOWED_ASSET_TYPES = new Set(['link', 'script']);
+const ALLOWED_LINK_KEYS = new Set(['rel', 'href', 'type', 'integrity', 'crossorigin', 'as', 'media', 'referrerpolicy']);
+const ALLOWED_SCRIPT_KEYS = new Set([
+  'src',
+  'type',
+  'integrity',
+  'crossorigin',
+  'async',
+  'defer',
+  'nomodule',
+  'referrerpolicy'
+]);
+const SAFE_URL_KEYS = new Set(['href', 'src']);
+
+const isSafeAssetUrl = (raw: string): boolean => {
+  if (!raw) return false;
+  try {
+    const u = new URL(raw, window.location.href);
+    return u.protocol === 'https:' || u.protocol === 'http:';
+  } catch {
+    return false;
+  }
+};
+
+const allowedKeysFor = (type: string): Set<string> | null => {
+  if (type === 'link') return ALLOWED_LINK_KEYS;
+  if (type === 'script') return ALLOWED_SCRIPT_KEYS;
+  return null;
+};
+
+const sanitizeAsset = (asset: Asset): Asset | null => {
+  if (!asset || typeof asset.type !== 'string' || !ALLOWED_ASSET_TYPES.has(asset.type)) {
+    return null;
+  }
+
+  const allowed = allowedKeysFor(asset.type);
+  if (!allowed) return null;
+
+  const cleanParams: Record<string, string> = {};
+  for (const [rawKey, rawVal] of Object.entries(asset.params || {})) {
+    const key = rawKey.toLowerCase();
+    if (!allowed.has(key)) continue;
+    const val = String(rawVal ?? '');
+    if (SAFE_URL_KEYS.has(key) && !isSafeAssetUrl(val)) continue;
+    cleanParams[key] = val;
+  }
+
+  return { id: asset.id, type: asset.type, params: cleanParams };
+};
+
+const sanitizeAssets = (assets?: Record<string, Asset>): Record<string, Asset> | undefined => {
+  if (!assets) return undefined;
+  const out: Record<string, Asset> = {};
+  for (const [k, v] of Object.entries(assets)) {
+    const cleaned = sanitizeAsset(v);
+    if (cleaned) out[k] = cleaned;
+  }
+
+  return out;
+};
+
+const escapeHtml = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+// CSS sanitizer for ssrMode: strip </style> sequences and any obvious script-injection chars
+// to prevent escaping the <style> context inside the srcdoc.
+const sanitizeCss = (css: string): string =>
+  css.replace(/<\/style/gi, '<\\/style').replace(/<!--/g, '').replace(/-->/g, '');
 
 export type ContainerFrameProps = {
   ref?: RefObject<HTMLIFrameElement | null>;
@@ -52,6 +125,10 @@ const ContainerFrame = ({
   useImperativeHandle<HTMLIFrameElement | null, HTMLIFrameElement | null>(ref, () => iframeRef.current, [iframeRef]);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [myDocument, setMyDocument] = useState<Document | null | undefined>(null);
+
+  // Sanitize incoming assets ONCE per change. All downstream code must use safeAssets.
+  const safeAssets = useMemo(() => sanitizeAssets(assets), [assets]);
+  const safeCss = useMemo(() => (typeof css === 'string' ? sanitizeCss(css) : ''), [css]);
 
   const loadAssets = useCallback((assets: Record<string, Asset>, head: HTMLHeadElement, documentInstance: Document) => {
     const assetsLoaded = [...head.childNodes];
@@ -104,25 +181,27 @@ const ContainerFrame = ({
 
     const assetsCache: string[] = [];
     Object.values(assets).forEach(asset => {
-      assetsCache.push(
-        `<${asset.type} ${Object.keys(asset.params)
-          .map(param => `${param}="${asset.params[param]}"`)
-          .join(' ')}>`
-      );
+      // Asset is already sanitized by sanitizeAssets(); type is in {link, script}
+      // and params keys are in the per-type allowlist with URL values validated.
+      // Still escape attribute values to be defense-in-depth against any future bypass.
+      const attrs = Object.keys(asset.params)
+        .map(param => `${param}="${escapeHtml(asset.params[param])}"`)
+        .join(' ');
+      assetsCache.push(`<${asset.type} ${attrs}>`);
     });
 
     return assetsCache.join('');
   };
 
-  const [initialHead] = useState(() => getAssetsAsString(assets));
+  const [initialHead] = useState(() => getAssetsAsString(safeAssets));
 
   const contentDidMount = useCallback(() => contentDidMountProp?.(), [contentDidMountProp]);
 
   useEffect(() => {
     if (iframeLoaded && myDocument) {
-      loadBuilderAssets(myDocument, assets);
+      loadBuilderAssets(myDocument, safeAssets);
     }
-  }, [iframeLoaded, assets, myDocument, loadBuilderAssets]);
+  }, [iframeLoaded, safeAssets, myDocument, loadBuilderAssets]);
 
   const handleLoad = useCallback(() => {
     if (iframeLoaded) {
@@ -156,12 +235,14 @@ const ContainerFrame = ({
         createPortal(
           <>
             <meta name="viewport" content={viewport} asset-static="true" />
-            {!ssrMode && css && (
+            {!ssrMode && safeCss && (
               <style id="customStyle" asset-static="true">
-                {css}
+                {safeCss}
               </style>
             )}
-            {ssrMode && css && <style id="customStyle" asset-static="true" dangerouslySetInnerHTML={{ __html: css }} />}
+            {ssrMode && safeCss && (
+              <style id="customStyle" asset-static="true" dangerouslySetInnerHTML={{ __html: safeCss }} />
+            )}
           </>,
           myDocument.head
         )}

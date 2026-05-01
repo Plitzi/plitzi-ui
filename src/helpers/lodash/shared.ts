@@ -1,9 +1,22 @@
 export type Path = string | readonly (string | number)[];
 
+// SECURITY: dangerous keys that mutate Object.prototype / function prototypes when used as
+// path segments. Reject them everywhere a Path may be derived from untrusted input
+// (KVInput keys, persisted QueryBuilder rules, useStorage/useCache `keyProp`).
+export const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+export function isDangerousKey(s: string): boolean {
+  return DANGEROUS_KEYS.has(s);
+}
+
 function validateSegment(segment: unknown): string | null {
   if (typeof segment === 'string' || typeof segment === 'number') {
     const s = String(segment);
     if (s === '') {
+      return null;
+    }
+
+    if (isDangerousKey(s)) {
       return null;
     }
 
