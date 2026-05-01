@@ -145,4 +145,4 @@ jobs:
           yarn config set 'npmAuthToken' "${{ secrets[matrix.registry.token] }}"
 
       - name: Yarn Publish
-        run: yarn npm publish
+        run: yarn npm publish --access=public
