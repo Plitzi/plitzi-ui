@@ -12,10 +12,19 @@ export type ContainerFloatingTriggerProps = {
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 } & useThemeSharedProps<typeof ContainerFloatingStyles, typeof variantKeys>;
 
-const ContainerFloatingTrigger = ({ children, className, testId, ref, onClick }: ContainerFloatingTriggerProps) => {
+const ContainerFloatingTrigger = ({
+  children,
+  className,
+  testId,
+  ref,
+  placement,
+  disabled,
+  onClick
+}: ContainerFloatingTriggerProps) => {
   className = useTheme<typeof ContainerFloatingStyles, typeof variantKeys>('ContainerFloating', {
     className,
-    componentKey: 'trigger'
+    componentKey: 'trigger',
+    variants: { placement, disabled }
   });
 
   return (

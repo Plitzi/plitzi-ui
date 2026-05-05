@@ -79,6 +79,8 @@ const ContainerFloating = ({
           {
             testId: testId ? `${testId}-trigger` : undefined,
             onClick: handleClickTrigger,
+            disabled: disabled || loading,
+            placement,
             ...childProps,
             ref: triggerRef
           }
@@ -89,6 +91,8 @@ const ContainerFloating = ({
           child as ReactElement<ContainerFloatingContentProps>,
           {
             testId: testId ? `${testId}-content` : undefined,
+            disabled: disabled || loading,
+            placement,
             ...childProps,
             onClick: handleClickContent(childProps.onClick)
           }
@@ -97,7 +101,7 @@ const ContainerFloating = ({
     });
 
     return components;
-  }, [children, handleClickTrigger, handleClickContent, testId, triggerRef]);
+  }, [children, testId, handleClickTrigger, disabled, loading, placement, triggerRef, handleClickContent]);
 
   const containerFloatingContextValue = useMemo<ContainerFloatingContextValue>(
     () => ({

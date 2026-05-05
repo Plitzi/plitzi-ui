@@ -154,7 +154,7 @@ export const AsyncUsage: Story = {
       return new Promise<Option[]>(resolve => {
         setTimeout(() => {
           resolve(options as Option[]);
-        }, 1000);
+        }, 1500);
       });
     }, [options]);
 

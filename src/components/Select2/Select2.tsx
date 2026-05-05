@@ -47,6 +47,7 @@ type Select2PropsBase = {
   autoClose?: boolean;
   clearable?: boolean;
   open?: boolean;
+  loading?: boolean;
   allowRemoveOptions?: boolean;
   searchAutoFocus?: boolean;
 };
@@ -86,9 +87,12 @@ const Select2 = (props: Select2Props) => {
     open: openProp,
     searchAutoFocus = true,
     autoClose = true,
+    loading: loadingProp = false,
     onChange
   } = props;
   const [open, setOpen] = useState(openProp);
+  const [loadingOptions, setLoadingOptions] = useState(options instanceof Promise);
+  const loading = loadingOptions || loadingProp;
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: [
@@ -105,8 +109,7 @@ const Select2 = (props: Select2Props) => {
   });
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const [triggerRect, setTriggerRect] = useState<DOMRect | undefined>();
-  const [loading, setLoading] = useState(options instanceof Promise);
-  const [optionsLoaded, setOptionsLoaded] = useState(() => (!loading && Array.isArray(options) ? options : []));
+  const [optionsLoaded, setOptionsLoaded] = useState(() => (!loadingOptions && Array.isArray(options) ? options : []));
   const [optionsCustom, setOptionsCustom] = useState<Option[]>([]);
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
   const optionSelected = useMemo(() => {
@@ -196,9 +199,10 @@ const Select2 = (props: Select2Props) => {
   const loadOptions = useCallback(async () => {
     let opts = options;
     if (opts instanceof Promise) {
-      setLoading(true);
+      setLoadingOptions(true);
+      setOptionsLoaded([]);
       opts = await opts;
-      setLoading(false);
+      setLoadingOptions(false);
     }
 
     setOptionsLoaded(opts);

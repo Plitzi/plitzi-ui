@@ -19,12 +19,13 @@ const ContainerFloatingContent = ({
   className,
   placement,
   testId,
+  disabled,
   ...props
 }: ContainerFloatingContentProps) => {
   className = useTheme<typeof ContainerFloatingStyles, typeof variantKeys>('ContainerFloating', {
     className,
     componentKey: 'content',
-    variants: { placement }
+    variants: { placement, disabled }
   });
 
   return (

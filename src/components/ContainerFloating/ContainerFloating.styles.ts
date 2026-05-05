@@ -14,7 +14,18 @@ export default {
     compoundVariants: [],
     defaultVariants: {}
   }),
-  trigger: cva('cursor-pointer'),
+  trigger: cva('', {
+    variants: {
+      disabled: {
+        true: 'cursor-not-allowed',
+        false: 'cursor-pointer'
+      }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      disabled: false
+    }
+  }),
   content: cva('flex w-full h-full', {
     variants: {
       intent: {
