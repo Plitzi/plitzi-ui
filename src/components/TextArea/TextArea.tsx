@@ -1,6 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import { omit } from '@/helpers/lodash';
+import Icon from '@components/Icon';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -12,7 +13,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, ReactNode, RefObject, TextareaHTMLAttributes } from 'react';
 
 export type TextAreaProps = {
-  ref?: RefObject<HTMLTextAreaElement>;
+  ref?: RefObject<HTMLTextAreaElement | null>;
   label?: ReactNode;
   placeholder?: string;
   loading?: boolean;
@@ -24,7 +25,7 @@ export type TextAreaProps = {
 } & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className' | 'onChange' | 'size'> &
   Omit<useThemeSharedProps<typeof TextAreaStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
-const TextArea = ({
+const BaseTextArea = ({
   ref,
   className = '',
   id,
@@ -85,5 +86,7 @@ const TextArea = ({
     </InputContainer>
   );
 };
+
+const TextArea = Object.assign(memo(BaseTextArea), { Icon });
 
 export default TextArea;
