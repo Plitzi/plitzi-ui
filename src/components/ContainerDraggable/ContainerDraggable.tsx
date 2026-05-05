@@ -300,6 +300,7 @@ const ContainerDraggable = ({
       intent="white"
       rounded="none"
       shadow="dark"
+      overflow="none"
       ref={elementRef}
       style={style}
     >

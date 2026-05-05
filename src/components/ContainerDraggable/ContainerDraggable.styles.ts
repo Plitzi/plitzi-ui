@@ -10,7 +10,7 @@ export const STYLES_COMPONENT_NAME = 'ContainerDraggable';
 
 export default {
   root: cva(
-    'flex flex-col overflow-hidden absolute z-50 rounded-lg bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-xl shadow-black/10 dark:shadow-black/40',
+    'flex flex-col absolute z-50 rounded-lg bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-xl shadow-black/10 dark:shadow-black/40',
     {
       variants: {
         intent: {},

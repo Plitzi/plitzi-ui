@@ -20,7 +20,7 @@ export default {
         w: 'h-auto w-1 top-0 left-0 bottom-0 bg-gray-200 dark:bg-zinc-800',
         sw: '',
         nw: '',
-        se: 'right-0 bottom-0',
+        se: '-right-4 -bottom-4',
         ne: ''
       },
       hover: {
@@ -44,7 +44,7 @@ export default {
         w: 'h-full w-0.5 hover:w-1 bg-gray-300 dark:bg-zinc-700 hover:bg-primary-ui cursor-ew-resize',
         sw: '',
         nw: '',
-        se: 'h-3 w-3 cursor-se-resize border-b-4 border-r-4 border-gray-300 dark:border-zinc-700 hover:border-primary-ui active:pointer-events-none rounded-br-lg',
+        se: 'h-3 w-3 cursor-se-resize border-b-4 border-r-4 border-zinc-400 dark:border-zinc-700 hover:border-primary-ui hover:dark:border-primary-ui active:pointer-events-none rounded-br-lg',
         ne: ''
       },
       hover: {

@@ -151,7 +151,7 @@ export const Primary: Story = {
           canHide
           onChange={(placement: PopupPlacement, value: PopupUpdateState) => console.log(placement, value)}
         >
-          <div className="flex grow h-125 bg-gray-200"></div>
+          <div className="flex grow h-200 bg-gray-200"></div>
         </PopupProvider>
       </div>
     );

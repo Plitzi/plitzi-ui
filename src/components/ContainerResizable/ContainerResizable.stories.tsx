@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {},
   render: args => (
-    <div className="flex gap-4 h-[300px]">
+    <div className="flex gap-4 h-75">
       <ContainerResizable
         className="h-full"
         minConstraintsX={300}
@@ -37,7 +37,7 @@ export const Primary: Story = {
 export const North: Story = {
   args: {},
   render: args => (
-    <div className="flex flex-col gap-4 h-[500px]">
+    <div className="flex flex-col gap-4 h-125">
       <div className="grow">Content Outside</div>
       <ContainerResizable
         className="w-full"
