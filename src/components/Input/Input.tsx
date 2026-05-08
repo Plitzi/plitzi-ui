@@ -13,7 +13,7 @@ import type { useThemeSharedProps } from '@hooks/useTheme';
 import type { ChangeEvent, InputHTMLAttributes, ReactNode, RefObject } from 'react';
 
 export type InputProps = {
-  ref?: RefObject<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement | null>;
   children?: ReactNode;
   placeholder?: string;
   loading?: boolean;
