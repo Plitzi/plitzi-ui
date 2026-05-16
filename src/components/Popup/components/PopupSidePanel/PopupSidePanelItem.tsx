@@ -37,7 +37,7 @@ const PopupSidePanelItem = ({
 
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
-    componentKey: ['sidePanelItem', 'sidePanelItemHeader', 'btn'],
+    componentKey: ['sidePanelItem', 'sidePanelItemHeader', 'sidePanelItemBody', 'btn'],
     variants: { size, expanded: accordionManager.isOpen(id) }
   });
 
@@ -90,7 +90,9 @@ const PopupSidePanelItem = ({
           <Button.Icon icon={placement === 'left' ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'} />
         </Button>
       </Accordion.Item.Header>
-      <Accordion.Item.Content size={size}>{children}</Accordion.Item.Content>
+      <Accordion.Item.Content className={classNameTheme.sidePanelItemBody} size={size}>
+        {children}
+      </Accordion.Item.Content>
     </Accordion.Item>
   );
 };

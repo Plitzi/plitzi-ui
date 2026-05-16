@@ -63,5 +63,6 @@ export default {
       expanded: false
     }
   }),
+  sidePanelItemBody: cva('flex-col'),
   sidebar: cva('')
 };
