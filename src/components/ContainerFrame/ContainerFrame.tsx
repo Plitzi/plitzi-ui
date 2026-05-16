@@ -125,6 +125,14 @@ const ContainerFrame = ({
   }, [iframeLoaded, assets, myDocument, loadBuilderAssets]);
 
   const handleLoad = useCallback(() => {
+    const isRemount = iframeRef.current && myDocument;
+    const isSameDocument = iframeRef.current?.contentDocument === myDocument;
+    if (isRemount && !isSameDocument) {
+      setMyDocument(iframeRef.current?.contentDocument);
+
+      return;
+    }
+
     if (iframeLoaded) {
       return;
     }
@@ -132,7 +140,7 @@ const ContainerFrame = ({
     onLoad?.(iframeRef.current);
     setIframeLoaded(true);
     setMyDocument(iframeRef.current?.contentDocument);
-  }, [iframeLoaded, onLoad]);
+  }, [iframeLoaded, myDocument, onLoad]);
 
   useEffect(() => {
     if (myDocument) {
