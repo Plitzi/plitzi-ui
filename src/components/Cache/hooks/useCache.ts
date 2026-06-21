@@ -9,7 +9,7 @@ import CacheContext from '../CacheContext';
 import type { CacheContextValue } from '../CacheContext';
 
 export type UseCacheProps = {
-  storeMode?: 'local' | 'session';
+  storeMode?: 'localStorage' | 'sessionStorage';
   skipContext?: boolean;
   cacheId?: string;
 };
@@ -22,7 +22,7 @@ export type UseCacheReturn<T = unknown> = [
 ];
 
 const useCache = <T = unknown>({
-  storeMode = 'local',
+  storeMode = 'localStorage',
   skipContext = false,
   cacheId = ''
 }: UseCacheProps = {}): UseCacheReturn<T> => {
@@ -42,7 +42,7 @@ const useCache = <T = unknown>({
     (path?: string, defaultValue: Record<string, T> = {}) => {
       let serializedState: Record<string, T> | string | null = defaultValue;
       try {
-        if (storeMode === 'local') {
+        if (storeMode === 'localStorage') {
           serializedState = localStorage.getItem(cacheId);
         } else {
           serializedState = sessionStorage.getItem(cacheId);
@@ -78,7 +78,7 @@ const useCache = <T = unknown>({
 
       try {
         const serializedState = JSON.stringify(newState);
-        if (storeMode === 'local') {
+        if (storeMode === 'localStorage') {
           localStorage.setItem(cacheId, serializedState);
         } else {
           sessionStorage.setItem(cacheId, serializedState);
@@ -96,7 +96,7 @@ const useCache = <T = unknown>({
 
   const clearCache = useCallback(() => {
     try {
-      if (storeMode === 'local') {
+      if (storeMode === 'localStorage') {
         localStorage.removeItem(cacheId);
       } else {
         sessionStorage.removeItem(cacheId);
