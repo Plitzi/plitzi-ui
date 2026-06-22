@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 
-import { cloneAtPath } from './cloneDeep';
+import { cloneAtPath, cloneObject } from './cloneDeep';
 import { has } from './has';
 import { toPath } from './shared';
 
@@ -20,11 +20,45 @@ export function omit<T extends Record<string, unknown>>(obj: T, paths?: Path | r
   if (pathArray.length === 0) {
     return { ...obj };
   }
-  let result: T = obj;
 
+  // Classify once: a single-segment path is a top-level key (the common case), the rest are nested paths that need
+  // structural-sharing clones. Empty results (invalid paths) are dropped, matching the previous no-op behaviour.
+  const shallowKeys: string[] = [];
+  const nestedPaths: Path[] = [];
   for (const path of pathArray) {
     const keys = toPath(path);
-    if (!keys.length || !has(result, path)) {
+    if (keys.length === 0) {
+      continue;
+    }
+
+    if (keys.length === 1) {
+      shallowKeys.push(keys[0]);
+    } else {
+      nestedPaths.push(path);
+    }
+  }
+
+  let result: T = obj;
+
+  // Shallow keys share a single root clone instead of cloning the source once per key.
+  if (shallowKeys.length) {
+    let cloned: T | undefined;
+    for (const key of shallowKeys) {
+      if (Object.prototype.hasOwnProperty.call(result, key)) {
+        cloned ??= cloneObject(result);
+        delete (cloned as Record<string, unknown>)[key];
+      }
+    }
+
+    if (cloned) {
+      result = cloned;
+    }
+  }
+
+  // Nested paths keep the per-path structural-sharing clone.
+  for (const path of nestedPaths) {
+    const keys = toPath(path);
+    if (!has(result, path)) {
       continue;
     }
 

@@ -826,6 +826,89 @@ describe('omit', () => {
     const lodashResult = _.omit(obj, ['var1.subVar1']);
     expect(Object.keys(lodashResult)).toEqual(['a', 'b', 'c']);
   });
+
+  // Shallow fast-path: when every path is a single top-level key the keys share one root clone instead of one clone
+  // per key. These cases lock the behaviour to lodash so the optimisation can never diverge.
+  describe('shallow fast-path parity with lodash', () => {
+    it('removes several top-level keys (multi-key fast-path)', () => {
+      const source = { a: 1, b: 2, c: 3, d: 4 };
+      const result = omit(source, ['a', 'c']);
+
+      expect(result).toEqual(_.omit(source, ['a', 'c']));
+      expect(result).toEqual({ b: 2, d: 4 });
+    });
+
+    it('ignores absent keys while still removing present ones', () => {
+      const source = { a: 1, b: 2 };
+      const result = omit(source, ['a', 'missing', 'alsoMissing']);
+
+      expect(result).toEqual(_.omit(source, ['a', 'missing', 'alsoMissing']));
+      expect(result).toEqual({ b: 2 });
+    });
+
+    it('matches lodash when no listed key is present', () => {
+      const source = { a: 1, b: 2 };
+
+      expect(omit(source, ['x', 'y'])).toEqual(_.omit(source, ['x', 'y']));
+      expect(omit(source, ['x', 'y'])).toEqual({ a: 1, b: 2 });
+    });
+
+    it('removes a top-level key whose value is an object, not just part of it', () => {
+      const source = { user: { name: 'a', token: 't' }, keep: 1 };
+      const result = omit(source, ['user']);
+
+      expect(result).toEqual(_.omit(source, ['user']));
+      expect(result).toEqual({ keep: 1 });
+    });
+
+    it('preserves undefined-valued sibling keys', () => {
+      const source = { a: 1, b: undefined, c: 3 } as { a: number; b?: number; c: number };
+      const result = omit(source, ['a', 'c']);
+
+      expect(result).toEqual(_.omit(source, ['a', 'c']));
+      expect(result).toEqual({ b: undefined });
+    });
+
+    it('does not mutate the source and returns a new object when a key is removed', () => {
+      const source = { a: 1, b: 2, c: 3 };
+      const result = omit(source, ['a', 'b']);
+
+      expect(result).not.toBe(source);
+      expect(source).toEqual({ a: 1, b: 2, c: 3 });
+      expect(result).toEqual(_.omit(source, ['a', 'b']));
+    });
+
+    it('matches lodash on a large object with several shallow keys', () => {
+      const source: Record<string, number> = {};
+      for (let i = 0; i < 1000; i++) {
+        source[`k${i}`] = i;
+      }
+      const keys = ['k0', 'k500', 'k999'];
+
+      expect(omit(source, keys)).toEqual(_.omit(source, keys));
+    });
+  });
+
+  // Mixing shallow keys and nested paths in one call must keep both branches correct and order-independent.
+  describe('mixed shallow + nested parity with lodash', () => {
+    const source = { a: 1, b: { c: 2, d: 3 }, e: 4 };
+
+    it('removes shallow keys and nested paths together', () => {
+      const result = omit(source, ['a', 'b.c', 'e']);
+
+      expect(result).toEqual(_.omit(source, ['a', 'b.c', 'e']));
+      expect(result).toEqual({ b: { d: 3 } });
+      expect(source).toEqual({ a: 1, b: { c: 2, d: 3 }, e: 4 });
+    });
+
+    it('is independent of the order shallow vs nested paths are listed', () => {
+      const forward = omit(source, ['a', 'b.c']);
+      const reversed = omit(source, ['b.c', 'a']);
+
+      expect(forward).toEqual(reversed);
+      expect(forward).toEqual(_.omit(source, ['a', 'b.c']));
+    });
+  });
 });
 
 describe('debounce', () => {

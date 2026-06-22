@@ -96,7 +96,7 @@ export function cloneDeep<T>(value: T, seen = new WeakMap<object, any>()): T {
   return cloned;
 }
 
-const cloneObject = <T>(obj: T) => Object.assign(Object.create(Object.getPrototypeOf(obj)), obj) as T;
+export const cloneObject = <T>(obj: T) => Object.assign(Object.create(Object.getPrototypeOf(obj)), obj) as T;
 
 /**
  * Clones only the necessary path (structural sharing).
