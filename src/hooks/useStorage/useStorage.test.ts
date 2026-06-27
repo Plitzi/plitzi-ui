@@ -5,6 +5,12 @@ import useStorage from '.';
 
 beforeEach(() => {
   localStorage.clear();
+  for (const part of document.cookie.split(';')) {
+    const name = part.split('=')[0].trim();
+    if (name) {
+      document.cookie = `${name}=; path=/; max-age=0`;
+    }
+  }
 });
 
 type Cache = { viewMode: 'basic' | 'advanced'; collapsedCache: boolean; nested?: { prop1: string } };
@@ -45,6 +51,28 @@ describe('useStorage Tests', () => {
       expect(result.current[0]).toEqual({ viewMode: 'advanced', collapsedCache: true });
       expect(result2.current[0]).toEqual({ viewMode: 'advanced', collapsedCache: true });
     });
+  });
+
+  it.sequential('cookie mode persists to document.cookie', async () => {
+    const { result } = renderHook(() => useStorage<boolean>('plitzi_debug', false, 'cookie'));
+
+    expect(result.current[0]).toEqual(false);
+
+    act(() => {
+      result.current[1](true);
+    });
+
+    await waitFor(() => {
+      expect(result.current[0]).toEqual(true);
+      expect(document.cookie).toContain('plitzi_debug=true');
+    });
+  });
+
+  it.sequential('cookie mode seeds from an existing cookie', () => {
+    document.cookie = 'plitzi_debug=true; path=/';
+    const { result } = renderHook(() => useStorage<boolean>('plitzi_debug', false, 'cookie'));
+
+    expect(result.current[0]).toEqual(true);
   });
 
   it.sequential('complex scenario, multiple hooks, same object different levels', async () => {

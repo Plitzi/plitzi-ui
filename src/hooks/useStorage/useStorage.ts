@@ -4,12 +4,26 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { get, set } from '@/helpers/lodash';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 
-import { storageProxy } from './useStorageHelper';
+import { cookieStorage, storageProxy } from './useStorageHelper';
+
+type StorageMode = 'localStorage' | 'sessionStorage' | 'cookie';
+
+const resolveStorage = (mode: StorageMode): Storage | undefined => {
+  if (mode === 'cookie') {
+    return typeof document !== 'undefined' ? storageProxy(cookieStorage()) : undefined;
+  }
+
+  if (mode === 'sessionStorage') {
+    return typeof sessionStorage !== 'undefined' ? storageProxy(sessionStorage) : undefined;
+  }
+
+  return typeof localStorage !== 'undefined' ? storageProxy(localStorage) : undefined;
+};
 
 function useLocalStorage<T = unknown>(
   keyProp: string,
   initialValue: T,
-  mode: 'localStorage' | 'sessionStorage' = 'localStorage',
+  mode: StorageMode = 'localStorage',
   autoSync: boolean = true
 ) {
   const [key, path] = useMemo(() => {
@@ -23,27 +37,10 @@ function useLocalStorage<T = unknown>(
     return [keyProp, ''];
   }, [keyProp]);
 
-  const storageRef = useRef<Storage | undefined>(
-    mode === 'localStorage'
-      ? typeof localStorage !== 'undefined'
-        ? storageProxy(localStorage)
-        : undefined
-      : typeof sessionStorage !== 'undefined'
-        ? storageProxy(sessionStorage)
-        : undefined
-  );
+  const storageRef = useRef<Storage | undefined>(resolveStorage(mode));
 
   useDidUpdateEffect(() => {
-    if (
-      (mode === 'localStorage' && typeof localStorage === 'undefined') ||
-      (mode === 'sessionStorage' && typeof sessionStorage === 'undefined')
-    ) {
-      storageRef.current = undefined;
-
-      return;
-    }
-
-    storageRef.current = mode === 'localStorage' ? storageProxy(localStorage) : storageProxy(sessionStorage);
+    storageRef.current = resolveStorage(mode);
   }, [mode]);
 
   const [value, setValue] = useState<T>(() => {
