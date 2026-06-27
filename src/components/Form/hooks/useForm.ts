@@ -15,9 +15,7 @@ import type { z } from 'zod';
 
 // Helpers
 export type ZodFormSchema =
-  | z.ZodObject
-  | z.ZodDiscriminatedUnion<z.ZodObject[]>
-  | z.ZodDiscriminatedUnion<readonly z.ZodObject[]>;
+  z.ZodObject | z.ZodDiscriminatedUnion<z.ZodObject[]> | z.ZodDiscriminatedUnion<readonly z.ZodObject[]>;
 
 export type UseFormProps<T extends ZodFormSchema> = Omit<
   UseReactHookFormProps<z.input<T>>,

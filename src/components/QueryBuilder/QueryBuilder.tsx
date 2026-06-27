@@ -62,16 +62,7 @@ export type Field = {
   operators?: { value: Operator; label: string }[];
   group?: string;
   inputType?:
-    | 'checkbox'
-    | 'radio'
-    | 'multiselect'
-    | 'select'
-    | 'text'
-    | 'number'
-    | 'date'
-    | 'time'
-    | 'datetime'
-    | 'textarea';
+    'checkbox' | 'radio' | 'multiselect' | 'select' | 'text' | 'number' | 'date' | 'time' | 'datetime' | 'textarea';
   defaultValue?: RuleValue;
   validator?: (value?: string | number | boolean) => boolean | string;
   options?: { value: RuleValue; label: string }[];

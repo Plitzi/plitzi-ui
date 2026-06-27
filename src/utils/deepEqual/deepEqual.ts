@@ -23,7 +23,7 @@ const deepEqual = (a: unknown, b: unknown, mode: 'soft' | 'hard' = 'soft', metad
         return false;
       }
 
-      for (i = length; i-- !== 0; ) {
+      for (i = length; i-- !== 0;) {
         if (!deepEqual(a[i], (b as unknown[])[i], mode, metadata)) {
           return false;
         }
@@ -72,7 +72,7 @@ const deepEqual = (a: unknown, b: unknown, mode: 'soft' | 'hard' = 'soft', metad
         return false;
       }
 
-      for (i = length; i-- !== 0; ) {
+      for (i = length; i-- !== 0;) {
         if ((a as unknown as unknown[])[i] !== (b as unknown as unknown[])[i]) {
           return false;
         }
@@ -115,13 +115,13 @@ const deepEqual = (a: unknown, b: unknown, mode: 'soft' | 'hard' = 'soft', metad
       return false;
     }
 
-    for (i = length; i-- !== 0; ) {
+    for (i = length; i-- !== 0;) {
       if (!Object.prototype.hasOwnProperty.call(b, keys[i])) {
         return false;
       }
     }
 
-    for (i = length; i-- !== 0; ) {
+    for (i = length; i-- !== 0;) {
       const key = keys[i];
 
       if (key === '_owner' && (a as Record<string, unknown>).$$typeof) {
