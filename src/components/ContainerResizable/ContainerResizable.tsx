@@ -192,6 +192,10 @@ const ContainerResizable = ({
         setHeight(containerInternalRef.current?.offsetHeight ?? height);
       }
 
+      if (typeof document !== 'undefined') {
+        document.body.style.userSelect = '';
+      }
+
       getParentElement()?.classList.remove('resizing');
     },
     [getParentElement, height, width]
@@ -202,6 +206,12 @@ const ContainerResizable = ({
       e => {
         if (!containerRef.current) {
           return;
+        }
+
+        // Suppress the native text selection a drag across the page would otherwise start while resizing.
+        e.preventDefault();
+        if (typeof document !== 'undefined') {
+          document.body.style.userSelect = 'none';
         }
 
         getParentElement()?.classList.add('resizing');
