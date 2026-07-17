@@ -21,14 +21,15 @@ import type { CSSProperties, ReactNode, RefObject } from 'react';
 const optionsDefault: Option[] = [];
 
 export type Option =
-  | ({ label: string; value: string; icon?: ReactNode } & {
-      [key in Exclude<string, 'options' | 'label' | 'value'>]?: unknown;
+  | ({ label: string; value: string; icon?: ReactNode; disabled?: boolean } & {
+      [key in Exclude<string, 'options' | 'label' | 'value' | 'disabled'>]?: unknown;
     })
   | OptionGroup;
 
 export type OptionGroup = {
   icon?: ReactNode;
   label: string;
+  disabled?: boolean;
   options: Exclude<Option, OptionGroup>[];
 };
 
@@ -250,7 +251,12 @@ const Select2 = (props: Select2Props) => {
       (item.label ? item.label : '').toLowerCase().indexOf(search.toLowerCase()) > -1;
     let result = [...optionsCustom, ...optionsLoaded].map(item => {
       if (isOptionGroup(item)) {
-        return { icon: item.icon, label: item.label, options: item.options.filter(filterItem) };
+        return {
+          icon: item.icon,
+          label: item.label,
+          disabled: item.disabled,
+          options: item.options.filter(filterItem)
+        };
       }
 
       return item;

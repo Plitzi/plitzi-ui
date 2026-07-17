@@ -39,25 +39,40 @@ export const BasicUsage: Story = {
         icon: <Icon icon="fa-solid fa-house" />
       },
       { value: 'world', label: 'World', icon: <Icon icon="fa-solid fa-circle-user" /> },
+      { value: 'disabled-item', label: 'Disabled Item', disabled: true },
       {
         label: 'Group 1',
         icon: <Icon icon="fa-solid fa-image" />,
         options: [
-          { value: 'hello1', label: 'Hello 1' },
+          { value: 'hello1', label: 'Hello 1', disabled: true },
           { value: 'world', label: 'World' }
         ]
       },
       {
-        label: 'Group 2',
+        label: 'Group 2 (disabled)',
+        disabled: true,
         options: [
           { value: 'hello2', label: 'Hello 2' },
           { value: 'world', label: 'World' },
-          { value: 'world', label: 'World' },
-          { value: 'world', label: 'World' },
-          { value: 'world', label: 'World' },
-          { value: 'world', label: 'World' },
-          { value: 'world', label: 'World' },
-          { value: 'world', label: 'World' }
+          { value: 'world2', label: 'World 2' },
+          { value: 'world3', label: 'World 3' },
+          { value: 'world4', label: 'World 4' },
+          { value: 'world5', label: 'World 5' },
+          { value: 'world6', label: 'World 6' },
+          { value: 'world7', label: 'World 7' }
+        ]
+      },
+      {
+        label: 'Group 3',
+        options: [
+          { value: 'hello3', label: 'Hello 3' },
+          { value: 'world8', label: 'World 8' },
+          { value: 'world9', label: 'World 9' },
+          { value: 'world10', label: 'World 10' },
+          { value: 'world11', label: 'World 11' },
+          { value: 'world12', label: 'World 12' },
+          { value: 'world13', label: 'World 13' },
+          { value: 'world14', label: 'World 14' }
         ]
       }
     ]

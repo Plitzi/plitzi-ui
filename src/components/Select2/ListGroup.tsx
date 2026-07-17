@@ -16,6 +16,7 @@ export type ListGroupProps = {
   icon?: ReactNode;
   label?: string;
   value?: string;
+  disabled?: boolean;
   allowRemoveOptions?: boolean;
   onChange?: (newValue?: Exclude<Option, OptionGroup>) => void;
   onRemove?: (option: Exclude<Option, OptionGroup>) => void;
@@ -27,6 +28,7 @@ const ListGroup = ({
   icon,
   label = '',
   value = '',
+  disabled = false,
   allowRemoveOptions = false,
   size,
   onChange,
@@ -35,7 +37,7 @@ const ListGroup = ({
   const classNameTheme = useTheme<typeof Select2Styles, typeof variantKeys>('Select2', {
     className,
     componentKey: ['listGroup', 'listGroupLabel'],
-    variants: { size }
+    variants: { size, disabled }
   });
 
   return (
@@ -52,6 +54,7 @@ const ListGroup = ({
             value={option.value}
             isSelected={value === option.value}
             option={option}
+            disabled={disabled || option.disabled === true}
             size={size}
             allowRemoveOptions={allowRemoveOptions}
             onChange={onChange}

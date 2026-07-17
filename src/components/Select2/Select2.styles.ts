@@ -3,7 +3,8 @@ import cva from '@/helpers/cvaWrapper';
 export const variantKeys = {
   intent: ['primary', 'error', 'disabled'],
   size: ['md', 'sm', 'xs', 'custom'],
-  selected: [true, false]
+  selected: [true, false],
+  disabled: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Select2';
@@ -105,6 +106,10 @@ export default {
     'flex items-center cursor-default select-none truncate text-xs font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500',
     {
       variants: {
+        disabled: {
+          true: 'text-zinc-300 dark:text-zinc-600 opacity-50',
+          false: ''
+        },
         size: {
           md: 'px-2.5 py-1.5 gap-2',
           sm: 'px-2 py-1 gap-1.5',
@@ -114,7 +119,8 @@ export default {
       },
       compoundVariants: [],
       defaultVariants: {
-        size: 'md'
+        size: 'md',
+        disabled: false
       }
     }
   ),
@@ -126,6 +132,10 @@ export default {
           true: 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400',
           false: 'text-zinc-700 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-700/60'
         },
+        disabled: {
+          true: 'text-zinc-300 dark:text-zinc-600 cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent',
+          false: ''
+        },
         size: {
           md: 'px-2.5 py-2 gap-2 text-sm',
           sm: 'px-2 py-1.5 gap-1.5 text-sm',
@@ -133,10 +143,17 @@ export default {
           custom: ''
         }
       },
-      compoundVariants: [],
+      compoundVariants: [
+        {
+          disabled: true,
+          selected: true,
+          className: 'text-zinc-300 dark:text-zinc-600 bg-transparent dark:bg-transparent'
+        }
+      ],
       defaultVariants: {
         size: 'md',
-        selected: false
+        selected: false,
+        disabled: false
       }
     }
   ),

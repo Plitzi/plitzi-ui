@@ -48,6 +48,7 @@ const SelectList = ({
               icon={icon}
               options={option.options}
               value={value}
+              disabled={option.disabled === true}
               size={size}
               allowRemoveOptions={allowRemoveOptions}
               onChange={onChange}
@@ -64,6 +65,7 @@ const SelectList = ({
             icon={icon}
             value={option.value}
             option={option}
+            disabled={option.disabled === true}
             size={size}
             allowRemoveOptions={allowRemoveOptions}
             onChange={onChange}
