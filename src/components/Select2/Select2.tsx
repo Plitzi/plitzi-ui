@@ -114,7 +114,7 @@ const Select2 = (props: Select2Props) => {
   const [optionsCustom, setOptionsCustom] = useState<Option[]>([]);
   useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => triggerRef.current, [triggerRef]);
   const optionSelected = useMemo(() => {
-    if (typeof value === 'string') {
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
       const option = optionsLoaded.find(op => {
         if (isOptionGroup(op)) {
           return op.options.find(gop => gop.value === value);
@@ -134,7 +134,11 @@ const Select2 = (props: Select2Props) => {
       return option;
     }
 
-    return value;
+    if (value && typeof value === 'object') {
+      return value;
+    }
+
+    return undefined;
   }, [allowCreateOptions, optionsLoaded, value]);
   const [search, setSearch] = useState('');
 
