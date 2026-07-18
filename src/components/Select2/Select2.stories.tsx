@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useArgs } from 'storybook/preview-api';
 
 import Icon from '@components/Icon';
@@ -124,6 +124,64 @@ export const BasicUsage: Story = {
           onChange={option => updateArgs({ value: option })}
           onRemove={handleRemove}
         />
+      </div>
+    );
+  }
+};
+
+export const BooleanValue: Story = {
+  args: {
+    options: [
+      { value: 'true', label: 'Yes' },
+      { value: 'false', label: 'No' }
+    ]
+  },
+  render: function Render() {
+    const [value, setValue] = useState<boolean | undefined>(true);
+
+    return (
+      <div className="flex flex-col gap-4 w-96">
+        <Select2
+          valueAsString={false}
+          value={value as unknown as string}
+          options={[
+            { value: 'true', label: 'Yes' },
+            { value: 'false', label: 'No' }
+          ]}
+          onChange={option => setValue(option?.value === 'true')}
+        />
+        <div className="text-sm text-gray-500">
+          Current value: <strong>{String(value)}</strong> ({typeof value})
+        </div>
+      </div>
+    );
+  }
+};
+
+export const BooleanValueAsString: Story = {
+  args: {
+    options: [
+      { value: 'true', label: 'Yes' },
+      { value: 'false', label: 'No' }
+    ]
+  },
+  render: function Render() {
+    const [value, setValue] = useState<string | undefined>('true');
+
+    return (
+      <div className="flex flex-col gap-4 w-96">
+        <Select2
+          valueAsString
+          value={value}
+          options={[
+            { value: 'true', label: 'Yes' },
+            { value: 'false', label: 'No' }
+          ]}
+          onChange={option => setValue(option)}
+        />
+        <div className="text-sm text-gray-500">
+          Current value: <strong>{value ?? 'none'}</strong>
+        </div>
       </div>
     );
   }

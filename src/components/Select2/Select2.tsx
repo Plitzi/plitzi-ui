@@ -128,7 +128,7 @@ const Select2 = (props: Select2Props) => {
       }
 
       if (!option && value && allowCreateOptions) {
-        return { label: value, value };
+        return { label: typeof value === 'string' ? value : (value as number | boolean).toString(), value };
       }
 
       return option;
