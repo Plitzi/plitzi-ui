@@ -13,14 +13,14 @@ import type { ConfigEnv } from 'vite';
 
 const importedPackages = new Set<string>();
 
-function getComponentEntries(dir: string): string[] {
+function getEntries(dir: string): string[] {
   const entries: string[] = [];
   const items = fs.readdirSync(dir, { withFileTypes: true });
   for (const item of items) {
     const fullPath = path.join(dir, item.name);
     if (item.isDirectory()) {
-      entries.push(...getComponentEntries(fullPath));
-    } else if (item.isFile() && item.name === 'index.ts') {
+      entries.push(...getEntries(fullPath));
+    } else if (item.isFile() && /^index\.tsx?$/.test(item.name)) {
       entries.push(fullPath);
     }
   }
@@ -82,15 +82,10 @@ export default defineConfig((env: ConfigEnv) => ({
   },
   build: {
     lib: {
-      entry: [
-        resolve(__dirname, './src/index.ts'),
-        resolve(__dirname, './src/tailwind/index.ts'),
-        resolve(__dirname, './src/icons/index.ts'),
-        resolve(__dirname, './src/helpers/index.ts'),
-        resolve(__dirname, './src/helpers/lodash/index.ts'),
-        ...getComponentEntries(resolve(__dirname, './src/components'))
-      ],
-      name: 'plitzi-ui'
+      entry: getEntries(resolve(__dirname, './src')),
+      // Without this Vite also runs a `cjs` pass, and both passes write `[name].js` — the CJS output would
+      // silently overwrite the ESM one.
+      formats: ['es']
     },
     rollupOptions: {
       treeshake: false,
