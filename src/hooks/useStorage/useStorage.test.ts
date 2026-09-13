@@ -16,8 +16,9 @@ beforeEach(() => {
 type Cache = { viewMode: 'basic' | 'advanced'; collapsedCache: boolean; nested?: { prop1: string } };
 
 // const [cache, setCache] = result.current;
-describe('useStorage Tests', () => {
-  it.sequential('basic functionality', async () => {
+// The hooks share localStorage and document.cookie, so these must never run concurrently.
+describe('useStorage Tests', { concurrent: false }, () => {
+  it('basic functionality', async () => {
     const { result } = renderHook(() =>
       useStorage<Cache>('StyleInspector', { viewMode: 'basic', collapsedCache: false })
     );
@@ -33,7 +34,7 @@ describe('useStorage Tests', () => {
     });
   });
 
-  it.sequential('basic multiple hooks at the same time', async () => {
+  it('basic multiple hooks at the same time', async () => {
     const { result } = renderHook(() =>
       useStorage<Cache>('StyleInspector', { viewMode: 'basic', collapsedCache: false })
     );
@@ -53,7 +54,7 @@ describe('useStorage Tests', () => {
     });
   });
 
-  it.sequential('cookie mode persists to document.cookie', async () => {
+  it('cookie mode persists to document.cookie', async () => {
     const { result } = renderHook(() => useStorage<boolean>('plitzi_debug', false, 'cookie'));
 
     expect(result.current[0]).toEqual(false);
@@ -68,14 +69,14 @@ describe('useStorage Tests', () => {
     });
   });
 
-  it.sequential('cookie mode seeds from an existing cookie', () => {
+  it('cookie mode seeds from an existing cookie', () => {
     document.cookie = 'plitzi_debug=true; path=/';
     const { result } = renderHook(() => useStorage<boolean>('plitzi_debug', false, 'cookie'));
 
     expect(result.current[0]).toEqual(true);
   });
 
-  it.sequential('complex scenario, multiple hooks, same object different levels', async () => {
+  it('complex scenario, multiple hooks, same object different levels', async () => {
     const { result } = renderHook(() =>
       useStorage<Cache>('StyleInspector', { viewMode: 'basic', collapsedCache: false, nested: { prop1: 'hello' } })
     );

@@ -35,7 +35,7 @@ export default defineConfig((env: ConfigEnv) => ({
     tailwindcss(),
     dts({
       entryRoot: 'src',
-      rollupTypes: false,
+      bundleTypes: false,
       exclude: ['**/*.test.tsx', '**/*.stories.ts', '**/*.stories.tsx', 'vite.config.ts'],
       tsconfigPath: './tsconfig.app.json'
     }),
@@ -74,15 +74,15 @@ export default defineConfig((env: ConfigEnv) => ({
   resolve: {
     tsconfigPaths: true,
     alias: {
-      '@uiIcons': resolve(__dirname, './src/icons'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@': resolve(__dirname, './src')
+      '@uiIcons': resolve(import.meta.dirname, './src/icons'),
+      '@components': path.resolve(import.meta.dirname, './src/components'),
+      '@hooks': path.resolve(import.meta.dirname, './src/hooks'),
+      '@': resolve(import.meta.dirname, './src')
     }
   },
   build: {
     lib: {
-      entry: getEntries(resolve(__dirname, './src')),
+      entry: getEntries(resolve(import.meta.dirname, './src')),
       // Without this Vite also runs a `cjs` pass, and both passes write `[name].js` — the CJS output would
       // silently overwrite the ESM one.
       formats: ['es']
