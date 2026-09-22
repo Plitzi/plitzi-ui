@@ -243,6 +243,16 @@ describe('QueryBuilder', () => {
     expect(evaluateContains('test', true)).toEqual(false);
   });
 
+  it('should evaluate contains against a list as membership', () => {
+    expect(evaluateContains('rpg', ['arcade', 'rpg'])).toEqual(true);
+    expect(evaluateContains('racer', ['arcade', 'rpg'])).toEqual(false);
+    expect(evaluateContains('3', [1, 3])).toEqual(true);
+    expect(evaluateContains('true', [true])).toEqual(true);
+    // An entry, not a substring of one: a list of words is not searched inside each word.
+    expect(evaluateContains('rp', ['arcade', 'rpg'])).toEqual(false);
+    expect(evaluateContains('rpg', [])).toEqual(false);
+  });
+
   it('should evaluate empty', () => {
     expect(evaluateEmpty(true)).toEqual(false);
     expect(evaluateEmpty(false)).toEqual(false);

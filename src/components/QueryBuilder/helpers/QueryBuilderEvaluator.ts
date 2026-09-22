@@ -121,10 +121,24 @@ export const evaluateLessThan = (value: RuleValue, valueToCompare: RuleValue) =>
 export const evaluateLessThanOrEqual = (value: RuleValue, valueToCompare: RuleValue) =>
   evaluateLessThan(value, valueToCompare) || evaluateEquals(value, valueToCompare);
 
-export const evaluateContains = (value: RuleValue, valueToCompare: RuleValue) =>
-  typeof value === 'string' &&
-  typeof valueToCompare === 'string' &&
-  valueToCompare.toLowerCase().includes(value.toLowerCase());
+/**
+ * Whether the field holds the rule's value: a case-insensitive substring of a text, or an entry of a list.
+ *
+ * The list reading is what anybody means by "the picks contain rpg", and until it existed the rule was simply false
+ * against every array — so a flow gated on a list never ran, and nothing said why. An entry is matched the way `=`
+ * matches, so `'3'` finds `3` and `'true'` finds `true`.
+ */
+export const evaluateContains = (value: RuleValue, valueToCompare: RuleValue) => {
+  if (Array.isArray(valueToCompare)) {
+    return valueToCompare.some((entry: RuleValue) => evaluateEquals(value, entry));
+  }
+
+  return (
+    typeof value === 'string' &&
+    typeof valueToCompare === 'string' &&
+    valueToCompare.toLowerCase().includes(value.toLowerCase())
+  );
+};
 
 export const evaluateBeginsWith = (value: RuleValue, valueToCompare: RuleValue) =>
   typeof valueToCompare === 'string' &&
