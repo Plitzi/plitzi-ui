@@ -1,4 +1,8 @@
-import { parseISO, getTime, isValid, parse } from 'date-fns';
+// One function per import, from its own subpath: `from 'date-fns'` loads every one of the package's 800-odd modules
+// wherever this file is imported — including the QueryBuilder evaluator a page SERVER uses, where nothing tree-shakes
+// it and it cost about 300 MB of resident memory for four functions.
+import { getTime } from 'date-fns/getTime';
+import { parseISO } from 'date-fns/parseISO';
 
 export const toUnixSeconds = (input: string | number | Date): string => {
   let d: Date;
@@ -26,9 +30,12 @@ export const isDate = (value: unknown): value is Date => {
     return false;
   }
 
-  // Parse explicitly using the same format
-  const date = parse(value, 'yyyy-MM-dd', new Date());
+  // A real calendar day, not just the shape of one: `2024-02-30` rolls over to March, so it must come back unchanged.
+  // Built by hand rather than with date-fns `parse`, which compiles every token parser it has — about 100 MB of memory —
+  // and this runs on page servers, inside the rule evaluator.
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(0);
+  date.setFullYear(year, month - 1, day);
 
-  // Check if the parsed date is valid
-  return isValid(date);
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
 };
