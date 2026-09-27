@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { EditorView } from '@codemirror/view';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, afterEach, expect, vi, beforeAll } from 'vitest';
 
 import CodeMirror from './CodeMirror';
@@ -47,5 +48,16 @@ describe('CodeMirror', () => {
     //   expect(input.value).toBe('plitzi');
     //   expect(handleChange).toHaveBeenCalledTimes(1);
     // });
+  });
+
+  it('highlights TypeScript, and takes extensions of the caller', async () => {
+    const updates = vi.fn();
+    const extensions = [EditorView.updateListener.of(updates)];
+    const { container } = render(<CodeMirror mode="ts" value="const n: number = 1;" extensions={extensions} />);
+
+    await waitFor(() => {
+      expect(container.querySelector('.cm-content')?.textContent).toBe('const n: number = 1;');
+      expect(updates).toHaveBeenCalled();
+    });
   });
 });

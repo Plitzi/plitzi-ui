@@ -35,7 +35,8 @@ export type CodeMirrorProps = {
   clearable?: boolean;
   value?: string;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
-  mode?: 'css' | 'js' | 'json' | 'text' | 'html';
+  /** `ts` is TypeScript, without JSX. */
+  mode?: 'css' | 'js' | 'ts' | 'json' | 'text' | 'html';
   theme?: 'light' | 'dark' | 'none';
   lineWrapping?: boolean;
   autoComplete?: AutoComplete[];
@@ -45,6 +46,11 @@ export type CodeMirrorProps = {
   onChange?: (value: string) => void;
   onBlur?: (e: FocusEvent) => void;
   getReadOnlyRanges?: (state: EditorState) => { from: number | null; to: number | null }[];
+  /**
+   * More of CodeMirror's own extensions, after the editor's: a language service's diagnostics and hovers, a linter, a
+   * keymap. Kept stable by the caller (a memo) — a new array reconfigures the editor.
+   */
+  extensions?: Extension[];
 } & useThemeSharedProps<typeof CodeMirrorStyles & typeof InputStyles, typeof variantKeys>;
 
 const CodeMirror = ({
@@ -70,7 +76,8 @@ const CodeMirror = ({
   size,
   rounded,
   intent,
-  getReadOnlyRanges
+  getReadOnlyRanges,
+  extensions: extraExtensions
 }: CodeMirrorProps) => {
   const classNameTheme = useTheme<typeof CodeMirrorStyles & typeof InputStyles, typeof variantKeys>('CodeMirror', {
     className,
@@ -177,6 +184,16 @@ const CodeMirror = ({
           mod.javascript({ jsx: true }),
           mod.javascriptLanguage.data.of({ autocomplete: autoCompleteHandler })
         ]);
+      } else if (mode === 'ts') {
+        const mod = await import('@codemirror/lang-javascript');
+        if (!active) {
+          return;
+        }
+
+        setLanguageExtension([
+          mod.javascript({ typescript: true }),
+          mod.typescriptLanguage.data.of({ autocomplete: autoCompleteHandler })
+        ]);
       } else if (mode === 'css') {
         const mod = await import('@codemirror/lang-css');
         if (!active) {
@@ -225,8 +242,12 @@ const CodeMirror = ({
       extensionsInternal.push(EditorView.lineWrapping);
     }
 
+    if (extraExtensions) {
+      extensionsInternal.push(...extraExtensions);
+    }
+
     return extensionsInternal;
-  }, [readOnlyTransactionFilter, lineWrapping, languageExtension]);
+  }, [readOnlyTransactionFilter, lineWrapping, languageExtension, extraExtensions]);
 
   const { editorRef } = useCodeMirror({
     extensions,
