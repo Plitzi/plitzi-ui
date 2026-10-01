@@ -50,6 +50,35 @@ describe('CodeMirror', () => {
     // });
   });
 
+  it('does not tell onChange of a value the caller gave it, whichever callback came with it', async () => {
+    // One editor, two files: the second opened with the callback that writes into it.
+    const first = vi.fn();
+    const second = vi.fn();
+    const { container, rerender } = render(<CodeMirror mode="ts" value="const a = 1;" onChange={first} />);
+    await waitFor(() => expect(container.querySelector('.cm-content')?.textContent).toBe('const a = 1;'));
+
+    rerender(<CodeMirror mode="ts" value="const b = 2;" onChange={second} />);
+    await waitFor(() => expect(container.querySelector('.cm-content')?.textContent).toBe('const b = 2;'));
+
+    expect(first).not.toHaveBeenCalled();
+    expect(second).not.toHaveBeenCalled();
+  });
+
+  it('tells the latest onChange of what is typed', async () => {
+    let view: EditorView | undefined;
+    const extensions = [EditorView.updateListener.of(update => (view = update.view))];
+    const stale = vi.fn();
+    const latest = vi.fn();
+    const { rerender } = render(<CodeMirror value="" onChange={stale} extensions={extensions} />);
+    rerender(<CodeMirror value="" onChange={latest} extensions={extensions} />);
+    await waitFor(() => expect(view).toBeDefined());
+
+    view?.dispatch({ changes: { from: 0, insert: 'typed' } });
+
+    expect(stale).not.toHaveBeenCalled();
+    expect(latest).toHaveBeenCalledWith('typed', expect.anything());
+  });
+
   it('highlights TypeScript, and takes extensions of the caller', async () => {
     const updates = vi.fn();
     const extensions = [EditorView.updateListener.of(updates)];

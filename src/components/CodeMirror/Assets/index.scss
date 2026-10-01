@@ -7,8 +7,14 @@
     background-color: transparent !important;
   }
 
+  // A one-line editor is a field with tokens in it, and reads as the fields around it do.
   .cm-scroller {
     line-height: inherit !important;
     font-family: inherit !important;
+  }
+
+  // Several lines are code: monospaced, so columns line up and an indent is an indent.
+  .cm-multiline .cm-scroller {
+    font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace !important;
   }
 }
