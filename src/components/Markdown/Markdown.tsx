@@ -56,12 +56,15 @@ const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers 
         // rehypePlugins={rehypePlugins}
         components={{
           code(props) {
+            // `node` is react-markdown's own syntax-tree node, not an attribute: spread onto a tag it reaches the HTML as
+            // `node="[object Object]"`.
             const { children, className, ...rest } = props;
+            const attributes = omit(rest, ['node']);
             const match = /language-(\w+)/.exec(className || '');
             if (match) {
               return (
                 <SyntaxHighlighter
-                  {...(omit(rest, ['node']) as SyntaxHighlighterProps)}
+                  {...(attributes as SyntaxHighlighterProps)}
                   PreTag="div"
                   language={match[1]}
                   style={vscDarkPlus}
@@ -73,7 +76,7 @@ const Markdown = ({ className, children = '', wrapLines = true, showLineNumbers 
             }
 
             return (
-              <code {...rest} className={className}>
+              <code {...attributes} className={className}>
                 {children}
               </code>
             );
