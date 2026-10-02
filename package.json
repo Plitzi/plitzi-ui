@@ -1,6 +1,6 @@
 {
   "name": "@plitzi/plitzi-ui",
-  "version": "1.6.26",
+  "version": "1.6.27",
   "homepage": "./",
   "license": "Apache-2.0",
   "files": [
@@ -396,6 +396,11 @@
       "types": "./dist/components/Tree/index.d.ts",
       "import": "./dist/components/Tree/index.js",
       "default": "./dist/components/Tree/index.js"
+    },
+    "./components/TreeCanvas": {
+      "types": "./dist/components/TreeCanvas/index.d.ts",
+      "import": "./dist/components/TreeCanvas/index.js",
+      "default": "./dist/components/TreeCanvas/index.js"
     },
     "./ContainerAutoScale": {
       "types": "./dist/components/ContainerAutoScale/index.d.ts",
@@ -1306,6 +1311,7 @@
       "import": "./dist/components/TextArea/index.js",
       "default": "./dist/components/TextArea/index.js"
     },
+    "./theme.css": "./dist/tailwind/theme.css",
     "./Toast": {
       "types": "./dist/components/Toast/index.d.ts",
       "import": "./dist/components/Toast/index.js",
@@ -1316,6 +1322,11 @@
       "types": "./dist/components/Tree/index.d.ts",
       "import": "./dist/components/Tree/index.js",
       "default": "./dist/components/Tree/index.js"
+    },
+    "./TreeCanvas": {
+      "types": "./dist/components/TreeCanvas/index.d.ts",
+      "import": "./dist/components/TreeCanvas/index.js",
+      "default": "./dist/components/TreeCanvas/index.js"
     },
     "./utils": {
       "types": "./dist/utils/index.d.ts",

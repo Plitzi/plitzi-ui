@@ -25,7 +25,7 @@ export default {
       },
       rounded: {
         none: '',
-        sm: 'rounded',
+        sm: 'rounded-md',
         md: 'rounded-lg',
         lg: 'rounded-xl'
       },
@@ -62,7 +62,7 @@ export default {
     }
   }),
   headerCloseButton: cva(
-    'cursor-pointer text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors duration-100 rounded p-0.5 hover:bg-gray-100 dark:hover:bg-zinc-700'
+    'cursor-pointer text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors duration-100 rounded-sm p-0.5 hover:bg-gray-100 dark:hover:bg-zinc-700'
   ),
   body: cva('basis-0 grow', {
     variants: {

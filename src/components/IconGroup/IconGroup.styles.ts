@@ -19,7 +19,7 @@ export default {
       },
       size: {
         xs: 'px-1.5 py-1 rounded-sm',
-        sm: 'px-2 py-1.5 rounded',
+        sm: 'px-2 py-1.5 rounded-md',
         md: 'px-2.5 py-2 rounded-lg',
         lg: 'px-2.5 py-2 rounded-lg',
         xl: 'px-2.5 py-2 rounded-lg',

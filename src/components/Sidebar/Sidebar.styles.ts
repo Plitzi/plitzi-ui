@@ -4,7 +4,8 @@ export const variantKeys = {
   placement: ['left', 'right', 'top', 'bottom'],
   border: ['solid', 'none'],
   padding: ['normal', 'none'],
-  size: ['xs', 'md', 'sm', 'lg', 'custom']
+  size: ['xs', 'md', 'sm', 'lg', 'custom'],
+  active: [true, false]
 } as const;
 
 export const STYLES_COMPONENT_NAME = 'Sidebar';
@@ -58,8 +59,13 @@ export default {
       }
     }
   ),
-  icon: cva('shrink-0', {
+  icon: cva('shrink-0 transition-colors duration-150', {
     variants: {
+      // The open entry reads at a glance: a tinted ground, not only a colour on a glyph.
+      active: {
+        true: 'bg-primary-50 dark:bg-primary-400/15',
+        false: ''
+      },
       size: {
         lg: 'h-10 w-10 rounded-lg',
         md: 'h-8 w-8 rounded-lg',
@@ -70,7 +76,8 @@ export default {
     },
     compoundVariants: [],
     defaultVariants: {
-      size: 'md'
+      size: 'md',
+      active: false
     }
   }),
   separator: cva('w-6 bg-gray-200 dark:bg-zinc-700 h-px shrink-0')

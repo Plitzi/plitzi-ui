@@ -11,6 +11,7 @@ const IGNORED_DIRS = ['_virtual', 'node_modules'];
 // which is shipped from the repo root instead of dist.
 const STATIC_EXPORTS = {
   './style.css': './dist/plitzi-ui.css',
+  './theme.css': './dist/tailwind/theme.css',
   './tailwind.config': './tailwind.config.js'
 };
 

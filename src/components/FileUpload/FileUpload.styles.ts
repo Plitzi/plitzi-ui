@@ -92,7 +92,7 @@ export default {
       size: 'md'
     }
   }),
-  itemImg: cva('w-auto rounded', {
+  itemImg: cva('w-auto rounded-md', {
     variants: {
       size: {
         md: 'h-30',

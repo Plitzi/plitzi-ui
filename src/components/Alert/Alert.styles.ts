@@ -9,7 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Alert';
 
 export default {
-  root: cva('w-full flex relative rounded-sm', {
+  root: cva('w-full flex relative rounded-md', {
     variants: {
       intent: {
         default: '',
@@ -39,30 +39,33 @@ export default {
         className:
           'bg-gray-500/10 border-gray-500 border text-gray-600 dark:bg-zinc-500/20 dark:border-zinc-500 dark:text-zinc-300'
       },
-      { solid: true, intent: 'info', className: 'bg-blue-400 dark:bg-blue-600' },
+      { solid: true, intent: 'info', className: 'bg-primary-500 text-white dark:bg-primary-400' },
       {
         solid: false,
         intent: 'info',
-        className: 'bg-blue-500/10 border-blue-500 border text-blue-600 dark:bg-blue-500/20 dark:text-blue-400'
+        className:
+          'bg-primary-500/8 border-primary-500/35 border text-primary-700 dark:bg-primary-400/12 dark:border-primary-400/40 dark:text-primary-300'
       },
       { solid: true, intent: 'success', className: 'bg-green-400 dark:bg-green-600' },
       {
         solid: false,
         intent: 'success',
-        className: 'bg-green-500/10 border-green-500 border text-green-600 dark:bg-green-500/20 dark:text-green-400'
+        className:
+          'bg-green-500/8 border-green-600/35 border text-green-700 dark:bg-green-400/12 dark:border-green-400/40 dark:text-green-300'
       },
-      { solid: true, intent: 'warning', className: 'bg-orange-400 dark:bg-orange-600' },
+      { solid: true, intent: 'warning', className: 'bg-amber-500 dark:bg-amber-600' },
       {
         solid: false,
         intent: 'warning',
         className:
-          'bg-orange-500/10 border-orange-500 border text-orange-600 dark:bg-orange-500/20 dark:text-orange-400'
+          'bg-amber-500/10 border-amber-600/35 border text-amber-800 dark:bg-amber-400/12 dark:border-amber-400/40 dark:text-amber-300'
       },
       { solid: true, intent: 'error', className: 'bg-red-400 dark:bg-red-600' },
       {
         solid: false,
         intent: 'error',
-        className: 'bg-red-500/10 border-red-500 border text-red-600 dark:bg-red-500/20 dark:text-red-400'
+        className:
+          'bg-red-500/8 border-red-600/35 border text-red-700 dark:bg-red-400/12 dark:border-red-400/40 dark:text-red-300'
       },
       { solid: true, intent: 'other', className: 'bg-gray-400 dark:bg-zinc-600' },
       {
@@ -72,10 +75,12 @@ export default {
           'bg-gray-500/10 border-gray-500 border text-gray-600 dark:bg-zinc-500/20 dark:border-zinc-500 dark:text-zinc-300'
       }
     ],
+    // Soft by default: a status is read alongside the work, and a slab of saturated colour shouts over it. `solid` is
+    // for the rare message that must stop the eye.
     defaultVariants: {
       intent: 'success',
       size: 'md',
-      solid: true
+      solid: false
     }
   }),
   iconContainer: cva('flex items-center', {

@@ -1,4 +1,4 @@
-import { Annotation, EditorState, StateEffect } from '@codemirror/state';
+import { Annotation, EditorState, Prec, StateEffect } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView, placeholder } from '@codemirror/view';
 import { useState, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
@@ -9,6 +9,19 @@ import type { BasicSetupOptions } from '../helpers/BasicSetup';
 import type { Extension } from '@codemirror/state';
 import type { ViewUpdate } from '@codemirror/view';
 import type { RefObject } from 'react';
+
+// The design tokens' dark surfaces (`theme.css`), with their values as the fallback for an app that does not load them.
+const DARK_SURFACE = EditorView.theme(
+  {
+    '&': { backgroundColor: 'var(--color-zinc-900, #0d0d14)' },
+    '.cm-gutters': {
+      backgroundColor: 'var(--color-zinc-900, #0d0d14)',
+      borderRight: '1px solid var(--color-zinc-700, #262632)'
+    },
+    '.cm-activeLine, .cm-activeLineGutter': { backgroundColor: 'rgba(110, 82, 247, 0.08)' }
+  },
+  { dark: true }
+);
 
 export type StyleSpec = {
   [propOrSelector: string]: string | number | StyleSpec | null;
@@ -80,7 +93,8 @@ const useCodeMirror = ({
 
         break;
       case 'dark':
-        exts.push(oneDark);
+        // One Dark's colours for the code, Plitzi's surface behind it: its own grey ground read as a hole in the panel.
+        exts.push(Prec.highest(DARK_SURFACE), oneDark);
 
         break;
       case 'none':

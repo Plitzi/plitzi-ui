@@ -2,20 +2,7 @@ const paletteColors = {
   // Specific Colors
   transparent: 'transparent',
   current: 'currentColor',
-  // Primary — semantic adaptive tokens (CSS variables, auto-shift in dark mode)
-  'primary-ui': '#8839E6', // elements: borders, icons, indicators
-  'primary-text': '#CC96FA', // text: links, labels, active states
-  // Primary — raw scale
-  'primary-50': '#F6EDFE',
-  'primary-100': '#E7CAFC',
-  'primary-200': '#CC96FA',
-  'primary-300': '#A961F2',
-  'primary-400': '#8839E6',
-  'primary-500': '#5900D6',
-  'primary-600': '#4400B8',
-  'primary-700': '#33009A',
-  'primary-800': '#23007C',
-  'primary-900': '#190066',
+  // Primary, grayviolet, zinc and gray are design tokens: `theme.css`, read as CSS variables.
   // Secondary
   'secondary-50': '#F2FCFD',
   'secondary-100': '#E0F7F8',
@@ -27,17 +14,6 @@ const paletteColors = {
   'secondary-700': '#00A7AE',
   'secondary-800': '#009094',
   'secondary-900': '#00797A',
-  // Gray - Violet
-  'grayviolet-50': '',
-  'grayviolet-100': '#FFFFFF',
-  'grayviolet-200': '#F3F1F4',
-  'grayviolet-300': '#EDEDED',
-  'grayviolet-400': '#DFDEDF',
-  'grayviolet-500': '#A5A3A7',
-  'grayviolet-600': '#69666C',
-  'grayviolet-700': '#434047',
-  'grayviolet-800': '#2D2930',
-  'grayviolet-900': '#242028',
   // Blue
   'blue-50': '#f7fafb',
   'blue-100': '#e3f1fc',

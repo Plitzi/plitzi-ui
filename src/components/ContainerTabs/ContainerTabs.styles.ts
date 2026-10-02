@@ -14,7 +14,7 @@ export default {
     'flex bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg p-1 select-none gap-0.5'
   ),
   tab: cva(
-    'flex items-center justify-center rounded  basis-0 grow cursor-pointer py-1 px-3 text-sm font-medium transition-colors duration-150 select-none',
+    'flex items-center justify-center rounded-md basis-0 grow cursor-pointer py-1 px-3 text-sm font-medium transition-colors duration-150 select-none',
     {
       variants: {
         active: {

@@ -22,7 +22,7 @@ export default {
             'border-transparent bg-primary-500 text-white',
             'hover:bg-primary-600',
             'focus-visible:ring-primary-500',
-            'dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus-visible:ring-primary-400'
+            'dark:bg-primary-400 dark:hover:bg-primary-500 dark:focus-visible:ring-primary-300'
           ],
           secondary: [
             'border-gray-300 text-zinc-700 hover:border-gray-400 hover:bg-gray-50 hover:text-zinc-900',
@@ -46,7 +46,7 @@ export default {
         },
         size: {
           md: 'py-2 px-4 gap-2 text-sm rounded-lg',
-          sm: 'py-1.5 px-3 gap-1.5 text-sm rounded',
+          sm: 'py-1.5 px-3 gap-1.5 text-sm rounded-md',
           xs: 'py-1 px-2 gap-1 text-xs rounded-sm min-w-6',
           custom: ''
         },

@@ -45,7 +45,7 @@ export default {
       {
         rounded: true,
         size: 'sm',
-        className: 'rounded'
+        className: 'rounded-md'
       },
       {
         rounded: true,

@@ -66,7 +66,7 @@ export default {
     }
   }),
   btn: cva(
-    'h-6 w-6 flex items-center justify-center rounded text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors duration-100 cursor-pointer',
+    'h-6 w-6 flex items-center justify-center rounded-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors duration-100 cursor-pointer',
     {
       variants: {
         intent: {},
@@ -77,7 +77,7 @@ export default {
     }
   ),
   btnClose: cva(
-    'h-6 w-6 flex items-center justify-center rounded text-red-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors duration-100 cursor-pointer',
+    'h-6 w-6 flex items-center justify-center rounded-sm text-red-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors duration-100 cursor-pointer',
     {
       variants: {
         intent: {},

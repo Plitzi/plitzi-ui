@@ -43,7 +43,7 @@ export default {
         },
         size: {
           md: 'py-2 px-3 gap-2 rounded-lg',
-          sm: 'py-1.5 px-2 gap-1.5 rounded',
+          sm: 'py-1.5 px-2 gap-1.5 rounded-md',
           xs: 'py-1 px-1.5 gap-1 rounded-sm'
         }
       },

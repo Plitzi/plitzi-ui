@@ -30,7 +30,12 @@ function getEntries(dir: string): string[] {
 
 export default defineConfig((env: ConfigEnv) => ({
   plugins: [
-    viteStaticCopy({ targets: [{ src: 'src/**/*.scss', dest: '.', rename: { stripBase: 1 } }] }),
+    viteStaticCopy({
+      targets: [
+        { src: 'src/**/*.scss', dest: '.', rename: { stripBase: 1 } },
+        { src: 'src/tailwind/theme.css', dest: '.', rename: { stripBase: 1 } }
+      ]
+    }),
     react(),
     tailwindcss(),
     dts({

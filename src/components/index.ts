@@ -44,6 +44,7 @@ import Switch from './Switch';
 import Text from './Text';
 import TextArea from './TextArea';
 import Tree from './Tree';
+import TreeCanvas from './TreeCanvas';
 
 export * from './Breadcrumb';
 export * from './Badge';
@@ -62,6 +63,7 @@ export * from './Cache';
 export * from './Form';
 export * from './Heading';
 export * from './Tree';
+export * from './TreeCanvas';
 export * from './ContentEditable';
 export * from './ContainerFrame';
 export * from './Checkbox';
@@ -110,6 +112,7 @@ export {
   Form,
   Heading,
   Tree,
+  TreeCanvas,
   Contenteditable,
   ContainerFrame,
   Checkbox,

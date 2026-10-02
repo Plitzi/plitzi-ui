@@ -1,0 +1,81 @@
+/*
+ * Plitzi's design tokens — the same system the Plitzi website and dashboard are drawn with: a deep violet, cool
+ * neutrals with a violet cast, and radii of 8 / 10 / 14px. Every component of this library reads them, and an app
+ * built on it imports this file after Tailwind so its own utilities read the same values:
+ *
+ *   @import 'tailwindcss';
+ *   @import '@plitzi/plitzi-ui/theme.css';
+ *
+ * `zinc` and `gray` are redefined rather than added to: they are the neutrals every component already names (`zinc` for
+ * the dark scheme, `gray` for the light one), so the whole library follows without a class changing.
+ *
+ * No font here, on purpose: a theme variable lands on `:root`, and this stylesheet also travels with the dev tools onto
+ * published sites, whose own `--font-sans` it would overwrite. An app sets its font on its own root.
+ */
+@theme static {
+  /* Primary — 500 the light scheme's button, 400 the dark one's; 100 / 900 the tinted ground an active item sits on. */
+  --color-primary-50: #f5f3ff;
+  --color-primary-100: #efecfe;
+  --color-primary-200: #d9d2fe;
+  --color-primary-300: #b7a6ff;
+  --color-primary-400: #6e52f7;
+  --color-primary-500: #5b3df5;
+  --color-primary-600: #4b31e0;
+  --color-primary-700: #3c26b8;
+  --color-primary-800: #2a1f6e;
+  --color-primary-900: #1c1836;
+
+  /* Adaptive: an indicator, and text on the page's ground, readable in both schemes (redefined under `.dark` below). */
+  --color-primary-ui: #5b3df5;
+  --color-primary-text: #4b31e0;
+
+  /* Light-scheme grounds: 200 is the canvas a card sits on. */
+  --color-grayviolet-50: #fbfbfd;
+  --color-grayviolet-100: #ffffff;
+  --color-grayviolet-200: #f3f2f9;
+  --color-grayviolet-300: #ebeaf2;
+  --color-grayviolet-400: #dcdbe6;
+  --color-grayviolet-500: #a5a3b4;
+  --color-grayviolet-600: #6b687c;
+  --color-grayviolet-700: #434052;
+  --color-grayviolet-800: #2b2838;
+  --color-grayviolet-900: #1f1c2a;
+
+  /* The dark scheme's neutrals: 950 the ground, 900 / 800 surfaces, 700 a border, 400 muted text, 200 text. */
+  --color-zinc-50: #f7f7fa;
+  --color-zinc-100: #efeff4;
+  --color-zinc-200: #e4e4ec;
+  --color-zinc-300: #c8c8d4;
+  --color-zinc-400: #9595aa;
+  --color-zinc-500: #6e6e82;
+  --color-zinc-600: #45455a;
+  --color-zinc-700: #262632;
+  --color-zinc-800: #14141d;
+  --color-zinc-900: #0d0d14;
+  --color-zinc-950: #08080c;
+
+  /* The light scheme's neutrals: 50 / 100 grounds, 200 a border, 600 muted text, 900 text. */
+  --color-gray-50: #f7f7fa;
+  --color-gray-100: #f1f1f6;
+  --color-gray-200: #e7e7ef;
+  --color-gray-300: #d6d6e1;
+  --color-gray-400: #a9a9b9;
+  --color-gray-500: #76768a;
+  --color-gray-600: #5c5c70;
+  --color-gray-700: #3f3f50;
+  --color-gray-800: #26262f;
+  --color-gray-900: #0c0c14;
+  --color-gray-950: #08080c;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+}
+
+.dark {
+  --color-primary-ui: #8f7afa;
+  --color-primary-text: #b7a6ff;
+}

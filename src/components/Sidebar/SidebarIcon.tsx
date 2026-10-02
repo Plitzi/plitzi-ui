@@ -30,7 +30,7 @@ const SidebarIcon = ({
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
     className,
     componentKey: 'icon',
-    variants: { size }
+    variants: { size, active }
   });
   const { onChange } = use(SidebarContext);
 
