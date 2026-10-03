@@ -4,6 +4,7 @@ import tinycolor from 'tinycolor2';
 
 import { debounce } from '@/helpers/lodash';
 import ContainerFloating from '@components/ContainerFloating';
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
@@ -60,6 +61,7 @@ const ColorPicker = ({
     componentKey: ['inputColorContainer', 'input', 'divider', 'colorContainer', 'alpha', 'alphaContainer'],
     variants: { intent, size }
   });
+  const field = useInputField({ id, error });
   const [color, setColor] = useState(value);
   const parsedColor = useMemo(() => tinycolor(color), [color]);
   const alpha = useMemo(() => `${Math.round(parsedColor.getAlpha() * 100)}%`, [parsedColor]);
@@ -102,7 +104,7 @@ const ColorPicker = ({
   return (
     <InputContainer
       className={className}
-      id={id}
+      id={field.id}
       label={label}
       // loading={loading}
       // clearable={clearable}
@@ -125,8 +127,8 @@ const ColorPicker = ({
         </ContainerFloating>
         <div className={classNameTheme.divider} />
         <input
+          {...field.controlProps}
           {...inputProps}
-          id={id}
           ref={ref}
           placeholder={placeholder}
           readOnly={readOnly}

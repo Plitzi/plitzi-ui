@@ -2,6 +2,7 @@ import { memo, useCallback, useMemo } from 'react';
 
 import { omit } from '@/helpers/lodash';
 import Icon from '@components/Icon';
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -48,6 +49,7 @@ const BaseTextArea = ({
     variants: { intent, size, disabled, error: !!error }
   });
   const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['input']), [classNameTheme]);
+  const field = useInputField({ id, error });
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -61,7 +63,7 @@ const BaseTextArea = ({
   return (
     <InputContainer
       className={inputClassNameTheme}
-      id={id}
+      id={field.id}
       label={label}
       error={error}
       disabled={disabled}
@@ -75,7 +77,7 @@ const BaseTextArea = ({
       {children}
       <textarea
         ref={ref}
-        id={id}
+        {...field.controlProps}
         placeholder={placeholder}
         className={classNameTheme.input}
         disabled={disabled}

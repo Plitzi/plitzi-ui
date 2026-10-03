@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useImperativeHandle, useRef, memo } from 'react';
 
 import Icon from '@components/Icon';
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -84,6 +85,7 @@ const FileUpload = (props: FileUploadProps) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   useImperativeHandle(ref, () => inputRef.current!, []);
   const hasFiles = multiple ? Array.isArray(value) && value.length > 0 : !!value;
+  const field = useInputField({ id, error });
 
   const validate = useCallback(
     (file: File) => {
@@ -212,7 +214,7 @@ const FileUpload = (props: FileUploadProps) => {
       <InputContainer
         ref={labelRef}
         className={classNameTheme}
-        id={id}
+        id={field.id}
         label={label}
         loading={loading}
         clearable={clearable}
@@ -225,6 +227,7 @@ const FileUpload = (props: FileUploadProps) => {
       >
         <div className="flex flex-col w-full gap-2">
           <input
+            {...field.controlProps}
             type="file"
             onChange={handleInputChange}
             accept={acceptedExtensions(types)}

@@ -1,6 +1,7 @@
 import { useMemo, memo } from 'react';
 
 import { omit } from '@/helpers/lodash';
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -40,11 +41,12 @@ const Checkbox = ({
     variants: { intent, size, disabled, error: !!error }
   });
   const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['input']), [classNameTheme]);
+  const field = useInputField({ id, error });
 
   return (
     <InputContainer
       className={inputClassNameTheme}
-      id={id}
+      id={field.id}
       label={label}
       error={error}
       disabled={disabled}
@@ -57,7 +59,7 @@ const Checkbox = ({
       {children}
       <input
         type="checkbox"
-        id={id}
+        {...field.controlProps}
         ref={ref}
         className={classNameTheme.input}
         disabled={disabled}

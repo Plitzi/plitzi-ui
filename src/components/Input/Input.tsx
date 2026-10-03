@@ -3,6 +3,7 @@ import { useCallback, memo } from 'react';
 import Icon from '@components/Icon';
 import useTheme from '@hooks/useTheme';
 
+import useInputField from './hooks/useInputField';
 import InputContainer from './InputContainer';
 
 import type InputStyles from './Input.styles';
@@ -62,6 +63,8 @@ const BaseInput = ({
     }
   });
 
+  const field = useInputField({ id, error });
+
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value), [onChange]);
 
   const handleClickClear = useCallback(() => onChange?.(''), [onChange]);
@@ -69,7 +72,7 @@ const BaseInput = ({
   return (
     <InputContainer
       className={className}
-      id={id}
+      id={field.id}
       label={label}
       loading={loading}
       clearable={clearable}
@@ -85,7 +88,7 @@ const BaseInput = ({
       {children}
       <input
         ref={ref}
-        id={id}
+        {...field.controlProps}
         type={type}
         placeholder={placeholder}
         className={classNameTheme}

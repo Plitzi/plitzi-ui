@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { useMemo, memo } from 'react';
 
 import { omit } from '@/helpers/lodash';
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -56,11 +57,12 @@ const Switch = ({
     variants: { intent, size, disabled, error: !!error }
   });
   const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['switch', 'slide']), [classNameTheme]);
+  const field = useInputField({ id, error });
 
   return (
     <InputContainer
       className={inputClassNameTheme}
-      id={id}
+      id={field.id}
       label={label}
       error={error}
       disabled={disabled}
@@ -73,8 +75,8 @@ const Switch = ({
       {children}
       <div className={clsx('switch', classNameTheme.switch)}>
         <input
+          {...field.controlProps}
           {...inputProps}
-          id={id}
           type="checkbox"
           ref={ref}
           value={value}

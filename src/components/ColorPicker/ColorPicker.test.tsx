@@ -11,6 +11,26 @@ describe('ColorPicker Tests', () => {
     const alpha = screen.getByText('A: 100%');
     expect(alpha).toBeDefined();
   });
+
+  it('labels its input', () => {
+    render(<ColorPicker label="Background" />);
+
+    expect(screen.getByLabelText('Background')).toBe(screen.getByRole('textbox'));
+  });
+
+  it('keeps the id it is given', () => {
+    render(<ColorPicker id="background" label="Background" />);
+
+    expect(screen.getByLabelText('Background')).toHaveAttribute('id', 'background');
+  });
+
+  it('describes its input with the error message', () => {
+    render(<ColorPicker label="Background" error="Not a colour" />);
+
+    const input = screen.getByLabelText('Background');
+    expect(input).toHaveAccessibleDescription('Not a colour');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
 });
 
 describe('isValidVariable', () => {

@@ -1,6 +1,7 @@
 import { Children, cloneElement, isValidElement, useCallback, useMemo, memo } from 'react';
 
 import Icon from '@components/Icon';
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -51,6 +52,8 @@ const BaseSelect = ({
     variants: { intent, size, error: !!error, disabled }
   });
 
+  const field = useInputField({ id, error });
+
   const handleChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => onChange?.(e.target.value), [onChange]);
 
   const handleClickClear = useCallback(() => onChange?.(''), [onChange]);
@@ -83,7 +86,7 @@ const BaseSelect = ({
   return (
     <InputContainer
       className={className}
-      id={id}
+      id={field.id}
       label={label}
       error={error}
       disabled={disabled}
@@ -98,7 +101,7 @@ const BaseSelect = ({
       <select
         ref={ref}
         className={classNameTheme}
-        id={id}
+        {...field.controlProps}
         disabled={disabled || loading}
         value={value}
         onChange={handleChange}

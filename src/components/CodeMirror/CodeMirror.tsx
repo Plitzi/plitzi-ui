@@ -5,6 +5,7 @@ import { EditorView, keymap } from '@codemirror/view';
 import { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 
 import { omit } from '@/helpers/lodash';
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -87,6 +88,25 @@ const CodeMirror = ({
   const inputClassNameTheme = useMemo(() => omit(classNameTheme, ['input']), [classNameTheme]);
   const basicSetupMemo = useMemo(() => ({ lineNumbers: multiline, foldGutter: multiline }), [multiline]);
   const styleMemo = useMemo(() => ({ ...style, height: '100%' }), [style]);
+  const { id: fieldId, labelId, describedBy } = useInputField({ id, error });
+  const hasLabel = !!label;
+  const invalid = !!error;
+  const fieldAttributes = useMemo(() => {
+    const attributes: Record<string, string> = { id: fieldId };
+    if (hasLabel) {
+      attributes['aria-labelledby'] = labelId;
+    }
+
+    if (describedBy) {
+      attributes['aria-describedby'] = describedBy;
+    }
+
+    if (invalid) {
+      attributes['aria-invalid'] = 'true';
+    }
+
+    return EditorView.contentAttributes.of(attributes);
+  }, [fieldId, labelId, describedBy, hasLabel, invalid]);
   const getRanges = useRef(getReadOnlyRanges);
   if (getRanges.current !== getReadOnlyRanges) {
     getRanges.current = getReadOnlyRanges;
@@ -229,6 +249,7 @@ const CodeMirror = ({
 
   const extensions = useMemo(() => {
     const extensionsInternal = [
+      fieldAttributes,
       readOnlyTransactionFilter(),
       keymap.of([{ key: 'Tab', run: acceptCompletion }]),
       keymap.of([indentWithTab])
@@ -247,7 +268,7 @@ const CodeMirror = ({
     }
 
     return extensionsInternal;
-  }, [readOnlyTransactionFilter, lineWrapping, languageExtension, extraExtensions]);
+  }, [fieldAttributes, readOnlyTransactionFilter, lineWrapping, languageExtension, extraExtensions]);
 
   const { editorRef } = useCodeMirror({
     extensions,
@@ -271,7 +292,8 @@ const CodeMirror = ({
   return (
     <InputContainer
       className={inputClassNameTheme}
-      id={id}
+      id={fieldId}
+      labelledByControl
       label={label}
       error={error}
       disabled={disabled}

@@ -6,6 +6,8 @@ import Icon from '@components/Icon';
 import Label from '@components/Label';
 import useTheme from '@hooks/useTheme';
 
+import { getInputFieldIds } from './hooks/useInputField';
+
 import type InputStyles from './Input.styles';
 import type { variantKeys } from './Input.styles';
 import type { ErrorMessageProps } from '@components/ErrorMessage';
@@ -15,7 +17,13 @@ import type { HTMLAttributes, MouseEvent, ReactElement, ReactNode, RefObject } f
 
 export type InputContainerProps = {
   ref?: RefObject<HTMLDivElement | null>;
+  /** The control's id: the label points at it, and the label's and error message's own ids derive from it. */
   id?: string;
+  /**
+   * The control names the label itself with `aria-labelledby` instead of the label pointing at it: for a control that
+   * is not labelable, such as a group or a contenteditable editor.
+   */
+  labelledByControl?: boolean;
   label?: ReactNode;
   error?: ErrorMessageProps['message'] | ErrorMessageProps['error'];
   disabled?: boolean;
@@ -35,6 +43,7 @@ const InputContainer = ({
   ref,
   className,
   id,
+  labelledByControl = false,
   label,
   error,
   disabled,
@@ -62,6 +71,9 @@ const InputContainer = ({
   });
 
   const handleClickClear = useCallback((e: MouseEvent) => onClear?.(e), [onClear]);
+
+  const { labelId, errorId } = id ? getInputFieldIds(id) : { labelId: undefined, errorId: undefined };
+  const htmlFor = labelledByControl ? undefined : id;
 
   const { iconChildren, inputChildren } = useMemo(() => {
     const components: { iconChildren: ReactNode; inputChildren: ReactNode[] } = {
@@ -97,7 +109,8 @@ const InputContainer = ({
           disabled={disabled}
           intent={intent}
           size={size}
-          htmlFor={id}
+          id={labelId}
+          htmlFor={htmlFor}
           className={classNameTheme.label}
         >
           {label}
@@ -113,7 +126,8 @@ const InputContainer = ({
             disabled={disabled}
             intent={intent}
             size={size}
-            htmlFor={id}
+            id={labelId}
+            htmlFor={htmlFor}
             className={classNameTheme.label}
           >
             {inputChildren}
@@ -133,7 +147,13 @@ const InputContainer = ({
         )}
       </div>
       {error && (
-        <ErrorMessage message={typeof error === 'boolean' ? '' : error} intent={intent} size={size} error={!!error} />
+        <ErrorMessage
+          id={errorId}
+          message={typeof error === 'boolean' ? '' : error}
+          intent={intent}
+          size={size}
+          error={!!error}
+        />
       )}
     </div>
   );

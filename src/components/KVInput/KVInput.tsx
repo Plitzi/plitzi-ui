@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
+import useInputField from '@components/Input/hooks/useInputField';
 import InputContainer from '@components/Input/InputContainer';
 import useTheme from '@hooks/useTheme';
 
@@ -48,6 +49,7 @@ const KVInput = ({
     className,
     variants: { size }
   });
+  const field = useInputField({ id, error });
 
   const value = useMemo<[string, string][]>(() => {
     if (Array.isArray(valueProp)) {
@@ -109,14 +111,20 @@ const KVInput = ({
   return (
     <InputContainer
       className={classNameTheme}
-      id={id}
+      id={field.id}
+      labelledByControl
       label={label}
       value={value}
       disabled={disabled}
       error={error}
       size={size}
     >
-      <div className="w-full flex flex-col">
+      <div
+        className="w-full flex flex-col"
+        role="group"
+        aria-labelledby={label ? field.labelId : undefined}
+        aria-describedby={field.describedBy}
+      >
         {value.map(([key, itemValue], i) => (
           <KVInputItem
             className={className}

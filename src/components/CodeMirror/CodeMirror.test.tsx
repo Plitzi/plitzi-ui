@@ -89,4 +89,22 @@ describe('CodeMirror', () => {
       expect(updates).toHaveBeenCalled();
     });
   });
+
+  it('labels its editor', async () => {
+    render(<CodeMirror label="Custom CSS" />);
+
+    await waitFor(() => expect(screen.getByLabelText('Custom CSS')).toBe(screen.getByRole('textbox')));
+  });
+
+  it('keeps the id it is given', async () => {
+    render(<CodeMirror id="custom-css" label="Custom CSS" />);
+
+    await waitFor(() => expect(screen.getByLabelText('Custom CSS')).toHaveAttribute('id', 'custom-css'));
+  });
+
+  it('marks its editor invalid on error', async () => {
+    render(<CodeMirror label="Custom CSS" error />);
+
+    await waitFor(() => expect(screen.getByLabelText('Custom CSS')).toHaveAttribute('aria-invalid', 'true'));
+  });
 });
