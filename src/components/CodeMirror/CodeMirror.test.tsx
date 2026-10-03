@@ -107,4 +107,10 @@ describe('CodeMirror', () => {
 
     await waitFor(() => expect(screen.getByLabelText('Custom CSS')).toHaveAttribute('aria-invalid', 'true'));
   });
+
+  it('describes its editor with the error message', async () => {
+    render(<CodeMirror label="Custom CSS" error="Unclosed block" />);
+
+    await waitFor(() => expect(screen.getByLabelText('Custom CSS')).toHaveAccessibleDescription('Unclosed block'));
+  });
 });

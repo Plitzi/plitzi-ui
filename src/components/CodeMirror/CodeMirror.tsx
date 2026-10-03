@@ -52,7 +52,7 @@ export type CodeMirrorProps = {
    * keymap. Kept stable by the caller (a memo) — a new array reconfigures the editor.
    */
   extensions?: Extension[];
-} & useThemeSharedProps<typeof CodeMirrorStyles & typeof InputStyles, typeof variantKeys>;
+} & Omit<useThemeSharedProps<typeof CodeMirrorStyles & typeof InputStyles, typeof variantKeys>, 'error'>;
 
 const CodeMirror = ({
   ref,
