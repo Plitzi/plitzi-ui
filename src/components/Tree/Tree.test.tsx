@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeAll, describe, it, expect, vi } from 'vitest';
 
 import Tree from './Tree';
 import { getFlatItems, moveNode } from './utils';
@@ -262,5 +262,66 @@ describe('Tree Tests', () => {
 
     const res = moveNode('a', 'b', 'inside', items, flat);
     expect(res).toBeUndefined();
+  });
+
+  describe('the keyboard', () => {
+    beforeAll(() => {
+      // jsdom lays nothing out, so it scrolls nothing into view: the selected row asks to be shown.
+      Element.prototype.scrollIntoView = vi.fn();
+    });
+
+    const items = [
+      {
+        id: 'page',
+        label: 'Page',
+        items: [
+          { id: 'a', label: 'A', items: [{ id: 'a1', label: 'A1' }] },
+          { id: 'b', label: 'B' }
+        ]
+      }
+    ];
+    const keyed = (key: string, itemSelected: string, itemsOpened: Record<string, boolean>) => {
+      const onChange = vi.fn();
+      const { unmount } = render(
+        <Tree items={items} itemSelected={itemSelected} itemsOpened={itemsOpened} onChange={onChange} testId="tree" />
+      );
+      fireEvent.keyDown(screen.getByTestId('tree'), { key });
+      unmount();
+
+      return onChange;
+    };
+
+    it('moves up and down the rows it shows, over a closed branch', () => {
+      expect(keyed('ArrowDown', 'a', { page: true })).toHaveBeenCalledWith({ action: 'itemSelected', data: 'b' });
+      expect(keyed('ArrowUp', 'b', { page: true })).toHaveBeenCalledWith({ action: 'itemSelected', data: 'a' });
+      expect(keyed('End', 'page', { page: true })).toHaveBeenCalledWith({ action: 'itemSelected', data: 'b' });
+    });
+
+    it('opens a closed branch with the right arrow, then goes into it', () => {
+      expect(keyed('ArrowRight', 'a', { page: true })).toHaveBeenCalledWith({
+        action: 'itemsOpened',
+        data: { page: true, a: true }
+      });
+      expect(keyed('ArrowRight', 'a', { page: true, a: true })).toHaveBeenCalledWith({
+        action: 'itemSelected',
+        data: 'a1'
+      });
+    });
+
+    it('closes an open branch with the left arrow, then goes out to its parent', () => {
+      expect(keyed('ArrowLeft', 'a', { page: true, a: true })).toHaveBeenCalledWith(
+        expect.objectContaining({ action: 'itemsOpened' })
+      );
+      expect(keyed('ArrowLeft', 'a1', { page: true, a: true })).toHaveBeenCalledWith({
+        action: 'itemSelected',
+        data: 'a'
+      });
+    });
+
+    it('hides every row under a closed branch, whatever was left open inside it', () => {
+      render(<Tree items={items} itemsOpened={{ a: true }} testId="tree" />);
+
+      expect(screen.queryByText('A1')).toBeNull();
+    });
   });
 });

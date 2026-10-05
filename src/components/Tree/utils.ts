@@ -10,6 +10,8 @@ export type TreeItem = {
   id: string;
   icon?: ReactNode;
   label: string;
+  /** A word after the label, dimmed and not edited with it — what kind of thing a renamed item is. */
+  hint?: string;
   items?: TreeItem[];
 };
 
@@ -203,14 +205,20 @@ export const moveNode = (
   return newItems;
 };
 
-export const getPaddingLeft = (level: number, size: TreeProps['size']) => {
-  switch (size) {
-    case 'sm':
-      return level * 12;
-    case 'xs':
-      return level * 8;
-    case 'md':
-    default:
-      return level * 16;
-  }
-};
+/** Whether an item has anything under it: one that could hold items and holds none is a leaf to show and to move by. */
+export const hasChildren = (item: { items?: readonly unknown[] }): boolean => (item.items?.length ?? 0) > 0;
+
+/** How far a row is indented for each level it is under, in pixels. */
+const INDENT: Record<NonNullable<TreeProps['size']>, number> = { md: 16, sm: 14, xs: 10, custom: 14 };
+
+/** The row's own padding before its first column, as `item`'s `px-*` sets it per size. */
+const ITEM_PADDING: Record<NonNullable<TreeProps['size']>, number> = { md: 12, sm: 8, xs: 6, custom: 8 };
+
+/** The chevron's column width: a line is drawn through its middle. */
+const CHEVRON_WIDTH: Record<NonNullable<TreeProps['size']>, number> = { md: 16, sm: 16, xs: 12, custom: 16 };
+
+export const getPaddingLeft = (level: number, size: TreeProps['size']) => level * INDENT[size ?? 'md'];
+
+/** Where the line down from the ancestor at `depth` is drawn: under the middle of that ancestor's chevron. */
+export const getGuideLeft = (depth: number, size: TreeProps['size']) =>
+  ITEM_PADDING[size ?? 'md'] + depth * INDENT[size ?? 'md'] + CHEVRON_WIDTH[size ?? 'md'] / 2;

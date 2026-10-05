@@ -51,9 +51,9 @@ export default {
         false: ''
       },
       size: {
-        md: 'px-3 py-0.5 gap-1.5 min-h-7',
-        sm: 'px-2.5 py-0.5 gap-1 min-h-6',
-        xs: 'px-2 py-0.5 gap-1 min-h-5',
+        md: 'px-3 py-0.5 gap-1.5 min-h-8',
+        sm: 'px-2 py-0.5 gap-1 min-h-7',
+        xs: 'px-1.5 py-0.5 gap-1 min-h-6',
         custom: ''
       }
     },
@@ -206,17 +206,30 @@ export default {
       }
     }
   ),
-  collapsableIcon: cva('w-4 items-center justify-center cursor-pointer text-zinc-400 dark:text-zinc-500 shrink-0', {
-    variants: {
-      isOpen: {
-        true: 'flex',
-        false: 'group-hover:flex hidden'
+  collapsableIcon: cva(
+    'flex size-4 shrink-0 items-center justify-center rounded-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200',
+    {
+      variants: {
+        isOpen: {
+          true: 'text-zinc-500 dark:text-zinc-400',
+          false: ''
+        }
+      },
+      compoundVariants: [],
+      defaultVariants: {
+        isOpen: false
       }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      isOpen: false
     }
+  ),
+  hint: cva('min-w-0 shrink-[4] truncate text-[11px] text-zinc-400 dark:text-zinc-500', {
+    variants: {},
+    compoundVariants: [],
+    defaultVariants: {}
+  }),
+  guide: cva('pointer-events-none absolute inset-y-0 w-px bg-zinc-200 dark:bg-zinc-700', {
+    variants: {},
+    compoundVariants: [],
+    defaultVariants: {}
   }),
   icon: cva('shrink-0 text-zinc-500 dark:text-zinc-400', {
     variants: {

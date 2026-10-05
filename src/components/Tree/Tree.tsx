@@ -9,6 +9,7 @@ import TreeNode from './TreeNode';
 import {
   defaultDragMetadata,
   getFlatItems,
+  hasChildren,
   hasParentSelected,
   moveNode,
   setClosedMultiple,
@@ -20,7 +21,7 @@ import type { variantKeys } from './Tree.styles';
 import type { ItemControlsProps } from './TreeNode';
 import type { DragMetadata, DropPosition, TreeFlatItem, TreeItem } from './utils';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { DragEvent, HTMLAttributes, ReactNode } from 'react';
+import type { DragEvent, HTMLAttributes, KeyboardEvent, ReactNode } from 'react';
 
 export type { TreeItem, ItemControlsProps, DropPosition };
 
@@ -70,11 +71,23 @@ const Tree = ({
   });
   const dragMetadata = useRef<DragMetadata>(defaultDragMetadata);
   const flatItems = useMemo(() => getFlatItems(items), [items]);
+  // A row shows while every ancestor is open, not only its parent: a branch closed higher up hides all of it, even the
+  // parts of it that were left open inside.
   const itemsFiltered = useMemo(
     () =>
-      Object.values(flatItems).filter(
-        (item): item is TreeFlatItem => !!item && (!item.parentId || !!itemsOpened?.[item.parentId])
-      ),
+      Object.values(flatItems).filter((item): item is TreeFlatItem => {
+        if (!item) {
+          return false;
+        }
+
+        for (let parentId = item.parentId; parentId; parentId = flatItems[parentId]?.parentId) {
+          if (!itemsOpened?.[parentId]) {
+            return false;
+          }
+        }
+
+        return true;
+      }),
     [flatItems, itemsOpened]
   );
 
@@ -181,17 +194,74 @@ const Tree = ({
     [flatItems, items, onChange]
   );
 
+  /**
+   * The tree as the keyboard moves through it, over the rows it shows: up and down a row, right into a branch (opening
+   * it first), left out of one (closing it first), Home and End to the ends. A key typed into a label being renamed is
+   * the label's.
+   */
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      const target = e.target instanceof HTMLElement ? e.target : undefined;
+      if (target?.isContentEditable || target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      const index = itemsFiltered.findIndex(item => item.id === itemSelected);
+      const current = index === -1 ? undefined : itemsFiltered[index];
+      let next: string | undefined;
+      switch (e.key) {
+        case 'ArrowDown':
+          next = itemsFiltered[index === -1 ? 0 : Math.min(index + 1, itemsFiltered.length - 1)]?.id;
+          break;
+        case 'ArrowUp':
+          next = itemsFiltered[index === -1 ? 0 : Math.max(index - 1, 0)]?.id;
+          break;
+        case 'Home':
+          next = itemsFiltered.at(0)?.id;
+          break;
+        case 'End':
+          next = itemsFiltered.at(-1)?.id;
+          break;
+        case 'ArrowRight':
+          if (current && hasChildren(current) && !itemsOpened?.[current.id]) {
+            setOpened(current.id, true);
+          } else if (current) {
+            next = itemsFiltered.find(item => item.parentId === current.id)?.id;
+          }
+          break;
+        case 'ArrowLeft':
+          if (current && hasChildren(current) && itemsOpened?.[current.id]) {
+            setOpened(current.id, false);
+          } else if (current?.parentId) {
+            next = current.parentId;
+          }
+          break;
+        default:
+          return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+      if (next && next !== itemSelected) {
+        handleSelect(next);
+      }
+    },
+    [handleSelect, itemSelected, itemsFiltered, itemsOpened, setOpened]
+  );
+
   return (
     <div
-      className={clsx('tree', className)}
-      tabIndex={-1}
+      className={clsx('tree focus-visible:outline-none', className)}
+      role="tree"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
       data-testid={testId}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       {...divProps}
     >
       {itemsFiltered.map((item, i) => {
-        const { id, label, level, parentId, icon = 'fa-solid fa-shapes' } = item;
+        const { id, label, hint, level, parentId, icon = 'fa-solid fa-shapes' } = item;
 
         return (
           <TreeNode
@@ -199,9 +269,10 @@ const Tree = ({
             id={id}
             parentNodeId={parentId}
             label={label}
+            hint={hint}
             level={level}
             isOpen={itemsOpened?.[id]}
-            isParent={!!item.items}
+            isParent={hasChildren(item)}
             canDragDrop={!!parentId}
             setOpened={setOpened}
             hovered={itemHovered === id}
@@ -219,17 +290,7 @@ const Tree = ({
             onDrop={handleDrop}
             onChange={handleItemChange}
             isDragAllowed={isDragAllowed}
-          >
-            {/* {icon && typeof icon === 'string' && !icon.startsWith('http') && (
-              <TreeNode.Icon icon={icon} intent="custom" size={size} />
-            )}
-            {icon && typeof icon === 'string' && icon.startsWith('http') && (
-              <TreeNode.Icon intent="custom" size={size}>
-                <img src={icon} />
-              </TreeNode.Icon>
-            )}
-            {icon && typeof icon !== 'string' && icon} */}
-          </TreeNode>
+          />
         );
       })}
     </div>

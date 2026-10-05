@@ -1,12 +1,12 @@
 import clsx from 'clsx';
-import { cloneElement, isValidElement, memo, useCallback, useMemo, useRef, useState } from 'react';
+import { cloneElement, isValidElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import Contenteditable from '@components/ContentEditable';
 import Icon from '@components/Icon';
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
 import useTheme from '@hooks/useTheme';
 
-import { getPaddingLeft } from './utils';
+import { getGuideLeft, getPaddingLeft } from './utils';
 
 import type TreeStyles from './Tree.styles';
 import type { variantKeys } from './Tree.styles';
@@ -36,6 +36,7 @@ export type TreeNodeProps = {
   selected?: boolean;
   canDragDrop?: boolean;
   label?: string;
+  hint?: string;
   setOpened?: (id: string, isOpen: boolean) => void;
   setDragMetadata?: (metadata: DragMetadata) => void;
   getDragMetadata?: () => DragMetadata;
@@ -61,6 +62,7 @@ const TreeNodeBase = ({
   selected = false,
   canDragDrop = true,
   label = '',
+  hint,
   intent,
   size,
   setOpened,
@@ -78,7 +80,7 @@ const TreeNodeBase = ({
   const [dropPosition, setDropPosition] = useState<DropPosition>();
   const classNameTheme = useTheme<typeof TreeStyles, typeof variantKeys>('Tree', {
     className,
-    componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon', 'icon'],
+    componentKey: ['item', 'dropIndicator', 'containerEditable', 'collapsableIcon', 'icon', 'guide', 'hint'],
     variants: { intent, size, selected, hovered, parentSelected, dropPosition, dragAllowed, isOpen }
   });
   const clientRect = useRef<DOMRect | undefined>({} as DOMRect);
@@ -95,6 +97,13 @@ const TreeNodeBase = ({
   );
 
   const handleClickSelect = useCallback(() => onSelect?.(id), [onSelect, id]);
+
+  // The selected row is kept in view: one reached by the keyboard, or picked on the canvas, is never below the fold.
+  useEffect(() => {
+    if (selected) {
+      ref.current?.scrollIntoView({ block: 'nearest' });
+    }
+  }, [selected]);
 
   useDidUpdateEffect(() => {
     clientRect.current = ref.current?.getBoundingClientRect();
@@ -245,8 +254,12 @@ const TreeNodeBase = ({
   return (
     <div
       ref={ref}
-      className={clsx('tree-item', classNameTheme.item)}
+      className={clsx('tree-item relative', classNameTheme.item)}
       data-id={id}
+      role="treeitem"
+      aria-level={level + 1}
+      aria-selected={selected}
+      {...(isParent ? { 'aria-expanded': isOpen } : {})}
       onClick={handleClickSelect}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -256,11 +269,35 @@ const TreeNodeBase = ({
       draggable={canDragDrop}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      tabIndex={-1}
     >
-      <div className="w-full flex items-center gap-2" style={{ paddingLeft: `${getPaddingLeft(level, size)}px` }}>
+      {/* A line down from each ancestor: which branch a row is in reads at a glance, however deep it is. */}
+      {Array.from({ length: level }, (_, depth) => (
+        <span
+          key={depth}
+          aria-hidden
+          className={classNameTheme.guide}
+          style={{ left: `${getGuideLeft(depth, size)}px` }}
+        />
+      ))}
+      <div
+        className="w-full min-w-0 flex items-center gap-1.5"
+        style={{ paddingLeft: `${getPaddingLeft(level, size)}px` }}
+      >
+        {/* Its own column, there for every row: a leaf keeps the space, so every label starts where its level does. */}
+        <span className={classNameTheme.collapsableIcon} onClick={isParent ? handleClick : undefined}>
+          {isParent && (
+            <Icon
+              icon="fa-solid fa-chevron-right"
+              intent="custom"
+              size="xs"
+              className={clsx('transition-transform duration-100', { 'rotate-90': isOpen })}
+              aria-label={isOpen ? 'Collapse' : 'Expand'}
+            />
+          )}
+        </span>
         {iconChildren}
-        <div className="flex relative grow basis-0 overflow-hidden">
+        {/* The label at its own width, ahead of the hint: when the row is short, the hint gives way first. */}
+        <div className="flex relative min-w-0 grow overflow-hidden">
           <Contenteditable
             className={clsx(classNameTheme.containerEditable, {
               'opacity-30': dragHovered && dropPosition !== 'inside'
@@ -272,13 +309,9 @@ const TreeNodeBase = ({
           />
           {dragHovered && <span className={classNameTheme.dropIndicator} />}
         </div>
+        {/* The kind of item reads when nothing else is on the row: the controls a hover or a selection shows take its place. */}
+        {hint && !hovered && !selected && <span className={classNameTheme.hint}>{hint}</span>}
         {actionsChildren}
-        {isParent && (
-          <div className={classNameTheme.collapsableIcon} onClick={handleClick}>
-            {!isOpen && <Icon icon="fa-solid fa-chevron-left" intent="custom" size="xs" />}
-            {isOpen && <Icon icon="fa-solid fa-chevron-down" intent="custom" size="xs" />}
-          </div>
-        )}
       </div>
     </div>
   );
