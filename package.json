@@ -1,6 +1,6 @@
 {
   "name": "@plitzi/plitzi-ui",
-  "version": "1.6.30",
+  "version": "1.6.31",
   "homepage": "./",
   "license": "Apache-2.0",
   "files": [
@@ -295,6 +295,11 @@
       "default": "./dist/components/Markdown/index.js"
     },
     "./components/Markdown/Assets/index.scss": "./dist/components/Markdown/Assets/index.scss",
+    "./components/Markdown/components/CodeBlock": {
+      "types": "./dist/components/Markdown/components/CodeBlock/index.d.ts",
+      "import": "./dist/components/Markdown/components/CodeBlock/index.js",
+      "default": "./dist/components/Markdown/components/CodeBlock/index.js"
+    },
     "./components/MenuList": {
       "types": "./dist/components/MenuList/index.d.ts",
       "import": "./dist/components/MenuList/index.js",
@@ -1213,6 +1218,11 @@
       "default": "./dist/components/Markdown/index.js"
     },
     "./Markdown/Assets/index.scss": "./dist/components/Markdown/Assets/index.scss",
+    "./Markdown/components/CodeBlock": {
+      "types": "./dist/components/Markdown/components/CodeBlock/index.d.ts",
+      "import": "./dist/components/Markdown/components/CodeBlock/index.js",
+      "default": "./dist/components/Markdown/components/CodeBlock/index.js"
+    },
     "./MenuList": {
       "types": "./dist/components/MenuList/index.d.ts",
       "import": "./dist/components/MenuList/index.js",

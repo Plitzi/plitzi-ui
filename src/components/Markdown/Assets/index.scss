@@ -1041,6 +1041,54 @@
       }
     }
 
+    // A fenced block: its language and a copy button in a header over the code, one panel around both.
+    .markdown-code {
+      margin-bottom: 16px;
+      overflow: hidden;
+      border-radius: 6px;
+      background-color: var(--color-canvas-subtle);
+
+      > pre {
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+
+    .markdown-code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 8px 6px 14px;
+      border-bottom: 1px solid var(--color-border-muted);
+      color: var(--color-fg-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .markdown-code-language {
+      font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    }
+
+    .markdown-code-copy {
+      padding: 2px 8px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--color-fg-default);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-accent-fg);
+        outline-offset: 1px;
+      }
+    }
+
     .highlight {
       margin-bottom: 16px;
 
