@@ -41,18 +41,22 @@
   --color-grayviolet-800: #2b2838;
   --color-grayviolet-900: #1f1c2a;
 
-  /* The dark scheme's neutrals: 950 the ground, 900 / 800 surfaces, 700 a border, 400 muted text, 200 text. */
+  /*
+   * The dark scheme's neutrals: 950 the ground, 900 / 800 surfaces, 700 a border, 400 muted text, 200 text. The ground is
+   * a soft near-black rather than black, as the website's own (#101013) is: near-white text on pure black blooms after a
+   * few hours, and an editor is looked at for whole days.
+   */
   --color-zinc-50: #f7f7fa;
   --color-zinc-100: #efeff4;
   --color-zinc-200: #e4e4ec;
   --color-zinc-300: #c8c8d4;
   --color-zinc-400: #9595aa;
   --color-zinc-500: #6e6e82;
-  --color-zinc-600: #45455a;
-  --color-zinc-700: #262632;
-  --color-zinc-800: #14141d;
-  --color-zinc-900: #0d0d14;
-  --color-zinc-950: #08080c;
+  --color-zinc-600: #4b4b60;
+  --color-zinc-700: #2d2d3a;
+  --color-zinc-800: #1c1c26;
+  --color-zinc-900: #15151d;
+  --color-zinc-950: #0f0f15;
 
   /* The light scheme's neutrals: 50 / 100 grounds, 200 a border, 600 muted text, 900 text. */
   --color-gray-50: #f7f7fa;

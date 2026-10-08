@@ -2,6 +2,7 @@ import { use, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useS
 import { createPortal } from 'react-dom';
 
 import useDidUpdateEffect from '@hooks/useDidUpdateEffect';
+import useOverlayEscape from '@hooks/useOverlayEscape';
 import useTheme from '@hooks/useTheme';
 
 import ContainerFloatingContext from './ContainerFloatingContext';
@@ -116,6 +117,10 @@ const ContainerFloatingContainer = ({
 
     onOpenChange?.(open);
   }, [open, updatePosition, onOpenChange]);
+
+  const handleEscape = useCallback(() => setOpen(false), [setOpen]);
+
+  useOverlayEscape(open, handleEscape);
 
   const handleClickClose = useCallback(
     (e: MouseEvent) => {

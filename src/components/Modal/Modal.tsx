@@ -1,8 +1,9 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useId } from 'react';
+import { useCallback, useEffect, useId, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import Card from '@components/Card';
+import useOverlayEscape from '@hooks/useOverlayEscape';
 import useTheme from '@hooks/useTheme';
 
 import type ModalStyles from './Modal.styles';
@@ -44,13 +45,28 @@ const Modal = ({
     componentKey: ['root', 'background', 'card']
   });
   const id = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle<HTMLDivElement | null, HTMLDivElement | null>(ref, () => rootRef.current, []);
 
   const handleClose = useCallback((e: MouseEvent) => void onClose?.(e), [onClose]);
+
+  const handleEscape = useCallback(() => void onClose?.(), [onClose]);
 
   const handleAnimationEnd = useCallback(
     () => animation && isClosing && void onClose?.(),
     [animation, isClosing, onClose]
   );
+
+  useOverlayEscape(!!open, onClose ? handleEscape : undefined);
+
+  // Focus moves into an opened modal — unless something in it already took it — so the keys pressed next are its own,
+  // even when it was opened from inside an iframe that would otherwise keep them.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (open && root && !root.contains(document.activeElement)) {
+      root.focus({ preventScroll: true });
+    }
+  }, [open]);
 
   useEffect(() => {
     if (open) {
@@ -69,7 +85,15 @@ const Modal = ({
   }
 
   return createPortal(
-    <div ref={ref} data-id={idProp ?? id} className={classNameTheme.root} {...otherProps}>
+    <div
+      ref={rootRef}
+      data-id={idProp ?? id}
+      role="dialog"
+      aria-modal="true"
+      tabIndex={-1}
+      className={clsx(classNameTheme.root, 'outline-none')}
+      {...otherProps}
+    >
       <div className={classNameTheme.background} onClick={handleClose} />
       <Card
         className={clsx(classNameTheme.card, {

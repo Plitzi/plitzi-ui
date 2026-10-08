@@ -1,6 +1,6 @@
 {
   "name": "@plitzi/plitzi-ui",
-  "version": "1.6.32",
+  "version": "1.6.33",
   "homepage": "./",
   "license": "Apache-2.0",
   "files": [
@@ -556,6 +556,11 @@
       "types": "./dist/hooks/useDisclosure/index.d.ts",
       "import": "./dist/hooks/useDisclosure/index.js",
       "default": "./dist/hooks/useDisclosure/index.js"
+    },
+    "./hooks/useOverlayEscape": {
+      "types": "./dist/hooks/useOverlayEscape/index.d.ts",
+      "import": "./dist/hooks/useOverlayEscape/index.js",
+      "default": "./dist/hooks/useOverlayEscape/index.js"
     },
     "./hooks/useReducerWithMiddleware": {
       "types": "./dist/hooks/useReducerWithMiddleware/index.d.ts",

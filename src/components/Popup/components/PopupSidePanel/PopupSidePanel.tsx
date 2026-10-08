@@ -21,8 +21,12 @@ export type PopupSidePanelProps = {
   showSidebar?: boolean;
   minWidth?: number;
   maxWidth?: number;
+  /** The width it opens at — the one the person left it at, when the consumer keeps it. Defaults to `minWidth`. */
+  width?: number;
   separatorsBefore?: string[];
   onChange?: (value: string[]) => void;
+  /** Called with the new width once a drag of its edge settles, for the consumer to keep. */
+  onResize?: (width: number) => void;
 } & useThemeSharedProps<typeof PopupStyles, typeof variantKeys>;
 
 const PopupSidePanel = ({
@@ -33,9 +37,11 @@ const PopupSidePanel = ({
   showSidebar = true,
   minWidth = 280,
   maxWidth = 500,
+  width,
   separatorsBefore,
   size,
-  onChange
+  onChange,
+  onResize
 }: PopupSidePanelProps) => {
   const classNameTheme = useTheme<typeof PopupStyles, typeof variantKeys>('Popup', {
     className,
@@ -53,6 +59,8 @@ const PopupSidePanel = ({
     },
     [onChange, placement, popupManager]
   );
+
+  const handleResize = useCallback((resizedWidth: number) => onResize?.(resizedWidth), [onResize]);
 
   const handleClickFloating = useCallback(
     (popupId: string) => {
@@ -106,8 +114,9 @@ const PopupSidePanel = ({
       minConstraintsX={minWidth}
       minConstraintsY={Infinity}
       maxConstraintsX={maxWidth}
-      width={minWidth}
+      width={Math.min(Math.max(width ?? minWidth, minWidth), maxWidth)}
       resizeHandles={resizeHandles}
+      onChange={handleResize}
     >
       <div className={classNameTheme.sidePanel}>
         {showSidebar && (

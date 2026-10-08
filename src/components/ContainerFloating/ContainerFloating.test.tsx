@@ -1,5 +1,5 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 import ContainerFloating from './ContainerFloating';
 
@@ -45,5 +45,28 @@ describe('ContainerFloating', () => {
         fireEvent.click(window.document.body);
       });
     });
+  });
+
+  it('closes on Escape, without the key reaching the page behind it', async () => {
+    const behind = vi.fn();
+    document.addEventListener('keydown', behind);
+    const { getByText, queryByText } = render(
+      <ContainerFloating closeOnClick={false}>
+        <ContainerFloating.Trigger>
+          <span>Open</span>
+        </ContainerFloating.Trigger>
+        <ContainerFloating.Content>
+          <span>Panel</span>
+        </ContainerFloating.Content>
+      </ContainerFloating>
+    );
+
+    fireEvent.click(getByText('Open'));
+    await waitFor(() => expect(queryByText('Panel')).not.toBeNull());
+    fireEvent.keyDown(document.body, { key: 'Escape' });
+
+    await waitFor(() => expect(queryByText('Panel')).toBeNull());
+    expect(behind).not.toHaveBeenCalled();
+    document.removeEventListener('keydown', behind);
   });
 });
