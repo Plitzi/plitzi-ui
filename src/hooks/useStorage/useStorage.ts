@@ -9,15 +9,22 @@ import { cookieStorage, storageProxy } from './useStorageHelper';
 type StorageMode = 'localStorage' | 'sessionStorage' | 'cookie';
 
 const resolveStorage = (mode: StorageMode): Storage | undefined => {
-  if (mode === 'cookie') {
-    return typeof document !== 'undefined' ? storageProxy(cookieStorage()) : undefined;
-  }
+  try {
+    if (mode === 'cookie') {
+      return typeof document !== 'undefined' ? storageProxy(cookieStorage()) : undefined;
+    }
 
-  if (mode === 'sessionStorage') {
-    return typeof sessionStorage !== 'undefined' ? storageProxy(sessionStorage) : undefined;
-  }
+    if (mode === 'sessionStorage') {
+      return typeof sessionStorage !== 'undefined' ? storageProxy(sessionStorage) : undefined;
+    }
 
-  return typeof localStorage !== 'undefined' ? storageProxy(localStorage) : undefined;
+    return typeof localStorage !== 'undefined' ? storageProxy(localStorage) : undefined;
+  } catch {
+    // Site data blocked, or a sandboxed frame: reading the storage itself throws (a SecurityError) — `typeof` included.
+    // The value lives in memory then, as on the server: a page renders, never blank (encore-3: every page of the
+    // project, through the SDK's dev tools).
+    return undefined;
+  }
 };
 
 function useLocalStorage<T = unknown>(

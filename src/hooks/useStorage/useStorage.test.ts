@@ -115,3 +115,29 @@ describe('useStorage Tests', { concurrent: false }, () => {
     });
   });
 });
+
+// encore-3: with site data blocked, reading `localStorage` itself throws — and every page of a project rendered blank,
+// through the SDK's dev tools that remember where they are docked.
+describe('useStorage with the storage refused', { concurrent: false }, () => {
+  it('keeps its value in memory, never throwing, when reading the storage throws', () => {
+    const own = Object.getOwnPropertyDescriptor(window, 'localStorage');
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      get: () => {
+        throw new DOMException('The operation is insecure.', 'SecurityError');
+      }
+    });
+    try {
+      const { result } = renderHook(() => useStorage('refused.docked', 'bottom'));
+      expect(result.current[0]).toBe('bottom');
+      act(() => {
+        result.current[1]('right');
+      });
+      expect(result.current[0]).toBe('right');
+    } finally {
+      if (own) {
+        Object.defineProperty(window, 'localStorage', own);
+      }
+    }
+  });
+});
