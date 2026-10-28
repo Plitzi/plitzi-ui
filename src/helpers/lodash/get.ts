@@ -71,12 +71,8 @@ export function get(obj: unknown, path: Path, defaultValue?: unknown) {
       return defaultValue;
     }
 
-    if (Array.isArray(current)) {
-      const index = Number(key);
-      current = current[index];
-    } else {
-      current = (current as Record<string, unknown>)[key];
-    }
+    // A list is read as lodash reads one: a number is an index, any other key its own property (`length`).
+    current = Array.isArray(current) && /^\d+$/.test(key) ? current[Number(key)] : Reflect.get(current, key);
   }
 
   return current === undefined ? defaultValue : current;

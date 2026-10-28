@@ -193,6 +193,11 @@ describe('get', () => {
     expect(get(obj, 'a.x', 'default')).toBe('default');
   });
 
+  it('reads a list’s length, as lodash does', () => {
+    expect(get({ picks: ['rock', 'jazz'] }, 'picks.length')).toBe(2);
+    expect(get({ picks: ['rock', 'jazz'] }, 'picks.1')).toBe('jazz');
+  });
+
   it('return value from array path', () => {
     const arr = [{ name: 'john', details: { age: 30 } }];
     const name = get(arr, '[0].name');
