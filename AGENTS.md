@@ -6,12 +6,12 @@ working here (Claude Code, OpenCode, Codex…); `CLAUDE.md` only imports it.
 
 ## Where this repo sits
 
-Plitzi is five repos under `/Users/Carlos/htdocs/`; the map is in `plitzi-workspace/AGENTS.md` § What Plitzi is.
+Plitzi is five repos, siblings in one parent folder; the map is in `plitzi-workspace/AGENTS.md` § What Plitzi is.
 plitzi-ui is consumed by almost every app and package of `plitzi-workspace` (builder, sdk, desktop, sdk-style,
 sdk-dev-tools, sdk-shared…), from npm — or, while an unpublished change is tried, through
 `"@plitzi/plitzi-ui": "portal:../plitzi-ui"` in the workspace's root `resolutions` (check, never assume). To see a
 change there: `yarn build:dev` here, then restart the builder with `yarn start --force` (Vite's optimizeDeps serves
-the old dist otherwise). When Carlos publishes, the workspace raises its ranges and drops the portal.
+the old dist otherwise). When the maintainer publishes, the workspace raises its ranges and drops the portal.
 
 The builder is used all day, so "UI/UX and design must be impeccable" applies here more than anywhere: a change in a
 component lands in every panel of the builder at once.
@@ -20,7 +20,7 @@ component lands in every panel of the builder at once.
 
 Owned by `plitzi-workspace/AGENTS.md` § How we work (read it when you can); in a line each:
 
-- Talk to Carlos in **Spanish**; code, comments, docs and commits in **English**. Report failures and skipped steps
+- Talk to the maintainer in **Spanish**; code, comments, docs and commits in **English**. Report failures and skipped steps
   as they are.
 - **Quality and zero tech debt first**; type-safe (no `any`/`as` without a reason in a comment); **one source of
   truth**; no legacy shims unless asked.
@@ -31,8 +31,8 @@ Owned by `plitzi-workspace/AGENTS.md` § How we work (read it when you can); in 
   changing it and check the inventory after.
 - Shared working tree: never `git stash`/`checkout --`/`restore`/`reset --hard`/`clean`; temp scripts outside the
   repo. **Confirm before deleting** — every component and hook is public API (one subpath each).
-- Commit/push/publish only when asked; **Carlos publishes** (a GitHub release `vX.Y.Z` runs the publish workflow).
-  No sub-agents unless he authorizes them.
+- Commit/push/publish only when asked; **the maintainer publishes** (a GitHub release `vX.Y.Z` runs the publish workflow).
+  No sub-agents unless the maintainer authorizes them.
 
 ## Commands
 
@@ -86,7 +86,7 @@ src/
 ## Finishing a change
 
 `yarn typecheck`, `yarn lint`, `yarn test` green; the story shows the new state; checked in light and dark; and, when
-the change is for the builder, tried there through the portal before Carlos publishes. Releases are `vX.Y.Z` commits
+the change is for the builder, tried there through the portal before the maintainer publishes. Releases are `vX.Y.Z` commits
 with the version bumped in `package.json`.
 
 ## Code style
