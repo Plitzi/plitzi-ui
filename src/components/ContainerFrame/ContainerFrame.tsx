@@ -26,6 +26,12 @@ export type ContainerFrameProps = {
   contentDidDismount?: () => void;
   contentDidUpdate?: () => void;
   onLoad?: (iframe: HTMLIFrameElement | null) => void;
+  /**
+   * How the markup it writes — the frame's own document, the stylesheet it inlines while rendering on the server — is
+   * made a trusted value, on a page that holds markup to Trusted Types: the page's own policy, as its code makes it.
+   * Absent, the markup is written as a string.
+   */
+  trustedHtml?: (html: string) => string | TrustedHTML;
 } & useThemeSharedProps<typeof ContainerFrameStyles, typeof variantKeys>;
 
 const ContainerFrame = ({
@@ -42,13 +48,15 @@ const ContainerFrame = ({
   contentDidMount: contentDidMountProp,
   contentDidDismount,
   contentDidUpdate,
-  onLoad
+  onLoad,
+  trustedHtml
 }: ContainerFrameProps) => {
   className = useTheme<typeof ContainerFrameStyles, typeof variantKeys>('ContainerFrame', {
     className,
     componentKey: 'root'
   });
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const trusted = (html: string): string | TrustedHTML => (trustedHtml ? trustedHtml(html) : html);
   useImperativeHandle<HTMLIFrameElement | null, HTMLIFrameElement | null>(ref, () => iframeRef.current, [iframeRef]);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [myDocument, setMyDocument] = useState<Document | null | undefined>(null);
@@ -154,7 +162,9 @@ const ContainerFrame = ({
       ref={iframeRef}
       className={className}
       title="#"
-      srcDoc={`<!DOCTYPE html><html><head>${initialHead}</head><body></body></html>`}
+      // React hands an attribute's value to `setAttribute` as it is (19+), so a trusted one stays trusted; its types say
+      // a string, which is what a page without Trusted Types passes.
+      srcDoc={trusted(`<!DOCTYPE html><html><head>${initialHead}</head><body></body></html>`) as string}
       id={id}
       onLoad={handleLoad}
       style={style}
@@ -169,7 +179,9 @@ const ContainerFrame = ({
                 {css}
               </style>
             )}
-            {ssrMode && css && <style id="customStyle" asset-static="true" dangerouslySetInnerHTML={{ __html: css }} />}
+            {ssrMode && css && (
+              <style id="customStyle" asset-static="true" dangerouslySetInnerHTML={{ __html: trusted(css) }} />
+            )}
           </>,
           myDocument.head
         )}
