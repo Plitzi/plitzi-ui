@@ -73,6 +73,14 @@ class AccordionManager {
 
   // Panel Methods
 
+  /**
+   * The panels a panel that registers from now on opens as: the consumer's `defaultValue` as it is when the panel joins,
+   * not as it was when the accordion mounted — a panel added later (a side panel opened from its rail) opens as asked.
+   */
+  setDefaultActive(ids: string[] = []) {
+    this.settings.defaultActive = ids;
+  }
+
   register(id: string, ref: RefObject<HTMLElement | null>, settings?: { minSize?: number; maxSize?: number }) {
     if (!ref.current || this.get(id)) {
       return;

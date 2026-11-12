@@ -49,10 +49,13 @@ const PopupSidebar = ({
           const child = popup.settings.icon;
           let childPopup;
           if (isValidElement(child) && child.type === SidebarIcon) {
+            // Named by its popup's title when it says none of its own: on hover, and as its accessible name.
+            const own = child.props as IconProps;
             childPopup = cloneElement<IconProps>(child as ReactElement<IconProps>, {
-              ...(child.props as IconProps),
+              ...own,
               key: popup.id,
-              id: popup.id
+              id: popup.id,
+              title: own.title ?? (popup.settings.title as string)
             });
           } else if (typeof child === 'string') {
             childPopup = (

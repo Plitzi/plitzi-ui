@@ -56,6 +56,9 @@ const Accordion = ({
     [alwaysOpen, multi]
   );
 
+  // Read by each panel as it registers (its effect runs before this component's), so it is kept current while rendering.
+  accordionManager.setDefaultActive(defaultValue);
+
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 

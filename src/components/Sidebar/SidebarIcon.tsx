@@ -9,7 +9,7 @@ import type SidebarStyles from './Sidebar.styles';
 import type { variantKeys } from './Sidebar.styles';
 import type { IconProps } from '@components/Icon';
 import type { useThemeSharedProps } from '@hooks/useTheme';
-import type { MouseEvent } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 
 export type SidebarIconProps = {
   id?: string;
@@ -25,6 +25,7 @@ const SidebarIcon = ({
   detatched = false,
   size,
   onClick,
+  title,
   ...props
 }: SidebarIconProps) => {
   className = useTheme<typeof SidebarStyles, typeof variantKeys>('Sidebar', {
@@ -51,6 +52,25 @@ const SidebarIcon = ({
     [onClick, detatched, id, onChange]
   );
 
+  // A rail's button is one to a keyboard and to a screen reader too: Enter and Space press it, as a click does.
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLElement>) => {
+      if (e.key !== 'Enter' && e.key !== ' ') {
+        return;
+      }
+
+      e.preventDefault();
+      if (detatched) {
+        return;
+      }
+
+      if (id && onChange) {
+        onChange(id);
+      }
+    },
+    [detatched, id, onChange]
+  );
+
   return (
     <Icon
       className={className}
@@ -58,6 +78,12 @@ const SidebarIcon = ({
       cursor="pointer"
       intent={active ? 'primary' : 'tertiary'}
       active={active}
+      role="button"
+      tabIndex={0}
+      title={title}
+      aria-label={title}
+      aria-pressed={active}
+      onKeyDown={handleKeyDown}
       {...props}
       onClick={handleClick}
     >

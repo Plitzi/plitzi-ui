@@ -1,4 +1,4 @@
-import { use, useMemo, useCallback, memo } from 'react';
+import { use, useMemo, useCallback, memo, useState } from 'react';
 
 import Accordion from '@components/Accordion';
 import ContainerResizable from '@components/ContainerResizable';
@@ -50,6 +50,15 @@ const PopupSidePanel = ({
   });
   const { rootRef } = use(ContainerRootContext);
   const { popupManager, popups, popupActiveIds, multi, multiExpanded } = usePopup(placement);
+  // The panels it opened with keep the opening rule (`multiExpanded`); one that joins later — opened from the rail —
+  // opens, so a click on the rail shows that panel's content rather than a closed strip under the open one.
+  const [openedWith] = useState(() => new Set(popupActiveIds));
+  const expanded = useMemo(() => {
+    const atStart = popupActiveIds.filter(id => openedWith.has(id));
+    const joined = popupActiveIds.filter(id => !openedWith.has(id));
+
+    return [...(multiExpanded ? atStart : atStart.slice(0, 1)), ...joined];
+  }, [multiExpanded, openedWith, popupActiveIds]);
   const resizeHandles = useMemo<ResizeHandle[]>(() => (placementTabs === 'left' ? ['e'] : ['w']), [placementTabs]);
 
   const handleChangeTabs = useCallback(
@@ -135,9 +144,7 @@ const PopupSidePanel = ({
           grow
           multi={multi}
           alwaysOpen
-          defaultValue={
-            popupActiveIds.length > 1 ? (multiExpanded ? popupActiveIds : popupActiveIds.slice(0, 1)) : popupActiveIds
-          }
+          defaultValue={expanded}
         >
           {popupsFiltered.map((popup, i) => (
             <PopupSidePanelItem

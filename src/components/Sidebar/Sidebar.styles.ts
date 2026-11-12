@@ -59,26 +59,30 @@ export default {
       }
     }
   ),
-  icon: cva('shrink-0 transition-colors duration-150', {
-    variants: {
-      // The open entry reads at a glance: a tinted ground, not only a colour on a glyph.
-      active: {
-        true: 'bg-primary-50 dark:bg-primary-400/15',
-        false: ''
+  // A button to a keyboard: its ring when reached by Tab, in the brand's colour on either theme.
+  icon: cva(
+    'shrink-0 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/60 dark:focus-visible:ring-primary-400/60',
+    {
+      variants: {
+        // The open entry reads at a glance: a tinted ground, not only a colour on a glyph.
+        active: {
+          true: 'bg-primary-50 dark:bg-primary-400/15',
+          false: ''
+        },
+        size: {
+          lg: 'h-10 w-10 rounded-lg',
+          md: 'h-8 w-8 rounded-lg',
+          sm: 'h-6 w-6 rounded-sm',
+          xs: 'h-4 w-4 rounded-xs',
+          custom: ''
+        }
       },
-      size: {
-        lg: 'h-10 w-10 rounded-lg',
-        md: 'h-8 w-8 rounded-lg',
-        sm: 'h-6 w-6 rounded-sm',
-        xs: 'h-4 w-4 rounded-xs',
-        custom: ''
+      compoundVariants: [],
+      defaultVariants: {
+        size: 'md',
+        active: false
       }
-    },
-    compoundVariants: [],
-    defaultVariants: {
-      size: 'md',
-      active: false
     }
-  }),
+  ),
   separator: cva('w-6 bg-gray-200 dark:bg-zinc-700 h-px shrink-0')
 };

@@ -63,6 +63,20 @@ describe('AccordionManager', () => {
       expect(manager.isOpen('b')).toBe(true);
     });
 
+    // A side panel opened from its rail joins the accordion after it mounted: it opens as the consumer asks then, not as
+    // the accordion's first `defaultValue` said — it used to join as a closed strip under the open one.
+    it('opens a panel that joins later as the current default says', () => {
+      const manager = new AccordionManager(containerRef, { multi: true, alwaysOpen: true, defaultActive: ['a'] });
+      manager.register('a', createRef());
+      manager.setDefaultActive(['a', 'b']);
+      manager.register('b', createRef());
+      manager.register('c', createRef());
+
+      expect(manager.isOpen('a')).toBe(true);
+      expect(manager.isOpen('b')).toBe(true);
+      expect(manager.isOpen('c')).toBe(false);
+    });
+
     it('allows multiple panels to be open', () => {
       manager.register('a', createRef());
       manager.register('b', createRef());
