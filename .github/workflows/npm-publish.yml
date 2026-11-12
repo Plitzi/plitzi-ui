@@ -26,8 +26,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@plitzi'
 
       - name: Cache Yarn
         id: cache-yarn-packages
@@ -38,15 +36,11 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Yarn Token
-        run: |
-          echo "npmAuthToken: ${{ secrets.NPM_AUTH_TOKEN }}" >> $HOME/.yarnrc.yml
-
+      # Every dependency is on npmjs: the install needs no token. (GitHub Packages, and its `NPM_AUTH_TOKEN`, are gone —
+      # an empty secret wrote `npmAuthToken:` with no value, which Yarn reads as an object and refuses before installing.)
       - name: Yarn Install
         if: steps.cache-yarn-packages.outputs.cache-hit != 'true'
         run: yarn install # --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
   lint:
     needs: packages
@@ -108,10 +102,10 @@ jobs:
     strategy:
       matrix:
         registry:
-          - name: github
-            url: https://npm.pkg.github.com/
-            token: NPM_AUTH_TOKEN
-            scope: '@plitzi'
+          # - name: github
+          #   url: https://npm.pkg.github.com/
+          #   token: NPM_AUTH_TOKEN
+          #   scope: '@plitzi'
           - name: npm
             url: https://registry.npmjs.org/
             token: NPMJS_TOKEN
