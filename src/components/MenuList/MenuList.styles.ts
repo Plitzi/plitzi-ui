@@ -30,14 +30,13 @@ export default {
     }
   }),
   menu: cva(
-    'flex gap-0.5 flex-col py-1.5 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-lg shadow-black/10 dark:shadow-black/30 min-w-43.75 rounded-lg overflow-hidden'
+    'flex gap-0.5 flex-col py-1.5 bg-ui-overlay border border-ui-line shadow-lg shadow-black/10 dark:shadow-black/30 min-w-43.75 rounded-lg overflow-hidden'
   ),
   menuItem: cva('flex items-center py-1.5 px-3 gap-2 text-sm mx-1.5 rounded-md transition-colors duration-100', {
     variants: {
       disabled: {
-        true: 'cursor-not-allowed text-zinc-400 dark:text-zinc-500',
-        false:
-          'cursor-pointer text-zinc-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-700/60 hover:text-zinc-900 dark:hover:text-zinc-100'
+        true: 'cursor-not-allowed text-ui-fg-subtle',
+        false: 'cursor-pointer text-ui-fg hover:bg-ui-hover hover:text-ui-fg'
       },
       active: {
         true: 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400',
@@ -49,5 +48,5 @@ export default {
       disabled: false
     }
   }),
-  icon: cva('shrink-0 w-4 text-zinc-500 dark:text-zinc-400')
+  icon: cva('shrink-0 w-4 text-ui-fg-subtle')
 };

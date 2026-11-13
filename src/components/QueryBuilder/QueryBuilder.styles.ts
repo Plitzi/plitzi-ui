@@ -33,8 +33,8 @@ export default {
   ruleGroup: cva('flex flex-col p-2 border rounded-sm relative', {
     variants: {
       intent: {
-        primary: 'bg-primary-500/20 border-gray-400 dark:border-zinc-700',
-        gray: 'bg-grayviolet-200 dark:bg-zinc-700/50 border-gray-300 dark:border-zinc-700'
+        primary: 'bg-primary-500/20 border-ui-line-strong',
+        gray: 'bg-ui-active border-ui-line-strong'
       },
       mainGroup: {
         true: '',
@@ -62,19 +62,13 @@ export default {
         mainGroup: false,
         showBranches: true,
         intent: 'primary',
-        className: [
-          'before:border-gray-400 dark:before:border-zinc-700',
-          'after:border-gray-400 dark:after:border-zinc-700'
-        ]
+        className: ['before:border-ui-line-strong', 'after:border-ui-line-strong']
       },
       {
         mainGroup: false,
         showBranches: true,
         intent: 'gray',
-        className: [
-          'before:border-gray-300 dark:before:border-zinc-700',
-          'after:border-gray-300 dark:after:border-zinc-700'
-        ]
+        className: ['before:border-ui-line-strong', 'after:border-ui-line-strong']
       }
     ],
     defaultVariants: {
@@ -88,8 +82,8 @@ export default {
   rule: cva('border p-1 rounded-sm ml-4 [&:not(:first-child)]:mt-3 relative', {
     variants: {
       intent: {
-        primary: 'border-gray-400 dark:border-zinc-700',
-        gray: 'border-gray-300 dark:border-zinc-700'
+        primary: 'border-ui-line-strong',
+        gray: 'border-ui-line-strong'
       },
       direction: {
         horizontal: 'items-center',
@@ -121,18 +115,12 @@ export default {
       {
         showBranches: true,
         intent: 'primary',
-        className: [
-          'before:border-gray-400 dark:before:border-zinc-700',
-          'after:border-gray-400 dark:after:border-zinc-700'
-        ]
+        className: ['before:border-ui-line-strong', 'after:border-ui-line-strong']
       },
       {
         showBranches: true,
         intent: 'gray',
-        className: [
-          'before:border-gray-300 dark:before:border-zinc-700',
-          'after:border-gray-300 dark:after:border-zinc-700'
-        ]
+        className: ['before:border-ui-line-strong', 'after:border-ui-line-strong']
       }
     ],
     defaultVariants: {

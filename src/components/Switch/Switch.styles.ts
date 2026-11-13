@@ -31,7 +31,7 @@ export default {
   slider: cva(
     [
       'round absolute top-0 bottom-0 left-0 right-0 duration-[0.4s]',
-      'before:absolute before:left-1 before:bottom-1 before:bg-white dark:before:bg-zinc-200 before:duration-[0.4s]'
+      'before:absolute before:left-1 before:bottom-1 before:bg-ui-panel dark:before:bg-zinc-200 before:duration-[0.4s]'
     ],
     {
       variants: {
@@ -52,7 +52,7 @@ export default {
           false: ''
         },
         disabled: {
-          true: 'bg-gray-300 dark:bg-zinc-600',
+          true: 'bg-ui-line-strong',
           false: ''
         },
         error: {
@@ -65,19 +65,18 @@ export default {
           intent: 'primary',
           disabled: false,
           className:
-            'bg-gray-300 dark:bg-zinc-600 peer-checked:bg-primary-500 dark:peer-checked:bg-primary-500 hover:before:bg-primary-300'
+            'bg-ui-line-strong peer-checked:bg-primary-500 dark:peer-checked:bg-primary-500 hover:before:bg-primary-300'
         },
         {
           intent: 'secondary',
           disabled: false,
           className:
-            'bg-gray-300 dark:bg-zinc-600 peer-checked:bg-secondary-500 dark:peer-checked:bg-secondary-500 hover:before:bg-secondary-300'
+            'bg-ui-line-strong peer-checked:bg-secondary-500 dark:peer-checked:bg-secondary-500 hover:before:bg-secondary-300'
         },
         {
           intent: 'danger',
           disabled: false,
-          className:
-            'bg-gray-300 dark:bg-zinc-600 peer-checked:bg-red-500 dark:peer-checked:bg-red-500 hover:before:bg-red-300'
+          className: 'bg-ui-line-strong peer-checked:bg-red-500 dark:peer-checked:bg-red-500 hover:before:bg-red-300'
         }
       ],
       defaultVariants: {

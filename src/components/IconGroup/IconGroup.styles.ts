@@ -9,7 +9,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'IconGroup';
 
 export default {
-  root: cva('bg-grayviolet-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200', {
+  root: cva('bg-ui-active text-ui-fg', {
     variants: {
       intent: {
         primary: '',
@@ -40,7 +40,7 @@ export default {
       size: 'md'
     }
   }),
-  separator: cva('bg-gray-500 dark:bg-zinc-500', {
+  separator: cva('bg-gray-500 dark:bg-ui-line-strong', {
     variants: {
       intent: {
         default: ''

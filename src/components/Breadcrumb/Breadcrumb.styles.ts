@@ -28,9 +28,9 @@ export default {
     variants: {
       intent: {
         primary:
-          'text-primary-ui hover:text-primary-text dark:not-last:text-primary-text dark:not-last:hover:text-primary-ui last:text-slate-500 dark:last:text-zinc-400',
+          'text-primary-ui hover:text-primary-text dark:not-last:text-primary-text dark:not-last:hover:text-primary-ui last:text-slate-500 dark:last:text-ui-fg-subtle',
         secondary:
-          'text-secondary-500 hover:text-secondary-300 dark:not-last:text-secondary-300 dark:not-last:hover:text-secondary-500 last:text-slate-500 dark:last:text-zinc-400'
+          'text-secondary-500 hover:text-secondary-300 dark:not-last:text-secondary-300 dark:not-last:hover:text-secondary-500 last:text-slate-500 dark:last:text-ui-fg-subtle'
       }
     },
     compoundVariants: [],
@@ -41,8 +41,8 @@ export default {
   separator: cva('', {
     variants: {
       intent: {
-        primary: 'text-slate-500 dark:text-zinc-500',
-        secondary: 'text-gray-500 dark:text-zinc-500'
+        primary: 'text-slate-500 dark:text-ui-fg-subtle',
+        secondary: 'text-ui-fg-subtle'
       }
     },
     compoundVariants: [],

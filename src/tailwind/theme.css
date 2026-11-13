@@ -71,6 +71,33 @@
   --color-gray-900: #0c0c14;
   --color-gray-950: #08080c;
 
+  /*
+   * The UI's own grounds, lines and text, by what they are — not by a shade. An app paints with these (`bg-ui-panel`,
+   * `border-ui-line`, `text-ui-fg-muted`) and both schemes follow, each level a step from the one under it:
+   *
+   *   backdrop  the ground everything sits on — the canvas around a page
+   *   panel     a docked surface — the header, a sidebar
+   *   raised    a part of a panel set apart — a section, a card, a list's head
+   *   hover     what the pointer is over; active, what is picked (neutral — the accent marks the current one)
+   *   overlay   what floats over the rest — a window, a modal, a menu (with a shadow)
+   *   field     where something is typed or chosen
+   *
+   * Text: fg reads, fg-muted explains, fg-subtle hints — 4.5:1 or more on every ground, in both schemes. Prefixed `ui-`:
+   * this stylesheet travels onto published sites with the dev tools, whose own `--color-panel` it must not touch.
+   */
+  --color-ui-backdrop: #ecedf2;
+  --color-ui-panel: #ffffff;
+  --color-ui-raised: #f6f6f9;
+  --color-ui-hover: #eeeef4;
+  --color-ui-active: #e5e5ee;
+  --color-ui-overlay: #ffffff;
+  --color-ui-field: #ffffff;
+  --color-ui-line: #e6e6ee;
+  --color-ui-line-strong: #cdcdda;
+  --color-ui-fg: #17171f;
+  --color-ui-fg-muted: #4e4e64;
+  --color-ui-fg-subtle: #62627a;
+
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -82,4 +109,18 @@
 .dark {
   --color-primary-ui: #8f7afa;
   --color-primary-text: #b7a6ff;
+
+  /* Each level lighter than the one under it: a window floats above the panel it opens from, a field sits into it. */
+  --color-ui-backdrop: #0c0c11;
+  --color-ui-panel: #15151d;
+  --color-ui-raised: #1b1b25;
+  --color-ui-hover: #23232f;
+  --color-ui-active: #2b2b39;
+  --color-ui-overlay: #1f1f2a;
+  --color-ui-field: #101017;
+  --color-ui-line: #2b2b39;
+  --color-ui-line-strong: #3a3a4a;
+  --color-ui-fg: #ececf3;
+  --color-ui-fg-muted: #b4b4c5;
+  --color-ui-fg-subtle: #9696ab;
 }

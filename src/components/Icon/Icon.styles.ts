@@ -23,13 +23,13 @@ export default {
   root: cva('flex items-center justify-center', {
     variants: {
       intent: {
-        primary: 'text-zinc-700 dark:text-zinc-300 hover:text-primary-ui',
+        primary: 'text-ui-fg hover:text-primary-ui',
         primaryActive: 'text-primary-ui',
-        secondary: 'text-zinc-700 dark:text-zinc-300 hover:text-secondary-500 dark:hover:text-secondary-400',
+        secondary: 'text-ui-fg hover:text-secondary-500 dark:hover:text-secondary-400',
         secondaryActive: 'text-secondary-500 dark:text-secondary-400',
-        tertiary: 'hover:bg-grayviolet-200 dark:hover:bg-zinc-700 text-gray-500 dark:text-zinc-400',
-        tertiaryActive: 'text-black dark:text-white',
-        disabled: 'text-gray-400 dark:text-zinc-500',
+        tertiary: 'hover:bg-ui-hover text-ui-fg-subtle',
+        tertiaryActive: 'text-black dark:text-ui-fg',
+        disabled: 'text-ui-fg-subtle',
         danger: 'text-red-500 hover:text-red-400',
         success: 'text-green-500 hover:text-green-400',
         custom: ''

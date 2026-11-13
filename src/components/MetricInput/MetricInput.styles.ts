@@ -33,12 +33,12 @@ export default {
     }
   }),
   inputContainer: cva(
-    'flex items-center border relative transition-colors duration-150 focus-within:ring-2 focus-within:ring-offset-0 bg-white dark:bg-zinc-800 dark:text-zinc-300',
+    'flex items-center border relative transition-colors duration-150 focus-within:ring-2 focus-within:ring-offset-0 bg-ui-raised dark:text-ui-fg-muted',
     {
       variants: {
         intent: {
           default:
-            'border-gray-300 dark:border-zinc-700 hover:border-gray-400 dark:hover:border-zinc-500 focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30',
+            'border-ui-line-strong hover:border-ui-line-strong focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30',
           error: 'border-red-500 focus-within:ring-red-500/30'
         },
         size: {
@@ -55,7 +55,7 @@ export default {
     }
   ),
   input: cva(
-    'p-0 outline-none focus:ring-0 basis-0 grow min-w-0 border-none bg-transparent text-zinc-900 placeholder:text-zinc-400 dark:text-zinc-200 dark:placeholder:text-zinc-500',
+    'p-0 outline-none focus:ring-0 basis-0 grow min-w-0 border-none bg-transparent text-ui-fg placeholder:text-ui-fg-subtle',
     {
       variants: {
         intent: {
@@ -85,7 +85,7 @@ export default {
     }
   ),
   units: cva(
-    'select-none text-center font-medium text-zinc-500 dark:text-zinc-400 border-l border-gray-200 dark:border-zinc-700 transition-colors duration-100',
+    'select-none text-center font-medium text-ui-fg-subtle border-l border-ui-line transition-colors duration-100',
     {
       variants: {
         intent: {
@@ -94,7 +94,7 @@ export default {
         },
         disabled: {
           true: 'cursor-not-allowed',
-          false: 'cursor-pointer hover:text-zinc-700 dark:hover:text-zinc-200'
+          false: 'cursor-pointer hover:text-ui-fg'
         },
         size: {
           md: 'text-sm min-w-9 pl-2',
@@ -127,7 +127,7 @@ export default {
       size: 'md'
     }
   }),
-  icon: cva('shrink-0 text-zinc-400 dark:text-zinc-500', {
+  icon: cva('shrink-0 text-ui-fg-subtle', {
     variants: {
       intent: {
         default: '',
@@ -158,7 +158,7 @@ export default {
       size: 'md'
     }
   }),
-  iconLoading: cva('text-zinc-400 dark:text-zinc-500', {
+  iconLoading: cva('text-ui-fg-subtle', {
     variants: {
       intent: {
         default: ''
@@ -175,5 +175,5 @@ export default {
       size: 'md'
     }
   }),
-  divider: cva('w-px bg-gray-200 dark:bg-zinc-700 self-stretch shrink-0')
+  divider: cva('w-px bg-ui-active self-stretch shrink-0')
 };

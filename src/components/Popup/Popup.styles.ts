@@ -26,7 +26,7 @@ export default {
     }
   }),
   sidePanelRoot: cva(''),
-  sidePanel: cva('h-full flex grow bg-white dark:bg-zinc-900', {
+  sidePanel: cva('h-full flex grow bg-ui-panel', {
     variants: {
       placement: {
         left: '',
@@ -51,7 +51,7 @@ export default {
     }
   }),
   sidePanelItem: cva(''),
-  sidePanelItemHeader: cva('border-gray-300 dark:border-zinc-700 border-solid mx-1.5 px-0', {
+  sidePanelItemHeader: cva('border-ui-line-strong border-solid mx-1.5 px-0', {
     variants: {
       expanded: {
         true: 'border-b',

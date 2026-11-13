@@ -357,7 +357,7 @@ const Select2 = (props: Select2Props) => {
           )}
           {!loading && allowCreateOptions && search && (
             <ListItem
-              className="bg-slate-100 text-blue-500 dark:bg-zinc-700 dark:text-blue-400"
+              className="bg-slate-100 text-blue-500 dark:bg-ui-active dark:text-blue-400"
               prefix="Create:"
               size={size}
               label={search}

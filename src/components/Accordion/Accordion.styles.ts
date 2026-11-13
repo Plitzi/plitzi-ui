@@ -20,9 +20,9 @@ export default {
       intent: 'default'
     }
   }),
-  item: cva('border-b border-gray-100 dark:border-zinc-800 last:border-b-0'),
+  item: cva('border-b border-ui-line last:border-b-0'),
   itemHeader: cva(
-    'flex items-center justify-between font-semibold cursor-pointer select-none transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-zinc-800/60 text-zinc-800 dark:text-zinc-200',
+    'flex items-center justify-between font-semibold cursor-pointer select-none transition-colors duration-150 hover:bg-ui-hover text-ui-fg',
     {
       variants: {
         size: {
@@ -41,7 +41,7 @@ export default {
   ),
   itemHeaderSlot: cva('min-w-0 truncate'),
   itemHeaderIcon: cva(
-    'flex items-center justify-center w-4 h-4 shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-150'
+    'flex items-center justify-center w-4 h-4 shrink-0 text-ui-fg-subtle transition-transform duration-150'
   ),
   itemHeaderIconError: cva('flex items-center justify-center text-red-500 dark:text-red-400'),
   itemHeaderIconWarning: cva('flex items-center justify-center text-orange-500 dark:text-orange-400'),

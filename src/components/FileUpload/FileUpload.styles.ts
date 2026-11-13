@@ -14,7 +14,7 @@ export default {
   root: cva('', {
     variants: {
       canDragAndDrop: {
-        true: 'flex flex-col border-2 border-gray-300 dark:border-zinc-700 border-dashed rounded-md relative select-none',
+        true: 'flex flex-col border-2 border-ui-line-strong border-dashed rounded-md relative select-none',
         false: 'w-full'
       },
       size: {
@@ -41,7 +41,7 @@ export default {
       size: 'md'
     }
   }),
-  input: cva('w-full ring-0 outline-0 text-zinc-900 dark:text-zinc-200', {
+  input: cva('w-full ring-0 outline-0 text-ui-fg', {
     variants: {
       disabled: {
         true: 'cursor-not-allowed',
@@ -107,7 +107,7 @@ export default {
     }
   }),
   itemLabel: cva('whitespace-nowrap w-full truncate'),
-  label: cva('text-center flex flex-col text-zinc-700 dark:text-zinc-300', {
+  label: cva('text-center flex flex-col text-ui-fg', {
     variants: {
       error: {
         true: 'text-red-500',
@@ -120,7 +120,7 @@ export default {
         custom: ''
       },
       disabled: {
-        true: 'text-gray-400 dark:text-zinc-500',
+        true: 'text-ui-fg-subtle',
         false: ''
       }
     },
@@ -140,8 +140,8 @@ export default {
         custom: ''
       },
       disabled: {
-        true: 'text-gray-400 dark:text-zinc-500',
-        false: 'text-gray-500 dark:text-zinc-400'
+        true: 'text-ui-fg-subtle',
+        false: 'text-ui-fg-subtle'
       }
     },
     compoundVariants: [],

@@ -32,12 +32,11 @@ export default {
       }
     },
     compoundVariants: [
-      { solid: true, intent: 'default', className: 'bg-gray-400 dark:bg-zinc-600' },
+      { solid: true, intent: 'default', className: 'bg-ui-line-strong' },
       {
         solid: false,
         intent: 'default',
-        className:
-          'bg-gray-500/10 border-gray-500 border text-gray-600 dark:bg-zinc-500/20 dark:border-zinc-500 dark:text-zinc-300'
+        className: 'bg-gray-500/10 border-ui-line-strong border text-ui-fg-muted dark:bg-ui-line-strong/20'
       },
       { solid: true, intent: 'info', className: 'bg-blue-400 dark:bg-blue-600' },
       {

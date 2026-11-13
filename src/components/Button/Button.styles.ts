@@ -25,9 +25,9 @@ export default {
             'dark:bg-primary-400 dark:hover:bg-primary-500 dark:focus-visible:ring-primary-300'
           ],
           secondary: [
-            'border-gray-300 text-zinc-700 hover:border-gray-400 hover:bg-gray-50 hover:text-zinc-900',
-            'focus-visible:ring-gray-400',
-            'dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-400 dark:hover:bg-zinc-700/50 dark:hover:text-white dark:focus-visible:ring-zinc-500'
+            'border-ui-line-strong text-ui-fg hover:border-ui-line-strong hover:bg-ui-hover hover:text-ui-fg',
+            'focus-visible:ring-ui-line-strong',
+            'dark:border-ui-line-strong dark:text-ui-fg-muted dark:hover:border-zinc-400 dark:hover:bg-ui-hover/50 dark:hover:text-ui-fg dark:focus-visible:ring-ui-line-strong'
           ],
           danger: [
             'border-transparent bg-red-500 text-white hover:bg-red-600',

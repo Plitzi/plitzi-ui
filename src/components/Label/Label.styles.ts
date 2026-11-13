@@ -10,11 +10,11 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Label';
 
 export default {
-  root: cva('font-medium text-zinc-700 dark:text-zinc-300', {
+  root: cva('font-medium text-ui-fg', {
     variants: {
       intent: {
         primary: '',
-        disabled: 'text-zinc-400 dark:text-zinc-500',
+        disabled: 'text-ui-fg-subtle',
         error: 'text-red-600 dark:text-red-400',
         custom: ''
       },
@@ -23,7 +23,7 @@ export default {
         false: ''
       },
       disabled: {
-        true: 'cursor-not-allowed text-zinc-400 dark:text-zinc-500',
+        true: 'cursor-not-allowed text-ui-fg-subtle',
         false: ''
       },
       size: {

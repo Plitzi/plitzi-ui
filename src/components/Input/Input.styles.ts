@@ -39,13 +39,13 @@ export default {
     {
       variants: {
         intent: {
-          primary: 'bg-white text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300',
+          primary: 'bg-ui-raised text-ui-fg',
           custom: ''
         },
         error: {
           true: 'border-red-500 focus-within:ring-red-500/30',
           false:
-            'border-gray-300 dark:border-zinc-700 focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30 hover:border-gray-400 dark:hover:border-zinc-500'
+            'border-ui-line-strong focus-within:ring-primary-500/30 dark:focus-within:ring-primary-400/30 hover:border-ui-line-strong'
         },
         disabled: {
           true: 'cursor-not-allowed opacity-60 pointer-events-none',
@@ -70,7 +70,7 @@ export default {
   input: cva('p-0 border-0 outline-none focus:ring-0 w-full bg-transparent', {
     variants: {
       intent: {
-        primary: 'text-zinc-900 placeholder:text-zinc-400 dark:text-zinc-200 dark:placeholder:text-zinc-500'
+        primary: 'text-ui-fg placeholder:text-ui-fg-subtle'
       },
       error: {
         true: '',
@@ -95,7 +95,7 @@ export default {
       error: false
     }
   }),
-  label: cva('text-sm font-medium text-zinc-700 dark:text-zinc-300', {
+  label: cva('text-sm font-medium text-ui-fg', {
     variants: {
       inline: {
         true: 'flex select-none items-center',
@@ -143,7 +143,7 @@ export default {
       size: 'md'
     }
   }),
-  icon: cva('border-r border-gray-300 dark:border-zinc-700 text-zinc-400 dark:text-zinc-500 shrink-0', {
+  icon: cva('border-r border-ui-line-strong text-ui-fg-subtle shrink-0', {
     variants: {
       intent: {
         primary: ''
@@ -180,8 +180,6 @@ export default {
       intent: 'primary'
     }
   }),
-  iconClear: cva(
-    'cursor-pointer text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors duration-150'
-  ),
-  iconLoading: cva('text-zinc-400 dark:text-zinc-500')
+  iconClear: cva('cursor-pointer text-ui-fg-subtle hover:text-ui-fg transition-colors duration-150'),
+  iconLoading: cva('text-ui-fg-subtle')
 };

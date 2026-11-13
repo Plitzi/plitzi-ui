@@ -10,38 +10,35 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'TextArea';
 
 export default {
-  input: cva(
-    'p-0 border-0 outline-none focus:ring-0 w-full bg-transparent text-zinc-900 placeholder:text-zinc-400 dark:text-zinc-200 dark:placeholder:text-zinc-500',
-    {
-      variants: {
-        intent: {
-          primary: '',
-          custom: ''
-        },
-        disabled: {
-          true: 'cursor-not-allowed',
-          false: ''
-        },
-        error: {
-          true: '',
-          false: ''
-        },
-        size: {
-          md: '',
-          sm: 'text-sm',
-          xs: 'text-xs',
-          custom: ''
-        }
+  input: cva('p-0 border-0 outline-none focus:ring-0 w-full bg-transparent text-ui-fg placeholder:text-ui-fg-subtle', {
+    variants: {
+      intent: {
+        primary: '',
+        custom: ''
       },
-      compoundVariants: [],
-      defaultVariants: {
-        intent: 'primary',
-        size: 'md',
-        disabled: false,
-        error: false
+      disabled: {
+        true: 'cursor-not-allowed',
+        false: ''
+      },
+      error: {
+        true: '',
+        false: ''
+      },
+      size: {
+        md: '',
+        sm: 'text-sm',
+        xs: 'text-xs',
+        custom: ''
       }
+    },
+    compoundVariants: [],
+    defaultVariants: {
+      intent: 'primary',
+      size: 'md',
+      disabled: false,
+      error: false
     }
-  ),
+  }),
   iconFloatingContainer: cva('', {
     variants: {
       error: {

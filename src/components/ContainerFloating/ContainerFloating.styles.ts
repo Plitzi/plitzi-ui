@@ -29,8 +29,7 @@ export default {
   content: cva('flex w-full h-full', {
     variants: {
       intent: {
-        dropdown:
-          'bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 shadow-lg shadow-black/10 dark:shadow-black/30 rounded-lg',
+        dropdown: 'bg-ui-overlay border border-ui-line shadow-lg shadow-black/10 dark:shadow-black/30 rounded-lg',
         custom: ''
       },
       disabled: {

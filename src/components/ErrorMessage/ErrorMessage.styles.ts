@@ -22,7 +22,7 @@ export default {
       },
       error: {
         true: 'text-red-600 dark:text-red-400',
-        false: 'text-zinc-500 dark:text-zinc-400'
+        false: 'text-ui-fg-subtle'
       },
       size: {
         md: 'text-sm',

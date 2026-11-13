@@ -14,8 +14,8 @@ export default {
   root: cva('flex flex-col', {
     variants: {
       intent: {
-        white: 'bg-white dark:bg-zinc-800 border-gray-200 dark:border-zinc-700 border',
-        modal: 'bg-white dark:bg-zinc-800 w-full border-gray-200 dark:border-zinc-700 border'
+        white: 'bg-ui-raised border-ui-line border',
+        modal: 'bg-ui-overlay w-full border-ui-line border'
       },
       shadow: {
         normal: 'shadow-md shadow-black/8 dark:shadow-black/30',
@@ -46,7 +46,7 @@ export default {
     variants: {
       intent: {
         white: '',
-        modal: 'border-b border-gray-100 dark:border-zinc-700'
+        modal: 'border-b border-ui-line'
       },
       size: {
         md: 'px-5 py-4',
@@ -62,7 +62,7 @@ export default {
     }
   }),
   headerCloseButton: cva(
-    'cursor-pointer text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors duration-100 rounded-sm p-0.5 hover:bg-gray-100 dark:hover:bg-zinc-700'
+    'cursor-pointer text-ui-fg-subtle hover:text-ui-fg transition-colors duration-100 rounded-sm p-0.5 hover:bg-ui-hover'
   ),
   body: cva('basis-0 grow', {
     variants: {
@@ -87,7 +87,7 @@ export default {
     variants: {
       intent: {
         white: '',
-        modal: 'border-t border-gray-100 dark:border-zinc-700'
+        modal: 'border-t border-ui-line'
       },
       size: {
         md: 'px-5 py-4',

@@ -7,7 +7,7 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Heading';
 
 export default {
-  root: cva('text-zinc-900 dark:text-zinc-100', {
+  root: cva('text-ui-fg', {
     variants: {
       as: {
         h1: 'text-5xl font-extrabold',

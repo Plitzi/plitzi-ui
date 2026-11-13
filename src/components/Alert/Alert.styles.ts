@@ -32,12 +32,11 @@ export default {
       }
     },
     compoundVariants: [
-      { solid: true, intent: 'default', className: 'bg-gray-400 dark:bg-zinc-600' },
+      { solid: true, intent: 'default', className: 'bg-ui-line-strong' },
       {
         solid: false,
         intent: 'default',
-        className:
-          'bg-gray-500/10 border-gray-500 border text-gray-600 dark:bg-zinc-500/20 dark:border-zinc-500 dark:text-zinc-300'
+        className: 'bg-gray-500/10 border-ui-line-strong border text-ui-fg-muted dark:bg-ui-line-strong/20'
       },
       { solid: true, intent: 'info', className: 'bg-primary-500 text-white dark:bg-primary-400' },
       {
@@ -67,12 +66,11 @@ export default {
         className:
           'bg-red-500/8 border-red-600/35 border text-red-700 dark:bg-red-400/12 dark:border-red-400/40 dark:text-red-300'
       },
-      { solid: true, intent: 'other', className: 'bg-gray-400 dark:bg-zinc-600' },
+      { solid: true, intent: 'other', className: 'bg-ui-line-strong' },
       {
         solid: false,
         intent: 'other',
-        className:
-          'bg-gray-500/10 border-gray-500 border text-gray-600 dark:bg-zinc-500/20 dark:border-zinc-500 dark:text-zinc-300'
+        className: 'bg-gray-500/10 border-ui-line-strong border text-ui-fg-muted dark:bg-ui-line-strong/20'
       }
     ],
     // Soft by default: a status is read alongside the work, and a slab of saturated colour shouts over it. `solid` is

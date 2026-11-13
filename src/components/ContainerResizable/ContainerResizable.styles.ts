@@ -14,10 +14,10 @@ export default {
     variants: {
       intent: {},
       position: {
-        n: 'w-auto h-1 left-0 right-0 top-0 bg-gray-200 dark:bg-zinc-800',
-        s: 'w-auto h-1 left-0 right-0 bottom-0 bg-gray-200 dark:bg-zinc-800',
-        e: 'h-auto w-1 top-0 bottom-0 right-0 bg-gray-200 dark:bg-zinc-800',
-        w: 'h-auto w-1 top-0 left-0 bottom-0 bg-gray-200 dark:bg-zinc-800',
+        n: 'w-auto h-1 left-0 right-0 top-0 bg-ui-raised',
+        s: 'w-auto h-1 left-0 right-0 bottom-0 bg-ui-raised',
+        e: 'h-auto w-1 top-0 bottom-0 right-0 bg-ui-raised',
+        w: 'h-auto w-1 top-0 left-0 bottom-0 bg-ui-raised',
         sw: '',
         nw: '',
         se: '-right-4 -bottom-4',
@@ -38,13 +38,13 @@ export default {
     variants: {
       intent: {},
       position: {
-        n: 'h-0.5 hover:h-1 w-full bg-gray-300 dark:bg-zinc-700 hover:bg-primary-500 cursor-ns-resize',
-        s: 'h-0.5 hover:h-1 w-full bg-gray-300 dark:bg-zinc-700 hover:bg-primary-500 cursor-ns-resize',
-        e: 'h-full w-0.5 hover:w-1 bg-gray-300 dark:bg-zinc-700 hover:bg-primary-500 cursor-ew-resize',
-        w: 'h-full w-0.5 hover:w-1 bg-gray-300 dark:bg-zinc-700 hover:bg-primary-ui cursor-ew-resize',
+        n: 'h-0.5 hover:h-1 w-full bg-ui-active hover:bg-primary-500 cursor-ns-resize',
+        s: 'h-0.5 hover:h-1 w-full bg-ui-active hover:bg-primary-500 cursor-ns-resize',
+        e: 'h-full w-0.5 hover:w-1 bg-ui-active hover:bg-primary-500 cursor-ew-resize',
+        w: 'h-full w-0.5 hover:w-1 bg-ui-active hover:bg-primary-ui cursor-ew-resize',
         sw: '',
         nw: '',
-        se: 'h-3 w-3 cursor-se-resize border-b-4 border-r-4 border-zinc-400 dark:border-zinc-700 hover:border-primary-ui hover:dark:border-primary-ui active:pointer-events-none rounded-br-lg',
+        se: 'h-3 w-3 cursor-se-resize border-b-4 border-r-4 border-ui-line-strong hover:border-primary-ui hover:dark:border-primary-ui active:pointer-events-none rounded-br-lg',
         ne: ''
       },
       hover: {

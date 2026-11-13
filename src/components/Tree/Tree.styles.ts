@@ -62,27 +62,26 @@ export default {
         hovered: true,
         selected: false,
         intent: 'primary',
-        className: 'bg-gray-100 dark:bg-zinc-700/60 text-zinc-900 dark:text-zinc-200'
+        className: 'bg-ui-active text-ui-fg'
       },
       {
         hovered: true,
         selected: false,
         intent: 'secondary',
-        className: 'bg-gray-100 dark:bg-zinc-700/60 text-zinc-900 dark:text-zinc-200'
+        className: 'bg-ui-active text-ui-fg'
       },
       {
         parentSelected: true,
         selected: false,
         intent: 'primary',
-        className:
-          'bg-primary-100 hover:bg-primary-200 dark:hover:bg-primary-900/40 dark:bg-primary-900/20 text-zinc-900 dark:text-zinc-200'
+        className: 'bg-primary-100 hover:bg-primary-200 dark:hover:bg-primary-900/40 dark:bg-primary-900/20 text-ui-fg'
       },
       {
         parentSelected: true,
         selected: false,
         intent: 'secondary',
         className:
-          'bg-secondary-100 hover:bg-secondary-200 dark:hover:bg-secondary-900/40 dark:bg-secondary-900/20 text-zinc-900 dark:text-zinc-200'
+          'bg-secondary-100 hover:bg-secondary-200 dark:hover:bg-secondary-900/40 dark:bg-secondary-900/20 text-ui-fg'
       },
       {
         parentSelected: true,
@@ -90,7 +89,7 @@ export default {
         hovered: true,
         intent: 'primary',
         className:
-          'bg-primary-200/70 hover:bg-primary-200 dark:hover:bg-primary-900/40 dark:bg-primary-900/30 text-zinc-900 dark:text-zinc-200'
+          'bg-primary-200/70 hover:bg-primary-200 dark:hover:bg-primary-900/40 dark:bg-primary-900/30 text-ui-fg'
       },
       {
         parentSelected: true,
@@ -98,7 +97,7 @@ export default {
         hovered: true,
         intent: 'secondary',
         className:
-          'bg-secondary-200/70 hover:bg-secondary-200 dark:hover:bg-secondary-900/40 dark:bg-secondary-900/30 text-zinc-900 dark:text-zinc-200'
+          'bg-secondary-200/70 hover:bg-secondary-200 dark:hover:bg-secondary-900/40 dark:bg-secondary-900/30 text-ui-fg'
       },
       {
         selected: true,
@@ -207,11 +206,11 @@ export default {
     }
   ),
   collapsableIcon: cva(
-    'flex size-4 shrink-0 items-center justify-center rounded-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200',
+    'flex size-4 shrink-0 items-center justify-center rounded-sm text-ui-fg-subtle hover:text-ui-fg',
     {
       variants: {
         isOpen: {
-          true: 'text-zinc-500 dark:text-zinc-400',
+          true: 'text-ui-fg-subtle',
           false: ''
         }
       },
@@ -221,17 +220,17 @@ export default {
       }
     }
   ),
-  hint: cva('min-w-0 shrink-[4] truncate text-[11px] text-zinc-400 dark:text-zinc-500', {
+  hint: cva('min-w-0 shrink-[4] truncate text-[11px] text-ui-fg-subtle', {
     variants: {},
     compoundVariants: [],
     defaultVariants: {}
   }),
-  guide: cva('pointer-events-none absolute inset-y-0 w-px bg-zinc-200 dark:bg-zinc-700', {
+  guide: cva('pointer-events-none absolute inset-y-0 w-px bg-ui-active', {
     variants: {},
     compoundVariants: [],
     defaultVariants: {}
   }),
-  icon: cva('shrink-0 text-zinc-500 dark:text-zinc-400', {
+  icon: cva('shrink-0 text-ui-fg-subtle', {
     variants: {
       size: {
         md: 'w-4 h-4',

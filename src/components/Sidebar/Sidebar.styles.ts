@@ -11,54 +11,51 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Sidebar';
 
 export default {
-  root: cva(
-    'flex flex-col gap-5 border-gray-200 dark:border-zinc-800 bg-grayviolet-100 dark:bg-zinc-900 w-14 items-center overflow-y-auto shrink-0',
-    {
-      variants: {
-        border: {
-          solid: 'border-solid',
-          none: ''
-        },
-        placement: {
-          top: 'border-b',
-          bottom: 'border-t',
-          left: 'border-r',
-          right: 'border-l'
-        },
-        padding: {
-          normal: '',
-          none: ''
-        }
+  root: cva('flex flex-col gap-5 border-ui-line bg-ui-panel w-14 items-center overflow-y-auto shrink-0', {
+    variants: {
+      border: {
+        solid: 'border-solid',
+        none: ''
       },
-      compoundVariants: [
-        {
-          placement: 'top',
-          padding: 'normal',
-          className: 'px-4'
-        },
-        {
-          placement: 'bottom',
-          padding: 'normal',
-          className: 'px-4'
-        },
-        {
-          placement: 'left',
-          padding: 'normal',
-          className: 'py-4'
-        },
-        {
-          placement: 'right',
-          padding: 'normal',
-          className: 'py-4'
-        }
-      ],
-      defaultVariants: {
-        placement: 'left',
-        border: 'solid',
-        padding: 'normal'
+      placement: {
+        top: 'border-b',
+        bottom: 'border-t',
+        left: 'border-r',
+        right: 'border-l'
+      },
+      padding: {
+        normal: '',
+        none: ''
       }
+    },
+    compoundVariants: [
+      {
+        placement: 'top',
+        padding: 'normal',
+        className: 'px-4'
+      },
+      {
+        placement: 'bottom',
+        padding: 'normal',
+        className: 'px-4'
+      },
+      {
+        placement: 'left',
+        padding: 'normal',
+        className: 'py-4'
+      },
+      {
+        placement: 'right',
+        padding: 'normal',
+        className: 'py-4'
+      }
+    ],
+    defaultVariants: {
+      placement: 'left',
+      border: 'solid',
+      padding: 'normal'
     }
-  ),
+  }),
   // A button to a keyboard: its ring when reached by Tab, in the brand's colour on either theme.
   icon: cva(
     'shrink-0 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/60 dark:focus-visible:ring-primary-400/60',
@@ -84,5 +81,5 @@ export default {
       }
     }
   ),
-  separator: cva('w-6 bg-gray-200 dark:bg-zinc-700 h-px shrink-0')
+  separator: cva('w-6 bg-ui-active h-px shrink-0')
 };

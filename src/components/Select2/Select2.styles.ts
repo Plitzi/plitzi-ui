@@ -39,8 +39,8 @@ export default {
     }
   }),
   trigger: cva('w-full'),
-  placeholder: cva('text-zinc-400 dark:text-zinc-500 select-none'),
-  value: cva('text-zinc-700 dark:text-zinc-300'),
+  placeholder: cva('text-ui-fg-subtle select-none'),
+  value: cva('text-ui-fg'),
   searchInput: cva(''),
   list: cva('max-h-60 overflow-y-auto'),
   listPopup: cva('flex flex-col w-full', {
@@ -71,7 +71,7 @@ export default {
       size: 'md'
     }
   }),
-  listMessage: cva('text-zinc-400 dark:text-zinc-500 flex items-center justify-center shrink-0', {
+  listMessage: cva('text-ui-fg-subtle flex items-center justify-center shrink-0', {
     variants: {
       size: {
         md: 'py-2',
@@ -86,7 +86,7 @@ export default {
     }
   }),
   listGroup: cva(
-    '[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-200 dark:[&:not(:last-child)]:border-zinc-700',
+    '[&:not(:last-child)]:border-b [&:not(:last-child)]:border-ui-line dark:[&:not(:last-child)]:border-ui-line-strong',
     {
       variants: {
         size: {
@@ -103,11 +103,11 @@ export default {
     }
   ),
   listGroupLabel: cva(
-    'flex items-center cursor-default select-none truncate text-xs font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500',
+    'flex items-center cursor-default select-none truncate text-xs font-semibold uppercase tracking-wide text-ui-fg-subtle',
     {
       variants: {
         disabled: {
-          true: 'text-zinc-300 dark:text-zinc-600 opacity-50',
+          true: 'text-ui-fg-subtle opacity-50',
           false: ''
         },
         size: {
@@ -130,10 +130,10 @@ export default {
       variants: {
         selected: {
           true: 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400',
-          false: 'text-zinc-700 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-700/60'
+          false: 'text-ui-fg hover:bg-ui-hover'
         },
         disabled: {
-          true: 'text-zinc-300 dark:text-zinc-600 cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent',
+          true: 'text-ui-fg-subtle cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent',
           false: ''
         },
         size: {
@@ -147,7 +147,7 @@ export default {
         {
           disabled: true,
           selected: true,
-          className: 'text-zinc-300 dark:text-zinc-600 bg-transparent dark:bg-transparent'
+          className: 'text-ui-fg-subtle bg-transparent dark:bg-transparent'
         }
       ],
       defaultVariants: {
