@@ -10,7 +10,7 @@ export const STYLES_COMPONENT_NAME = 'ContainerDraggable';
 
 export default {
   root: cva(
-    'flex flex-col absolute z-50 rounded-lg bg-ui-overlay border border-ui-line shadow-xl shadow-black/10 dark:shadow-black/40',
+    'flex flex-col absolute z-50 rounded-lg bg-ui-panel border border-ui-line-strong shadow-xl shadow-black/10 dark:shadow-black/40',
     {
       variants: {
         intent: {},
