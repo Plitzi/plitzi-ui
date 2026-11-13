@@ -102,7 +102,7 @@ export default {
       {
         selected: true,
         intent: 'primary',
-        className: 'bg-primary-200 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300'
+        className: 'bg-primary-100 dark:bg-primary-400/15 text-primary-700 dark:text-primary-200'
       },
       {
         selected: true,
