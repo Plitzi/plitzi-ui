@@ -11,11 +11,13 @@ export const variantKeys = {
 export const STYLES_COMPONENT_NAME = 'Card';
 
 export default {
+  // A card sets its text's colour beside its surface: a modal is drawn in the document's body, outside whatever
+  // coloured the app's text, and read the host page's there — white on a light card.
   root: cva('flex flex-col', {
     variants: {
       intent: {
-        white: 'bg-ui-raised border-ui-line border',
-        modal: 'bg-ui-overlay w-full border-ui-line border'
+        white: 'bg-ui-raised text-ui-fg border-ui-line border',
+        modal: 'bg-ui-overlay text-ui-fg w-full border-ui-line border'
       },
       shadow: {
         normal: 'shadow-md shadow-black/8 dark:shadow-black/30',
