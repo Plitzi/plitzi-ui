@@ -68,6 +68,23 @@ export type Field = {
   options?: { value: RuleValue; label: string }[];
 };
 
+/** Whether every node of a query carries the id the builder finds it by. */
+const hasIds = (group: RuleGroup): boolean =>
+  Boolean(group.id) && group.rules.every(rule => ('rules' in rule ? hasIds(rule) : Boolean(rule.id)));
+
+/**
+ * A query written anywhere but here — in code, by an agent, in a document — carries no ids: each node is given one and
+ * read as enabled unless it says otherwise, its rules kept. Read as empty, the rules it held were shown as none.
+ */
+const withIds = (group: RuleGroup): RuleGroup => ({
+  ...group,
+  id: group.id || uuid(),
+  enabled: group.enabled ?? true,
+  rules: group.rules.map(rule =>
+    'rules' in rule ? withIds(rule) : { ...rule, id: rule.id || uuid(), enabled: rule.enabled ?? true }
+  )
+});
+
 export type QueryBuilderProps = {
   query?: RuleGroup;
   fields?: Record<string, Field>;
@@ -99,11 +116,11 @@ const QueryBuilder = ({
     variants: { size, intent }
   });
   const queryMemo = useMemo<RuleGroup>(() => {
-    if (!query || !query.id) {
+    if (!query) {
       return { id: uuid(), combinator: get(combinators, '0.value', 'and') as Combinator, rules: [], enabled: true };
     }
 
-    return query;
+    return hasIds(query) ? query : withIds(query);
   }, [query, combinators]);
 
   const { id, combinator, enabled, rules } = queryMemo;

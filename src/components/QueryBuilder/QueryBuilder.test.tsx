@@ -30,6 +30,18 @@ describe('QueryBuilder', () => {
     expect(baseElement).toBeTruthy();
   });
 
+  it('shows the rules of a query written with no ids — in code, by an agent — rather than an empty group', () => {
+    const query = {
+      combinator: 'and' as const,
+      rules: [{ field: 'language', operator: '=' as const, value: 'es' }]
+    };
+    const { container } = render(
+      <QueryBuilder query={query} fields={{ language: { name: 'language', label: 'Language' } }} />
+    );
+
+    expect(container.querySelectorAll('input[value="es"]').length).toBe(1);
+  });
+
   it('should render custom props successfully', () => {
     // let component = render(
     //   <Heading type="h1" className="customClass">
